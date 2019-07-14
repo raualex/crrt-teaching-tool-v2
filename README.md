@@ -1,3 +1,26 @@
+## Tools/Stack:
+### Classic Tools:
+  * React
+  * Redux
+  * React Router
+  * Redux-Thunk
+  * Node/Express/Knex
+  * PostgreSQL
+  * Herokes
+  * GitHub Pages or Netlify
+
+### Testing:
+  * Enzyme/Jest (FE)
+  * Mocha/Chai (BE)
+
+### New Tools:
+  * SCSS
+  * CircleCI
+
+### Stretch:
+  * Redux-Saga
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
