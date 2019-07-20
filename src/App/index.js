@@ -9,6 +9,7 @@ function App() {
     <div className="App">
       <Switch>
         <Route exact path='/' component={LandingPage} />
+        <Route exact path="/simulator" component={} />
       </Switch>
     </div>
   );
