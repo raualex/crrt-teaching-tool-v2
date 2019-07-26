@@ -9,6 +9,12 @@ function LandingPage() {
       <NavLink to="/simulator">
         CRRT Simulator
       </NavLink>
+      <NavLink to="/textbook">
+        CRRT Textbook
+      </NavLink>
+      <NavLink to="/calculator">
+        CRRT Calculator
+      </NavLink>
     </div>
   )
 }
