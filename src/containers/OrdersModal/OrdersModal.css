@@ -1,0 +1,30 @@
+.OrdersModal {
+	border: 1px solid #000;
+}
+
+.orders-modality-container {
+	background-color: red;
+	height: 8rem;
+	text-align: left;
+}
+
+.orders-replacement-fluid-container {
+	background-color: cyan;
+}
+
+.input-container {
+	background-color: orange;
+	width: 10rem;
+}
+
+.orders-modality-other-container {
+	background-color: yellow;
+	height: 4rem;
+}
+
+.orders-modality-anticoagulation-container {
+	background-color: magenta;
+	height: 4rem;
+}
+
+

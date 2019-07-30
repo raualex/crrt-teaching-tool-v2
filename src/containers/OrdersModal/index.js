@@ -5,7 +5,7 @@ class OrdersModal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			modality: '',
+			modality: 'Pre-filter CVVH',
 			sodium: 0,
 			potassium: 0,
 			chloride: 0,
@@ -21,7 +21,11 @@ class OrdersModal extends Component {
 		}
 	}
 
-	handleChange = event => {
+	handleRadioChange = event => {
+		this.setState({ modality: event.target.value })
+	}
+
+	handleReplacementFluidChange = event => {
 		const { name, value } = event.target
 		this.setState({ [name]: value })
 	}
@@ -73,6 +77,42 @@ class OrdersModal extends Component {
 				</header>
 
 				<section className='orders-modality-container'>
+					<h3>Modality</h3>
+						<div className='modality-radio'>
+							<label>
+								<input 
+									type='radio'
+									value='Pre-filter CVVH'
+									checked={modality === 'Pre-filter CVVH'}
+									onChange={this.handleModalityChange}
+								/>
+								Pre-filter CVVH
+							</label>
+						</div>
+
+						<div className='modality-radio'>
+							<label>
+								<input 
+									type='radio'
+									value='Post-filter CVVH'
+									checked={modality === 'Post-filter CVVH'}
+									onChange={this.handleModalityChange}
+								/>
+								Post-filter CVVH
+							</label>
+						</div>
+
+						<div className='modality-radio'>
+							<label>
+								<input 
+									type='radio'
+									value='CVVHD'
+									checked={modality === 'CVVHD'}
+									onChange={this.handleModalityChange}
+								/>
+								CVVHD
+							</label>
+						</div>
 				</section>
 
 				<section className='orders-replacement-fluid-container'>
@@ -84,7 +124,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='sodium'
 							value={sodium}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleReplacementFluidChange(event)}
 						/>
 					</article>
 
@@ -95,7 +135,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='potassium'
 							value={potassium}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleReplacementFluidChange(event)}
 						/>
 					</article>
 
@@ -106,7 +146,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='chloride'
 							value={chloride}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleReplacementFluidChange(event)}
 						/>
 					</article>
 
@@ -117,7 +157,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='bicarbonate'
 							value={bicarbonate}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleReplacementFluidChange(event)}
 						/>
 					</article>
 
@@ -128,7 +168,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='calcium'
 							value={calcium}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleReplacementFluidChange(event)}
 						/>
 					</article>
 
@@ -139,7 +179,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='magnesium'
 							value={magnesium}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleReplacementFluidChange(event)}
 						/>
 					</article>
 
@@ -150,7 +190,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='phosphorous'
 							value={phosphorous}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleReplacementFluidChange(event)}
 						/>
 					</article>
 
@@ -161,7 +201,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='grossUltraFiltration'
 							value={grossUltraFiltration}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleReplacementFluidChange(event)}
 						/>
 					</article>
 
@@ -172,7 +212,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='bloodFlowRate'
 							value={bloodFlowRate}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleReplacementFluidChange(event)}
 						/>
 					</article>
 
@@ -183,15 +223,42 @@ class OrdersModal extends Component {
 							type='number'
 							name='replacementFluidFlowRate'
 							value={replacementFluidFlowRate}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleReplacementFluidChange(event)}
 						/>
 					</article>
 				</section>
 
 				<section className='orders-modality-other-container'>
+					<h3>Other Fluids/Medications</h3>
 				</section>
 
 				<section className='orders-modality-anticoagulation-container'>
+					<h3>Anticoagulation</h3>
+					<div className='anticoagulation-radio'>
+						<label>
+							<input 
+								type='radio'
+								name='anticoagulation'
+								value='None'
+								checked={modality === 'None'}
+								onChange={this.handleModalityChange}
+							/>
+							None
+						</label>
+					</div>
+
+					<div className='anticoagulation-radio'>
+						<label>
+							<input 
+								type='radio'
+								name='anticoagulation'
+								value='Citrate'
+								checked={modality === 'Citrate'}
+								onChange={this.handleModalityChange}
+							/>
+							Citrate
+						</label>
+					</div>
 				</section>
 
 				<button 
