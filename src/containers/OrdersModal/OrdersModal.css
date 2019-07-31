@@ -1,5 +1,8 @@
 .OrdersModal {
 	border: 1px solid #000;
+  height: 80%;
+  margin: 0 auto;
+  width: 60%;
 }
 
 .orders-modality-container {
@@ -19,12 +22,12 @@
 
 .orders-modality-other-container {
 	background-color: yellow;
-	height: 4rem;
+	height: 10rem;
 }
 
 .orders-modality-anticoagulation-container {
 	background-color: magenta;
-	height: 4rem;
+	height: 6rem;
 }
 
 

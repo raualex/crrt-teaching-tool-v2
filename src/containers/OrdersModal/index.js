@@ -16,18 +16,21 @@ class OrdersModal extends Component {
 			grossUltraFiltration: 0,
 			bloodFlowRate: 0,
 			replacementFluidFlowRate: 0,
-			otherFluidsMedications: '',
-			anticoagulation: ''
+			saline3Percent: false,
+			d5W: false,
+			sodiumPhosphate15mmol100ml: false,
+			anticoagulation: 'None'
 		}
 	}
 
-	handleRadioChange = event => {
-		this.setState({ modality: event.target.value })
-	}
-
-	handleReplacementFluidChange = event => {
+	handleChange = event => {
 		const { name, value } = event.target
 		this.setState({ [name]: value })
+	}
+
+	toggleSelected = event => {
+		const { name } = event.target
+		this.setState({ [name]: !this.state[name] })
 	}
 
 	submitOrder = event => {
@@ -49,7 +52,9 @@ class OrdersModal extends Component {
 			grossUltraFiltration: 0,
 			bloodFlowRate: 0,
 			replacementFluidFlowRate: 0,
-			otherFluidsMedications: '',
+			saline3Percent: false,
+			d5W: false,
+			sodiumPhosphate15mmol100ml: false,
 			anticoagulation: ''
 		})
 	}
@@ -67,7 +72,9 @@ class OrdersModal extends Component {
 			grossUltraFiltration,
 			bloodFlowRate,
 			replacementFluidFlowRate,
-			otherFluidsMedications,
+			saline3Percent,
+			d5W,
+			sodiumPhosphate15mmol100ml,
 			anticoagulation
 		} = this.state
 
@@ -82,9 +89,10 @@ class OrdersModal extends Component {
 							<label>
 								<input 
 									type='radio'
+									name='modality'
 									value='Pre-filter CVVH'
 									checked={modality === 'Pre-filter CVVH'}
-									onChange={this.handleModalityChange}
+									onChange={this.handleChange}
 								/>
 								Pre-filter CVVH
 							</label>
@@ -94,9 +102,10 @@ class OrdersModal extends Component {
 							<label>
 								<input 
 									type='radio'
+									name='modality'
 									value='Post-filter CVVH'
 									checked={modality === 'Post-filter CVVH'}
-									onChange={this.handleModalityChange}
+									onChange={this.handleChange}
 								/>
 								Post-filter CVVH
 							</label>
@@ -106,9 +115,10 @@ class OrdersModal extends Component {
 							<label>
 								<input 
 									type='radio'
+									name='modality'
 									value='CVVHD'
 									checked={modality === 'CVVHD'}
-									onChange={this.handleModalityChange}
+									onChange={this.handleChange}
 								/>
 								CVVHD
 							</label>
@@ -230,6 +240,44 @@ class OrdersModal extends Component {
 
 				<section className='orders-modality-other-container'>
 					<h3>Other Fluids/Medications</h3>
+					<div className='other-fluids-meds-checkbox'>
+						<label>
+							<input 
+								type='checkbox'
+								name='saline3Percent'
+								value={saline3Percent}
+								checked={saline3Percent === true}
+								onChange={event => this.toggleSelected(event)}
+							/>
+							Saline 3%
+						</label>
+					</div>
+
+					<div className='other-fluids-meds-checkbox'>
+						<label>
+							<input 
+								type='checkbox'
+								name='d5W'
+								value={d5W}
+								checked={d5W === true}
+								onChange={event => this.toggleSelected(event)}
+							/>
+							D5W
+						</label>
+					</div>
+
+					<div className='other-fluids-meds-checkbox'>
+						<label>
+							<input 
+								type='checkbox'
+								name='sodiumPhosphate15mmol100ml'
+								value={sodiumPhosphate15mmol100ml}
+								checked={sodiumPhosphate15mmol100ml === true}
+								onChange={event => this.toggleSelected(event)}
+							/>
+							Sodium Phosphate (15mmol and 100mL)
+						</label>
+					</div>
 				</section>
 
 				<section className='orders-modality-anticoagulation-container'>
@@ -240,8 +288,8 @@ class OrdersModal extends Component {
 								type='radio'
 								name='anticoagulation'
 								value='None'
-								checked={modality === 'None'}
-								onChange={this.handleModalityChange}
+								checked={anticoagulation === 'None'}
+								onChange={this.handleChange}
 							/>
 							None
 						</label>
@@ -253,8 +301,8 @@ class OrdersModal extends Component {
 								type='radio'
 								name='anticoagulation'
 								value='Citrate'
-								checked={modality === 'Citrate'}
-								onChange={this.handleModalityChange}
+								checked={anticoagulation === 'Citrate'}
+								onChange={this.handleChange}
 							/>
 							Citrate
 						</label>
