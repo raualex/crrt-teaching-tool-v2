@@ -87,51 +87,99 @@ class OrdersModal extends Component {
 				</header>
 
 				<section className='orders-modality-container'>
-					<h3>Modality</h3>
-						<div className='modality-radio'>
-							<label>
-								<input 
-									type='radio'
-									name='modality'
-									value='Pre-filter CVVH'
-									checked={modality === 'Pre-filter CVVH'}
-									onChange={this.handleChange}
-								/>
-								Pre-filter CVVH
-							</label>
-						</div>
+					<div className='header-info-container'>
+						<h3>Modality</h3>
+						<a 
+							href='https://github.com/raualex/crrt-teaching-tool-v2' 
+							target='_blank'
+							className='textbook-link'
+						>
+							<i class="far fa-question-circle"></i>
+						</a>
+					</div>
+					<div className='modality-radio'>
+						<label>
+							<input 
+								type='radio'
+								name='modality'
+								value='Pre-filter CVVH'
+								checked={modality === 'Pre-filter CVVH'}
+								onChange={this.handleChange}
+							/>
+							Pre-filter CVVH
+								<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+								>
+									<i class="far fa-question-circle"></i>
+								</a>
+						</label>
+					</div>
 
-						<div className='modality-radio'>
-							<label>
-								<input 
-									type='radio'
-									name='modality'
-									value='Post-filter CVVH'
-									checked={modality === 'Post-filter CVVH'}
-									onChange={this.handleChange}
-								/>
-								Post-filter CVVH
-							</label>
-						</div>
+					<div className='modality-radio'>
+						<label>
+							<input 
+								type='radio'
+								name='modality'
+								value='Post-filter CVVH'
+								checked={modality === 'Post-filter CVVH'}
+								onChange={this.handleChange}
+							/>
+							Post-filter CVVH
+								<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+								>
+									<i class="far fa-question-circle"></i>
+								</a>
+						</label>
+					</div>
 
-						<div className='modality-radio'>
-							<label>
-								<input 
-									type='radio'
-									name='modality'
-									value='CVVHD'
-									checked={modality === 'CVVHD'}
-									onChange={this.handleChange}
-								/>
-								CVVHD
-							</label>
-						</div>
+					<div className='modality-radio'>
+						<label>
+							<input 
+								type='radio'
+								name='modality'
+								value='CVVHD'
+								checked={modality === 'CVVHD'}
+								onChange={this.handleChange}
+							/>
+							CVVHD
+								<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+								>
+									<i class="far fa-question-circle"></i>
+								</a>
+						</label>
+					</div>
 				</section>
 
 				<section className='orders-replacement-fluid-container'>
-					<h3>Replacement Fluid</h3>
+					<div className='header-info-container'>
+						<h3>Replacement Fluid</h3>
+						<a 
+							href='https://github.com/raualex/crrt-teaching-tool-v2' 
+							target='_blank'
+							className='textbook-link'
+						>
+							<i class="far fa-question-circle"></i>
+						</a>
+					</div>
 					<article className='input-container'>
-						<h4>Sodium</h4>
+						<div className='header-info-container'>
+							<h4>Sodium</h4>
+							<a 
+							href='https://github.com/raualex/crrt-teaching-tool-v2' 
+							target='_blank'
+							className='textbook-link'
+							>
+								<i class="far fa-question-circle"></i>
+							</a>
+						</div>
 						<div className='medication-info-button'></div>
 						<input 
 							type='number'
@@ -142,7 +190,17 @@ class OrdersModal extends Component {
 					</article>
 
 					<article className='input-container'>
-						<h4>Potassium</h4>
+						<div className='header-info-container'>
+							<h4>Potassium</h4>
+							<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+							>
+								<i class="far fa-question-circle"></i>
+							</a>
+						</div>
+
 						<div className='medication-info-button'></div>
 						<input 
 							type='number'
@@ -153,7 +211,17 @@ class OrdersModal extends Component {
 					</article>
 
 					<article className='input-container'>
-						<h4>Chloride</h4>
+						<div className='header-info-container'>
+							<h4>Chloride</h4>
+							<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+							>
+								<i class="far fa-question-circle"></i>
+							</a>
+						</div>
+
 						<div className='medication-info-button'></div>
 						<input 
 							type='number'
@@ -164,7 +232,17 @@ class OrdersModal extends Component {
 					</article>
 
 					<article className='input-container'>
-						<h4>Bicarbonate</h4>
+						<div className='header-info-container'>
+							<h4>Bicarbonate</h4>
+							<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+							>
+								<i class="far fa-question-circle"></i>
+							</a>
+						</div>
+
 						<div className='medication-info-button'></div>
 						<input 
 							type='number'
@@ -175,7 +253,17 @@ class OrdersModal extends Component {
 					</article>
 
 					<article className='input-container'>
-						<h4>Calcium</h4>
+						<div className='header-info-container'>
+							<h4>Calcium</h4>
+							<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+							>
+								<i class="far fa-question-circle"></i>
+							</a>
+						</div>
+
 						<div className='medication-info-button'></div>
 						<input 
 							type='number'
@@ -186,7 +274,17 @@ class OrdersModal extends Component {
 					</article>
 
 					<article className='input-container'>
-						<h4>Magnesium</h4>
+						<div className='header-info-container'>
+							<h4>Magnesium</h4>
+							<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+							>
+								<i class="far fa-question-circle"></i>
+							</a>
+						</div>
+
 						<div className='medication-info-button'></div>
 						<input 
 							type='number'
@@ -197,7 +295,17 @@ class OrdersModal extends Component {
 					</article>
 
 					<article className='input-container'>
-						<h4>Phosphorous</h4>
+						<div className='header-info-container'>
+							<h4>Phosphorous</h4>
+							<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+							>
+								<i class="far fa-question-circle"></i>
+							</a>
+						</div>
+
 						<div className='medication-info-button'></div>
 						<input 
 							type='number'
@@ -208,7 +316,17 @@ class OrdersModal extends Component {
 					</article>
 
 					<article className='input-container'>
-						<h4>Gross Ultrafiltration (ml/Hr)</h4>
+						<div className='header-info-container'>
+							<h4>Gross Ultrafiltration (ml/Hr)</h4>
+							<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+							>
+								<i class="far fa-question-circle"></i>
+							</a>
+						</div>
+
 						<div className='medication-info-button'></div>
 						<input 
 							type='number'
@@ -219,7 +337,17 @@ class OrdersModal extends Component {
 					</article>
 
 					<article className='input-container'>
-						<h4>Blood Flow Rate (mL/min)</h4>
+						<div className='header-info-container'>
+							<h4>Blood Flow Rate (mL/min)</h4>
+							<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+							>
+								<i class="far fa-question-circle"></i>
+							</a>
+						</div>
+
 						<div className='medication-info-button'></div>
 						<input 
 							type='number'
@@ -230,7 +358,17 @@ class OrdersModal extends Component {
 					</article>
 
 					<article className='input-container'>
-						<h4>Replacement Fluid Flow Rate (L/hr)</h4>
+						<div className='header-info-container'>
+							<h4>Replacement Fluid Flow Rate (L/hr)</h4>
+							<a 
+							href='https://github.com/raualex/crrt-teaching-tool-v2' 
+							target='_blank'
+							className='textbook-link'
+							>
+								<i class="far fa-question-circle"></i>
+							</a>
+						</div>
+
 						<div className='medication-info-button'></div>
 						<input 
 							type='number'
@@ -253,6 +391,13 @@ class OrdersModal extends Component {
 								onChange={event => this.toggleSelected(event)}
 							/>
 							Saline 3%
+								<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+								>
+									<i class="far fa-question-circle"></i>
+								</a>
 						</label>
 					</div>
 
@@ -266,6 +411,13 @@ class OrdersModal extends Component {
 								onChange={event => this.toggleSelected(event)}
 							/>
 							D5W
+								<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+								>
+									<i class="far fa-question-circle"></i>
+								</a>
 						</label>
 					</div>
 
@@ -279,6 +431,13 @@ class OrdersModal extends Component {
 								onChange={event => this.toggleSelected(event)}
 							/>
 							Sodium Phosphate (15mmol and 100mL)
+								<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+								>
+									<i class="far fa-question-circle"></i>
+								</a>
 						</label>
 					</div>
 				</section>
@@ -308,6 +467,13 @@ class OrdersModal extends Component {
 								onChange={this.handleChange}
 							/>
 							Citrate
+								<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								target='_blank'
+								className='textbook-link'
+								>
+									<i class="far fa-question-circle"></i>
+								</a>
 						</label>
 					</div>
 				</section>
