@@ -39,9 +39,10 @@ class OrdersModal extends Component {
 		//MapDispatchToProps	
 	}
 
-	clearInputs = () => {
+	clearInputs = event => {
+		event.preventDefault();
 		this.setState({
-			modality: '',
+			modality: 'Pre-filter CVVH',
 			sodium: 0,
 			potassium: 0,
 			chloride: 0,
@@ -55,7 +56,7 @@ class OrdersModal extends Component {
 			saline3Percent: false,
 			d5W: false,
 			sodiumPhosphate15mmol100ml: false,
-			anticoagulation: ''
+			anticoagulation: 'None'
 		})
 	}
 
@@ -81,6 +82,8 @@ class OrdersModal extends Component {
 		return (
 			<form className='OrdersModal'>
 				<header className='orders-header'>
+					<h2>Orders</h2>
+					<button className='orders-modal-close-btn-top'>X</button>
 				</header>
 
 				<section className='orders-modality-container'>
@@ -134,7 +137,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='sodium'
 							value={sodium}
-							onChange={event => this.handleReplacementFluidChange(event)}
+							onChange={event => this.handleChange(event)}
 						/>
 					</article>
 
@@ -145,7 +148,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='potassium'
 							value={potassium}
-							onChange={event => this.handleReplacementFluidChange(event)}
+							onChange={event => this.handleChange(event)}
 						/>
 					</article>
 
@@ -156,7 +159,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='chloride'
 							value={chloride}
-							onChange={event => this.handleReplacementFluidChange(event)}
+							onChange={event => this.handleChange(event)}
 						/>
 					</article>
 
@@ -167,7 +170,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='bicarbonate'
 							value={bicarbonate}
-							onChange={event => this.handleReplacementFluidChange(event)}
+							onChange={event => this.handleChange(event)}
 						/>
 					</article>
 
@@ -178,7 +181,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='calcium'
 							value={calcium}
-							onChange={event => this.handleReplacementFluidChange(event)}
+							onChange={event => this.handleChange(event)}
 						/>
 					</article>
 
@@ -189,7 +192,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='magnesium'
 							value={magnesium}
-							onChange={event => this.handleReplacementFluidChange(event)}
+							onChange={event => this.handleChange(event)}
 						/>
 					</article>
 
@@ -200,7 +203,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='phosphorous'
 							value={phosphorous}
-							onChange={event => this.handleReplacementFluidChange(event)}
+							onChange={event => this.handleChange(event)}
 						/>
 					</article>
 
@@ -211,7 +214,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='grossUltraFiltration'
 							value={grossUltraFiltration}
-							onChange={event => this.handleReplacementFluidChange(event)}
+							onChange={event => this.handleChange(event)}
 						/>
 					</article>
 
@@ -222,7 +225,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='bloodFlowRate'
 							value={bloodFlowRate}
-							onChange={event => this.handleReplacementFluidChange(event)}
+							onChange={event => this.handleChange(event)}
 						/>
 					</article>
 
@@ -233,7 +236,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='replacementFluidFlowRate'
 							value={replacementFluidFlowRate}
-							onChange={event => this.handleReplacementFluidChange(event)}
+							onChange={event => this.handleChange(event)}
 						/>
 					</article>
 				</section>
@@ -315,7 +318,8 @@ class OrdersModal extends Component {
 				</button>
 
 				<footer className='orders-header'>
-					<button className='clear-order-inputs-btn' onClick={this.clearInputs}></button>
+					<button className='clear-order-inputs-btn' onClick={event => this.clearInputs(event)}>Reset</button>
+					<button className='orders-modal-close-btn-bottom'>Close</button>
 				</footer>
 			</form>
 		)
