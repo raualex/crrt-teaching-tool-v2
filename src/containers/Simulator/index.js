@@ -10,7 +10,8 @@ class Simulator extends Component {
 		}
 	}
 
-	toggleOrdersModal = () => {
+	toggleOrdersModal = (event) => {
+		event.preventDefault()
 		this.setState({ showOrdersModal: !this.state.showOrdersModal })
 	}
  
@@ -23,13 +24,13 @@ class Simulator extends Component {
 	      <div className='form-buttons-container'>
 	      	<button 
 	      		className='orders-btn form-btn'
-	      		onClick={this.toggleOrdersModal}
+	      		onClick={event => this.toggleOrdersModal(event)}
 	      	>Orders</button>
 	      	<button className='crrt-display-btn form-btn'>CRRT Display</button>
 	      	<button className='restart-case-btn form-btn'>Restart Case</button>
 	      </div>
 	      { showOrdersModal === true &&
-	      	<OrdersModal closeOrdersModal={this.toggleOrdersModal}/>
+	      	<OrdersModal closeOrdersModal={event => this.toggleOrdersModal(event)}/>
 	      }
 	    </div>
 	  )

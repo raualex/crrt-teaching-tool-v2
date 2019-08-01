@@ -26,9 +26,15 @@ class OrdersModal extends Component {
 		}
 	}
 
-	handleChange = event => {
+	handleStringChange = event => {
 		const { name, value } = event.target
 		this.setState({ [name]: value })
+	}
+
+	handleNumberChange = event => {
+		const { name, value } = event.target
+		const parsedValue = parseInt(value)
+		this.setState({ [name]: parsedValue })
 	}
 
 	toggleSelected = event => {
@@ -46,10 +52,10 @@ class OrdersModal extends Component {
 		}
 	}
 
-	closeOrdersModal = (event) => {
-		event.preventDefault();
-		this.props.closeOrdersModal()
-	}
+	// closeOrdersModal = (event) => {
+	// 	event.preventDefault();
+	// 	this.props.closeOrdersModal()
+	// }
 
 	clearInputs = event => {
 		event.preventDefault();
@@ -97,7 +103,7 @@ class OrdersModal extends Component {
 					<h2>Orders</h2>
 					<button 
 						className='orders-modal-close-btn-top'
-						onClick={event => this.closeOrdersModal(event)}
+						onClick={event => this.props.closeOrdersModal(event)}
 					>X</button>
 				</header>
 
@@ -118,7 +124,7 @@ class OrdersModal extends Component {
 								name='modality'
 								value='Pre-filter CVVH'
 								checked={modality === 'Pre-filter CVVH'}
-								onChange={this.handleChange}
+								onChange={this.handleStringChange}
 							/>
 							Pre-filter CVVH
 								<a 
@@ -137,7 +143,7 @@ class OrdersModal extends Component {
 								name='modality'
 								value='Post-filter CVVH'
 								checked={modality === 'Post-filter CVVH'}
-								onChange={this.handleChange}
+								onChange={this.handleStringChange}
 							/>
 							Post-filter CVVH
 								<a 
@@ -156,7 +162,7 @@ class OrdersModal extends Component {
 								name='modality'
 								value='CVVHD'
 								checked={modality === 'CVVHD'}
-								onChange={this.handleChange}
+								onChange={this.handleStringChange}
 							/>
 							CVVHD
 								<a 
@@ -195,7 +201,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='sodium'
 							value={sodium}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -215,7 +221,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='potassium'
 							value={potassium}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -234,7 +240,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='chloride'
 							value={chloride}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -253,7 +259,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='bicarbonate'
 							value={bicarbonate}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -272,7 +278,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='calcium'
 							value={calcium}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -291,7 +297,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='magnesium'
 							value={magnesium}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -310,7 +316,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='phosphorous'
 							value={phosphorous}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -329,7 +335,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='grossUltraFiltration'
 							value={grossUltraFiltration}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -348,7 +354,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='bloodFlowRate'
 							value={bloodFlowRate}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -364,7 +370,7 @@ class OrdersModal extends Component {
 							type='number'
 							name='replacementFluidFlowRate'
 							value={replacementFluidFlowRate}
-							onChange={event => this.handleChange(event)}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 				</section>
@@ -438,7 +444,7 @@ class OrdersModal extends Component {
 								name='anticoagulation'
 								value='None'
 								checked={anticoagulation === 'None'}
-								onChange={this.handleChange}
+								onChange={this.handleStringChange}
 							/>
 							None
 						</label>
@@ -451,7 +457,7 @@ class OrdersModal extends Component {
 								name='anticoagulation'
 								value='Citrate'
 								checked={anticoagulation === 'Citrate'}
-								onChange={this.handleChange}
+								onChange={this.handleStringChange}
 							/>
 							Citrate
 								<a 
@@ -473,7 +479,7 @@ class OrdersModal extends Component {
 					<button className='clear-order-inputs-btn' onClick={event => this.clearInputs(event)}>Reset</button>
 					<button 
 						className='orders-modal-close-btn-bottom'
-						onClick={event => this.closeOrdersModal(event)}
+						onClick={event => this.props.closeOrdersModal(event)}
 					>Close</button>
 				</footer>
 			</form>
