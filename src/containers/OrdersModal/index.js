@@ -38,11 +38,12 @@ class OrdersModal extends Component {
 
 	submitOrder = event => {
 		event.preventDefault();
-		const order = {...this.state, id: uuidv4()}
-		this.props.submitOrder(order)
-		//Add unique id
-		//Add this.state to Redux
-		//MapDispatchToProps	
+		const { submitOrder, orders } = this.props
+		const newOrder = {...this.state, id: uuidv4()}
+		
+		if(!orders.includes(newOrder)) {
+			submitOrder(newOrder)
+		}
 	}
 
 	clearInputs = event => {
@@ -99,7 +100,7 @@ class OrdersModal extends Component {
 							href='https://github.com/raualex/crrt-teaching-tool-v2' 
 							className='textbook-link'
 						>
-							<i className="far fa-question-circle"></i>
+							<i className='far fa-question-circle'></i>
 						</a>
 					</div>
 					<div className='modality-radio'>
@@ -116,7 +117,7 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 								>
-									<i className="far fa-question-circle"></i>
+									<i className='far fa-question-circle'></i>
 								</a>
 						</label>
 					</div>
@@ -135,7 +136,7 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 								>
-									<i className="far fa-question-circle"></i>
+									<i className='far fa-question-circle'></i>
 								</a>
 						</label>
 					</div>
@@ -154,7 +155,7 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 								>
-									<i className="far fa-question-circle"></i>
+									<i className='far fa-question-circle'></i>
 								</a>
 						</label>
 					</div>
@@ -167,20 +168,21 @@ class OrdersModal extends Component {
 							href='https://github.com/raualex/crrt-teaching-tool-v2' 
 							className='textbook-link'
 						>
-							<i className="far fa-question-circle"></i>
+							<i className='far fa-question-circle'></i>
 						</a>
 					</div>
+
 					<article className='input-container'>
 						<div className='header-info-container'>
 							<h4>Sodium</h4>
 							<a 
-							href='https://github.com/raualex/crrt-teaching-tool-v2' 
-							className='textbook-link'
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								className='textbook-link'
 							>
-								<i className="far fa-question-circle"></i>
+								<i className='far fa-question-circle'></i>
 							</a>
 						</div>
-						<div className='medication-info-button'></div>
+	
 						<input 
 							type='number'
 							name='sodium'
@@ -196,11 +198,11 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 							>
-								<i className="far fa-question-circle"></i>
+								<i className='far fa-question-circle'></i>
 							</a>
 						</div>
 
-						<div className='medication-info-button'></div>
+	
 						<input 
 							type='number'
 							name='potassium'
@@ -216,11 +218,10 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 							>
-								<i className="far fa-question-circle"></i>
+								<i className='far fa-question-circle'></i>
 							</a>
 						</div>
 
-						<div className='medication-info-button'></div>
 						<input 
 							type='number'
 							name='chloride'
@@ -236,11 +237,10 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 							>
-								<i className="far fa-question-circle"></i>
+								<i className='far fa-question-circle'></i>
 							</a>
 						</div>
-
-						<div className='medication-info-button'></div>
+	
 						<input 
 							type='number'
 							name='bicarbonate'
@@ -256,11 +256,10 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 							>
-								<i className="far fa-question-circle"></i>
+								<i className='far fa-question-circle'></i>
 							</a>
 						</div>
-
-						<div className='medication-info-button'></div>
+	
 						<input 
 							type='number'
 							name='calcium'
@@ -276,11 +275,10 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 							>
-								<i className="far fa-question-circle"></i>
+								<i className='far fa-question-circle'></i>
 							</a>
 						</div>
 
-						<div className='medication-info-button'></div>
 						<input 
 							type='number'
 							name='magnesium'
@@ -296,11 +294,10 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 							>
-								<i className="far fa-question-circle"></i>
+								<i className='far fa-question-circle'></i>
 							</a>
 						</div>
-
-						<div className='medication-info-button'></div>
+	
 						<input 
 							type='number'
 							name='phosphorous'
@@ -316,11 +313,10 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 							>
-								<i className="far fa-question-circle"></i>
+								<i className='far fa-question-circle'></i>
 							</a>
 						</div>
 
-						<div className='medication-info-button'></div>
 						<input 
 							type='number'
 							name='grossUltraFiltration'
@@ -336,11 +332,10 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 							>
-								<i className="far fa-question-circle"></i>
+								<i className='far fa-question-circle'></i>
 							</a>
 						</div>
-
-						<div className='medication-info-button'></div>
+	
 						<input 
 							type='number'
 							name='bloodFlowRate'
@@ -352,15 +347,11 @@ class OrdersModal extends Component {
 					<article className='input-container'>
 						<div className='header-info-container'>
 							<h4>Replacement Fluid Flow Rate (L/hr)</h4>
-							<a 
-							href='https://github.com/raualex/crrt-teaching-tool-v2' 
-							className='textbook-link'
-							>
-								<i className="far fa-question-circle"></i>
+							<a href='https://github.com/raualex/crrt-teaching-tool-v2' className='textbook-link'>
+								<i className='far fa-question-circle'></i>
 							</a>
 						</div>
-
-						<div className='medication-info-button'></div>
+	
 						<input 
 							type='number'
 							name='replacementFluidFlowRate'
@@ -386,7 +377,7 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 								>
-									<i className="far fa-question-circle"></i>
+									<i className='far fa-question-circle'></i>
 								</a>
 						</label>
 					</div>
@@ -405,7 +396,7 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 								>
-									<i className="far fa-question-circle"></i>
+									<i className='far fa-question-circle'></i>
 								</a>
 						</label>
 					</div>
@@ -424,7 +415,7 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 								>
-									<i className="far fa-question-circle"></i>
+									<i className='far fa-question-circle'></i>
 								</a>
 						</label>
 					</div>
@@ -459,7 +450,7 @@ class OrdersModal extends Component {
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
 								>
-									<i className="far fa-question-circle"></i>
+									<i className='far fa-question-circle'></i>
 								</a>
 						</label>
 					</div>

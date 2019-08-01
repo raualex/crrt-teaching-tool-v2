@@ -10,22 +10,27 @@ class Simulator extends Component {
 		}
 	}
 
-	toggleOrdersModal = event => {
-		const { showOrdersModal } = this.state;
-
-		if(showOrdersModal === false) {
-			this.setState({ showOrdersModal: true })
-		} else if(showOrdersModal === true){
-			this.setState({ showOrdersModal: false })
-		}
-		// Add to Redux state at end of function
+	toggleOrdersModal = () => {
+		this.setState({ showOrdersModal: !this.state.showOrdersModal })
 	}
  
 	render() {
+		const { showOrdersModal } = this.state;
+
 	  return(
 	    <div>
 	      <h1>CRRT SIMULATOR!</h1>
-	      <OrdersModal />
+	      <div className='form-buttons-container'>
+	      	<button 
+	      		className='orders-btn form-btn'
+	      		onClick={this.toggleOrdersModal}
+	      	>Orders</button>
+	      	<button className='crrt-display-btn form-btn'>CRRT Display</button>
+	      	<button className='restart-case-btn form-btn'>Restart Case</button>
+	      </div>
+	      { showOrdersModal === true &&
+	      	<OrdersModal />
+	      }
 	    </div>
 	  )
 	}
