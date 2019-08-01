@@ -46,6 +46,11 @@ class OrdersModal extends Component {
 		}
 	}
 
+	closeOrdersModal = (event) => {
+		event.preventDefault();
+		this.props.closeOrdersModal()
+	}
+
 	clearInputs = event => {
 		event.preventDefault();
 		this.setState({
@@ -90,7 +95,10 @@ class OrdersModal extends Component {
 			<form className='OrdersModal'>
 				<header className='orders-header'>
 					<h2>Orders</h2>
-					<button className='orders-modal-close-btn-top'>X</button>
+					<button 
+						className='orders-modal-close-btn-top'
+						onClick={event => this.closeOrdersModal(event)}
+					>X</button>
 				</header>
 
 				<section className='orders-modality-container'>
@@ -463,7 +471,10 @@ class OrdersModal extends Component {
 
 				<footer className='orders-header'>
 					<button className='clear-order-inputs-btn' onClick={event => this.clearInputs(event)}>Reset</button>
-					<button className='orders-modal-close-btn-bottom'>Close</button>
+					<button 
+						className='orders-modal-close-btn-bottom'
+						onClick={event => this.closeOrdersModal(event)}
+					>Close</button>
 				</footer>
 			</form>
 		)

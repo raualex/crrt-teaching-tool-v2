@@ -29,7 +29,7 @@ class Simulator extends Component {
 	      	<button className='restart-case-btn form-btn'>Restart Case</button>
 	      </div>
 	      { showOrdersModal === true &&
-	      	<OrdersModal />
+	      	<OrdersModal closeOrdersModal={this.toggleOrdersModal}/>
 	      }
 	    </div>
 	  )
