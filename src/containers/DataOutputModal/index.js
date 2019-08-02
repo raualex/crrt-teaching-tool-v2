@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './DataOutputModal.css';
 import { connect } from 'react-redux';
 
-function DataOutputModal(props) {
-  let { selectedModal } = props
+export class DataOutputModal extends Component {
+  constructor(props) {
+    super(props)
+  }
 
-  return(
-    <div>
-      <h1>{selectedModal}!</h1>
-    </div>
-  )
+  render() {
+    let { selectedModal } = this.props
+
+    return(
+      <div>
+        <h1>{selectedModal}!</h1>
+      </div>
+    )
+  }
 }
 
 export const mapStateToProps = (state) => ({

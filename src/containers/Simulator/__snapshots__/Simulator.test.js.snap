@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Simulator matches the snapshot 1`] = `ShallowWrapper {}`;
+
+exports[`Simulator matches the snapshot with a selectedModal 1`] = `ShallowWrapper {}`;
