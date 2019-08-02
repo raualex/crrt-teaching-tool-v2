@@ -7,3 +7,8 @@ export const hasErrored = (bool) => ({
   type: 'HAS_ERRORED',
   hasErrored: bool
 })
+
+export const submitOrder = (order) => ({
+	type: 'SUBMIT_ORDER',
+	order: order
+})

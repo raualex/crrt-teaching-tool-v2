@@ -1,4 +1,4 @@
-import { isLoading, hasErrored } from './';
+import { isLoading, hasErrored, submitOrder } from './';
 import { setSelectedModal } from './selection-actions.js';
 
 describe('isLoading action', () => {
@@ -36,6 +36,35 @@ describe('setSelectedModal', () => {
     }
     let result = setSelectedModal(mockSelectedModal)
 
+    expect(result).toEqual(expected)
+  });
+});
+
+describe('submitOrder action', () => {
+  it('should return an object with a type of SUBMIT_ORDER', () => {
+    let mockOrder = {
+                      modality: 'Pre-filter CVVH',
+                      sodium: 1,
+                      potassium: 2,
+                      chloride: 3,
+                      bicarbonate: 1,
+                      calcium: 2,
+                      magnesium: 3,
+                      phosphorous : 4,
+                      grossUltraFiltration: 2,
+                      bloodFlowRate: 1,
+                      replacementFluidFlowRate: 7,
+                      saline3Percent: true,
+                      d5W: false,
+                      sodiumPhosphate15mmol100ml: true,
+                      anticoagulation: 'Citrate',
+                      id: 12345
+                    }
+    let expected = {
+      type: 'SUBMIT_ORDER',
+      order: mockOrder
+    }
+    let result = submitOrder(mockOrder)
     expect(result).toEqual(expected)
   });
 });

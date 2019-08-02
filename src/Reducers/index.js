@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
-import { isLoading, hasErrored } from './general-reducers';
-import { selectedModal } from './selection-reducers';
+import { isLoadingReducer, hasErroredReducer } from './general-reducers';
+import { selectedModalReducer } from './selection-reducers';
+import { ordersReducer } from './ordersReducers';
 
 const rootReducer = combineReducers({
-  isLoading,
-  hasErrored,
-  selectedModal
+  isLoading: isLoadingReducer,
+  hasErrored: hasErroredReducer,
+  selectedModal: selectedModalReducer,
+  orders: ordersReducer
 });
 
 export default rootReducer;

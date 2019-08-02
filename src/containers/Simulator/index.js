@@ -3,15 +3,24 @@ import './Simulator.css';
 import { connect } from 'react-redux';
 import { setSelectedModal } from '../../Actions/selection-actions';
 import DataOutputModal from '../DataOutputModal';
+import OrdersModal from '../OrdersModal';
 
 export class Simulator extends Component {
-  // constructor(props) {
-  //   super(props)
-  // }
+	constructor(props) {
+		super(props);
+		this.state = {
+			showOrdersModal: false
+		}
+	}
 
+  toggleOrdersModal = (event) => {
+    event.preventDefault()
+    this.setState({ showOrdersModal: !this.state.showOrdersModal})
+  }
 
   render() {
-    let { setSelectedModal, selectedModal } = this.props
+    const { setSelectedModal, selectedModal } = this.props
+    const { showOrdersModal } = this.state
   
     if (selectedModal === '') {
       return(
@@ -40,6 +49,17 @@ export class Simulator extends Component {
               onClick={() => setSelectedModal('Physical Exam')}
             >Physical Exam</button>
           </div>
+		      <div className='form-buttons-container'>
+		      	<button 
+		      		className='orders-btn form-btn'
+		      		onClick={event => this.toggleOrdersModal(event)}
+		      	>Orders</button>
+		      	<button className='crrt-display-btn form-btn'>CRRT Display</button>
+		      	<button className='restart-case-btn form-btn'>Restart Case</button>
+		      </div>
+		      { showOrdersModal === true &&
+		      	<OrdersModal closeOrdersModal={event => this.toggleOrdersModal(event)}/>
+		      }
         </div>
       )
     } else {
@@ -70,6 +90,17 @@ export class Simulator extends Component {
           >Physical Exam</button>
         </div>
         <DataOutputModal />
+	      <div className='form-buttons-container'>
+	      	<button 
+	      		className='orders-btn form-btn'
+	      		onClick={event => this.toggleOrdersModal(event)}
+	      	>Orders</button>
+	      	<button className='crrt-display-btn form-btn'>CRRT Display</button>
+	      	<button className='restart-case-btn form-btn'>Restart Case</button>
+	      </div>
+	      { showOrdersModal === true &&
+	      	<OrdersModal closeOrdersModal={event => this.toggleOrdersModal(event)}/>
+	      }
       </div>
       )
     }

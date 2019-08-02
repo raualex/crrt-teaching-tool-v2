@@ -1,0 +1,47 @@
+.OrdersModal {
+	border: 1px solid #000;
+  height: 80%;
+  margin: 0 auto;
+  width: 60%;
+}
+
+.orders-modality-container {
+	background-color: red;
+	height: 8rem;
+	text-align: left;
+}
+
+.fa-question-circle {
+	margin: 0 0 0 0.25rem;	
+}
+
+.textbook-link {
+	color: #000;
+}
+
+.header-info-container {
+	align-items: center;
+	display: flex;
+  justify-content: flex-start;
+}
+
+.orders-replacement-fluid-container {
+	background-color: cyan;
+}
+
+.input-container {
+	background-color: orange;
+	width: 10rem;
+}
+
+.orders-modality-other-container {
+	background-color: yellow;
+	height: 10rem;
+}
+
+.orders-modality-anticoagulation-container {
+	background-color: magenta;
+	height: 6rem;
+}
+
+
