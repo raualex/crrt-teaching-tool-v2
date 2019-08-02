@@ -31,7 +31,7 @@ describe('OrdersModal', () => {
 	});
 
 	describe('handleStringChange()', () => {
-		it('should set state for properties with string value types', () => {
+		it('should set state for properties with string types', () => {
 			expect(wrapper.state().modality).toEqual('Pre-filter CVVH')
 			wrapper.instance().handleStringChange(mockEvent)
 			expect(wrapper.state().modality).toEqual('CVVHD')
@@ -47,16 +47,28 @@ describe('OrdersModal', () => {
 			preventDefault: jest.fn()
 		}
 
-		it('should set state for properties with number value types', () => {
+		it('should set state for properties with number types', () => {
 			expect(wrapper.state().sodium).toEqual(0)
 			wrapper.instance().handleNumberChange(mockEvent)
 			expect(wrapper.state().sodium).toEqual(4)
 		});
 	});
 	
-	describe('toggleSelected()', () => {
-		// it('', () => {});
-		// it('', () => {});
+	describe('toggleCheckBoxes()', () => {
+		const mockEvent = {
+			target: {
+				name: 'd5W',
+				value: false
+			},
+			preventDefault: jest.fn()
+		}
+		it('should set state for properties with boolean types', () => {
+			expect(wrapper.state().d5W).toEqual(false)
+			wrapper.instance().toggleCheckBoxes(mockEvent)
+			expect(wrapper.state().d5W).toEqual(true)
+			wrapper.instance().toggleCheckBoxes(mockEvent)
+			expect(wrapper.state().d5W).toEqual(false)
+		});
 	});
 	
 	describe('submitOrder()', () => {

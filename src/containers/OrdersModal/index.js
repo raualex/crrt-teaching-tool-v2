@@ -37,7 +37,7 @@ export class OrdersModal extends Component {
 		this.setState({ [name]: parsedValue })
 	}
 
-	toggleSelected = event => {
+	toggleCheckBoxes = event => {
 		const { name } = event.target
 		this.setState({ [name]: !this.state[name] })
 	}
@@ -379,7 +379,7 @@ export class OrdersModal extends Component {
 								name='saline3Percent'
 								value={saline3Percent}
 								checked={saline3Percent === true}
-								onChange={event => this.toggleSelected(event)}
+								onChange={event => this.toggleCheckBoxes(event)}
 							/>
 							Saline 3%
 								<a 
@@ -398,7 +398,7 @@ export class OrdersModal extends Component {
 								name='d5W'
 								value={d5W}
 								checked={d5W === true}
-								onChange={event => this.toggleSelected(event)}
+								onChange={event => this.toggleCheckBoxes(event)}
 							/>
 							D5W
 								<a 
@@ -417,7 +417,7 @@ export class OrdersModal extends Component {
 								name='sodiumPhosphate15mmol100ml'
 								value={sodiumPhosphate15mmol100ml}
 								checked={sodiumPhosphate15mmol100ml === true}
-								onChange={event => this.toggleSelected(event)}
+								onChange={event => this.toggleCheckBoxes(event)}
 							/>
 							Sodium Phosphate (15mmol and 100mL)
 								<a 
