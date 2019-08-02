@@ -20,7 +20,7 @@ class Simulator extends Component {
 
 	  return(
 	    <div>
-	      <h1>CRRT SIMULATOR!</h1>
+	      <h1>CRRT SIdMULATOR!</h1>
 	      <div className='form-buttons-container'>
 	      	<button 
 	      		className='orders-btn form-btn'

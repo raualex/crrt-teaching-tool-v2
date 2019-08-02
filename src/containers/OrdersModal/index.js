@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { submitOrder } from '../../Actions/ordersActions';
 const uuidv4 = require('uuid/v4');
 
-class OrdersModal extends Component {
+export class OrdersModal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -51,11 +51,6 @@ class OrdersModal extends Component {
 			submitOrder(newOrder)
 		}
 	}
-
-	// closeOrdersModal = (event) => {
-	// 	event.preventDefault();
-	// 	this.props.closeOrdersModal()
-	// }
 
 	clearInputs = event => {
 		event.preventDefault();
@@ -487,10 +482,8 @@ class OrdersModal extends Component {
 	}
 }
 
-export const mapStateToProps = ({ orders, hasErrored, isLoading }) => ({
-	orders,
-	hasErrored,
-	isLoading
+export const mapStateToProps = ({ orders }) => ({
+	orders
 });
 
 export const mapDispatchToProps = (dispatch) => ({
