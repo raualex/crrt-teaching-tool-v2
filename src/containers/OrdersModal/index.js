@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './OrdersModal.css';
 import { connect } from 'react-redux';
 import { submitOrder } from '../../Actions/ordersActions';
+import orderDosages from '../../utils/orderDosages.js';
 const uuidv4 = require('uuid/v4');
 
 export class OrdersModal extends Component {
@@ -18,18 +19,75 @@ export class OrdersModal extends Component {
 			phosphorous : 0,
 			grossUltraFiltration: 0,
 			bloodFlowRate: 0,
+			//WHAT ARE THE ACCEPTABLE RANGES FOR BLOODFLOWRATE?
 			replacementFluidFlowRate: 0,
 			saline3Percent: false,
 			d5W: false,
 			sodiumPhosphate15mmol100ml: false,
-			anticoagulation: 'None'
+			anticoagulation: 'None',
+			readyForSubmission: false
 		}
+	}
+
+	validateOrderSubmit = () => {
+		const concentrationsWithNumValues = [	
+																					'sodium',
+																					'potassium',
+																					'chloride',
+																					'bicarbonate',
+																					'calcium',
+																					'magnesium',
+																					'phosphorous',
+																					'grossUltraFiltration',
+																					'bloodFlowRate', 
+																					'replacementFluidFlowRate'
+																				]
+
+	}
+
+	validateOrderInput = event => {
+		const { name, value } = event.target;
+		const { requiredRanges, errorMessages } = orderDosages
+		const parsedValue = parseInt(value)
+
+		if(parsedValue < requiredRanges[name].min || parsedValue > requiredRanges[name].max) {
+			console.log(errorMessages[name])
+		} 
 	}
 
 	handleStringChange = event => {
 		const { name, value } = event.target
 		this.setState({ [name]: value })
+		
+		if(!isNaN(this.state[name])) {
+			this.validateOrderInput(event)
+		}
 	}
+
+
+
+
+	// validateOrderForm = event => {
+	// 	const { name, value } = event.target;
+	// 	const { ranges, errorMessages } = dosageFormat
+
+	// 	if(isNaN(value)) {
+	// 		console.log(value)
+	// 		} else {
+	// 		const parsedValue = parseInt(value)
+	// 		if(parsedValue < ranges[name].min || parsedValue > ranges[name].max) {
+	// 			console.log(errorMessages[name])
+	// 		} else {
+	// 			this.handleNumberChange(event)
+	// 		}
+	// 	}
+	// }
+
+	// handleStringChange = event => {
+	// 	const { name, value } = event.target
+	// 	this.setState({ [name]: value })
+
+	// }
 
 	handleNumberChange = event => {
 		const { name, value } = event.target
@@ -90,7 +148,8 @@ export class OrdersModal extends Component {
 			saline3Percent,
 			d5W,
 			sodiumPhosphate15mmol100ml,
-			anticoagulation
+			anticoagulation,
+			readyForSubmission
 		} = this.state
 
 		return (
@@ -197,7 +256,7 @@ export class OrdersModal extends Component {
 							type='number'
 							name='sodium'
 							value={sodium}
-							onChange={event => this.handleNumberChange(event)}
+							onChange={event => this.handleStringChange(event)}
 						/>
 					</article>
 
@@ -217,7 +276,7 @@ export class OrdersModal extends Component {
 							type='number'
 							name='potassium'
 							value={potassium}
-							onChange={event => this.handleNumberChange(event)}
+							onChange={event => this.handleStringChange(event)}
 						/>
 					</article>
 
@@ -236,7 +295,7 @@ export class OrdersModal extends Component {
 							type='number'
 							name='chloride'
 							value={chloride}
-							onChange={event => this.handleNumberChange(event)}
+							onChange={event => this.handleStringChange(event)}
 						/>
 					</article>
 
@@ -255,7 +314,7 @@ export class OrdersModal extends Component {
 							type='number'
 							name='bicarbonate'
 							value={bicarbonate}
-							onChange={event => this.handleNumberChange(event)}
+							onChange={event => this.handleStringChange(event)}
 						/>
 					</article>
 
@@ -274,7 +333,7 @@ export class OrdersModal extends Component {
 							type='number'
 							name='calcium'
 							value={calcium}
-							onChange={event => this.handleNumberChange(event)}
+							onChange={event => this.handleStringChange(event)}
 						/>
 					</article>
 
@@ -293,7 +352,7 @@ export class OrdersModal extends Component {
 							type='number'
 							name='magnesium'
 							value={magnesium}
-							onChange={event => this.handleNumberChange(event)}
+							onChange={event => this.handleStringChange(event)}
 						/>
 					</article>
 
@@ -312,7 +371,7 @@ export class OrdersModal extends Component {
 							type='number'
 							name='phosphorous'
 							value={phosphorous}
-							onChange={event => this.handleNumberChange(event)}
+							onChange={event => this.handleStringChange(event)}
 						/>
 					</article>
 
@@ -331,7 +390,7 @@ export class OrdersModal extends Component {
 							type='number'
 							name='grossUltraFiltration'
 							value={grossUltraFiltration}
-							onChange={event => this.handleNumberChange(event)}
+							onChange={event => this.handleStringChange(event)}
 						/>
 					</article>
 
@@ -350,7 +409,7 @@ export class OrdersModal extends Component {
 							type='number'
 							name='bloodFlowRate'
 							value={bloodFlowRate}
-							onChange={event => this.handleNumberChange(event)}
+							onChange={event => this.handleStringChange(event)}
 						/>
 					</article>
 
@@ -366,7 +425,7 @@ export class OrdersModal extends Component {
 							type='number'
 							name='replacementFluidFlowRate'
 							value={replacementFluidFlowRate}
-							onChange={event => this.handleNumberChange(event)}
+							onChange={event => this.handleStringChange(event)}
 						/>
 					</article>
 				</section>
@@ -467,7 +526,10 @@ export class OrdersModal extends Component {
 				</section>
 
 				<button 
-					className='submit-case-btn' onClick={event => this.submitNewOrder(event)}>
+					className='submit-case-btn' 
+					onClick={event => this.submitNewOrder(event)}
+					disabled={!readyForSubmission}
+				>
 					Submit Order
 				</button>
 
