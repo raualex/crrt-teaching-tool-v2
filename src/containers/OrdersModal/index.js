@@ -29,8 +29,11 @@ export class OrdersModal extends Component {
 		}
 	}
 
-	validateOrderSubmit = () => {
-		const concentrationsWithNumValues = [	
+	validateOrder = event => {
+		let allInputsValidated;
+		const { requiredRanges, errorMessages } = orderDosages
+
+		const fluidsWithNumValues = [	
 																					'sodium',
 																					'potassium',
 																					'chloride',
@@ -43,6 +46,16 @@ export class OrdersModal extends Component {
 																					'replacementFluidFlowRate'
 																				]
 
+		fluidsWithNumValues.forEach(fluid => {
+			if(this.state[fluid] < requiredRanges[name].min || this.state[fluid] > requiredRanges[name].max) {
+				console.log(errorMessages[fluid])
+			}
+			allInputsValidated = this.state[fluid] >= requiredRanges[name].min && this.state[fluid] <= requiredRanges[name].max
+		})
+
+		if(allInputsValidated === true) {
+			this.setState({ readyForSubmission: true }, () => this.submitNewOrder(event))
+		}
 	}
 
 	validateOrderInput = event => {
