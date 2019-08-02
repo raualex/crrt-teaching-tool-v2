@@ -17,7 +17,26 @@ describe('Simulator', () => {
     wrapper = shallow(<Simulator selectedModal={'Imaging'} />)
     expect(wrapper).toMatchSnapshot()
   });
+});
 
+describe('toggleOrdersModal', () => {
+  let wrapper;
+
+  beforeEach(() => {
+    wrapper = shallow(<Simulator />)
+  });
+  
+  const mockEvent = {
+                      preventDefault: jest.fn()
+                    }
+
+  it('should toggle showOrdersModal state and set state', () => {
+    expect(wrapper.state().showOrdersModal).toEqual(false)
+    wrapper.instance().toggleOrdersModal(mockEvent)
+    expect(wrapper.state().showOrdersModal).toEqual(true)
+    wrapper.instance().toggleOrdersModal(mockEvent)  
+    expect(wrapper.state().showOrdersModal).toEqual(false)  
+  });
 });
 
 describe('mapStateToProps function', () => {
