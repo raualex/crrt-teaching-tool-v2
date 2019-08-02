@@ -14,7 +14,8 @@ export class Simulator extends Component {
 	}
 
   render() {
-    let { setSelectedModal, selectedModal } = this.props
+    const { setSelectedModal, selectedModal } = this.props
+    const { showOrdersModal } = this.state
   
     if (selectedModal === '') {
       return(
