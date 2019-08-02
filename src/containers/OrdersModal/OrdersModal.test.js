@@ -136,11 +136,3 @@ describe('mapDispatchToProps()', () => {
 		expect(mockDispatch).toHaveBeenCalled()
 	});
 });
-
-// describe('', () => {
-// 	it('', () => {});
-// 	it('', () => {});
-// 	it('', () => {});
-// });
-
-// describe('', () => {});
