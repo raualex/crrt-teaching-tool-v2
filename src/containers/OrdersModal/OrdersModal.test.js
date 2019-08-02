@@ -12,7 +12,7 @@ describe('OrdersModal', () => {
 	beforeEach(() => {
 		wrapper = shallow(<OrdersModal 
 												closeOrdersModal={jest.fn()}
-												orders={mockOrders}
+												orders={mockOrders.mockOrders}
 												submitOrder={jest.fn()}
 												hasErrored={false}
 												isLoading={false}
@@ -71,9 +71,11 @@ describe('OrdersModal', () => {
 		});
 	});
 	
-	describe('submitOrder()', () => {
-		// it('', () => {});
-		// it('', () => {});		
+	describe('submitNewOrder()', () => {
+		it('should call submitOrder()', () => {
+			wrapper.instance().submitNewOrder(mockEvent)
+			expect(wrapper.instance().props.submitOrder).toHaveBeenCalled()
+		});
 	});
 
 	describe('clearInputs()', () => {

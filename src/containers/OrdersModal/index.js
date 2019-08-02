@@ -42,7 +42,7 @@ export class OrdersModal extends Component {
 		this.setState({ [name]: !this.state[name] })
 	}
 
-	submitOrder = event => {
+	submitNewOrder = event => {
 		event.preventDefault();
 		const { submitOrder, orders } = this.props
 		const newOrder = {...this.state, id: uuidv4()}
@@ -466,7 +466,7 @@ export class OrdersModal extends Component {
 				</section>
 
 				<button 
-					className='submit-case-btn' onClick={event => this.submitOrder(event)}>
+					className='submit-case-btn' onClick={event => this.submitNewOrder(event)}>
 					Submit Order
 				</button>
 
