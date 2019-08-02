@@ -44,12 +44,13 @@ export class OrdersModal extends Component {
 
 	submitNewOrder = event => {
 		event.preventDefault();
-		const { submitOrder, orders } = this.props
+		const { submitOrder, orders, closeOrdersModal } = this.props
 		const newOrder = {...this.state, id: uuidv4()}
 		
 		if(!orders.includes(newOrder)) {
 			submitOrder(newOrder)
 		}
+		closeOrdersModal(event)
 	}
 
 	clearInputs = event => {
