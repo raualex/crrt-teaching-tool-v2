@@ -13,6 +13,11 @@ export class Simulator extends Component {
 		}
 	}
 
+  toggleOrdersModal = (event) => {
+    event.preventDefault()
+    this.setState({ showOrdersModal: !this.state.showOrdersModal})
+  }
+
   render() {
     const { setSelectedModal, selectedModal } = this.props
     const { showOrdersModal } = this.state
