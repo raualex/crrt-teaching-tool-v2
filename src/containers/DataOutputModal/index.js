@@ -3,9 +3,9 @@ import './DataOutputModal.css';
 import { connect } from 'react-redux';
 
 export class DataOutputModal extends Component {
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
 
   render() {
     let { selectedModal } = this.props

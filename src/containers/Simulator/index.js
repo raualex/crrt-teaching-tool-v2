@@ -5,9 +5,9 @@ import { setSelectedModal } from '../../Actions/selection-actions';
 import DataOutputModal from '../DataOutputModal';
 
 export class Simulator extends Component {
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
 
 
   render() {
