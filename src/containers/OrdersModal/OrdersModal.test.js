@@ -19,8 +19,8 @@ describe('OrdersModal', () => {
 											/>)
 		mockEvent = {
 			target: {
-				name: 'mockName',
-				value: 'mockValue'
+				name: 'modality',
+				value: 'CVVHD'
 			},
 			preventDefault: jest.fn()
 		}
@@ -28,6 +28,40 @@ describe('OrdersModal', () => {
 
 	it('should render like snapshot', () => {
 		expect(wrapper).toMatchSnapshot()
+	});
+
+	describe('handleStringChange()', () => {
+		it('should set state for properties with string value types', () => {
+			expect(wrapper.state().modality).toEqual('Pre-filter CVVH')
+			wrapper.instance().handleStringChange(mockEvent)
+			expect(wrapper.state().modality).toEqual('CVVHD')
+		});
+	});
+	
+	describe('handleNumberChange()', () => {
+		const mockEvent = {
+			target: {
+				name: 'sodium',
+				value: '4'
+			},
+			preventDefault: jest.fn()
+		}
+
+		it('should set state for properties with number value types', () => {
+			expect(wrapper.state().sodium).toEqual(0)
+			wrapper.instance().handleNumberChange(mockEvent)
+			expect(wrapper.state().sodium).toEqual(4)
+		});
+	});
+	
+	describe('toggleSelected()', () => {
+		// it('', () => {});
+		// it('', () => {});
+	});
+	
+	describe('submitOrder()', () => {
+		// it('', () => {});
+		// it('', () => {});		
 	});
 
 	describe('clearInputs()', () => {
@@ -95,8 +129,4 @@ describe('mapDispatchToProps()', () => {
 // 	it('', () => {});
 // });
 
-// describe('', () => {});
-// describe('', () => {});
-// describe('', () => {});
-// describe('', () => {});
 // describe('', () => {});
