@@ -71,7 +71,7 @@ const orderDosages = {
     'Post-filter CVVH',
     'CVVHD'
   ],
-  otherDosages: [ 
+  anticoagulationDosages: [ 
     'None',
     'Citrate'
   ],

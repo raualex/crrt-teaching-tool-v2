@@ -8,7 +8,7 @@ class InputCard extends Component {
 	}
 
 	render() {
-		const { type, currentInput, handleInputChange, dosage, dosageErrors } = this.props;
+		const { type, currentInput, handleInputChange, dosage, dosageErrors, radioButtonCategory } = this.props;
 		const { errorMessages, dosageNames } = orderDosages;
 
 		return (
@@ -27,6 +27,7 @@ class InputCard extends Component {
 
 								<input 
 									type='text'
+									className='input-text'
 									name={dosage}
 									value={isNaN(currentInput) ? 0 : currentInput}
 									onChange={event => handleInputChange(event)}
@@ -46,9 +47,10 @@ class InputCard extends Component {
 								<label>
 									<input 
 										type='radio'
-										name='modality'
+										className='input-radio'
+										name={radioButtonCategory}
 										value={dosage}
-										checked={currentInput.modality === dosage}
+										checked={currentInput.modality === dosage || currentInput.anticoagulation === dosage}
 										onChange={event => handleInputChange(event)}
 									/>
 									{ dosage }

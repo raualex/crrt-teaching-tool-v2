@@ -58,7 +58,10 @@
 
 .orders-modality-anticoagulation-container {
 	background-color: magenta;
-	height: 6rem;
+	height: 12rem;
 }
 
+.input-radio {
+	cursor: pointer;
+}
 

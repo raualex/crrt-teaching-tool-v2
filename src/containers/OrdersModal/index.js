@@ -154,7 +154,7 @@ export class OrdersModal extends Component {
 			errorMessages, 
 			replacementFluidDosages,
 			modalityDosages, 
-			otherDosages 
+			anticoagulationDosages 
 		} = orderDosages;
 
 		return (
@@ -184,6 +184,7 @@ export class OrdersModal extends Component {
 						currentInputState={this.state}
 						handleInputChange={this.handleStringChange}
 						dosagesToDisplay={modalityDosages}
+						radioButtonCategory={'modality'}
 					/>
 				</section>
 
@@ -203,6 +204,7 @@ export class OrdersModal extends Component {
 						currentInputState={this.state}
 						handleInputChange={this.handleNumberChange}
 						dosagesToDisplay={replacementFluidDosages}
+						radioButtonCategory={null}
 					/>
 
 				</section>
@@ -268,37 +270,14 @@ export class OrdersModal extends Component {
 
 				<section className='orders-modality-anticoagulation-container'>
 					<h3>Anticoagulation</h3>
-					<div className='anticoagulation-radio'>
-						<label>
-							<input 
-								type='radio'
-								name='anticoagulation'
-								value='None'
-								checked={anticoagulation === 'None'}
-								onChange={this.handleStringChange}
-							/>
-							None
-						</label>
-					</div>
 
-					<div className='anticoagulation-radio'>
-						<label>
-							<input 
-								type='radio'
-								name='anticoagulation'
-								value='Citrate'
-								checked={anticoagulation === 'Citrate'}
-								onChange={this.handleStringChange}
-							/>
-							Citrate
-								<a 
-								href='https://github.com/raualex/crrt-teaching-tool-v2' 
-								className='textbook-link'
-								>
-									<i className='far fa-question-circle'></i>
-								</a>
-						</label>
-					</div>
+					<InputContainer
+						type={'radio'}
+						currentInputState={this.state}
+						handleInputChange={this.handleStringChange}
+						dosagesToDisplay={anticoagulationDosages}
+						radioButtonCategory={'anticoagulation'} 
+					/>
 				</section>
 
 				<button 
