@@ -76,8 +76,36 @@ describe('OrdersModal', () => {
 		const mockEvent = {
 			preventDefault: jest.fn()
 		}
-		
-		it('should set state with sample data', () => {})
+
+		it('should set state with sample data', () => {
+			expect(wrapper.state().sodium).toEqual(0)
+			expect(wrapper.state().magnesium).toEqual(0)
+			expect(wrapper.state().saline3Percent).toEqual(false)
+			expect(wrapper.state().dosageErrors).toEqual([])
+			wrapper.setState({
+												modality: 'Pre-filter CVVH',
+												sodium: 1,
+												potassium: 2,
+												chloride: 3,
+												bicarbonate: 1,
+												calcium: 2,
+												magnesium: 3,
+												phosphorous : 4,
+												grossUltraFiltration: 2,
+												bloodFlowRate: 1,
+												replacementFluidFlowRate: 7,
+												saline3Percent: true,
+												d5W: false,
+												sodiumPhosphate15mmol100ml: true,
+												anticoagulation: 'Citrate',
+												readyForSubmission: false,
+												dosageErrors: ['sodium']
+											})
+			expect(wrapper.state().sodium).toEqual(1)
+			expect(wrapper.state().magnesium).toEqual(3)
+			expect(wrapper.state().saline3Percent).toEqual(true)
+			expect(wrapper.state().dosageErrors).toEqual(['sodium'])
+		})
 	
 		it('should call validateOrder()', () => {
 			wrapper.instance().validateOrder = jest.fn()
