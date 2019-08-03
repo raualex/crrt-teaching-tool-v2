@@ -33,7 +33,6 @@ export class OrdersModal extends Component {
 	handleStringChange = event => {
 		const { name, value } = event.target
 		this.setState({ [name]: value })
-		this.validateOrderInput(event)
 	}
 
 	handleNumberChange = event => {
@@ -44,21 +43,24 @@ export class OrdersModal extends Component {
 		}, () => this.validateOrder())
 	}
 
-	validateOrder = () => {
-		const { requiredRanges, errorMessages } = orderDosages
-
-		const fluidsWithNumValues = [	'sodium','potassium','chloride','bicarbonate','calcium','magnesium','phosphorous','grossUltraFiltration','bloodFlowRate','replacementFluidFlowRate']
-
-		const incorrectValues = fluidsWithNumValues.reduce((wrongValues, medication) => {
+	checkForInvalidInputs = () => {
+		const { requiredRanges, dosagesWithNumValues } = orderDosages
+		const invalidEntries = dosagesWithNumValues.reduce((wrongValues, medication) => {
 			if(this.state[medication] < requiredRanges[medication].min || this.state[medication] > requiredRanges[medication].max) {
 				wrongValues.push(medication)
 			}
 			return wrongValues
 		}, [])
 
-		if(incorrectValues.length) {
+		return invalidEntries
+	}
+
+	validateOrder = () => {
+		const invalidEntries = this.checkForInvalidInputs()
+
+		if(invalidEntries.length) {
 			this.setState({ 
-				dosageErrors: incorrectValues,
+				dosageErrors: invalidEntries,
 				readyForSubmission: false 
 			})
 		} else {
@@ -108,7 +110,7 @@ export class OrdersModal extends Component {
 		})
 	}
 
-	fillForm = (event) => {
+	fillForm = event => {
 		event.preventDefault();
 		this.setState({
 			modality: 'Pre-filter CVVH',
@@ -258,7 +260,7 @@ export class OrdersModal extends Component {
 						/>
 						<div className='input-error-container'>
 							<p className='input-error-text'>{
-								dosageErrors.includes('sodium') ? errorMessages.sodium : 'Ternary'
+								dosageErrors.includes('sodium') ? errorMessages.sodium : ''
 							}
 							</p>
 						</div>
@@ -283,7 +285,7 @@ export class OrdersModal extends Component {
 						/>
 						<div className='input-error-container'>
 							<p className='input-error-text'>{
-								dosageErrors.includes('potassium') ? errorMessages.potassium : 'Ternary'
+								dosageErrors.includes('potassium') ? errorMessages.potassium : ''
 							}
 							</p>
 						</div>
@@ -308,7 +310,7 @@ export class OrdersModal extends Component {
 						/>
 						<div className='input-error-container'>
 							<p className='input-error-text'>{
-								dosageErrors.includes('chloride') ? errorMessages.chloride : 'Ternary'
+								dosageErrors.includes('chloride') ? errorMessages.chloride : ''
 							}
 							</p>
 						</div>
@@ -333,7 +335,7 @@ export class OrdersModal extends Component {
 						/>
 						<div className='input-error-container'>
 							<p className='input-error-text'>{
-								dosageErrors.includes('bicarbonate') ? errorMessages.bicarbonate : 'Ternary'
+								dosageErrors.includes('bicarbonate') ? errorMessages.bicarbonate : ''
 							}
 							</p>
 						</div>
@@ -358,7 +360,7 @@ export class OrdersModal extends Component {
 						/>
 						<div className='input-error-container'>
 							<p className='input-error-text'>{
-								dosageErrors.includes('calcium') ? errorMessages.calcium : 'Ternary'
+								dosageErrors.includes('calcium') ? errorMessages.calcium : ''
 							}
 							</p>
 						</div>
@@ -383,7 +385,7 @@ export class OrdersModal extends Component {
 						/>
 						<div className='input-error-container'>
 							<p className='input-error-text'>{
-								dosageErrors.includes('magnesium') ? errorMessages.magnesium : 'Ternary'
+								dosageErrors.includes('magnesium') ? errorMessages.magnesium : ''
 							}
 							</p>
 						</div>
@@ -408,7 +410,7 @@ export class OrdersModal extends Component {
 						/>
 						<div className='input-error-container'>
 							<p className='input-error-text'>{
-								dosageErrors.includes('phosphorous') ? errorMessages.phosphorous : 'Ternary'
+								dosageErrors.includes('phosphorous') ? errorMessages.phosphorous : ''
 							}
 							</p>
 						</div>
@@ -433,7 +435,7 @@ export class OrdersModal extends Component {
 						/>
 						<div className='input-error-container'>
 							<p className='input-error-text'>{
-								dosageErrors.includes('grossUltraFiltration') ? errorMessages.grossUltraFiltration : 'Ternary'
+								dosageErrors.includes('grossUltraFiltration') ? errorMessages.grossUltraFiltration : ''
 							}
 							</p>
 						</div>
@@ -458,7 +460,7 @@ export class OrdersModal extends Component {
 						/>
 						<div className='input-error-container'>
 							<p className='input-error-text'>{
-								dosageErrors.includes('bloodFlowRate') ? errorMessages.bloodFlowRate : 'Ternary'
+								dosageErrors.includes('bloodFlowRate') ? errorMessages.bloodFlowRate : ''
 							}
 							</p>
 						</div>
@@ -480,7 +482,7 @@ export class OrdersModal extends Component {
 						/>
 						<div className='input-error-container'>
 							<p className='input-error-text'>{
-								dosageErrors.includes('replacementFluidFlowRate') ? errorMessages.replacementFluidFlowRate : 'Ternary'
+								dosageErrors.includes('replacementFluidFlowRate') ? errorMessages.replacementFluidFlowRate : ''
 							}
 							</p>
 						</div>

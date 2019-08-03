@@ -52,7 +52,19 @@ describe('OrdersModal', () => {
 			wrapper.instance().handleNumberChange(mockEvent)
 			expect(wrapper.state().sodium).toEqual(4)
 		});
+
+		it('should invoke validateOrder()', () => {
+			wrapper.instance().validateOrder = jest.fn()
+			wrapper.instance().handleNumberChange(mockEvent)
+			expect(wrapper.instance().validateOrder).toHaveBeenCalled()
+		})
 	});
+
+	describe('checkForInvalidInputs()', () => {})
+	
+	describe('validateOrder()', () => {})
+	
+	describe('fillForm()', () => {})
 	
 	describe('toggleCheckBoxes()', () => {
 		const mockEvent = {
@@ -65,7 +77,9 @@ describe('OrdersModal', () => {
 		it('should set state for properties with boolean types', () => {
 			expect(wrapper.state().d5W).toEqual(false)
 			wrapper.instance().toggleCheckBoxes(mockEvent)
+			
 			expect(wrapper.state().d5W).toEqual(true)
+			
 			wrapper.instance().toggleCheckBoxes(mockEvent)
 			expect(wrapper.state().d5W).toEqual(false)
 		});
@@ -95,13 +109,17 @@ describe('OrdersModal', () => {
 												saline3Percent: true,
 												d5W: false,
 												sodiumPhosphate15mmol100ml: true,
-												anticoagulation: 'Citrate'
+												anticoagulation: 'Citrate',
+												readyForSubmission: false,
+												dosageErrors: ['sodium']
 											})
 			expect(wrapper.state().sodium).toEqual(1)
 			expect(wrapper.state().anticoagulation).toEqual('Citrate')
+			expect(wrapper.state().dosageErrors).toEqual(['sodium'])
 			wrapper.instance().clearInputs(mockEvent)
 			expect(wrapper.state().sodium).toEqual(0)
 			expect(wrapper.state().anticoagulation).toEqual('None')
+			expect(wrapper.state().dosageErrors).toEqual([])
 		});
 	});
 });

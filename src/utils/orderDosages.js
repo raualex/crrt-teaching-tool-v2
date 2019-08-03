@@ -65,7 +65,19 @@ const orderDosages = {
     'grossUltraFiltration': 'Gross Ultrafiltration',
     'bloodFlowRate': 'Blood Flow Rate',
     'replacementFluidFlowRate': 'Replacement Fluid Flow Rate',
-  }
+  },
+  dosagesWithNumValues: [ 
+    'sodium',
+    'potassium',
+    'chloride',
+    'bicarbonate',
+    'calcium',
+    'magnesium',
+    'phosphorous',
+    'grossUltraFiltration',
+    'bloodFlowRate',
+    'replacementFluidFlowRate'
+  ]
 }
 
 export default orderDosages;
