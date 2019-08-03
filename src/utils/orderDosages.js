@@ -54,7 +54,7 @@ const orderDosages = {
     'bloodFlowRate': 'THESE MESSAGE IS PROVISIONAL. NEED ACTUAL ONE',
     'replacementFluidFlowRate': 'The CRRT machine cannot deliver fluid above 8 L/hr',
   },
-  dosageName: {
+  dosageNames: {
     'sodium': 'Sodium',
     'potassium': 'Potassium',
     'chloride': 'Chloride',

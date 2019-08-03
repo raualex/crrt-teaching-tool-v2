@@ -3,6 +3,7 @@ import './OrdersModal.css';
 import { connect } from 'react-redux';
 import { submitOrder } from '../../Actions/ordersActions';
 import orderDosages from '../../utils/orderDosages.js';
+// import InputContainer from '../../components/InputContainer';
 const uuidv4 = require('uuid/v4');
 
 export class OrdersModal extends Component {
@@ -240,6 +241,11 @@ export class OrdersModal extends Component {
 							<i className='far fa-question-circle'></i>
 						</a>
 					</div>
+
+					{/* <InputContainer 
+						state={this.state}
+						handleNumberChange={this.handleNumberChange}
+					/> */}
 
 					<article className='input-container'>
 						<div className='header-info-container'>
