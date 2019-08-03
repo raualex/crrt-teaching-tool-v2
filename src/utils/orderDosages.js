@@ -1,51 +1,69 @@
 const orderDosages = {
   requiredRanges: {
-    "sodium": {
+    'sodium': {
       min: 130,
       max: 150
     },
-    "potassium": {
+    'potassium': {
       max: 4
     },
-    "chloride": {
+    'chloride': {
       min: 95,
       max: 110
     },
-    "bicarbonate": {
+    'bicarbonate': {
       min: 20,
       max: 40
     },
-    "calcium": {
+    'calcium': {
       min: 0,
       max: 3
     },
-    "magnesium": {
+    'magnesium': {
       min: 0,
       max: 2
     },
-    "phosphorous": {
+    'phosphorous': {
       min: 0,
       max: 1
     },
-    "grossUltraFiltration": {
+    'grossUltraFiltration': {
       min: 0,
       max: 2000
     },
-    "replacementFluidFlowRate": {
+    'bloodFlowRate': {
+      //THESE MIN/MAX VALUES ARE PROVISIONAL. NEED ACTUAL ONES.
+      min: 0,
+      max: 1
+    },
+    'replacementFluidFlowRate': {
       min: 0,
       max: 8
     },
   },
   errorMessages: {
-    "sodium": "The hospital pharmacy can only compound sodium between 130 and 150.  Use D5W or 3% normal saline if needed",
-    "potassium": "The hospital pharmacy will not compound fluid with a potassium above 4 mg/dL",
-    "chloride": "The hospital pharmacy can only compound chloride between 95 and 110",
-    "bicarbonate": "The hospital pharmacy can only compound bicarbonate between 20 and 40",
-    "calcium": "The hospital pharmacy can only compound calcium between 0 and 3 mEq/L",
-    "magnesium": "The hospital pharmacy can only compound magnesium between 0 and 2 mgd/L",
-    "phosphorous": "The hospital pharmacy cannot compound fluid with > 1mg/dL of phosphorous, due to precipitation of calcium phosphate.",
-    "grossUltraFiltration": "The CRRT machine will not accept ultrafiltration rates above 2,000 mL/hour",
-    "replacementFluidFlowRate": "The CRRT machine cannot deliver fluid above 8 L/hr",
+    'sodium': 'The hospital pharmacy can only compound sodium between 130 and 150.  Use D5W or 3% normal saline if needed',
+    'potassium': 'The hospital pharmacy will not compound fluid with a potassium above 4 mg/dL',
+    'chloride': 'The hospital pharmacy can only compound chloride between 95 and 110',
+    'bicarbonate': 'The hospital pharmacy can only compound bicarbonate between 20 and 40',
+    'calcium': 'The hospital pharmacy can only compound calcium between 0 and 3 mEq/L',
+    'magnesium': 'The hospital pharmacy can only compound magnesium between 0 and 2 mgd/L',
+    'phosphorous': 'The hospital pharmacy cannot compound fluid with > 1mg/dL of phosphorous, due to precipitation of calcium phosphate.',
+    'grossUltraFiltration': 'The CRRT machine will not accept ultrafiltration rates above 2,000 mL/hour',
+    'bloodFlowRate': 'THESE MESSAGE IS PROVISIONAL. NEED ACTUAL ONE',
+    'replacementFluidFlowRate': 'The CRRT machine cannot deliver fluid above 8 L/hr',
+  },
+  dosageName: {
+    'sodium': 'Sodium',
+    'potassium': 'Potassium',
+    'chloride': 'Chloride',
+    'bicarbonate': 'Bicarbonate',
+    'calcium': 'Calcium',
+    'magnesium': 'Magnesium',
+    'phosphorous': 'Phosphorous',
+    'grossUltraFiltration': 'Gross Ultrafiltration',
+    'bloodFlowRate': 'Blood Flow Rate',
+    'replacementFluidFlowRate': 'Replacement Fluid Flow Rate',
   }
 }
 

@@ -29,33 +29,27 @@ export class OrdersModal extends Component {
 		}
 	}
 
-	validateOrder = event => {
-		let allInputsValidated;
-		const { requiredRanges, errorMessages } = orderDosages
+	handleStringChange = event => {
+		const { name, value } = event.target
+		this.setState({ [name]: value })
+		this.validateOrderInput(event)
+	}
 
-		const fluidsWithNumValues = [	
-																					'sodium',
-																					'potassium',
-																					'chloride',
-																					'bicarbonate',
-																					'calcium',
-																					'magnesium',
-																					'phosphorous',
-																					'grossUltraFiltration',
-																					'bloodFlowRate', 
-																					'replacementFluidFlowRate'
-																				]
+	handleNumberChange = event => {
+		const { name, value } = event.target
+		const { dosageName } = orderDosages
+		const parsedValue = parseInt(value)
 
-		fluidsWithNumValues.forEach(fluid => {
-			if(this.state[fluid] < requiredRanges[name].min || this.state[fluid] > requiredRanges[name].max) {
-				console.log(errorMessages[fluid])
-			}
-			allInputsValidated = this.state[fluid] >= requiredRanges[name].min && this.state[fluid] <= requiredRanges[name].max
-		})
+		this.setState({ [name]: parsedValue })
+		this.checkSubmitButton(event)
+	}
 
-		if(allInputsValidated === true) {
-			this.setState({ readyForSubmission: true }, () => this.submitNewOrder(event))
+	checkSubmitButton = event => {
+		const { name } = event.target
+		if(this.state[name] === null) {
+			this.setState({ readyForSubmission: false })
 		}
+		this.validateOrderInput(event)
 	}
 
 	validateOrderInput = event => {
@@ -65,52 +59,28 @@ export class OrdersModal extends Component {
 
 		if(parsedValue < requiredRanges[name].min || parsedValue > requiredRanges[name].max) {
 			console.log(errorMessages[name])
-		} 
-	}
-
-	handleStringChange = event => {
-		const { name, value } = event.target
-		this.setState({ [name]: value })
-		
-		if(!isNaN(this.state[name])) {
-			this.validateOrderInput(event)
 		}
+		
+		this.setState({ readyForSubmission: false }, () => this.validateOrder(event))
 	}
 
+	validateOrder = event => {
+		let allInputsValidated = false;
+		// const { name } = event.target;
+		const { requiredRanges, errorMessages } = orderDosages
 
+		const fluidsWithNumValues = [	'sodium','potassium','chloride','bicarbonate','calcium','magnesium','phosphorous','grossUltraFiltration','bloodFlowRate','replacementFluidFlowRate']
 
+		fluidsWithNumValues.forEach(fluid => {
+			if(this.state[fluid] < requiredRanges[fluid].min || this.state[fluid] > requiredRanges[fluid].max) {
+				console.log(errorMessages[fluid])
+			}
+			allInputsValidated = this.state[fluid] >= requiredRanges[fluid].min && this.state[fluid] <= requiredRanges[fluid].max
+		})
 
-	// validateOrderForm = event => {
-	// 	const { name, value } = event.target;
-	// 	const { ranges, errorMessages } = dosageFormat
-
-	// 	if(isNaN(value)) {
-	// 		console.log(value)
-	// 		} else {
-	// 		const parsedValue = parseInt(value)
-	// 		if(parsedValue < ranges[name].min || parsedValue > ranges[name].max) {
-	// 			console.log(errorMessages[name])
-	// 		} else {
-	// 			this.handleNumberChange(event)
-	// 		}
-	// 	}
-	// }
-
-	// handleStringChange = event => {
-	// 	const { name, value } = event.target
-	// 	this.setState({ [name]: value })
-
-	// }
-
-	handleNumberChange = event => {
-		const { name, value } = event.target
-		const parsedValue = parseInt(value)
-		this.setState({ [name]: parsedValue })
-	}
-
-	toggleCheckBoxes = event => {
-		const { name } = event.target
-		this.setState({ [name]: !this.state[name] })
+		if(allInputsValidated === true) {
+			this.setState({ readyForSubmission: true })
+		}
 	}
 
 	submitNewOrder = event => {
@@ -122,6 +92,11 @@ export class OrdersModal extends Component {
 			submitOrder(newOrder)
 		}
 		closeOrdersModal(event)
+	}
+
+	toggleCheckBoxes = event => {
+		const { name } = event.target
+		this.setState({ [name]: !this.state[name] })
 	}
 
 	clearInputs = event => {
@@ -143,6 +118,24 @@ export class OrdersModal extends Component {
 			sodiumPhosphate15mmol100ml: false,
 			anticoagulation: 'None'
 		})
+	}
+
+	fillForm = (event) => {
+		event.preventDefault();
+		this.setState({
+			modality: 'Pre-filter CVVH',
+			sodium: 135,
+			potassium: 3,
+			chloride: 96,
+			bicarbonate: 25,
+			calcium: 2,
+			magnesium: 1,
+			phosphorous : 1,
+			grossUltraFiltration: 1500,
+			bloodFlowRate: 0,
+			replacementFluidFlowRate: 7,
+		})	
+		this.validateOrder(event)	
 	}
 
 	render() {
@@ -169,6 +162,7 @@ export class OrdersModal extends Component {
 			<form className='OrdersModal'>
 				<header className='orders-header'>
 					<h2>Orders</h2>
+					<button onClick={event => this.fillForm(event)}>Add provisional values</button>
 					<button 
 						className='orders-modal-close-btn-top'
 						onClick={event => this.props.closeOrdersModal(event)}
@@ -268,8 +262,8 @@ export class OrdersModal extends Component {
 						<input 
 							type='number'
 							name='sodium'
-							value={sodium}
-							onChange={event => this.handleStringChange(event)}
+							value={isNaN(sodium) ? 0 : sodium}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -283,13 +277,12 @@ export class OrdersModal extends Component {
 								<i className='far fa-question-circle'></i>
 							</a>
 						</div>
-
 	
 						<input 
 							type='number'
 							name='potassium'
-							value={potassium}
-							onChange={event => this.handleStringChange(event)}
+							value={isNaN(potassium) ? 0 : potassium}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -307,8 +300,8 @@ export class OrdersModal extends Component {
 						<input 
 							type='number'
 							name='chloride'
-							value={chloride}
-							onChange={event => this.handleStringChange(event)}
+							value={isNaN(chloride) ? 0 : chloride}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -326,8 +319,8 @@ export class OrdersModal extends Component {
 						<input 
 							type='number'
 							name='bicarbonate'
-							value={bicarbonate}
-							onChange={event => this.handleStringChange(event)}
+							value={isNaN(bicarbonate) ? 0 : bicarbonate}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -345,8 +338,8 @@ export class OrdersModal extends Component {
 						<input 
 							type='number'
 							name='calcium'
-							value={calcium}
-							onChange={event => this.handleStringChange(event)}
+							value={isNaN(calcium) ? 0 : calcium}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -364,8 +357,8 @@ export class OrdersModal extends Component {
 						<input 
 							type='number'
 							name='magnesium'
-							value={magnesium}
-							onChange={event => this.handleStringChange(event)}
+							value={isNaN(magnesium) ? 0 : magnesium}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -383,8 +376,8 @@ export class OrdersModal extends Component {
 						<input 
 							type='number'
 							name='phosphorous'
-							value={phosphorous}
-							onChange={event => this.handleStringChange(event)}
+							value={isNaN(phosphorous) ? 0 : phosphorous}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -402,8 +395,8 @@ export class OrdersModal extends Component {
 						<input 
 							type='number'
 							name='grossUltraFiltration'
-							value={grossUltraFiltration}
-							onChange={event => this.handleStringChange(event)}
+							value={isNaN(grossUltraFiltration) ? 0 : grossUltraFiltration}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -421,8 +414,8 @@ export class OrdersModal extends Component {
 						<input 
 							type='number'
 							name='bloodFlowRate'
-							value={bloodFlowRate}
-							onChange={event => this.handleStringChange(event)}
+							value={isNaN(bloodFlowRate) ? 0 : bloodFlowRate}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 
@@ -435,10 +428,10 @@ export class OrdersModal extends Component {
 						</div>
 	
 						<input 
-							type='number'
+							type='text'
 							name='replacementFluidFlowRate'
-							value={replacementFluidFlowRate}
-							onChange={event => this.handleStringChange(event)}
+							value={isNaN(replacementFluidFlowRate) ? 0 : replacementFluidFlowRate}
+							onChange={event => this.handleNumberChange(event)}
 						/>
 					</article>
 				</section>
