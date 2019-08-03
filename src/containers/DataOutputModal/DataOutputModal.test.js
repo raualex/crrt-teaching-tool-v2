@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataOutputModal, mapStateToProps } from './';
+import { DataOutputModal, mapStateToProps, mapDispatchToProps } from './';
 import { shallow } from 'enzyme';
 
 describe('DataOutputModal', () => {
@@ -29,4 +29,18 @@ describe('mapStateToProps function', () => {
     expect(mappedProps).toEqual(expected)
   });
 
+});
+
+describe('mapDispatchToProps function', () => {
+  let mockDispatch = jest.fn();
+  let mappedProps;
+
+  beforeEach(() => {
+    mappedProps = mapDispatchToProps(mockDispatch)
+  });
+
+  it('should call dispatch when setSelectedModal is called', () => {
+    mappedProps.setSelectedModal()
+    expect(mockDispatch).toHaveBeenCalled();
+  });
 });
