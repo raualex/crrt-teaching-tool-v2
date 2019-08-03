@@ -66,6 +66,15 @@ const orderDosages = {
     'bloodFlowRate': 'Blood Flow Rate',
     'replacementFluidFlowRate': 'Replacement Fluid Flow Rate',
   },
+  modalityDosages: [ 
+    'Pre-filter CVVH',
+    'Post-filter CVVH',
+    'CVVHD'
+  ],
+  otherDosages: [ 
+    'None',
+    'Citrate'
+  ],
   dosagesWithNumValues: [ 
     'sodium',
     'potassium',

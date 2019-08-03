@@ -173,6 +173,13 @@ export class OrdersModal extends Component {
 							<i className='far fa-question-circle'></i>
 						</a>
 					</div>
+
+					<InputContainer
+						type={'radio'} 
+						currentInputState={this.state}
+						handleInputChange={this.handleStringChange}
+					/>
+
 					<div className='modality-radio'>
 						<label>
 							<input 
@@ -244,8 +251,8 @@ export class OrdersModal extends Component {
 
 					<InputContainer
 						type={'text'} 
-						allInputs={this.state}
-						handleNumberChange={this.handleNumberChange}
+						currentInputState={this.state}
+						handleInputChange={this.handleNumberChange}
 					/>
 
 				</section>

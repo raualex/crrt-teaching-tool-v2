@@ -11,7 +11,7 @@ class InputCard extends Component {
 	}
 
 	render() {
-		const { type, enteredInput, handleNumberChange, medicine, dosageErrors } = this.props;
+		const { type, currentInput, handleNumberChange, medicine, dosageErrors } = this.props;
 		const { errorMessages, dosageNames } = orderDosages;
 
 		return (
@@ -31,7 +31,7 @@ class InputCard extends Component {
 								<input 
 									type='text'
 									name={medicine}
-									value={isNaN(enteredInput) ? 0 : enteredInput}
+									value={isNaN(currentInput) ? 0 : currentInput}
 									onChange={event => handleNumberChange(event)}
 								/>
 								<div className='input-error-container'>
@@ -51,7 +51,7 @@ class InputCard extends Component {
 										type='radio'
 										name='modality'
 										value='Pre-filter CVVH'
-										checked={modality === 'Pre-filter CVVH'}
+										checked={currentInput.modality === 'Pre-filter CVVH'}
 										onChange={this.handleStringChange}
 									/>
 									Pre-filter CVVH
