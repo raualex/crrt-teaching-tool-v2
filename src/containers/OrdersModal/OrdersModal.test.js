@@ -60,11 +60,23 @@ describe('OrdersModal', () => {
 		})
 	});
 
-	describe('checkForInvalidInputs()', () => {})
+	describe('checkForInvalidInputs()', () => {
+		it('should return an array of medications if their entries are invalid', () => {})
+		
+		it('should return an empty array if all entries are valid', () => {})
+	})
 	
-	describe('validateOrder()', () => {})
+	describe('validateOrder()', () => {
+		it('should set state if there are invalid entries', () => {})
+		
+		it('should set state if there all entries are valid', () => {})
+	})
 	
-	describe('fillForm()', () => {})
+	describe('fillForm()', () => {
+		it('should set state with sample data', () => {})
+	
+		it('should call validateOrder()', () => {})
+	})
 	
 	describe('toggleCheckBoxes()', () => {
 		const mockEvent = {
