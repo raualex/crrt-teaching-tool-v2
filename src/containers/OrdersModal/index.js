@@ -46,47 +46,17 @@ export class OrdersModal extends Component {
 		}, () => this.validateOrder())
 	}
 
-	// checkSubmitButton = event => {
-	// 	// const { name } = event.target
-	// 	const { currentInput } = this.state;
-	// 	if(this.state[currentInput] === null) {
-	// 		this.setState({ readyForSubmission: false })
-	// 	}
-	// 	this.validateOrderInput(event)
-	// }
-
-	validateOrderInput = () => {
-		const { requiredRanges, errorMessages } = orderDosages
-		const { currentInput } = this.state;
-
-		if(this.state[currentInput] < requiredRanges[currentInput].min || this.state[currentInput] > requiredRanges[currentInput].max) {
-			console.log(`Out of range: ${requiredRanges[currentInput].min} - ${requiredRanges[currentInput].max}`)
-
-			this.setState({ 
-				dosageErrors: [...this.state.dosageErrors, currentInput], 
-				readyForSubmission: false 
-			})
-		} else {
-			this.setState({
-				readyForSubmission: false 
-			}, () => this.validateOrder())
-		}
-	}
-
-
-	compileErrors = (errors) => {
-
-	}
-
-
 	validateOrder = () => {
 		const { requiredRanges, errorMessages } = orderDosages
 
 		const fluidsWithNumValues = [	'sodium','potassium','chloride','bicarbonate','calcium','magnesium','phosphorous','grossUltraFiltration','bloodFlowRate','replacementFluidFlowRate']
 
-		const incorrectValues = fluidsWithNumValues.filter(fluid => {
-			return this.state[fluid] < requiredRanges[fluid].min || this.state[fluid] > requiredRanges[fluid].max
-		})
+		const incorrectValues = fluidsWithNumValues.reduce((wrongValues, medication) => {
+			if(this.state[medication] < requiredRanges[medication].min || this.state[medication] > requiredRanges[medication].max) {
+				wrongValues.push(medication)
+			}
+			return wrongValues
+		}, [])
 		console.log('incorrectValues: ' + incorrectValues)
 
 		if(incorrectValues.length) {
@@ -144,7 +114,7 @@ export class OrdersModal extends Component {
 		event.preventDefault();
 		this.setState({
 			modality: 'Pre-filter CVVH',
-			sodium: 135,
+			sodium: 120,
 			potassium: 3,
 			chloride: 96,
 			bicarbonate: 25,
@@ -154,8 +124,7 @@ export class OrdersModal extends Component {
 			grossUltraFiltration: 1500,
 			bloodFlowRate: 1,
 			replacementFluidFlowRate: 7,
-		})	
-		this.validateOrder(event)	
+		}, () => this.validateOrder())		
 	}
 
 	render() {
