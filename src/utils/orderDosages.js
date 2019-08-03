@@ -5,6 +5,7 @@ const orderDosages = {
       max: 150
     },
     'potassium': {
+      min: 0,
       max: 4
     },
     'chloride': {
@@ -34,7 +35,7 @@ const orderDosages = {
     'bloodFlowRate': {
       //THESE MIN/MAX VALUES ARE PROVISIONAL. NEED ACTUAL ONES.
       min: 0,
-      max: 1
+      max: 2
     },
     'replacementFluidFlowRate': {
       min: 0,

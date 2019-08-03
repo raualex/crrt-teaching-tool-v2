@@ -25,7 +25,9 @@ export class OrdersModal extends Component {
 			d5W: false,
 			sodiumPhosphate15mmol100ml: false,
 			anticoagulation: 'None',
-			readyForSubmission: false
+			readyForSubmission: false,
+			dosageErrors: [],
+			currentInput: ''
 		}
 	}
 
@@ -37,49 +39,66 @@ export class OrdersModal extends Component {
 
 	handleNumberChange = event => {
 		const { name, value } = event.target
-		const { dosageName } = orderDosages
 		const parsedValue = parseInt(value)
-
-		this.setState({ [name]: parsedValue })
-		this.checkSubmitButton(event)
+		this.setState({ 
+			currentInput: name,
+			[name]: parsedValue 
+		}, () => this.validateOrder())
 	}
 
-	checkSubmitButton = event => {
-		const { name } = event.target
-		if(this.state[name] === null) {
-			this.setState({ readyForSubmission: false })
-		}
-		this.validateOrderInput(event)
-	}
+	// checkSubmitButton = event => {
+	// 	// const { name } = event.target
+	// 	const { currentInput } = this.state;
+	// 	if(this.state[currentInput] === null) {
+	// 		this.setState({ readyForSubmission: false })
+	// 	}
+	// 	this.validateOrderInput(event)
+	// }
 
-	validateOrderInput = event => {
-		const { name, value } = event.target;
+	validateOrderInput = () => {
 		const { requiredRanges, errorMessages } = orderDosages
-		const parsedValue = parseInt(value)
+		const { currentInput } = this.state;
 
-		if(parsedValue < requiredRanges[name].min || parsedValue > requiredRanges[name].max) {
-			console.log(errorMessages[name])
+		if(this.state[currentInput] < requiredRanges[currentInput].min || this.state[currentInput] > requiredRanges[currentInput].max) {
+			console.log(`Out of range: ${requiredRanges[currentInput].min} - ${requiredRanges[currentInput].max}`)
+
+			this.setState({ 
+				dosageErrors: [...this.state.dosageErrors, currentInput], 
+				readyForSubmission: false 
+			})
+		} else {
+			this.setState({
+				readyForSubmission: false 
+			}, () => this.validateOrder())
 		}
-		
-		this.setState({ readyForSubmission: false }, () => this.validateOrder(event))
 	}
 
-	validateOrder = event => {
-		let allInputsValidated = false;
-		// const { name } = event.target;
+
+	compileErrors = (errors) => {
+
+	}
+
+
+	validateOrder = () => {
 		const { requiredRanges, errorMessages } = orderDosages
 
 		const fluidsWithNumValues = [	'sodium','potassium','chloride','bicarbonate','calcium','magnesium','phosphorous','grossUltraFiltration','bloodFlowRate','replacementFluidFlowRate']
 
-		fluidsWithNumValues.forEach(fluid => {
-			if(this.state[fluid] < requiredRanges[fluid].min || this.state[fluid] > requiredRanges[fluid].max) {
-				console.log(errorMessages[fluid])
-			}
-			allInputsValidated = this.state[fluid] >= requiredRanges[fluid].min && this.state[fluid] <= requiredRanges[fluid].max
+		const incorrectValues = fluidsWithNumValues.filter(fluid => {
+			return this.state[fluid] < requiredRanges[fluid].min || this.state[fluid] > requiredRanges[fluid].max
 		})
+		console.log('incorrectValues: ' + incorrectValues)
 
-		if(allInputsValidated === true) {
-			this.setState({ readyForSubmission: true })
+		if(incorrectValues.length) {
+			this.setState({ 
+				dosageErrors: incorrectValues,
+				readyForSubmission: false 
+			})
+		} else {
+			this.setState({ 
+				dosageErrors: [], 
+				readyForSubmission: true
+			})
 		}
 	}
 
@@ -116,7 +135,8 @@ export class OrdersModal extends Component {
 			saline3Percent: false,
 			d5W: false,
 			sodiumPhosphate15mmol100ml: false,
-			anticoagulation: 'None'
+			anticoagulation: 'None',
+			readyForSubmission: false
 		})
 	}
 
@@ -132,7 +152,7 @@ export class OrdersModal extends Component {
 			magnesium: 1,
 			phosphorous : 1,
 			grossUltraFiltration: 1500,
-			bloodFlowRate: 0,
+			bloodFlowRate: 1,
 			replacementFluidFlowRate: 7,
 		})	
 		this.validateOrder(event)	
@@ -155,8 +175,12 @@ export class OrdersModal extends Component {
 			d5W,
 			sodiumPhosphate15mmol100ml,
 			anticoagulation,
-			readyForSubmission
+			readyForSubmission,
+			dosageErrors
 		} = this.state
+
+		const { closeOrdersModal } = this.props;
+		const { errorMessages } = orderDosages;
 
 		return (
 			<form className='OrdersModal'>
@@ -165,7 +189,7 @@ export class OrdersModal extends Component {
 					<button onClick={event => this.fillForm(event)}>Add provisional values</button>
 					<button 
 						className='orders-modal-close-btn-top'
-						onClick={event => this.props.closeOrdersModal(event)}
+						onClick={event => closeOrdersModal(event)}
 					>X</button>
 				</header>
 
@@ -260,11 +284,17 @@ export class OrdersModal extends Component {
 						</div>
 	
 						<input 
-							type='number'
+							type='text'
 							name='sodium'
 							value={isNaN(sodium) ? 0 : sodium}
 							onChange={event => this.handleNumberChange(event)}
 						/>
+						<div className='input-error-container'>
+							<p className='input-error-text'>{
+								dosageErrors.includes('sodium') ? errorMessages.sodium : 'Ternary'
+							}
+							</p>
+						</div>
 					</article>
 
 					<article className='input-container'>
@@ -279,11 +309,17 @@ export class OrdersModal extends Component {
 						</div>
 	
 						<input 
-							type='number'
+							type='text'
 							name='potassium'
 							value={isNaN(potassium) ? 0 : potassium}
 							onChange={event => this.handleNumberChange(event)}
 						/>
+						<div className='input-error-container'>
+							<p className='input-error-text'>{
+								dosageErrors.includes('potassium') ? errorMessages.potassium : 'Ternary'
+							}
+							</p>
+						</div>
 					</article>
 
 					<article className='input-container'>
@@ -298,11 +334,17 @@ export class OrdersModal extends Component {
 						</div>
 
 						<input 
-							type='number'
+							type='text'
 							name='chloride'
 							value={isNaN(chloride) ? 0 : chloride}
 							onChange={event => this.handleNumberChange(event)}
 						/>
+						<div className='input-error-container'>
+							<p className='input-error-text'>{
+								dosageErrors.includes('chloride') ? errorMessages.chloride : 'Ternary'
+							}
+							</p>
+						</div>
 					</article>
 
 					<article className='input-container'>
@@ -317,11 +359,17 @@ export class OrdersModal extends Component {
 						</div>
 	
 						<input 
-							type='number'
+							type='text'
 							name='bicarbonate'
 							value={isNaN(bicarbonate) ? 0 : bicarbonate}
 							onChange={event => this.handleNumberChange(event)}
 						/>
+						<div className='input-error-container'>
+							<p className='input-error-text'>{
+								dosageErrors.includes('bicarbonate') ? errorMessages.bicarbonate : 'Ternary'
+							}
+							</p>
+						</div>
 					</article>
 
 					<article className='input-container'>
@@ -336,11 +384,17 @@ export class OrdersModal extends Component {
 						</div>
 	
 						<input 
-							type='number'
+							type='text'
 							name='calcium'
 							value={isNaN(calcium) ? 0 : calcium}
 							onChange={event => this.handleNumberChange(event)}
 						/>
+						<div className='input-error-container'>
+							<p className='input-error-text'>{
+								dosageErrors.includes('calcium') ? errorMessages.calcium : 'Ternary'
+							}
+							</p>
+						</div>
 					</article>
 
 					<article className='input-container'>
@@ -355,11 +409,17 @@ export class OrdersModal extends Component {
 						</div>
 
 						<input 
-							type='number'
+							type='text'
 							name='magnesium'
 							value={isNaN(magnesium) ? 0 : magnesium}
 							onChange={event => this.handleNumberChange(event)}
 						/>
+						<div className='input-error-container'>
+							<p className='input-error-text'>{
+								dosageErrors.includes('magnesium') ? errorMessages.magnesium : 'Ternary'
+							}
+							</p>
+						</div>
 					</article>
 
 					<article className='input-container'>
@@ -374,11 +434,17 @@ export class OrdersModal extends Component {
 						</div>
 	
 						<input 
-							type='number'
+							type='text'
 							name='phosphorous'
 							value={isNaN(phosphorous) ? 0 : phosphorous}
 							onChange={event => this.handleNumberChange(event)}
 						/>
+						<div className='input-error-container'>
+							<p className='input-error-text'>{
+								dosageErrors.includes('phosphorous') ? errorMessages.phosphorous : 'Ternary'
+							}
+							</p>
+						</div>
 					</article>
 
 					<article className='input-container'>
@@ -393,11 +459,17 @@ export class OrdersModal extends Component {
 						</div>
 
 						<input 
-							type='number'
+							type='text'
 							name='grossUltraFiltration'
 							value={isNaN(grossUltraFiltration) ? 0 : grossUltraFiltration}
 							onChange={event => this.handleNumberChange(event)}
 						/>
+						<div className='input-error-container'>
+							<p className='input-error-text'>{
+								dosageErrors.includes('grossUltraFiltration') ? errorMessages.grossUltraFiltration : 'Ternary'
+							}
+							</p>
+						</div>
 					</article>
 
 					<article className='input-container'>
@@ -412,11 +484,17 @@ export class OrdersModal extends Component {
 						</div>
 	
 						<input 
-							type='number'
+							type='text'
 							name='bloodFlowRate'
 							value={isNaN(bloodFlowRate) ? 0 : bloodFlowRate}
 							onChange={event => this.handleNumberChange(event)}
 						/>
+						<div className='input-error-container'>
+							<p className='input-error-text'>{
+								dosageErrors.includes('bloodFlowRate') ? errorMessages.bloodFlowRate : 'Ternary'
+							}
+							</p>
+						</div>
 					</article>
 
 					<article className='input-container'>
@@ -433,6 +511,12 @@ export class OrdersModal extends Component {
 							value={isNaN(replacementFluidFlowRate) ? 0 : replacementFluidFlowRate}
 							onChange={event => this.handleNumberChange(event)}
 						/>
+						<div className='input-error-container'>
+							<p className='input-error-text'>{
+								dosageErrors.includes('replacementFluidFlowRate') ? errorMessages.replacementFluidFlowRate : 'Ternary'
+							}
+							</p>
+						</div>
 					</article>
 				</section>
 
@@ -543,7 +627,7 @@ export class OrdersModal extends Component {
 					<button className='clear-order-inputs-btn' onClick={event => this.clearInputs(event)}>Reset</button>
 					<button 
 						className='orders-modal-close-btn-bottom'
-						onClick={event => this.props.closeOrdersModal(event)}
+						onClick={event => closeOrdersModal(event)}
 					>Close</button>
 				</footer>
 			</form>

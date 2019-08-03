@@ -31,7 +31,24 @@
 
 .input-container {
 	background-color: orange;
-	width: 10rem;
+	display: flex;
+  flex-direction: column;
+	width: 50%;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.input-error-container {
+  width: 100%;
+  margin: 1rem 0 0 0;
+	height: 4rem;
+	background-color: lime;
+}
+
+.input-error-text {
+	font-size: 0.75rem;
+  text-align: left;
+  overflow-wrap: normal;
 }
 
 .orders-modality-other-container {
