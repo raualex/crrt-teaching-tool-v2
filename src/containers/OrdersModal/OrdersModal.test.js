@@ -73,9 +73,17 @@ describe('OrdersModal', () => {
 	})
 	
 	describe('fillForm()', () => {
+		const mockEvent = {
+			preventDefault: jest.fn()
+		}
+		
 		it('should set state with sample data', () => {})
 	
-		it('should call validateOrder()', () => {})
+		it('should call validateOrder()', () => {
+			wrapper.instance().validateOrder = jest.fn()
+			wrapper.instance().fillForm(mockEvent)
+			expect(wrapper.instance().validateOrder).toHaveBeenCalled()
+		})
 	})
 	
 	describe('toggleCheckBoxes()', () => {
