@@ -17,12 +17,12 @@ class InputCard extends Component {
 							<div className='InputCard-text'>
 								<div className='header-info-container'>
 									<h4>{ dosageNames[dosage] }</h4>
-									<a 
-										href='https://github.com/raualex/crrt-teaching-tool-v2' 
-										className='textbook-link'
-									>
-										<i className='far fa-question-circle'></i>
-									</a>
+										<a 
+											href='https://github.com/raualex/crrt-teaching-tool-v2' 
+											className='textbook-link'
+										>
+											<i className='far fa-question-circle'></i>
+										</a>
 								</div>
 
 								<input 
@@ -54,12 +54,16 @@ class InputCard extends Component {
 										onChange={event => handleInputChange(event)}
 									/>
 									{ dosage }
-										<a 
-										href='https://github.com/raualex/crrt-teaching-tool-v2' 
-										className='textbook-link'
-										>
-											<i className='far fa-question-circle'></i>
-										</a>
+
+									{ dosage !== 'None' &&
+											<a 
+											href='https://github.com/raualex/crrt-teaching-tool-v2' 
+											className='textbook-link'
+											>
+												<i className='far fa-question-circle'></i>
+											</a>
+									}
+									
 								</label>
 							</div>						
 					}
