@@ -26,8 +26,7 @@ export class OrdersModal extends Component {
 			sodiumPhosphate15mmol100ml: false,
 			anticoagulation: 'None',
 			readyForSubmission: false,
-			dosageErrors: [],
-			currentInput: ''
+			dosageErrors: []
 		}
 	}
 
@@ -41,7 +40,6 @@ export class OrdersModal extends Component {
 		const { name, value } = event.target
 		const parsedValue = parseInt(value)
 		this.setState({ 
-			currentInput: name,
 			[name]: parsedValue 
 		}, () => this.validateOrder())
 	}
@@ -57,7 +55,6 @@ export class OrdersModal extends Component {
 			}
 			return wrongValues
 		}, [])
-		console.log('incorrectValues: ' + incorrectValues)
 
 		if(incorrectValues.length) {
 			this.setState({ 
@@ -106,7 +103,8 @@ export class OrdersModal extends Component {
 			d5W: false,
 			sodiumPhosphate15mmol100ml: false,
 			anticoagulation: 'None',
-			readyForSubmission: false
+			readyForSubmission: false,
+			dosageErrors: []
 		})
 	}
 
@@ -114,7 +112,7 @@ export class OrdersModal extends Component {
 		event.preventDefault();
 		this.setState({
 			modality: 'Pre-filter CVVH',
-			sodium: 120,
+			sodium: 135,
 			potassium: 3,
 			chloride: 96,
 			bicarbonate: 25,
