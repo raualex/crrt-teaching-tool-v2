@@ -3,17 +3,16 @@ import './InputContainer.css';
 import orderDosages from '../../utils/orderDosages.js';
 import InputCard from '../../containers/InputCard';
 
-const InputContainer = ({ type, currentInputState, handleInputChange }) => {
-	const { dosagesWithNumValues } = orderDosages
-	
-	const  inputCards = dosagesWithNumValues.map(medicine => {
+const InputContainer = ({ type, currentInputState, handleInputChange, dosagesToDisplay }) => {
+
+	const  inputCards = dosagesToDisplay.map(dosage => {
 			return <InputCard 
 								type={type}
-								currentInput={currentInputState[medicine]}
+								currentInput={type === 'text' ? currentInputState[dosage] : currentInputState}
 								handleInputChange={handleInputChange}
-								medicine={medicine} 
+								dosage={dosage} 
 								dosageErrors={currentInputState.dosageErrors}
-								key={medicine}
+								key={dosage}
 							/>
 	})
 

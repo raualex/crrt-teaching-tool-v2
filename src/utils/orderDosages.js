@@ -75,7 +75,7 @@ const orderDosages = {
     'None',
     'Citrate'
   ],
-  dosagesWithNumValues: [ 
+  replacementFluidDosages: [ 
     'sodium',
     'potassium',
     'chloride',

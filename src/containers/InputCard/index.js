@@ -5,13 +5,10 @@ import orderDosages from '../../utils/orderDosages.js';
 class InputCard extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-
-		}
 	}
 
 	render() {
-		const { type, currentInput, handleNumberChange, medicine, dosageErrors } = this.props;
+		const { type, currentInput, handleInputChange, dosage, dosageErrors } = this.props;
 		const { errorMessages, dosageNames } = orderDosages;
 
 		return (
@@ -19,7 +16,7 @@ class InputCard extends Component {
 					{ type === 'text' &&
 							<div className='InputCard-text'>
 								<div className='header-info-container'>
-									<h4>{ dosageNames[medicine] }</h4>
+									<h4>{ dosageNames[dosage] }</h4>
 									<a 
 										href='https://github.com/raualex/crrt-teaching-tool-v2' 
 										className='textbook-link'
@@ -30,13 +27,13 @@ class InputCard extends Component {
 
 								<input 
 									type='text'
-									name={medicine}
+									name={dosage}
 									value={isNaN(currentInput) ? 0 : currentInput}
-									onChange={event => handleNumberChange(event)}
+									onChange={event => handleInputChange(event)}
 								/>
 								<div className='input-error-container'>
 									<p className='input-error-text'>{
-										dosageErrors.includes(medicine) ? errorMessages[medicine] : ''
+										dosageErrors.includes(dosage) ? errorMessages[dosage] : ''
 									}
 									</p>
 								</div>
@@ -50,11 +47,11 @@ class InputCard extends Component {
 									<input 
 										type='radio'
 										name='modality'
-										value='Pre-filter CVVH'
-										checked={currentInput.modality === 'Pre-filter CVVH'}
-										onChange={this.handleStringChange}
+										value={dosage}
+										checked={currentInput.modality === dosage}
+										onChange={event => handleInputChange(event)}
 									/>
-									Pre-filter CVVH
+									{ dosage }
 										<a 
 										href='https://github.com/raualex/crrt-teaching-tool-v2' 
 										className='textbook-link'

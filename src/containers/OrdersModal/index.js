@@ -45,8 +45,8 @@ export class OrdersModal extends Component {
 	}
 
 	checkForInvalidInputs = () => {
-		const { requiredRanges, dosagesWithNumValues } = orderDosages
-		const invalidEntries = dosagesWithNumValues.reduce((wrongValues, medication) => {
+		const { requiredRanges, replacementFluidDosages } = orderDosages
+		const invalidEntries = replacementFluidDosages.reduce((wrongValues, medication) => {
 			if(this.state[medication] < requiredRanges[medication].min || this.state[medication] > requiredRanges[medication].max) {
 				wrongValues.push(medication)
 			}
@@ -150,7 +150,12 @@ export class OrdersModal extends Component {
 		} = this.state
 
 		const { closeOrdersModal } = this.props;
-		const { errorMessages } = orderDosages;
+		const { 
+			errorMessages, 
+			replacementFluidDosages,
+			modalityDosages, 
+			otherDosages 
+		} = orderDosages;
 
 		return (
 			<form className='OrdersModal'>
@@ -178,64 +183,8 @@ export class OrdersModal extends Component {
 						type={'radio'} 
 						currentInputState={this.state}
 						handleInputChange={this.handleStringChange}
+						dosagesToDisplay={modalityDosages}
 					/>
-
-					<div className='modality-radio'>
-						<label>
-							<input 
-								type='radio'
-								name='modality'
-								value='Pre-filter CVVH'
-								checked={modality === 'Pre-filter CVVH'}
-								onChange={this.handleStringChange}
-							/>
-							Pre-filter CVVH
-								<a 
-								href='https://github.com/raualex/crrt-teaching-tool-v2' 
-								className='textbook-link'
-								>
-									<i className='far fa-question-circle'></i>
-								</a>
-						</label>
-					</div>
-
-					<div className='modality-radio'>
-						<label>
-							<input 
-								type='radio'
-								name='modality'
-								value='Post-filter CVVH'
-								checked={modality === 'Post-filter CVVH'}
-								onChange={this.handleStringChange}
-							/>
-							Post-filter CVVH
-								<a 
-								href='https://github.com/raualex/crrt-teaching-tool-v2' 
-								className='textbook-link'
-								>
-									<i className='far fa-question-circle'></i>
-								</a>
-						</label>
-					</div>
-
-					<div className='modality-radio'>
-						<label>
-							<input 
-								type='radio'
-								name='modality'
-								value='CVVHD'
-								checked={modality === 'CVVHD'}
-								onChange={this.handleStringChange}
-							/>
-							CVVHD
-								<a 
-								href='https://github.com/raualex/crrt-teaching-tool-v2' 
-								className='textbook-link'
-								>
-									<i className='far fa-question-circle'></i>
-								</a>
-						</label>
-					</div>
 				</section>
 
 				<section className='orders-replacement-fluid-container'>
@@ -253,6 +202,7 @@ export class OrdersModal extends Component {
 						type={'text'} 
 						currentInputState={this.state}
 						handleInputChange={this.handleNumberChange}
+						dosagesToDisplay={replacementFluidDosages}
 					/>
 
 				</section>
