@@ -61,15 +61,42 @@ describe('OrdersModal', () => {
 	});
 
 	describe('checkForInvalidInputs()', () => {
-		it('should return an array of medications if their entries are invalid', () => {})
+		it.skip('should return an array of medications if their entries are invalid', () => {})
 		
-		it('should return an empty array if all entries are valid', () => {})
+		it.skip('should return an empty array if all entries are valid', () => {})
 	})
 	
 	describe('validateOrder()', () => {
-		it('should set state if there are invalid entries', () => {})
+		let invalidEntries;
+
+		beforeEach(() => {
+			invalidEntries = ['sodium', 'chloride', 'magnesium']
+		})
+
+		it.skip('should set state if there are invalid entries', () => {})
 		
-		it('should set state if there all entries are valid', () => {})
+		it.skip('should set state if there all entries are valid', () => {
+
+		})
+
+		it.skip('should call checkForInvalidInputs()', () => {
+			wrapper.setState({
+				modality: 'Pre-filter CVVH',
+				sodium: 135,
+				potassium: 3,
+				chloride: 96,
+				bicarbonate: 25,
+				calcium: 2,
+				magnesium: 1,
+				phosphorous : 1,
+				grossUltraFiltration: 1500,
+				bloodFlowRate: 1,
+				replacementFluidFlowRate: 7,
+			})
+			wrapper.instance().checkForInvalidInputs = jest.fn()
+			wrapper.instance().validateOrder()
+			expect(wrapper.state().sodium).toEqual(135)
+		})
 	})
 	
 	describe('fillForm()', () => {
