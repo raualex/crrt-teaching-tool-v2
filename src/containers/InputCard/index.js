@@ -1,4 +1,4 @@
-import React, { Component } from 'React';
+import React, { Component } from 'react';
 import './InputCard.css';
 import orderDosages from '../../utils/orderDosages.js';
 
@@ -11,7 +11,7 @@ class InputCard extends Component {
 	}
 
 	render() {
-		const { enteredInput, handleNumberChange, medicine, dosageErrors } = this.props;
+		const { type, enteredInput, handleNumberChange, medicine, dosageErrors } = this.props;
 		const { errorMessages, dosageNames } = orderDosages;
 
 		return (
@@ -29,12 +29,12 @@ class InputCard extends Component {
 				<input 
 					type='text'
 					name={medicine}
-					value={isNaN(`${medicine}`) ? 0 : {medicine}}
+					value={isNaN(enteredInput) ? 0 : enteredInput}
 					onChange={event => handleNumberChange(event)}
 				/>
 				<div className='input-error-container'>
 					<p className='input-error-text'>{
-						dosageErrors.includes({medicine}) ? errorMessages[medicine] : ''
+						dosageErrors.includes(medicine) ? errorMessages[medicine] : ''
 					}
 					</p>
 				</div>
