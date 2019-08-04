@@ -99,15 +99,24 @@ describe('OrdersModal', () => {
 	})
 	
 	describe('validateOrder()', () => {
-		let invalidEntries;
-
 		beforeEach(() => {
-			invalidEntries = ['sodium', 'chloride', 'magnesium']
+			const mockEvent = {
+				preventDefault: jest.fn()
+			}
 		})
 
-		it.skip('should set state if there are invalid entries', () => {})
+		it('should set state if there are invalid entries', () => {
+			wrapper.instance().clearInputs(mockEvent)
+			wrapper.setState({ readyForSubmission: true })
+			wrapper.instance().checkForInvalidInputs = jest.fn(() => ['sodium'])
+			wrapper.instance().validateOrder()
+			expect(wrapper.state().dosageErrors).toEqual(['sodium'])
+			expect(wrapper.state().readyForSubmission).toEqual(false)
+		})
 		
 		it.skip('should set state if there all entries are valid', () => {
+			wrapper.instance().clearInputs(mockEvent)
+			wrapper.instance().checkForInvalidInputs = jest.fn(() => [])
 
 		})
 
