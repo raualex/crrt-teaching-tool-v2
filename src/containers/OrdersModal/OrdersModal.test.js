@@ -99,6 +99,68 @@ describe('OrdersModal', () => {
 		})
 	})
 	
+	
+	describe('toggleCheckBoxes()', () => {
+		const mockEvent = {
+			target: {
+				name: 'd5W',
+				value: false
+			},
+			preventDefault: jest.fn()
+		}
+		it('should set state for properties with boolean types', () => {
+			expect(wrapper.state().d5W).toEqual(false)
+			wrapper.instance().toggleCheckBoxes(mockEvent)
+			
+			expect(wrapper.state().d5W).toEqual(true)
+			
+			wrapper.instance().toggleCheckBoxes(mockEvent)
+			expect(wrapper.state().d5W).toEqual(false)
+		});
+	});
+	
+	describe('submitNewOrder()', () => {
+		it('should call submitOrder()', () => {
+			wrapper.instance().submitNewOrder(mockEvent)
+			expect(wrapper.instance().props.submitOrder).toHaveBeenCalled()
+		});
+
+		it('should call closeOrdersModal()', () => {
+			wrapper.instance().submitNewOrder(mockEvent)
+			expect(wrapper.instance().props.closeOrdersModal).toHaveBeenCalled()
+		});
+	});
+
+	describe('clearInputs()', () => {
+		it('should reset state to default values', () => {
+			wrapper.setState({
+												modality: 'Pre-filter CVVH',
+												sodium: 1,
+												potassium: 2,
+												chloride: 3,
+												bicarbonate: 1,
+												calcium: 2,
+												magnesium: 3,
+												phosphorous : 4,
+												grossUltraFiltration: 2,
+												bloodFlowRate: 1,
+												replacementFluidFlowRate: 7,
+												saline3Percent: true,
+												d5W: false,
+												sodiumPhosphate15mmol100ml: true,
+												anticoagulation: 'Citrate',
+												readyForSubmission: false,
+												dosageErrors: ['sodium']
+											})
+			expect(wrapper.state().sodium).toEqual(1)
+			expect(wrapper.state().anticoagulation).toEqual('Citrate')
+			expect(wrapper.state().dosageErrors).toEqual(['sodium'])
+			wrapper.instance().clearInputs(mockEvent)
+			expect(wrapper.state().sodium).toEqual(0)
+			expect(wrapper.state().anticoagulation).toEqual('None')
+			expect(wrapper.state().dosageErrors).toEqual([])
+		});
+	});
 	describe('fillForm()', () => {
 		const mockEvent = {
 			preventDefault: jest.fn()
@@ -140,65 +202,9 @@ describe('OrdersModal', () => {
 			expect(wrapper.instance().validateOrder).toHaveBeenCalled()
 		})
 	})
-	
-	describe('toggleCheckBoxes()', () => {
-		const mockEvent = {
-			target: {
-				name: 'd5W',
-				value: false
-			},
-			preventDefault: jest.fn()
-		}
-		it('should set state for properties with boolean types', () => {
-			expect(wrapper.state().d5W).toEqual(false)
-			wrapper.instance().toggleCheckBoxes(mockEvent)
-			
-			expect(wrapper.state().d5W).toEqual(true)
-			
-			wrapper.instance().toggleCheckBoxes(mockEvent)
-			expect(wrapper.state().d5W).toEqual(false)
-		});
-	});
-	
-	describe('submitNewOrder()', () => {
-		it('should call submitOrder()', () => {
-			wrapper.instance().submitNewOrder(mockEvent)
-			expect(wrapper.instance().props.submitOrder).toHaveBeenCalled()
-		});
-	});
-
-	describe('clearInputs()', () => {
-		it('should reset state to default values', () => {
-			wrapper.setState({
-												modality: 'Pre-filter CVVH',
-												sodium: 1,
-												potassium: 2,
-												chloride: 3,
-												bicarbonate: 1,
-												calcium: 2,
-												magnesium: 3,
-												phosphorous : 4,
-												grossUltraFiltration: 2,
-												bloodFlowRate: 1,
-												replacementFluidFlowRate: 7,
-												saline3Percent: true,
-												d5W: false,
-												sodiumPhosphate15mmol100ml: true,
-												anticoagulation: 'Citrate',
-												readyForSubmission: false,
-												dosageErrors: ['sodium']
-											})
-			expect(wrapper.state().sodium).toEqual(1)
-			expect(wrapper.state().anticoagulation).toEqual('Citrate')
-			expect(wrapper.state().dosageErrors).toEqual(['sodium'])
-			wrapper.instance().clearInputs(mockEvent)
-			expect(wrapper.state().sodium).toEqual(0)
-			expect(wrapper.state().anticoagulation).toEqual('None')
-			expect(wrapper.state().dosageErrors).toEqual([])
-		});
-	});
 });
 
+	
 describe('mapStateToProps()', () => {
 	it('should return an object with the orders array', () => {
 		const mockState = {

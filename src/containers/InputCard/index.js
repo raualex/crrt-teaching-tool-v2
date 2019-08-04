@@ -13,7 +13,8 @@ class InputCard extends Component {
 
 		return (
 				<article className='input-container'>
-					{ type === 'text' &&
+					{ 
+						type === 'text' &&
 							<div className='InputCard-text'>
 								<div className='header-info-container'>
 									<h4>{ dosageNames[dosage] }</h4>
@@ -55,10 +56,11 @@ class InputCard extends Component {
 									/>
 									{ dosage }
 
-									{ dosage !== 'None' &&
+									{ 
+										dosage !== 'None' &&
 											<a 
-											href='https://github.com/raualex/crrt-teaching-tool-v2' 
-											className='textbook-link'
+												href='https://github.com/raualex/crrt-teaching-tool-v2' 
+												className='textbook-link'
 											>
 												<i className='far fa-question-circle'></i>
 											</a>
