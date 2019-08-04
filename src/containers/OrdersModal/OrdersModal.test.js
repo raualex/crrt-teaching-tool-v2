@@ -122,23 +122,10 @@ describe('OrdersModal', () => {
 			expect(wrapper.state().readyForSubmission).toEqual(true)
 		})
 
-		it.skip('should call checkForInvalidInputs()', () => {
-			wrapper.setState({
-				modality: 'Pre-filter CVVH',
-				sodium: 135,
-				potassium: 3,
-				chloride: 96,
-				bicarbonate: 25,
-				calcium: 2,
-				magnesium: 1,
-				phosphorous : 1,
-				grossUltraFiltration: 1500,
-				bloodFlowRate: 1,
-				replacementFluidFlowRate: 7,
-			})
-			wrapper.instance().checkForInvalidInputs = jest.fn()
+		it('should call checkForInvalidInputs()', () => {
+			wrapper.instance().checkForInvalidInputs = jest.fn(() => [])
 			wrapper.instance().validateOrder()
-			expect(wrapper.state().sodium).toEqual(135)
+			expect(wrapper.instance().checkForInvalidInputs).toHaveBeenCalled()
 		})
 	})
 	
