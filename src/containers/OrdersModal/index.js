@@ -74,7 +74,7 @@ export class OrdersModal extends Component {
 
 	submitNewOrder = event => {
 		event.preventDefault();
-		const { submitOrder, orders, closeOrdersModal } = this.props
+		const { submitOrder, closeOrdersModal } = this.props
 		const newOrder = {...this.state, id: uuidv4()}
 		
 		submitOrder(newOrder)
@@ -128,28 +128,14 @@ export class OrdersModal extends Component {
 
 	render() {
 		const {
-			modality,
-			sodium,
-			potassium,
-			chloride,
-			bicarbonate,
-			calcium,
-			magnesium,
-			phosphorous ,
-			grossUltraFiltration,
-			bloodFlowRate,
-			replacementFluidFlowRate,
 			saline3Percent,
 			d5W,
 			sodiumPhosphate15mmol100ml,
-			anticoagulation,
-			readyForSubmission,
-			dosageErrors
+			readyForSubmission
 		} = this.state
 
 		const { closeOrdersModal } = this.props;
-		const { 
-			errorMessages, 
+		const {
 			replacementFluidDosages,
 			modalityDosages, 
 			anticoagulationDosages 

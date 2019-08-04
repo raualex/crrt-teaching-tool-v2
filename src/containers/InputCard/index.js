@@ -3,9 +3,6 @@ import './InputCard.css';
 import orderDosages from '../../utils/orderDosages.js';
 
 class InputCard extends Component {
-	constructor(props) {
-		super(props);
-	}
 
 	render() {
 		const { type, currentInput, handleInputChange, dosage, dosageErrors, radioButtonCategory } = this.props;

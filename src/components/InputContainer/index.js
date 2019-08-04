@@ -1,6 +1,5 @@
 import React from 'react';
 import './InputContainer.css';
-import orderDosages from '../../utils/orderDosages.js';
 import InputCard from '../../containers/InputCard';
 
 const InputContainer = ({ type, currentInputState, handleInputChange, dosagesToDisplay, radioButtonCategory }) => {

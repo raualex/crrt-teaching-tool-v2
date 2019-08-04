@@ -129,7 +129,6 @@ describe('OrdersModal', () => {
 		})
 	})
 	
-	
 	describe('toggleCheckBoxes()', () => {
 		const mockEvent = {
 			target: {
