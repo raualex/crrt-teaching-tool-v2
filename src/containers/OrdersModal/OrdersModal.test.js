@@ -3,6 +3,7 @@ import { OrdersModal, mapStateToProps, mapDispatchToProps } from './';
 import { shallow } from 'enzyme';
 import mockOrders from '../../utils/mockOrders';
 import defaultState from '../../utils/mockOrders';
+import orderDosages from '../../utils/orderDosages.js';
 
 describe('OrdersModal', () => {
 	let wrapper;
@@ -61,9 +62,40 @@ describe('OrdersModal', () => {
 	});
 
 	describe('checkForInvalidInputs()', () => {
-		it.skip('should return an array of medications if their entries are invalid', () => {})
+		it('should return an array of medications if their entries are invalid', () => {
+			wrapper.setState({
+				modality: 'Pre-filter CVVH',
+				sodium: 1359876,
+				potassium: 3,
+				chloride: 96,
+				bicarbonate: 25,
+				calcium: 2,
+				magnesium: 1,
+				phosphorous : 1,
+				grossUltraFiltration: 1500,
+				bloodFlowRate: 1,
+				replacementFluidFlowRate: 7,
+			})
+			expect(wrapper.instance().checkForInvalidInputs()).toEqual(['sodium'])
+		})
 		
-		it.skip('should return an empty array if all entries are valid', () => {})
+		it('should return an empty array if all entries are valid', () => {
+			wrapper.setState({
+				modality: 'Pre-filter CVVH',
+				sodium: 135,
+				potassium: 3,
+				chloride: 96,
+				bicarbonate: 25,
+				calcium: 2,
+				magnesium: 1,
+				phosphorous : 1,
+				grossUltraFiltration: 1500,
+				bloodFlowRate: 1,
+				replacementFluidFlowRate: 7,
+			})
+			wrapper.instance().checkForInvalidInputs()
+			expect(wrapper.instance().checkForInvalidInputs()).toEqual([])
+		})
 	})
 	
 	describe('validateOrder()', () => {
