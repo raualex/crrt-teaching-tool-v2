@@ -204,7 +204,7 @@ describe('OrdersModal', () => {
 	})
 });
 
-	
+
 describe('mapStateToProps()', () => {
 	it('should return an object with the orders array', () => {
 		const mockState = {

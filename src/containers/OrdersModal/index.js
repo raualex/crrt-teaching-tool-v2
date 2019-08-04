@@ -77,9 +77,7 @@ export class OrdersModal extends Component {
 		const { submitOrder, orders, closeOrdersModal } = this.props
 		const newOrder = {...this.state, id: uuidv4()}
 		
-		if(!orders.includes(newOrder)) {
-			submitOrder(newOrder)
-		}
+		submitOrder(newOrder)
 		closeOrdersModal(event)
 	}
 
