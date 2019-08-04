@@ -114,10 +114,12 @@ describe('OrdersModal', () => {
 			expect(wrapper.state().readyForSubmission).toEqual(false)
 		})
 		
-		it.skip('should set state if there all entries are valid', () => {
+		it('should set state if there all entries are valid', () => {
 			wrapper.instance().clearInputs(mockEvent)
 			wrapper.instance().checkForInvalidInputs = jest.fn(() => [])
-
+			wrapper.instance().validateOrder()
+			expect(wrapper.state().dosageErrors).toEqual([])
+			expect(wrapper.state().readyForSubmission).toEqual(true)
 		})
 
 		it.skip('should call checkForInvalidInputs()', () => {
