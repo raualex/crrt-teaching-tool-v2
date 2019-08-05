@@ -1,3 +1,20 @@
+.btn-active {
+  border: solid 2px #000;
+  outline: none;
+}
+
+.data-output-btn {
+  height: 100%;
+  width: 147px;
+}
+
+.modalBtnContainer {
+  display: flex;
+  height: 56px;
+  justify-content: center;
+  width: 100%;
+}
+
 .orders-btn {
   background-color: #f00;
   color: #fff;
@@ -7,4 +24,21 @@
   margin: 1rem 1rem 1rem 0;
   cursor: pointer;
   font-size: 1rem;
+}
+
+/*Can comment this out if it just doesn't end up working*/
+.simulator {
+  /* align-items: center;
+  display: flex;
+  flex-direction: column;*/
+  height: 100%;
+  /*justify-content: center;
+  position: absolute;*/
+  width: 100%;
+  /*z-index: 1;*/
+}
+
+body, #root, .App {
+  height: 100vh;
+  width: 100vw;
 }
