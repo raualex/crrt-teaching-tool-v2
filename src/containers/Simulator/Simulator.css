@@ -4,6 +4,8 @@
 }
 
 .data-output-btn {
+  background-color: #fff;
+  color: #000;
   height: 100%;
   width: 147px;
 }
