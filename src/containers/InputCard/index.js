@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './InputCard.css';
-import orderDosages from '../../utils/orderDosages.js';
+import orderDosages from '../../Utils/orderDosages.js';
 
 class InputCard extends Component {
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './OrdersModal.css';
 import { connect } from 'react-redux';
 import { submitOrder } from '../../Actions/ordersActions';
-import orderDosages from '../../utils/orderDosages.js';
+import orderDosages from '../../Utils/orderDosages.js';
 import InputContainer from '../../components/InputContainer';
 const uuidv4 = require('uuid/v4');
 
