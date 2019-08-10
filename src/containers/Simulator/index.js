@@ -54,43 +54,45 @@ export class Simulator extends Component {
 		      { showOrdersModal === true &&
 		      	<OrdersModal closeOrdersModal={event => this.toggleOrdersModal(event)}/>
 		      }
-          <div className='modalBtnContainer'>
-            <button 
-              name='History of Present Illness'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'History of Present Illness' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >History of Present Illness</button>
-            <button 
-              name='Input/Output'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'Input/Output' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >Input/Output</button>
-            <button 
-              name='Vitals'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'Vitals' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >Vitals</button>
-            <button 
-              name='Laboratory Data'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'Laboratory Data' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >Laboratory Data</button>
-            <button 
-              name='Medications'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'Medications' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >Medications</button>
-            <button 
-              name='Imaging'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'Imaging' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >Imaging</button>
-            <button 
-              name='Physical Exam'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'Physical Exam' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >Physical Exam</button>
-          </div>
+          { showOrdersModal === false &&
+            <div className='modalBtnContainer'>
+              <button 
+                name='History of Present Illness'
+                onClick={(event) => this.handleClick(event)}
+                className={btnClicked === 'History of Present Illness' ? 'btn-active' : 'data-output-btn'}
+              >History of Present Illness</button>
+              <button 
+                name='Input/Output'
+                onClick={(event) => this.handleClick(event)}
+                className={btnClicked === 'Input/Output' ? 'btn-active' : 'data-output-btn'}
+              >Input/Output</button>
+              <button 
+                name='Vitals'
+                onClick={(event) => this.handleClick(event)}
+                className={btnClicked === 'Vitals' ? 'btn-active' : 'data-output-btn'}
+              >Vitals</button>
+              <button 
+                name='Laboratory Data'
+                onClick={(event) => this.handleClick(event)}
+                className={btnClicked === 'Laboratory Data' ? 'btn-active' : 'data-output-btn'}
+              >Laboratory Data</button>
+              <button 
+                name='Medications'
+                onClick={(event) => this.handleClick(event)}
+                className={btnClicked === 'Medications' ? 'btn-active' : 'data-output-btn'}
+              >Medications</button>
+              <button 
+                name='Imaging'
+                onClick={(event) => this.handleClick(event)}
+                className={btnClicked === 'Imaging' ? 'btn-active' : 'data-output-btn'}
+              >Imaging</button>
+              <button 
+                name='Physical Exam'
+                onClick={(event) => this.handleClick(event)}
+                className={btnClicked === 'Physical Exam' ? 'btn-active' : 'physical-exam-output-btn'}
+              >Physical Exam</button>
+            </div>
+          }
         </div>
       )
     } else {
@@ -107,45 +109,49 @@ export class Simulator extends Component {
 	        </div>
 	        { showOrdersModal === true &&
 	      	  <OrdersModal closeOrdersModal={event => this.toggleOrdersModal(event)}/>
-	        }
-          <div className='modalBtnContainer'>
-            <button 
-              name='History of Present Illness'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'History of Present Illness' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >History of Present Illness</button>
-            <button 
-              name='Input/Output'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'Input/Output' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >Input/Output</button>
-            <button 
-              name='Vitals'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'Vitals' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >Vitals</button>
-            <button 
-              name='Laboratory Data'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'Laboratory Data' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >Laboratory Data</button>
-            <button 
-              name='Medications'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'Medications' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >Medications</button>
-            <button 
-              name='Imaging'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'Imaging' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >Imaging</button>
-            <button 
-              name='Physical Exam'
-              onClick={(event) => this.handleClick(event)}
-              className={btnClicked === 'Physical Exam' ? 'data-output-btn btn-active' : 'data-output-btn'}
-            >Physical Exam</button>
-          </div>
-          <DataOutputModal handleClick={this.handleClick} />
+          }
+          { showOrdersModal === false &&
+            <div className='dataOutputContainer'>
+              <div className='modalBtnContainer'>
+                <button 
+                  name='History of Present Illness'
+                  onClick={(event) => this.handleClick(event)}
+                  className={btnClicked === 'History of Present Illness' ? 'btn-active' : 'data-output-btn'}
+                >History of Present Illness</button>
+                <button 
+                  name='Input/Output'
+                  onClick={(event) => this.handleClick(event)}
+                  className={btnClicked === 'Input/Output' ? 'btn-active' : 'data-output-btn'}
+                >Input/Output</button>
+                <button 
+                  name='Vitals'
+                  onClick={(event) => this.handleClick(event)}
+                  className={btnClicked === 'Vitals' ? 'btn-active' : 'data-output-btn'}
+                >Vitals</button>
+                <button 
+                  name='Laboratory Data'
+                  onClick={(event) => this.handleClick(event)}
+                  className={btnClicked === 'Laboratory Data' ? 'btn-active' : 'data-output-btn'}
+                >Laboratory Data</button>
+                <button 
+                  name='Medications'
+                  onClick={(event) => this.handleClick(event)}
+                  className={btnClicked === 'Medications' ? 'btn-active' : 'data-output-btn'}
+                >Medications</button>
+                <button 
+                  name='Imaging'
+                  onClick={(event) => this.handleClick(event)}
+                  className={btnClicked === 'Imaging' ? 'btn-active' : 'data-output-btn'}
+                >Imaging</button>
+                <button 
+                  name='Physical Exam'
+                  onClick={(event) => this.handleClick(event)}
+                  className={btnClicked === 'Physical Exam' ? 'btn-active' : 'physical-exam-output-btn'}
+                >Physical Exam</button>
+              </div>
+              <DataOutputModal handleClick={this.handleClick} />
+            </div>
+          }
         </div>
       )
     }
