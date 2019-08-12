@@ -20,10 +20,15 @@ export class DataOutputModal extends Component {
 
     return(
       <div className='data-output-modal'>
-        <h1>{selectedModal}!</h1>
-        <button
-          onClick={() => this.handleClick()}
-        >X</button>
+        <div className='dataom-title-container'>
+          <h1
+            className='dataom-modal-title'
+          >{selectedModal}</h1>
+          <button
+            className='dataom-x-button'
+            onClick={() => this.handleClick()}
+          >X</button>
+        </div>
       </div>
     )
   }
