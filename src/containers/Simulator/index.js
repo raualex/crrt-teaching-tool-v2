@@ -42,7 +42,7 @@ export class Simulator extends Component {
     if (selectedModal === '') {
       return(
         <div>
-          <h1>CRRT SIMULATOR!</h1>
+          <h1 className='CRRT-title'>CRRT SIMULATOR v.2</h1>
           <div className='form-buttons-container'>
 		      	<button 
 		      		className='orders-btn form-btn'
@@ -55,6 +55,7 @@ export class Simulator extends Component {
 		      	<OrdersModal closeOrdersModal={event => this.toggleOrdersModal(event)}/>
 		      }
           { showOrdersModal === false &&
+          <div className='dataOutputContainer'>
             <div className='modalBtnContainer'>
               <button 
                 name='History of Present Illness'
@@ -92,13 +93,14 @@ export class Simulator extends Component {
                 className={btnClicked === 'Physical Exam' ? 'btn-active' : 'physical-exam-output-btn'}
               >Physical Exam</button>
             </div>
+          </div>
           }
         </div>
       )
     } else {
       return (
         <div className='simulator'>
-          <h1>CRRT SIMULATOR!</h1>
+          <h1 className='CRRT-title'>CRRT SIMULATOR v.2</h1>
           <div className='form-buttons-container'>
 	      	  <button 
 	      		  className='orders-btn form-btn'
@@ -149,7 +151,9 @@ export class Simulator extends Component {
                   className={btnClicked === 'Physical Exam' ? 'btn-active' : 'physical-exam-output-btn'}
                 >Physical Exam</button>
               </div>
-              <DataOutputModal handleClick={this.handleClick} />
+              <div className='modal-container'>
+                <DataOutputModal handleClick={this.handleClick} />
+              </div>
             </div>
           }
         </div>

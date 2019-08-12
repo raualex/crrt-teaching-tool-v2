@@ -1,4 +1,14 @@
+.CRRT-title {
+  background-color: #EFF7FE;
+  border: solid 4px #f2f2f2;
+  color: #3b8ed6;
+  height: 38px;
+  margin: 0;
+  padding: 21px;
+}
+
 .dataOutputContainer {
+  display: flex;
   height: 100vh;
   width: 100vw;
 }
@@ -8,7 +18,7 @@
 .physical-exam-output-btn {
   height: 100%;
   outline: none;
-  width: 160px;
+  /* width: 160px; */
 }
 
 .btn-active {
@@ -20,15 +30,15 @@
 }
 
 .data-output-btn {
-  background-color: #fff;
-  border-bottom: solid 1px #000;
+  background-color: #EFF7FE;
   border-left: solid 1px #000;
+  border-right: solid 1px #000;
   border-top: solid 1px #000;
   color: #000;
 }
 
 .physical-exam-output-btn {
-  background-color: #fff;
+  background-color: #EFF7FE;
   border-bottom: solid 1px #000;
   border-left: solid 1px #000;
   border-right: solid 1px #000;
@@ -37,10 +47,21 @@
 }
 
 .modalBtnContainer {
+  background-color: #EFF7FE;
   display: flex;
-  height: 56px;
+  flex-direction: column;
+  height: 80%;
   justify-content: center;
-  width: 100%;
+  width: 250px;
+}
+
+.modal-container {
+  height: 80.5%;
+  width: 82.35%;
+}
+
+.form-buttons-container {
+  background-color: #EFF7FE;
 }
 
 .orders-btn {

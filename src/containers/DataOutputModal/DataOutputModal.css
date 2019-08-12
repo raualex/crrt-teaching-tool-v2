@@ -1,9 +1,10 @@
 .data-output-modal {
   align-items: center;
+  background-color: #fff;
   border: solid 2px #000;
   display: flex;
   flex-direction: row;
-  height: 70%;
+  height: 99%;
   justify-content: center;
   width: 100%;
 }
