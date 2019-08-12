@@ -4,17 +4,30 @@ import { NavLink } from 'react-router-dom';
 
 function LandingPage() {
   return(
-    <div className='LandingPage'>
-      <h1>CRRT Teaching Tool v.2!!</h1>
-      <NavLink to="/simulator">
-        CRRT Simulator
-      </NavLink>
-      <NavLink to="/textbook">
-        CRRT Textbook
-      </NavLink>
-      <NavLink to="/calculator">
-        CRRT Calculator
-      </NavLink>
+    <div className='landing-page'>
+      <div className='lp-main-container'>
+        <h1 className='lp-main-title'>CRRT Teaching Tool v.2</h1>
+        <div className='lp-link-button-container'>
+          <NavLink 
+            className='lp-link-buttons'
+            to="/simulator"
+          >
+            CRRT Simulator
+          </NavLink>
+          <NavLink 
+            className='lp-link-buttons'
+            to="/textbook"
+          >
+            CRRT Textbook
+          </NavLink>
+          <NavLink 
+            className='lp-link-buttons'
+            to="/calculator"
+          >
+            CRRT Calculator
+          </NavLink>
+          </div>
+      </div>
     </div>
   )
 }
