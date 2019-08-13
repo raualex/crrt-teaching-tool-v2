@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './DataOutputModal.css';
-import { DataOutputTable } from '../DataOutputTable';
+import DataOutputTable from '../DataOutputTable';
 import { connect } from 'react-redux';
 import { setSelectedModal } from '../../Actions/selection-actions';
 
