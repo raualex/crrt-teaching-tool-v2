@@ -6,7 +6,7 @@ describe('DataOutputTable', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<DataOutputTable />)
+    wrapper = shallow(<DataOutputTable selectedModal={'Input/Output'} />)
   });
 
   it('matches the snapshot', () => {
