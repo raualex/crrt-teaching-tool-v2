@@ -30,7 +30,9 @@ export class DataOutputModal extends Component {
             onClick={() => this.handleClick()}
           >X</button>
         </div>
-        <DataOutputTable />
+        <div className='dataom-table-container'>
+          <DataOutputTable />
+        </div>
       </div>
     )
   }
