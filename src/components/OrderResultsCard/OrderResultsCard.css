@@ -1,0 +1,14 @@
+.OrderResultsCard {
+	border: 3px dotted orange;
+	margin: 1rem auto;
+	width: 70%;
+	height: 10rem;
+}
+
+ul {
+	width: 80%;
+}
+
+hr {
+	width: 80%;	
+}
