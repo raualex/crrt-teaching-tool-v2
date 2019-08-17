@@ -93,6 +93,8 @@ export class Simulator extends Component {
                 className={btnClicked === 'Physical Exam' ? 'btn-active' : 'physical-exam-output-btn'}
               >Physical Exam</button>
             </div>
+          {/* <OrderResultsFeed /> */}
+
           </div>
           }
         </div>

@@ -20,7 +20,6 @@ export class OrdersModal extends Component {
 			phosphorous : 0,
 			grossUltraFiltration: 0,
 			bloodFlowRate: 0,
-			//WHAT ARE THE ACCEPTABLE RANGES FOR BLOODFLOWRATE?
 			replacementFluidFlowRate: 0,
 			saline3Percent: false,
 			d5W: false,
@@ -38,7 +37,7 @@ export class OrdersModal extends Component {
 
 	handleNumberChange = event => {
 		const { name, value } = event.target
-		const parsedValue = parseInt(value)
+		const parsedValue = parseFloat(value)
 		this.setState({ 
 			[name]: parsedValue 
 		}, () => this.validateOrder())
@@ -121,7 +120,7 @@ export class OrdersModal extends Component {
 			magnesium: 1,
 			phosphorous : 1,
 			grossUltraFiltration: 1500,
-			bloodFlowRate: 1,
+			bloodFlowRate: 250,
 			replacementFluidFlowRate: 7,
 		}, () => this.validateOrder())		
 	}
@@ -184,7 +183,7 @@ export class OrdersModal extends Component {
 					</div>
 
 					<InputContainer
-						type={'text'} 
+						type={'number'} 
 						currentInputState={this.state}
 						handleInputChange={this.handleNumberChange}
 						dosagesToDisplay={replacementFluidDosages}
