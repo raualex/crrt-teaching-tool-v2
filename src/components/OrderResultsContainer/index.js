@@ -3,7 +3,7 @@ import OrderResultsCard from '../OrderResultsCard';
 import './OrderResultsContainer.css';
 const uuidv4 = require('uuid/v4');
 
-const OrderResultsContainer = (props) => {
+const OrderResultsContainer = ({ orderResults }) => {
 	const mockData = [
 		{
 			mockDate: '6:00 PM - Day 1',
@@ -26,6 +26,10 @@ const OrderResultsContainer = (props) => {
 		}
 	]
 
+	// const orderResultsCards = orderResults.map(result => {
+	// 	return <OrderResultsCard key={uuidv4()} {...result}/>
+	// })
+
 	const mockResultsCards = mockData.map(object => {
 		const { mockDate, mockMessages } = object
 		return <OrderResultsCard key={uuidv4()} date={mockDate} messages={mockMessages}/>
@@ -34,6 +38,7 @@ const OrderResultsContainer = (props) => {
 
 	return (
 		<div className='OrderResultsContainer'>
+			{/* { orderResultsCards } */}
 			{ mockResultsCards }
 		</div>
 	)

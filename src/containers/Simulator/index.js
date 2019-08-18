@@ -11,8 +11,46 @@ export class Simulator extends Component {
 		super(props);
 		this.state = {
       showOrdersModal: false,
-      btnClicked: ''
+      btnClicked: '',
+      ordersResults: []
+      //each order result will be an object consisting of timestamp and array of messages
 		}
+  }
+
+  componentDidUpdate(prevProps) {
+    const { orders } = this.props;
+    // Typical usage (don't forget to compare props):
+    if (orders !== prevProps.orders) {
+      // this.checkCurrentOrderResults()
+    }
+  }
+  
+  checkCurrentOrderResults = () => {
+    //sample orderResult
+    // {
+		// 	timeStamp: '10:00 AM - Day 1',
+		// 	messages: ['mock message','mock message']
+    // }
+    
+    //checks current order's input ranges against ranges in utils/orderResultsData.js
+    //if there are warnings, add them to messages array
+    //if there are no warnings, add 'CRRT is running smoothly. There were no reported issues since the previous update.' to messages array
+
+    //import ordersResults from utils
+    const { orders } = this.props
+    let messages = [];
+    const currentOrder = orders[orders.length-1]
+
+    for(medication in currentOrder) {
+      if(//medication is below ordersResults[medication].min) {
+        //add corresponding message
+      } else if(//medication is above ordersResults[medication].max) {
+        //add corresponding message
+      }
+    }
+
+    const newOrderResults = {}
+    const ordersResults = [...this.state.orderResults, newOrderResults]
   }
   
   handleClick = (event) => {
@@ -37,8 +75,8 @@ export class Simulator extends Component {
   }
 
   render() {
-    const { selectedModal } = this.props
-    const { showOrdersModal, btnClicked } = this.state
+    const { selectedModal, orders } = this.props
+    const { showOrdersModal, btnClicked, ordersResults } = this.state
   
     if (selectedModal === '') {
       return(
@@ -94,7 +132,7 @@ export class Simulator extends Component {
                 className={btnClicked === 'Physical Exam' ? 'btn-active' : 'physical-exam-output-btn'}
               >Physical Exam</button>
             </div>
-          <OrderResultsContainer />
+          <OrderResultsContainer ordersResults={ordersResults}/>
           </div>
           }
         </div>
