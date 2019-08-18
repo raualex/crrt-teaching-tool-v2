@@ -12,7 +12,10 @@ export class Simulator extends Component {
 		this.state = {
       showOrdersModal: false,
       btnClicked: '',
-      ordersResults: []
+      ordersResults: [],
+      currentTime: 0,
+      currentDay: 0,
+      amPm: 'AM'
       //each order result will be an object consisting of timestamp and array of messages
 		}
   }
@@ -37,20 +40,66 @@ export class Simulator extends Component {
     //if there are no warnings, add 'CRRT is running smoothly. There were no reported issues since the previous update.' to messages array
 
     //import ordersResults from utils
+    
     const { orders } = this.props
     let messages = [];
     const currentOrder = orders[orders.length-1]
 
     for(medication in currentOrder) {
-      if(//medication is below ordersResults[medication].min) {
-        //add corresponding message
-      } else if(//medication is above ordersResults[medication].max) {
-        //add corresponding message
+      
+      const belowRangeMessage = checkResultsForBelowRange(currentOrder, medication)
+      const aboveRangeMessage = checkResultsForAboveRange(currentOrder, medication)
+      
+      if(belowRangeMessage === aboveRangeMessage) {
+        messages.push(belowRangeMessage)
+      } else {
+        messages.push(belowRangeMessage)
+        messages.push(aboveRangeMessage)
       }
     }
-
-    const newOrderResults = {}
+    const timeStamp = createTimeStamp()
+    const newOrderResults = {
+      timeStamp,
+      messages
+    }
     const ordersResults = [...this.state.orderResults, newOrderResults]
+    this.setState({ ordersResults })
+  }
+
+  createTimeStamp = () => {
+    //const { currentTime, currentDay, amPm } = this.state
+    //increment currentTime & currentDay & adjust amPm
+    //this.checkForZeros()
+    //this.verifyDayCycle()
+    //this.check12HourFormat()
+    //this.checkAmPm()
+    //return `${checkHourlyHeaderForZeroes(currentTime)}:00 ${amPm} - Day ${currentDay}`;
+  }
+
+  checkResultsForBelowRange = (currentOrder, medication) => {
+    const { concerning, urgent, lethal } = currentOrder[medication].dosageRanges.belowRange;
+    if(currentOrder[medication] < concerning && currentOrder[medication] > urgent) {
+      return ordersResults[concerning]
+    } else if (currentOrder[medication] < urgent && currentOrder[medication] > lethal) {
+      return ordersResults[urgent]
+    } else if (currentOrder[medication] < lethal){
+      return ordersResults[lethal]
+    } else {
+      return 'CRRT is running smoothly. There were no reported issues since the previous update.'
+    }
+  }
+
+  checkResultsForAboveRange = (currentOrder, medication) => {
+    const { concerning, urgent, lethal } = currentOrder[medication].dosageRanges.aboveRange;
+    if(currentOrder[medication] > concerning && currentOrder[medication] < urgent) {
+      return ordersResults[concerning]
+    } else if (currentOrder[medication] > urgent && currentOrder[medication] < lethal) {
+      return ordersResults[urgent]
+    } else if (currentOrder[medication] > lethal){
+      return ordersResults[lethal]
+    } else {
+      return 'CRRT is running smoothly. There were no reported issues since the previous update.'
+    }
   }
   
   handleClick = (event) => {
