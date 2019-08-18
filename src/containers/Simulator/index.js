@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { setSelectedModal } from '../../Actions/selection-actions';
 import DataOutputModal from '../DataOutputModal';
 import OrdersModal from '../OrdersModal';
+import OrderResultsContainer from '../../components/OrderResultsContainer';
 
 export class Simulator extends Component {
 	constructor(props) {
@@ -41,7 +42,7 @@ export class Simulator extends Component {
   
     if (selectedModal === '') {
       return(
-        <div>
+        <div className='Simulator'>
           <h1 className='CRRT-title'>CRRT SIMULATOR v.2</h1>
           <div className='form-buttons-container'>
 		      	<button 
@@ -93,8 +94,7 @@ export class Simulator extends Component {
                 className={btnClicked === 'Physical Exam' ? 'btn-active' : 'physical-exam-output-btn'}
               >Physical Exam</button>
             </div>
-          {/* <OrderResultsFeed /> */}
-
+          <OrderResultsContainer />
           </div>
           }
         </div>
