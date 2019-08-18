@@ -164,8 +164,9 @@ export class Simulator extends Component {
   }
 }
 
-export const mapStateToProps = (state) => ({
-  selectedModal: state.selectedModal
+export const mapStateToProps = ({ selectedModal, orders }) => ({
+  selectedModal,
+  orders
 })
 
 export const mapDispatchToProps = (dispatch) => ({
