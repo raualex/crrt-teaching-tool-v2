@@ -1,7 +1,6 @@
 import React from 'react';
 import OrderResultsCard from '../';
 import { shallow } from 'enzyme';
-import orderDosages from '../../utils/orderDosages.js';
 
 describe('OrderResultsCard', () => {
   let wrapper;
