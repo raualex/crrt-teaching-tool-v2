@@ -1,5 +1,5 @@
 import React from 'react';
-import OrderResultsCard from '../';
+import OrderResultsCard from './';
 import { shallow } from 'enzyme';
 
 describe('OrderResultsCard', () => {
