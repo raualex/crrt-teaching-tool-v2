@@ -20,12 +20,17 @@ export class DataOutputTable extends Component {
     ) {
       modalNameForClass = selectedModal.replace(/\s/g, '-')
       modalNameForKeys = selectedModal.replace(/\s/g, '')
-      modalTableRowKeys = modalKeys[modalNameForKeys].map((keyName) => {
-          return <tr key={uuidv4()}><td key={uuidv4()}>{keyName}</td></tr>
+      modalTableRowKeys = modalKeys[modalNameForKeys].map((keyName, index) => {
+          return <tr key={uuidv4()}><td key={uuidv4()} className={'table-key index'+index}>{keyName}</td></tr>
       });
 
       return(
         <table className={'dataot-' + modalNameForClass}>
+          <thead>
+            <tr>
+              <th className='blank-table-head'></th>
+            </tr>
+          </thead>
           <tbody>
             {modalTableRowKeys}
           </tbody>
