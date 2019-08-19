@@ -71,10 +71,63 @@ export class OrdersModal extends Component {
 		}
 	}
 
+	compileOrder = () => {
+		const {
+			modality,
+			sodium,
+			potassium,
+			chloride,
+			bicarbonate,
+			calcium,
+			magnesium,
+			phosphorous ,
+			grossUltraFiltration,
+			bloodFlowRate,
+			replacementFluidFlowRate,
+			saline3Percent,
+			d5W,
+			sodiumPhosphate15mmol100ml,
+			anticoagulation
+		} = this.state;
+
+		const order = {
+			id: uuidv4(),
+			timeStamp: this.createTimeStamp(),
+			dosages: {
+				modality,
+				sodium,
+				potassium,
+				chloride,
+				bicarbonate,
+				calcium,
+				magnesium,
+				phosphorous,
+				grossUltraFiltration,
+				bloodFlowRate,
+				replacementFluidFlowRate,
+				saline3Percent,
+				d5W,
+				sodiumPhosphate15mmol100ml,
+				anticoagulation
+			}
+		}
+		return order
+	}
+
+	createTimeStamp = () => {
+    //const { currentTime, currentDay, amPm } = this.state
+    //increment currentTime & currentDay & adjust amPm
+    //this.checkForZeros()
+    //this.verifyDayCycle()
+    //this.check12HourFormat()
+    //this.checkAmPm()
+    //return `${checkHourlyHeaderForZeroes(currentTime)}:00 ${amPm} - Day ${currentDay}`;
+  }
+
 	submitNewOrder = event => {
 		event.preventDefault();
 		const { submitOrder, closeOrdersModal } = this.props
-		const newOrder = {...this.state, id: uuidv4()}
+		const newOrder = this.compileOrder()
 		
 		submitOrder(newOrder)
 		closeOrdersModal(event)
