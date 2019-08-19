@@ -8,19 +8,38 @@ export class DataOutputTable extends Component {
 
   render() {
     let { selectedModal } = this.props
-    let modalNameForClass = selectedModal.replace(/\s/g, '-')
-    let modalNameForKeys = selectedModal.replace(/\s/g, '')
-    let modalTableRowKeys = modalKeys[modalNameForKeys].map((keyName) => {
-        return <tr key={uuidv4()}><td key={uuidv4()}>{keyName}</td></tr>
-    });
+    let modalNameForClass;
+    let modalNameForKeys;
+    let modalTableRowKeys;
 
-    return(
-      <table className={'dataot-' + modalNameForClass}>
-        <tbody>
-          {modalTableRowKeys}
-        </tbody>
-      </table>
-    )
+    if (
+      selectedModal === 'Laboratory Data' || 
+      selectedModal === 'Input/Output' || 
+      selectedModal === 'Vitals' || 
+      selectedModal === 'Medications'
+    ) {
+      modalNameForClass = selectedModal.replace(/\s/g, '-')
+      modalNameForKeys = selectedModal.replace(/\s/g, '')
+      modalTableRowKeys = modalKeys[modalNameForKeys].map((keyName) => {
+          return <tr key={uuidv4()}><td key={uuidv4()}>{keyName}</td></tr>
+      });
+
+      return(
+        <table className={'dataot-' + modalNameForClass}>
+          <tbody>
+            {modalTableRowKeys}
+          </tbody>
+        </table>
+      )
+    } else {
+      return(
+        <div className={'dataot-' + modalNameForClass}>
+          <ul>
+            <li>List Items from case in Redux</li>
+          </ul>
+        </div>
+      )
+    }
   }
 }
 

@@ -25,6 +25,26 @@ const modalKeys = {
     "Renal Epithelial Casts",
     "Blood Culture",
     "Urine Culture"
+  ],
+  'Input/Output': [
+    'Calcium Gluconate',
+    'Albumin',
+    'Vancomycin',
+    'Tube Feeds',
+    'Total Input',
+    'Net Input/Output',
+    'Cumulative Input/Output'
+  ],
+  'Vitals': [
+    'Temperature',
+    'Heart Rate',
+    'Respiratory Rate',
+    'Blood Pressure',
+    'Weight'
+  ],
+  'Medications': [
+    'Scheduled',
+    'Infusions'
   ]
 }
 
