@@ -8,7 +8,7 @@ const InputContainer = ({ type, currentInputState, handleInputChange, dosagesToD
 			return <InputCard 
 								type={type}
 								radioButtonCategory={radioButtonCategory}
-								currentInput={type === 'text' ? currentInputState[dosage] : currentInputState}
+								currentInput={type === 'number' ? currentInputState[dosage] : currentInputState}
 								handleInputChange={handleInputChange}
 								dosage={dosage} 
 								dosageErrors={currentInputState.dosageErrors}

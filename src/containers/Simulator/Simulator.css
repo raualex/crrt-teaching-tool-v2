@@ -1,6 +1,9 @@
+.Simulator {
+  height: 100%;
+}
+
 .CRRT-title {
-  background-color: #EFF7FE;
-  border: solid 4px #f2f2f2;
+  background-color: #c8e9ff;
   color: #3b8ed6;
   height: 38px;
   margin: 0;
@@ -61,8 +64,8 @@
 }
 
 .form-buttons-container {
-  background-color: #EFF7FE;
-  border-bottom: solid 1px #f2f2f2;
+  background-color: #c8e9ff;
+  border-bottom: solid 1px #3b8ed6;
 }
 
 .orders-btn {
@@ -90,6 +93,5 @@
 }
 
 body, #root, .App {
-  height: 100vh;
   width: 100vw;
 }

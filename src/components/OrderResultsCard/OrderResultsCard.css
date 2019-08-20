@@ -1,0 +1,21 @@
+.OrderResultsCard {
+	margin: 1rem auto;
+	width: 70%;
+}
+
+.order-results-header {
+	text-align: left;
+}
+
+.order-results-message-container {
+	width: 80%;
+}
+
+.order-results-message {
+	text-align: left;
+}
+
+.order-results-break {
+  border: 1px solid #efefef;
+	width: 70%;	
+}

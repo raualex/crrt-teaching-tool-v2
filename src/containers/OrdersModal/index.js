@@ -20,7 +20,6 @@ export class OrdersModal extends Component {
 			phosphorous : 0,
 			grossUltraFiltration: 0,
 			bloodFlowRate: 0,
-			//WHAT ARE THE ACCEPTABLE RANGES FOR BLOODFLOWRATE?
 			replacementFluidFlowRate: 0,
 			saline3Percent: false,
 			d5W: false,
@@ -38,7 +37,7 @@ export class OrdersModal extends Component {
 
 	handleNumberChange = event => {
 		const { name, value } = event.target
-		const parsedValue = parseInt(value)
+		const parsedValue = parseFloat(value)
 		this.setState({ 
 			[name]: parsedValue 
 		}, () => this.validateOrder())
@@ -72,10 +71,63 @@ export class OrdersModal extends Component {
 		}
 	}
 
+	compileOrder = () => {
+		const {
+			modality,
+			sodium,
+			potassium,
+			chloride,
+			bicarbonate,
+			calcium,
+			magnesium,
+			phosphorous ,
+			grossUltraFiltration,
+			bloodFlowRate,
+			replacementFluidFlowRate,
+			saline3Percent,
+			d5W,
+			sodiumPhosphate15mmol100ml,
+			anticoagulation
+		} = this.state;
+
+		const order = {
+			id: uuidv4(),
+			timeStamp: this.createTimeStamp(),
+			dosages: {
+				modality,
+				sodium,
+				potassium,
+				chloride,
+				bicarbonate,
+				calcium,
+				magnesium,
+				phosphorous,
+				grossUltraFiltration,
+				bloodFlowRate,
+				replacementFluidFlowRate,
+				saline3Percent,
+				d5W,
+				sodiumPhosphate15mmol100ml,
+				anticoagulation
+			}
+		}
+		return order
+	}
+
+	createTimeStamp = () => {
+    //const { currentTime, currentDay, amPm } = this.state
+    //increment currentTime & currentDay & adjust amPm
+    //this.checkForZeros()
+    //this.verifyDayCycle()
+    //this.check12HourFormat()
+    //this.checkAmPm()
+    //return `${checkHourlyHeaderForZeroes(currentTime)}:00 ${amPm} - Day ${currentDay}`;
+  }
+
 	submitNewOrder = event => {
 		event.preventDefault();
 		const { submitOrder, closeOrdersModal } = this.props
-		const newOrder = {...this.state, id: uuidv4()}
+		const newOrder = this.compileOrder()
 		
 		submitOrder(newOrder)
 		closeOrdersModal(event)
@@ -121,7 +173,7 @@ export class OrdersModal extends Component {
 			magnesium: 1,
 			phosphorous : 1,
 			grossUltraFiltration: 1500,
-			bloodFlowRate: 1,
+			bloodFlowRate: 250,
 			replacementFluidFlowRate: 7,
 		}, () => this.validateOrder())		
 	}
@@ -143,142 +195,146 @@ export class OrdersModal extends Component {
 
 		return (
 			<form className='OrdersModal'>
-				<header className='orders-header'>
-					<h2>Orders</h2>
-					<button onClick={event => this.fillForm(event)}>Add provisional values</button>
+				<div className='orders-modal-sidebar'>
+				</div>
+				<div className='orders-modal-main-content'>
+					<header className='orders-modal-header'>
+						<h2 className='orders-modal-h2'>Orders</h2>
+						<button onClick={event => this.fillForm(event)}>Add provisional values</button>
+						<button 
+							className='orders-modal-close-btn-top'
+							onClick={event => closeOrdersModal(event)}
+						>X</button>
+					</header>
+
+					<section className='orders-modality-container'>
+						<div className='header-info-container'>
+							<h3>Modality</h3>
+							<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								className='textbook-link'
+							>
+								<i className='far fa-question-circle'></i>
+							</a>
+						</div>
+
+						<InputContainer
+							type={'radio'} 
+							currentInputState={this.state}
+							handleInputChange={this.handleStringChange}
+							dosagesToDisplay={modalityDosages}
+							radioButtonCategory={'modality'}
+						/>
+					</section>
+
+					<section className='orders-replacement-fluid-container'>
+						<div className='header-info-container'>
+							<h3>Replacement Fluid</h3>
+							<a 
+								href='https://github.com/raualex/crrt-teaching-tool-v2' 
+								className='textbook-link'
+							>
+								<i className='far fa-question-circle'></i>
+							</a>
+						</div>
+
+						<InputContainer
+							type={'number'} 
+							currentInputState={this.state}
+							handleInputChange={this.handleNumberChange}
+							dosagesToDisplay={replacementFluidDosages}
+							radioButtonCategory={null}
+						/>
+
+					</section>
+					<section className='orders-modality-other-container'>
+						<h3>Other Fluids/Medications</h3>
+						<div className='other-fluids-meds-checkbox'>
+							<label>
+								<input 
+									type='checkbox'
+									name='saline3Percent'
+									value={saline3Percent}
+									checked={saline3Percent === true}
+									onChange={event => this.toggleCheckBoxes(event)}
+								/>
+								Saline 3%
+									<a 
+									href='https://github.com/raualex/crrt-teaching-tool-v2' 
+									className='textbook-link'
+									>
+										<i className='far fa-question-circle'></i>
+									</a>
+							</label>
+						</div>
+
+						<div className='other-fluids-meds-checkbox'>
+							<label>
+								<input 
+									type='checkbox'
+									name='d5W'
+									value={d5W}
+									checked={d5W === true}
+									onChange={event => this.toggleCheckBoxes(event)}
+								/>
+								D5W
+									<a 
+									href='https://github.com/raualex/crrt-teaching-tool-v2' 
+									className='textbook-link'
+									>
+										<i className='far fa-question-circle'></i>
+									</a>
+							</label>
+						</div>
+
+						<div className='other-fluids-meds-checkbox'>
+							<label>
+								<input 
+									type='checkbox'
+									name='sodiumPhosphate15mmol100ml'
+									value={sodiumPhosphate15mmol100ml}
+									checked={sodiumPhosphate15mmol100ml === true}
+									onChange={event => this.toggleCheckBoxes(event)}
+								/>
+								Sodium Phosphate (15mmol and 100mL)
+									<a 
+									href='https://github.com/raualex/crrt-teaching-tool-v2' 
+									className='textbook-link'
+									>
+										<i className='far fa-question-circle'></i>
+									</a>
+							</label>
+						</div>
+					</section>
+
+					<section className='orders-modality-anticoagulation-container'>
+						<h3>Anticoagulation</h3>
+
+						<InputContainer
+							type={'radio'}
+							currentInputState={this.state}
+							handleInputChange={this.handleStringChange}
+							dosagesToDisplay={anticoagulationDosages}
+							radioButtonCategory={'anticoagulation'} 
+						/>
+					</section>
+
 					<button 
-						className='orders-modal-close-btn-top'
-						onClick={event => closeOrdersModal(event)}
-					>X</button>
-				</header>
+						className='submit-case-btn' 
+						onClick={event => this.submitNewOrder(event)}
+						disabled={!readyForSubmission}
+					>
+						Submit Order
+					</button>
 
-				<section className='orders-modality-container'>
-					<div className='header-info-container'>
-						<h3>Modality</h3>
-						<a 
-							href='https://github.com/raualex/crrt-teaching-tool-v2' 
-							className='textbook-link'
-						>
-							<i className='far fa-question-circle'></i>
-						</a>
-					</div>
-
-					<InputContainer
-						type={'radio'} 
-						currentInputState={this.state}
-						handleInputChange={this.handleStringChange}
-						dosagesToDisplay={modalityDosages}
-						radioButtonCategory={'modality'}
-					/>
-				</section>
-
-				<section className='orders-replacement-fluid-container'>
-					<div className='header-info-container'>
-						<h3>Replacement Fluid</h3>
-						<a 
-							href='https://github.com/raualex/crrt-teaching-tool-v2' 
-							className='textbook-link'
-						>
-							<i className='far fa-question-circle'></i>
-						</a>
-					</div>
-
-					<InputContainer
-						type={'text'} 
-						currentInputState={this.state}
-						handleInputChange={this.handleNumberChange}
-						dosagesToDisplay={replacementFluidDosages}
-						radioButtonCategory={null}
-					/>
-
-				</section>
-				<section className='orders-modality-other-container'>
-					<h3>Other Fluids/Medications</h3>
-					<div className='other-fluids-meds-checkbox'>
-						<label>
-							<input 
-								type='checkbox'
-								name='saline3Percent'
-								value={saline3Percent}
-								checked={saline3Percent === true}
-								onChange={event => this.toggleCheckBoxes(event)}
-							/>
-							Saline 3%
-								<a 
-								href='https://github.com/raualex/crrt-teaching-tool-v2' 
-								className='textbook-link'
-								>
-									<i className='far fa-question-circle'></i>
-								</a>
-						</label>
-					</div>
-
-					<div className='other-fluids-meds-checkbox'>
-						<label>
-							<input 
-								type='checkbox'
-								name='d5W'
-								value={d5W}
-								checked={d5W === true}
-								onChange={event => this.toggleCheckBoxes(event)}
-							/>
-							D5W
-								<a 
-								href='https://github.com/raualex/crrt-teaching-tool-v2' 
-								className='textbook-link'
-								>
-									<i className='far fa-question-circle'></i>
-								</a>
-						</label>
-					</div>
-
-					<div className='other-fluids-meds-checkbox'>
-						<label>
-							<input 
-								type='checkbox'
-								name='sodiumPhosphate15mmol100ml'
-								value={sodiumPhosphate15mmol100ml}
-								checked={sodiumPhosphate15mmol100ml === true}
-								onChange={event => this.toggleCheckBoxes(event)}
-							/>
-							Sodium Phosphate (15mmol and 100mL)
-								<a 
-								href='https://github.com/raualex/crrt-teaching-tool-v2' 
-								className='textbook-link'
-								>
-									<i className='far fa-question-circle'></i>
-								</a>
-						</label>
-					</div>
-				</section>
-
-				<section className='orders-modality-anticoagulation-container'>
-					<h3>Anticoagulation</h3>
-
-					<InputContainer
-						type={'radio'}
-						currentInputState={this.state}
-						handleInputChange={this.handleStringChange}
-						dosagesToDisplay={anticoagulationDosages}
-						radioButtonCategory={'anticoagulation'} 
-					/>
-				</section>
-
-				<button 
-					className='submit-case-btn' 
-					onClick={event => this.submitNewOrder(event)}
-					disabled={!readyForSubmission}
-				>
-					Submit Order
-				</button>
-
-				<footer className='orders-header'>
-					<button className='clear-order-inputs-btn' onClick={event => this.clearInputs(event)}>Reset</button>
-					<button 
-						className='orders-modal-close-btn-bottom'
-						onClick={event => closeOrdersModal(event)}
-					>Close</button>
-				</footer>
+					<footer className='orders-header'>
+						<button className='clear-order-inputs-btn' onClick={event => this.clearInputs(event)}>Reset</button>
+						<button 
+							className='orders-modal-close-btn-bottom'
+							onClick={event => closeOrdersModal(event)}
+						>Close</button>
+					</footer>
+				</div>
 			</form>
 		)
 	}

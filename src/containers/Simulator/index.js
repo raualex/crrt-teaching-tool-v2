@@ -4,15 +4,93 @@ import { connect } from 'react-redux';
 import { setSelectedModal } from '../../Actions/selection-actions';
 import DataOutputModal from '../DataOutputModal';
 import OrdersModal from '../OrdersModal';
+import OrderResultsContainer from '../../components/OrderResultsContainer';
 
 export class Simulator extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
       showOrdersModal: false,
-      btnClicked: ''
+      btnClicked: '',
+      ordersResults: [],
+      currentTime: 0,
+      currentDay: 0,
+      amPm: 'AM'
+      //each order result will be an object consisting of timestamp and array of messages
 		}
   }
+
+  componentDidUpdate(prevProps) {
+    const { orders } = this.props;
+    // Typical usage (don't forget to compare props):
+    if (orders !== prevProps.orders) {
+      // this.checkCurrentOrderResults()
+    }
+  }
+  
+  // checkCurrentOrderResults = () => {
+  //   //sample orderResult
+  //   // {
+	// 	// 	timeStamp: '10:00 AM - Day 1',
+	// 	// 	messages: ['mock message','mock message']
+  //   // }
+    
+  //   //checks current order's input ranges against ranges in utils/orderResultsData.js
+  //   //if there are warnings, add them to messages array
+  //   //if there are no warnings, add 'CRRT is running smoothly. There were no reported issues since the previous update.' to messages array
+
+  //   //import ordersResults from utils
+    
+  //   const { orders } = this.props
+  //   let messages = [];
+  //   const currentOrder = orders[orders.length-1]
+
+  //   for(medication in currentOrder) {
+      
+  //     const belowRangeMessage = checkResultsForBelowRange(currentOrder, medication)
+  //     const aboveRangeMessage = checkResultsForAboveRange(currentOrder, medication)
+      
+  //     if(belowRangeMessage === aboveRangeMessage) {
+  //       messages.push(belowRangeMessage)
+  //     } else {
+  //       messages.push(belowRangeMessage)
+  //       messages.push(aboveRangeMessage)
+  //     }
+  //   }
+  //   const timeStamp = createTimeStamp()
+  //   const newOrderResults = {
+  //     timeStamp,
+  //     messages
+  //   }
+  //   const ordersResults = [...this.state.orderResults, newOrderResults]
+  //   this.setState({ ordersResults })
+  // }
+
+  // checkResultsForBelowRange = (currentOrder, medication) => {
+  //   const { concerning, urgent, lethal } = currentOrder[medication].dosageRanges.belowRange;
+  //   if(currentOrder[medication] < concerning && currentOrder[medication] > urgent) {
+  //     return ordersResults[concerning]
+  //   } else if (currentOrder[medication] < urgent && currentOrder[medication] > lethal) {
+  //     return ordersResults[urgent]
+  //   } else if (currentOrder[medication] < lethal){
+  //     return ordersResults[lethal]
+  //   } else {
+  //     return 'CRRT is running smoothly. There were no reported issues since the previous update.'
+  //   }
+  // }
+
+  // checkResultsForAboveRange = (currentOrder, medication) => {
+  //   const { concerning, urgent, lethal } = currentOrder[medication].dosageRanges.aboveRange;
+  //   if(currentOrder[medication] > concerning && currentOrder[medication] < urgent) {
+  //     return ordersResults[concerning]
+  //   } else if (currentOrder[medication] > urgent && currentOrder[medication] < lethal) {
+  //     return ordersResults[urgent]
+  //   } else if (currentOrder[medication] > lethal){
+  //     return ordersResults[lethal]
+  //   } else {
+  //     return 'CRRT is running smoothly. There were no reported issues since the previous update.'
+  //   }
+  // }
   
   handleClick = (event) => {
     let { name } = event.target
@@ -37,11 +115,11 @@ export class Simulator extends Component {
 
   render() {
     const { selectedModal } = this.props
-    const { showOrdersModal, btnClicked } = this.state
+    const { showOrdersModal, btnClicked, ordersResults } = this.state
   
     if (selectedModal === '') {
       return(
-        <div>
+        <div className='Simulator'>
           <h1 className='CRRT-title'>CRRT SIMULATOR v.2</h1>
           <div className='form-buttons-container'>
 		      	<button 
@@ -93,6 +171,7 @@ export class Simulator extends Component {
                 className={btnClicked === 'Physical Exam' ? 'btn-active' : 'physical-exam-output-btn'}
               >Physical Exam</button>
             </div>
+          <OrderResultsContainer ordersResults={ordersResults}/>
           </div>
           }
         </div>
@@ -162,8 +241,9 @@ export class Simulator extends Component {
   }
 }
 
-export const mapStateToProps = (state) => ({
-  selectedModal: state.selectedModal
+export const mapStateToProps = ({ selectedModal, orders }) => ({
+  selectedModal,
+  orders
 })
 
 export const mapDispatchToProps = (dispatch) => ({
