@@ -1,12 +1,33 @@
 .OrdersModal {
-	border: 1px solid #000;
-  height: 80%;
-  margin: 0 auto;
-  width: 60%;
+	background-color: #FFF;
+	border-radius: 5px;
+	box-shadow: 3px 3px #d0d6d3;
+	height: 80%;
+	margin: 3rem auto;
+	width: 80%;
+	display: grid;
+	grid-template-columns: 2rem 1fr;
+}
+
+.orders-modal-sidebar {
+	background-color: #5ea0f8;
+	border-radius: 5px 0 0 5px;
+}
+
+.orders-modal-main-content {
+	padding: 0 0 0 2rem;
+}
+
+.orders-modal-header {
+
+}
+
+.orders-modal-h2 {
+	color: #5ea0f8;
+	text-align: left;
 }
 
 .orders-modality-container {
-	background-color: red;
 	height: 18rem;
 	text-align: left;
 }
@@ -25,12 +46,8 @@
   justify-content: flex-start;
 }
 
-.orders-replacement-fluid-container {
-	background-color: cyan;
-}
-
 .input-container {
-	background-color: orange;
+	background-color: #FFF;
 	display: flex;
   flex-direction: column;
 	width: 50%;
@@ -42,7 +59,6 @@
   width: 100%;
   margin: 1rem 0 0 0;
 	height: 4rem;
-	background-color: lime;
 }
 
 .input-error-text {
@@ -52,12 +68,10 @@
 }
 
 .orders-modality-other-container {
-	background-color: yellow;
 	height: 10rem;
 }
 
 .orders-modality-anticoagulation-container {
-	background-color: magenta;
 	height: 12rem;
 }
 

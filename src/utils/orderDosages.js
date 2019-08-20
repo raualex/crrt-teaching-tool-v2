@@ -33,9 +33,8 @@ const orderDosages = {
       max: 2000
     },
     'bloodFlowRate': {
-      //THESE MIN/MAX VALUES ARE PROVISIONAL. NEED ACTUAL ONES.
-      min: 0,
-      max: 2
+      min: 200,
+      max: 400
     },
     'replacementFluidFlowRate': {
       min: 0,
