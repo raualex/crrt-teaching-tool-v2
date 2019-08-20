@@ -11,6 +11,7 @@ export class DataOutputTable extends Component {
     let modalNameForClass;
     let modalNameForKeys;
     let modalTableRowKeys;
+    let rowsNumber = 0;
 
     if (
       selectedModal === 'Laboratory Data' || 
@@ -21,6 +22,7 @@ export class DataOutputTable extends Component {
       modalNameForClass = selectedModal.replace(/\s/g, '-')
       modalNameForKeys = selectedModal.replace(/\s/g, '')
       modalTableRowKeys = modalKeys[modalNameForKeys].map((keyName, index) => {
+          rowsNumber = rowsNumber + 1
           return <tr key={uuidv4()}><td key={uuidv4()} className={'table-key index'+index}>{keyName}</td></tr>
       });
 
