@@ -11,7 +11,7 @@ class InputCard extends Component {
 		return (
 				<article className='input-container'>
 					{ 
-						type === 'text' &&
+						type === 'number' &&
 							<div className='InputCard-text'>
 								<div className='header-info-container'>
 									<h4>{ dosageNames[dosage] }</h4>
@@ -24,7 +24,7 @@ class InputCard extends Component {
 								</div>
 
 								<input 
-									type='text'
+									type='number'
 									className='input-text'
 									name={dosage}
 									value={isNaN(currentInput) ? 0 : currentInput}

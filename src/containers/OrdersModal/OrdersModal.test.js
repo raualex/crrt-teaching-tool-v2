@@ -73,7 +73,7 @@ describe('OrdersModal', () => {
 				magnesium: 1,
 				phosphorous : 1,
 				grossUltraFiltration: 1500,
-				bloodFlowRate: 1,
+				bloodFlowRate: 250,
 				replacementFluidFlowRate: 7,
 			})
 			expect(wrapper.instance().checkForInvalidInputs()).toEqual(['sodium'])
@@ -90,7 +90,7 @@ describe('OrdersModal', () => {
 				magnesium: 1,
 				phosphorous : 1,
 				grossUltraFiltration: 1500,
-				bloodFlowRate: 1,
+				bloodFlowRate: 250,
 				replacementFluidFlowRate: 7,
 			})
 			wrapper.instance().checkForInvalidInputs()
