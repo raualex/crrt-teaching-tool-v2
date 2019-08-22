@@ -36,21 +36,50 @@ const mockOrders = [
 ]
 
 const defaultState = {
-				modality: 'Pre-filter CVVH',
-				sodium: 0,
-				potassium: 0,
-				chloride: 0,
-				bicarbonate: 0,
-				calcium: 0,
-				magnesium: 0,
-				phosphorous : 0,
-				grossUltraFiltration: 0,
-				bloodFlowRate: 0,
-				replacementFluidFlowRate: 0,
-				saline3Percent: false,
-				d5W: false,
-				sodiumPhosphate15mmol100ml: false,
-				anticoagulation: 'None'
-			}
+	modality: 'Pre-filter CVVH',
+	sodium: 0,
+	potassium: 0,
+	chloride: 0,
+	bicarbonate: 0,
+	calcium: 0,
+	magnesium: 0,
+	phosphorous : 0,
+	grossUltraFiltration: 0,
+	bloodFlowRate: 0,
+	replacementFluidFlowRate: 0,
+	saline3Percent: false,
+	d5W: false,
+	sodiumPhosphate15mmol100ml: false,
+	anticoagulation: 'None'
+}
 
-export default { mockOrders, defaultState }
+
+
+const mockReduxOrdersForModal = {
+	'Input/Output': [
+		17,
+		6,
+		4.2,
+		22
+	],
+	'LaboratoryData': [
+		1,
+		23,
+		659,
+		55.4
+	],
+	'Vitals': [
+		3,
+		45,
+		7,
+		34
+	],
+	'Medications': [
+		1,
+		2,
+		3,
+		4
+	]
+}
+
+export default { mockOrders, defaultState, mockReduxOrdersForModal }
