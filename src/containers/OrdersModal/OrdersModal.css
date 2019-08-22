@@ -15,7 +15,11 @@
 }
 
 .orders-modal-main-content {
-	padding: 0 0 0 2rem;
+	padding: 0 1rem;
+}
+
+.orders-replacement-fluid-container {
+	width: 100%;
 }
 
 .orders-modal-header {
@@ -28,7 +32,7 @@
 }
 
 .orders-modality-container {
-	height: 18rem;
+	height: 12rem;
 	text-align: left;
 }
 
@@ -38,41 +42,62 @@
 
 .textbook-link {
 	color: #000;
+	margin: 0 1rem 0 0;
+}
+
+.input-container-main {
+	height: 45rem;
+	display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+	justify-content: space-between;
+	width: 100%;
 }
 
 .header-info-container {
 	align-items: center;
 	display: flex;
-  justify-content: flex-start;
+	justify-content: space-between;
+	height: 2.5rem;
+	width:
 }
 
 .input-container {
 	background-color: #FFF;
 	display: flex;
   flex-direction: column;
-	width: 50%;
+	height: 2rem;
   margin: 1rem;
-  padding: 1rem;
 }
 
 .input-error-container {
-  width: 100%;
+  width: 50%;
   margin: 1rem 0 0 0;
 	height: 4rem;
 }
 
 .input-error-text {
+	color: red;
 	font-size: 0.75rem;
-  text-align: left;
+	text-align: left;
+	margin: 0 0 0 1rem;
   overflow-wrap: normal;
 }
 
 .orders-modality-other-container {
-	height: 10rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	height: 12rem;
 }
 
 .orders-modality-anticoagulation-container {
 	height: 12rem;
+	text-align: left;
+}
+
+.other-fluids-meds-checkbox {
+	margin: 0.25rem;
 }
 
 .input-radio {

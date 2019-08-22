@@ -1,0 +1,10 @@
+.Input-Card-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24rem;
+}
+
+.input-text-header {
+  text-align: left;
+}

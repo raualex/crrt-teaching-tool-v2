@@ -14,28 +14,28 @@ class InputCard extends Component {
 						type === 'number' &&
 							<div className='InputCard-text'>
 								<div className='header-info-container'>
-									<h4>{ dosageNames[dosage] }</h4>
+									<h4 className='input-text-header'>{ dosageNames[dosage] }</h4>
 										<a 
 											href='https://github.com/raualex/crrt-teaching-tool-v2' 
 											className='textbook-link'
 										>
 											<i className='far fa-question-circle'></i>
 										</a>
+									<input 
+										type='number'
+										className='input-text'
+										name={dosage}
+										value={isNaN(currentInput) ? 0 : currentInput}
+										onChange={event => handleInputChange(event)}
+									/>
+									<div className='input-error-container'>
+										<p className='input-error-text'>{
+											dosageErrors.includes(dosage) ? errorMessages[dosage] : ''
+										}
+										</p>
+									</div>
 								</div>
 
-								<input 
-									type='number'
-									className='input-text'
-									name={dosage}
-									value={isNaN(currentInput) ? 0 : currentInput}
-									onChange={event => handleInputChange(event)}
-								/>
-								<div className='input-error-container'>
-									<p className='input-error-text'>{
-										dosageErrors.includes(dosage) ? errorMessages[dosage] : ''
-									}
-									</p>
-								</div>
 							</div>
 					}
 

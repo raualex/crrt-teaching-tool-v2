@@ -239,6 +239,7 @@ export class OrdersModal extends Component {
 						</div>
 
 						<InputContainer
+							className='input-container-main'
 							type={'number'} 
 							currentInputState={this.state}
 							handleInputChange={this.handleNumberChange}
