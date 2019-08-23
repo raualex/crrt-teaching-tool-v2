@@ -209,7 +209,7 @@ export class OrdersModal extends Component {
 
 					<section className='orders-modality-container'>
 						<div className='header-info-container'>
-							<h3>Modality</h3>
+							<h3 className='orders-modal-section-header'>Modality</h3>
 							<a 
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
@@ -229,7 +229,7 @@ export class OrdersModal extends Component {
 
 					<section className='orders-replacement-fluid-container'>
 						<div className='header-info-container'>
-							<h3>Replacement Fluid</h3>
+							<h3 className='orders-modal-section-header'>Replacement Fluid</h3>
 							<a 
 								href='https://github.com/raualex/crrt-teaching-tool-v2' 
 								className='textbook-link'
@@ -249,7 +249,7 @@ export class OrdersModal extends Component {
 
 					</section>
 					<section className='orders-modality-other-container'>
-						<h3>Other Fluids/Medications</h3>
+						<h3 className='orders-modal-section-header'>Other Fluids/Medications</h3>
 						<div className='other-fluids-meds-checkbox'>
 							<label>
 								<input 
@@ -309,7 +309,7 @@ export class OrdersModal extends Component {
 					</section>
 
 					<section className='orders-modality-anticoagulation-container'>
-						<h3>Anticoagulation</h3>
+						<h3 className='orders-modal-section-header'>Anticoagulation</h3>
 
 						<InputContainer
 							type={'radio'}
@@ -320,15 +320,14 @@ export class OrdersModal extends Component {
 						/>
 					</section>
 
-					<button 
-						className='submit-case-btn' 
-						onClick={event => this.submitNewOrder(event)}
-						disabled={!readyForSubmission}
-					>
-						Submit Order
-					</button>
-
-					<footer className='orders-header'>
+					<footer className='orders-modal-footer'>
+						<button 
+							className='submit-case-btn' 
+							onClick={event => this.submitNewOrder(event)}
+							disabled={!readyForSubmission}
+						>
+							Submit Order
+						</button>
 						<button className='clear-order-inputs-btn' onClick={event => this.clearInputs(event)}>Reset</button>
 						<button 
 							className='orders-modal-close-btn-bottom'

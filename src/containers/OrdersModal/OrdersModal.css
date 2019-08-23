@@ -16,14 +16,28 @@
 
 .orders-modal-main-content {
 	padding: 0 1rem;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-areas: 
+	'header header'
+	'main modality'
+	'main other'
+	'main anticoagulation'
+	'main .'
+	'footer footer';
 }
 
 .orders-replacement-fluid-container {
 	width: 100%;
+	grid-area: main;
+}
+
+.orders-modal-section-header {
+	margin: 0;
 }
 
 .orders-modal-header {
-
+	grid-area: header;
 }
 
 .orders-modal-h2 {
@@ -32,8 +46,9 @@
 }
 
 .orders-modality-container {
-	height: 12rem;
+	height: 9rem;
 	text-align: left;
+	grid-area: modality;
 }
 
 .fa-question-circle {
@@ -57,9 +72,7 @@
 .header-info-container {
 	align-items: center;
 	display: flex;
-	justify-content: space-between;
 	height: 2.5rem;
-	width:
 }
 
 .input-container {
@@ -72,15 +85,14 @@
 
 .input-error-container {
   width: 50%;
-  margin: 1rem 0 0 0;
-	height: 4rem;
+	height: 3rem;
 }
 
 .input-error-text {
 	color: red;
 	font-size: 0.75rem;
 	text-align: left;
-	margin: 0 0 0 1rem;
+	margin: 0.5rem 0 0 0;
   overflow-wrap: normal;
 }
 
@@ -88,12 +100,14 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	height: 12rem;
+	height: 9rem;
+	grid-area: other;
 }
 
 .orders-modality-anticoagulation-container {
-	height: 12rem;
+	height: 6rem;
 	text-align: left;
+	grid-area: anticoagulation;
 }
 
 .other-fluids-meds-checkbox {
@@ -104,3 +118,6 @@
 	cursor: pointer;
 }
 
+.orders-modal-footer {
+	grid-area: footer;
+}

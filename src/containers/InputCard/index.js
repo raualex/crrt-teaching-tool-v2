@@ -9,11 +9,11 @@ class InputCard extends Component {
 		const { errorMessages, dosageNames } = orderDosages;
 
 		return (
-				<article className='input-container'>
+				<article className={`input-container-${type} input-container-${dosage}`}>
 					{ 
 						type === 'number' &&
 							<div className='InputCard-text'>
-								<div className='header-info-container'>
+								<div className={`header-info-container-${type}`}>
 									<h4 className='input-text-header'>{ dosageNames[dosage] }</h4>
 										<a 
 											href='https://github.com/raualex/crrt-teaching-tool-v2' 
@@ -21,9 +21,10 @@ class InputCard extends Component {
 										>
 											<i className='far fa-question-circle'></i>
 										</a>
+								</div>
 									<input 
 										type='number'
-										className='input-text'
+										className='input-number'
 										name={dosage}
 										value={isNaN(currentInput) ? 0 : currentInput}
 										onChange={event => handleInputChange(event)}
@@ -34,7 +35,6 @@ class InputCard extends Component {
 										}
 										</p>
 									</div>
-								</div>
 
 							</div>
 					}

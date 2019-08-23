@@ -1,3 +1,10 @@
 .InputContainer {
   width: 100%;
 }
+
+.InputContainer-radio {
+    display: flex;
+    flex-direction: column;
+    height: 5rem;
+    justify-content: space-evenly;
+}

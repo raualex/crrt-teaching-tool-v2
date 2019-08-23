@@ -1,10 +1,18 @@
-.Input-Card-text {
+.InputCard-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-info-container-number {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 24rem;
+  height: 2.25rem;
 }
 
 .input-text-header {
   text-align: left;
+}
+
+.input-number {
+  width: 30%;
 }
