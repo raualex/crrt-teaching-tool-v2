@@ -37,7 +37,7 @@ export class OrdersModal extends Component {
 
 	handleNumberChange = event => {
 		const { name, value } = event.target
-		const parsedValue = parseFloat(value)
+		const parsedValue = parseFloat(value.trim())
 		this.setState({ 
 			[name]: parsedValue 
 		}, () => this.validateOrder())
@@ -46,8 +46,10 @@ export class OrdersModal extends Component {
 	checkForInvalidInputs = () => {
 		const { requiredRanges, replacementFluidDosages } = orderDosages
 		const invalidEntries = replacementFluidDosages.reduce((wrongValues, medication) => {
-			if(this.state[medication] < requiredRanges[medication].min || this.state[medication] > requiredRanges[medication].max) {
-				wrongValues.push(medication)
+			if(this.state[medication] !== 0) {
+				if(this.state[medication] < requiredRanges[medication].min || this.state[medication] > requiredRanges[medication].max) {
+					wrongValues.push(medication)
+				}
 			}
 			return wrongValues
 		}, [])
@@ -200,11 +202,20 @@ export class OrdersModal extends Component {
 				<div className='orders-modal-main-content'>
 					<header className='orders-modal-header'>
 						<h2 className='orders-modal-h2'>Orders</h2>
-						<button onClick={event => this.fillForm(event)}>Add provisional values</button>
-						<button 
-							className='orders-modal-close-btn-top'
-							onClick={event => closeOrdersModal(event)}
-						>X</button>
+						<div className='orders-modal-header-button-container'>
+							<button 
+								className='header-btn' 
+								onClick={event => this.fillForm(event)}
+							>Add provisional values
+							</button>
+								<button 
+									className='orders-modal-close-btn-top'
+									onClick={event => closeOrdersModal(event)}
+								>
+									<i className="fas fa-times">
+									</i>
+								</button>
+						</div>
 					</header>
 
 					<section className='orders-modality-container'>
@@ -251,7 +262,7 @@ export class OrdersModal extends Component {
 					<section className='orders-modality-other-container'>
 						<h3 className='orders-modal-section-header'>Other Fluids/Medications</h3>
 						<div className='other-fluids-meds-checkbox'>
-							<label>
+							<label className='modality-checkbox-label'>
 								<input 
 									type='checkbox'
 									name='saline3Percent'
@@ -270,7 +281,7 @@ export class OrdersModal extends Component {
 						</div>
 
 						<div className='other-fluids-meds-checkbox'>
-							<label>
+							<label className='modality-checkbox-label'>
 								<input 
 									type='checkbox'
 									name='d5W'
@@ -289,7 +300,7 @@ export class OrdersModal extends Component {
 						</div>
 
 						<div className='other-fluids-meds-checkbox'>
-							<label>
+							<label className='modality-checkbox-label'>
 								<input 
 									type='checkbox'
 									name='sodiumPhosphate15mmol100ml'
@@ -322,15 +333,15 @@ export class OrdersModal extends Component {
 
 					<footer className='orders-modal-footer'>
 						<button 
-							className='submit-case-btn' 
+							className={readyForSubmission ? 'submit-case-btn footer-btn submit-btn-active' : 'submit-case-btn footer-btn'} 
 							onClick={event => this.submitNewOrder(event)}
 							disabled={!readyForSubmission}
 						>
-							Submit Order
+							Submit
 						</button>
-						<button className='clear-order-inputs-btn' onClick={event => this.clearInputs(event)}>Reset</button>
+						<button className='clear-order-inputs-btn footer-btn' onClick={event => this.clearInputs(event)}>Reset</button>
 						<button 
-							className='orders-modal-close-btn-bottom'
+							className='orders-modal-close-btn-bottom footer-btn'
 							onClick={event => closeOrdersModal(event)}
 						>Close</button>
 					</footer>

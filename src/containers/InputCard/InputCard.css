@@ -14,5 +14,8 @@
 }
 
 .input-number {
-  width: 30%;
+  width: 50%;
+  height: 1.25rem;
+  border-radius: 5px;
+  border: 1px solid #a09e9e;
 }

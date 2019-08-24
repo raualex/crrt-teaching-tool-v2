@@ -26,10 +26,11 @@ class InputCard extends Component {
 										type='number'
 										className='input-number'
 										name={dosage}
-										value={isNaN(currentInput) ? 0 : currentInput}
+										value={isNaN(currentInput) ? '' : currentInput}
 										onChange={event => handleInputChange(event)}
 									/>
-									<div className='input-error-container'>
+									<div 
+										className={'input-error-container' + (dosageErrors.includes(dosage) && ' error-add-border')}>
 										<p className='input-error-text'>{
 											dosageErrors.includes(dosage) ? errorMessages[dosage] : ''
 										}
@@ -42,7 +43,7 @@ class InputCard extends Component {
 					{
 						type === 'radio' &&
 							<div className='modality-radio'>
-								<label>
+								<label className='modality-radio-label'>
 									<input 
 										type='radio'
 										className='input-radio'
