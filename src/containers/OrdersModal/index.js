@@ -333,7 +333,7 @@ export class OrdersModal extends Component {
 
 					<footer className='orders-modal-footer'>
 						<button 
-							className={readyForSubmission ? 'submit-case-btn footer-btn submit-btn-active' : 'submit-case-btn footer-btn'} 
+							className={readyForSubmission ? 'submit-case-btn footer-btn submit-btn-active' : 'submit-case-btn footer-btn submit-btn-inactive'} 
 							onClick={event => this.submitNewOrder(event)}
 							disabled={!readyForSubmission}
 						>
