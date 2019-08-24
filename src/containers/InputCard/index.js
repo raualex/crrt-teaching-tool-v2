@@ -14,7 +14,7 @@ class InputCard extends Component {
 						type === 'number' &&
 							<div className='InputCard-text'>
 								<div className={`header-info-container-${type}`}>
-									<h4 className='input-text-header'>{ dosageNames[dosage] }</h4>
+									<h4 className={`input-text-header input-text-header-${type}`}>{ dosageNames[dosage] }</h4>
 										<a 
 											href='https://github.com/raualex/crrt-teaching-tool-v2' 
 											className='textbook-link'

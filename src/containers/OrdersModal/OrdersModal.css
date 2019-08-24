@@ -32,6 +32,14 @@
 	grid-area: main;
 }
 
+.input-container-replacementFluidFlowRate {
+	margin: 1rem 0;
+}
+
+.input-text-header-replacementFluidFlowRate {
+	margin: 0 0 1rem;
+}
+
 .orders-modal-section-header {
 	margin: 0;
 	color: #979797;
