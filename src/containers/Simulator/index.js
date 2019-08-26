@@ -129,9 +129,9 @@ export class Simulator extends Component {
 		      	<button className='crrt-display-btn form-btn'>CRRT Display</button>
 		      	<button className='restart-case-btn form-btn'>Restart Case</button>
 		      </div>
-		      { showOrdersModal === true &&
+		      {/* { showOrdersModal === true && */}
 		      	<OrdersModal closeOrdersModal={event => this.toggleOrdersModal(event)}/>
-		      }
+		      // }
           { showOrdersModal === false &&
           <div className='dataOutputContainer'>
             <div className='modalBtnContainer'>

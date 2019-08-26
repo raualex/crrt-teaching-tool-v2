@@ -26,7 +26,11 @@ export class OrdersModal extends Component {
 			sodiumPhosphate15mmol100ml: false,
 			anticoagulation: 'None',
 			readyForSubmission: false,
-			dosageErrors: []
+			dosageErrors: [],
+			currentTime12Hour: 10, 
+			currentTime24Hour: 10, 
+			currentDay: 1, 
+			currentTimeAmPm: 'AM' 
 		}
 	}
 
@@ -113,18 +117,74 @@ export class OrdersModal extends Component {
 				anticoagulation
 			}
 		}
+
+		this.increment8HourInterval()
 		return order
 	}
 
+	// Creating TimeStamp Start
+
 	createTimeStamp = () => {
-    //const { currentTime, currentDay, amPm } = this.state
-    //increment currentTime & currentDay & adjust amPm
-    //this.checkForZeros()
-    //this.verifyDayCycle()
-    //this.check12HourFormat()
-    //this.checkAmPm()
-    //return `${checkHourlyHeaderForZeroes(currentTime)}:00 ${amPm} - Day ${currentDay}`;
-  }
+		const { currentTime12Hour, currentDay, currentTimeAmPm } = this.state
+		
+    return `${currentTime12Hour}:00 ${currentTimeAmPm} - Day ${currentDay}`;
+	}
+	
+	increment8HourInterval = () => {
+		let { currentTime12Hour, currentTime24Hour, currentDay, currentTimeAmPm } = this.state 
+
+		currentTime24Hour = this.check24HourCycle(currentTime24Hour += 8)
+		
+		currentTime12Hour = this.check12HourCycle(currentTime12Hour, currentTime24Hour)
+
+		currentDay = this.checkCurrentDayCycle(currentTime24Hour, currentDay)
+		
+		currentTimeAmPm = this.checkCurrentAmPm(currentTime24Hour, currentTimeAmPm)
+
+		this.setState({
+			currentTime12Hour, 
+			currentTime24Hour, 
+			currentDay, 
+			currentTimeAmPm
+		})
+	}
+
+	check24HourCycle = (currentTime24Hour) => {
+		if(currentTime24Hour >= 24) {
+			currentTime24Hour -= 24
+		}
+		return currentTime24Hour
+	}
+
+	check12HourCycle = (currentTime12Hour, currentTime24Hour) => {
+		if(currentTime24Hour > 12) {
+			currentTime12Hour = Math.abs(currentTime24Hour - 12)
+		}
+		if(currentTime12Hour === 0) {
+			currentTime12Hour = 12
+		} 
+
+		return currentTime12Hour	
+	}
+
+	checkCurrentDayCycle = (currentTime24Hour, currentDay) => {
+		if(currentTime24Hour >= 24) {
+			currentDay++
+		}
+		return currentDay
+	}
+
+	checkCurrentAmPm = (currentTime24Hour, currentTimeAmPm) => {
+		if(currentTime24Hour > 11) {
+			currentTimeAmPm = 'PM'
+		} else {
+			currentTimeAmPm = 'AM'
+		}
+		return currentTimeAmPm
+	}
+
+// Creating TimeStamp End
+
 
 	submitNewOrder = event => {
 		event.preventDefault();
