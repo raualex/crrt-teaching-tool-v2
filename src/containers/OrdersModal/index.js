@@ -133,26 +133,29 @@ export class OrdersModal extends Component {
 	increment8HourInterval = () => {
 		let { currentTime12Hour, currentTime24Hour, currentDay, currentTimeAmPm } = this.state 
 
-		currentTime24Hour = this.check24HourCycle(currentTime24Hour += 8)
+		currentTime24Hour += 8
+		currentTime12Hour += 8
+		currentTime24Hour = this.check24HourCycle(currentTime24Hour, currentDay)
 		
 		currentTime12Hour = this.check12HourCycle(currentTime12Hour, currentTime24Hour)
 
-		currentDay = this.checkCurrentDayCycle(currentTime24Hour, currentDay)
-		
 		currentTimeAmPm = this.checkCurrentAmPm(currentTime24Hour, currentTimeAmPm)
 
 		this.setState({
-			currentTime12Hour, 
-			currentTime24Hour, 
-			currentDay, 
+			currentTime12Hour,
 			currentTimeAmPm
 		})
 	}
 
-	check24HourCycle = (currentTime24Hour) => {
+	check24HourCycle = (currentTime24Hour, currentDay) => {
 		if(currentTime24Hour >= 24) {
 			currentTime24Hour -= 24
+			currentDay++
 		}
+		this.setState({ 
+			currentTime24Hour,
+			currentDay
+		})
 		return currentTime24Hour
 	}
 
@@ -167,12 +170,12 @@ export class OrdersModal extends Component {
 		return currentTime12Hour	
 	}
 
-	checkCurrentDayCycle = (currentTime24Hour, currentDay) => {
-		if(currentTime24Hour >= 24) {
-			currentDay++
-		}
-		return currentDay
-	}
+	// checkCurrentDayCycle = (currentTime24Hour, currentDay) => {
+	// 	if(currentTime24Hour >= 24) {
+	// 		currentDay++
+	// 	}
+	// 	return currentDay
+	// }
 
 	checkCurrentAmPm = (currentTime24Hour, currentTimeAmPm) => {
 		if(currentTime24Hour > 11) {
