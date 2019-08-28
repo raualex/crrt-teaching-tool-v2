@@ -27,10 +27,8 @@ export class OrdersModal extends Component {
 			anticoagulation: 'None',
 			readyForSubmission: false,
 			dosageErrors: [],
-			currentTime12Hour: 10, 
-			currentTime24Hour: 10, 
-			currentDay: 1, 
-			currentTimeAmPm: 'AM' 
+			currentTime: 10, 
+			currentDay: 1
 		}
 	}
 
@@ -118,72 +116,31 @@ export class OrdersModal extends Component {
 			}
 		}
 
-		this.increment8HourInterval()
+		this.incrementTimeBetweenOrders()
 		return order
 	}
 
 	// Creating TimeStamp Start
 
 	createTimeStamp = () => {
-		const { currentTime12Hour, currentDay, currentTimeAmPm } = this.state
-		
-    return `${currentTime12Hour}:00 ${currentTimeAmPm} - Day ${currentDay}`;
+		const { currentTime, currentDay } = this.state
+    return `${currentTime}:00 - Day ${currentDay}`;
 	}
 	
-	increment8HourInterval = () => {
-		let { currentTime12Hour, currentTime24Hour, currentDay, currentTimeAmPm } = this.state 
+	incrementTimeBetweenOrders = () => {
+		let { currentTime, currentDay } = this.state 
 
-		currentTime24Hour += 8
-		currentTime12Hour += 8
-		currentTime24Hour = this.check24HourCycle(currentTime24Hour, currentDay)
-		
-		currentTime12Hour = this.check12HourCycle(currentTime12Hour, currentTime24Hour)
+		currentTime += 8
 
-		currentTimeAmPm = this.checkCurrentAmPm(currentTime24Hour, currentTimeAmPm)
-
-		this.setState({
-			currentTime12Hour,
-			currentTimeAmPm
-		})
-	}
-
-	check24HourCycle = (currentTime24Hour, currentDay) => {
-		if(currentTime24Hour >= 24) {
-			currentTime24Hour -= 24
+		if(currentTime >= 24) {
+			currentTime -= 24
 			currentDay++
 		}
-		this.setState({ 
-			currentTime24Hour,
+
+		this.setState({
+			currentTime,
 			currentDay
 		})
-		return currentTime24Hour
-	}
-
-	check12HourCycle = (currentTime12Hour, currentTime24Hour) => {
-		if(currentTime24Hour > 12) {
-			currentTime12Hour = Math.abs(currentTime24Hour - 12)
-		}
-		if(currentTime12Hour === 0) {
-			currentTime12Hour = 12
-		} 
-
-		return currentTime12Hour	
-	}
-
-	// checkCurrentDayCycle = (currentTime24Hour, currentDay) => {
-	// 	if(currentTime24Hour >= 24) {
-	// 		currentDay++
-	// 	}
-	// 	return currentDay
-	// }
-
-	checkCurrentAmPm = (currentTime24Hour, currentTimeAmPm) => {
-		if(currentTime24Hour > 11) {
-			currentTimeAmPm = 'PM'
-		} else {
-			currentTimeAmPm = 'AM'
-		}
-		return currentTimeAmPm
 	}
 
 // Creating TimeStamp End
