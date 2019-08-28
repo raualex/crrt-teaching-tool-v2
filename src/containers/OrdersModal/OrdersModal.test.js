@@ -13,6 +13,7 @@ describe('OrdersModal', () => {
 	beforeEach(() => {
 		wrapper = shallow(<OrdersModal 
 												closeOrdersModal={jest.fn()}
+												setTime={jest.fn()}
 												orders={mockOrders.mockOrders}
 												submitOrder={jest.fn()}
 												hasErrored={false}

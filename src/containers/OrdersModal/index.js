@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './OrdersModal.css';
 import { connect } from 'react-redux';
-import { submitOrder } from '../../Actions/ordersActions';
+import { submitOrder, setTime } from '../../Actions/ordersActions';
 import orderDosages from '../../utils/orderDosages.js';
 import InputContainer from '../../components/InputContainer';
 const uuidv4 = require('uuid/v4');
@@ -126,11 +126,12 @@ export class OrdersModal extends Component {
 
 	submitNewOrder = event => {
 		event.preventDefault();
-		const { submitOrder, closeOrdersModal } = this.props
+		const { submitOrder, closeOrdersModal, setTime, currentTime } = this.props
 		const newOrder = this.compileOrder()
 		
 		submitOrder(newOrder)
 		closeOrdersModal(event)
+		setTime(currentTime + 8)
 	}
 
 	toggleCheckBoxes = event => {
@@ -340,12 +341,14 @@ export class OrdersModal extends Component {
 	}
 }
 
-export const mapStateToProps = ({ orders }) => ({
-	orders
+export const mapStateToProps = ({ orders, currentTime }) => ({
+	orders,
+	currentTime
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-	submitOrder: (order) => dispatch(submitOrder(order))
+	submitOrder: (order) => dispatch(submitOrder(order)),
+	setTime: (newTime) => dispatch(setTime(newTime))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrdersModal);

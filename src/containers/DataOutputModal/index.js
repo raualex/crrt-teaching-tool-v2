@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './DataOutputModal.css';
+import DataOutputTable from '../DataOutputTable';
 import { connect } from 'react-redux';
 import { setSelectedModal } from '../../Actions/selection-actions';
 
@@ -28,6 +29,9 @@ export class DataOutputModal extends Component {
             className='dataom-x-button'
             onClick={() => this.handleClick()}
           >X</button>
+        </div>
+        <div className='dataom-table-container'>
+          <DataOutputTable />
         </div>
       </div>
     )

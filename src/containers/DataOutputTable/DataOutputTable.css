@@ -1,0 +1,18 @@
+/* .dataot-Laboratory-Data {
+} */
+
+.blank-table-head {
+  background-color: #EFF7FE;
+  border-bottom: solid 1px #000;
+  border-right: solid 1px #000;
+  height: 38px;
+}
+
+.table-key {
+  border-bottom: solid 1px #000;
+  border-right: solid 1px #000;
+  margin: 0;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  width: 200px;
+}

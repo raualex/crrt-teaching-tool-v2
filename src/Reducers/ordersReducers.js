@@ -6,3 +6,12 @@ export const ordersReducer = (state = [], action) => {
 			return state
 	}
 }
+
+export const timeReducer = (state = 0, action) => {
+	switch(action.type) {
+		case 'SET_TIME':
+			return action.time
+		default:
+			return state
+	}
+}

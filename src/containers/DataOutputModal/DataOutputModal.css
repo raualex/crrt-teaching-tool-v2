@@ -3,7 +3,7 @@
   background-color: #fff;
   border: solid 2px #000;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: 99%;
   justify-content: center;
   width: 100%;
@@ -11,6 +11,7 @@
 
 .dataom-title-container {
   align-items: center;
+  background-color: #EFF7FE;
   border-bottom: solid 4px #f2f2f2;
   display: flex;
   flex-direction: row;
@@ -27,4 +28,11 @@
   color: #fff;
   margin: 8px;
   outline: none;
+}
+
+.dataom-table-container {
+  height: 85%;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  width: 100%;
 }
