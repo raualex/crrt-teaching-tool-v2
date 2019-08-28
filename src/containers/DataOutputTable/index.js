@@ -13,6 +13,16 @@ export class DataOutputTable extends Component {
   //element with that number for every value in the array, and add it to the modalTableRowKeys element in the map below,
   //right after the <td> with the key name in it
 
+  mapArrayValuesForTables = (arr) => {
+    return arr.map((outputNum) => {
+      return <td className='table-key' key={uuidv4()}>{outputNum}</td>
+    })
+  }
+
+  createTableColumnHeaders = () => {
+    
+  }
+
   render() {
     let { selectedModal } = this.props
     let modalNameForClass;
@@ -31,7 +41,7 @@ export class DataOutputTable extends Component {
       modalNameForKeys = selectedModal.replace(/\s/g, '')
       modalTableRowKeys = modalKeys[modalNameForKeys].map((keyName, index) => {
           rowsNumber = rowsNumber + 1 //might not need this
-          return <tr key={uuidv4()}><td key={uuidv4()} className={'table-key index'+index}>{keyName}</td>{/*new <td>s go here*/}</tr>
+          return <tr key={uuidv4()}><td key={uuidv4()} className={'table-key index'+index}>{keyName}</td>{this.mapArrayValuesForTables(mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys])}</tr>
       });
 
       return(
