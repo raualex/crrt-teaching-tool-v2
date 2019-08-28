@@ -19,8 +19,12 @@ export class DataOutputTable extends Component {
     })
   }
 
-  createTableColumnHeaders = () => {
-    
+  createTableColumnHeaders = (arrNum) => {
+    let finalArr = []
+    for (var i = 0; i < arrNum; i++) {
+      finalArr.push(<th key={uuidv4()} className='blank-table-head'>{'Timestamp'}</th>)
+    }
+    return finalArr
   }
 
   render() {
@@ -28,8 +32,7 @@ export class DataOutputTable extends Component {
     let modalNameForClass;
     let modalNameForKeys;
     let modalTableRowKeys;
-    let rowsNumber = 0; //might not need this
-    console.log()
+    let rowsNumber = mockReduxOrdersForModal.mockReduxOrdersForModal['Vitals'].length
 
     if (
       selectedModal === 'Laboratory Data' || 
@@ -40,7 +43,6 @@ export class DataOutputTable extends Component {
       modalNameForClass = selectedModal.replace(/\s/g, '-')
       modalNameForKeys = selectedModal.replace(/\s/g, '')
       modalTableRowKeys = modalKeys[modalNameForKeys].map((keyName, index) => {
-          rowsNumber = rowsNumber + 1 //might not need this
           return <tr key={uuidv4()}><td key={uuidv4()} className={'table-key index'+index}>{keyName}</td>{this.mapArrayValuesForTables(mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys])}</tr>
       });
 
@@ -48,10 +50,7 @@ export class DataOutputTable extends Component {
         <table className={'dataot-' + modalNameForClass}>
           <thead>
             <tr>
-              <th className='blank-table-head'></th>{/*here, add a function that takes the current time in Redux
-               and adds the appropriate number of columns needed, with the incremented up time stamps, based off of 
-               the eight hour peroid you are in, via Redux (and correct setTime Redux function to go by 12 hour time
-                in 8 hour increments)*/}
+              <th className='blank-table-head'></th>{this.createTableColumnHeaders(rowsNumber)}
             </tr>
           </thead>
           <tbody>
