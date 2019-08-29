@@ -38,6 +38,7 @@
   border-right: solid 1px #000;
   border-top: solid 1px #000;
   color: #000;
+  font-size: 1rem;
 }
 
 .physical-exam-output-btn {
@@ -63,10 +64,21 @@
   width: 82.35%;
 }
 
-.form-buttons-container {
+.simulator-header {
   background-color: #c8e9ff;
   border-bottom: solid 1px #3b8ed6;
 }
+
+.form-buttons-container {
+  background-color: #c8e9ff;
+  width: 55%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+
 
 .orders-btn {
   background-color: #f00;
@@ -78,6 +90,20 @@
   margin: 1rem 1rem 1rem 0;
   outline: none;
   width: 5rem;
+}
+
+.orders-btn:hover {
+  box-shadow: 0px 0px 10px #d0d6d3;
+  background-color: #3b8ed6;
+}
+
+.crrt-display-btn, .restart-case-btn {
+  color: #4c4646;
+}
+
+.crrt-display-btn:hover, .restart-case-btn:hover {
+  color: #fff;
+  background-color: #4c4646;
 }
 
 /*Can comment this out if it just doesn't end up working*/

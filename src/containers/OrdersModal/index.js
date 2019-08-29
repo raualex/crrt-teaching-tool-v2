@@ -26,7 +26,9 @@ export class OrdersModal extends Component {
 			sodiumPhosphate15mmol100ml: false,
 			anticoagulation: 'None',
 			readyForSubmission: false,
-			dosageErrors: []
+			dosageErrors: [],
+			currentTime: 10, 
+			currentDay: 1
 		}
 	}
 
@@ -113,18 +115,36 @@ export class OrdersModal extends Component {
 				anticoagulation
 			}
 		}
+
+		this.incrementTimeBetweenOrders()
 		return order
 	}
 
+	// Creating TimeStamp Start
+
 	createTimeStamp = () => {
-    //const { currentTime, currentDay, amPm } = this.state
-    //increment currentTime & currentDay & adjust amPm
-    //this.checkForZeros()
-    //this.verifyDayCycle()
-    //this.check12HourFormat()
-    //this.checkAmPm()
-    //return `${checkHourlyHeaderForZeroes(currentTime)}:00 ${amPm} - Day ${currentDay}`;
-  }
+		const { currentTime, currentDay } = this.state
+    return `${currentTime}:00 - Day ${currentDay}`;
+	}
+	
+	incrementTimeBetweenOrders = () => {
+		let { currentTime, currentDay } = this.state 
+
+		currentTime += 8
+
+		if(currentTime >= 24) {
+			currentTime -= 24
+			currentDay++
+		}
+
+		this.setState({
+			currentTime,
+			currentDay
+		})
+	}
+
+// Creating TimeStamp End
+
 
 	submitNewOrder = event => {
 		event.preventDefault();
