@@ -180,16 +180,18 @@ export class Simulator extends Component {
       )
     } else {
       return (
-        <div className='simulator'>
-          <h1 className='CRRT-title'>CRRT SIMULATOR v.2</h1>
-          <div className='form-buttons-container'>
-	      	  <button 
-	      		  className='orders-btn form-btn'
-	      		  onClick={event => this.toggleOrdersModal(event)}
-	      	  >Orders</button>
-	      	  <button className='crrt-display-btn form-btn'>CRRT Display</button>
-	      	  <button className='restart-case-btn form-btn'>Restart Case</button>
-	        </div>
+        <div className='Simulator'>
+          <header className='simulator-header'>
+            <h1 className='CRRT-title'>CRRT SIMULATOR v.2</h1>
+            <div className='form-buttons-container'>
+	      	    <button 
+	      		    className='orders-btn header-btn'
+	      		    onClick={event => this.toggleOrdersModal(event)}
+	      	    >Orders</button>
+	      	    <button className='crrt-display-btn header-btn'>CRRT Display</button>
+	      	    <button className='restart-case-btn header-btn'>Restart Case</button>
+	          </div>
+          </header>
 	        { showOrdersModal === true &&
 	      	  <OrdersModal closeOrdersModal={event => this.toggleOrdersModal(event)}/>
           }
