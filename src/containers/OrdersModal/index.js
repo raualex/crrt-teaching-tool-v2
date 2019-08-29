@@ -28,7 +28,8 @@ export class OrdersModal extends Component {
 			readyForSubmission: false,
 			dosageErrors: [],
 			currentTime: 10, 
-			currentDay: 1
+			currentDay: 1,
+			timeBetweenOrders: 8
 		}
 	}
 
@@ -128,9 +129,9 @@ export class OrdersModal extends Component {
 	}
 	
 	incrementTimeBetweenOrders = () => {
-		let { currentTime, currentDay } = this.state 
+		let { currentTime, currentDay, timeBetweenOrders } = this.state 
 
-		currentTime += 8
+		currentTime += timeBetweenOrders
 
 		if(currentTime >= 24) {
 			currentTime -= 24
@@ -180,7 +181,8 @@ export class OrdersModal extends Component {
 			sodiumPhosphate15mmol100ml: false,
 			anticoagulation: 'None',
 			readyForSubmission: false,
-			dosageErrors: []
+			dosageErrors: [],
+			timeBetweenOrders: 8
 		})
 	}
 
@@ -206,7 +208,8 @@ export class OrdersModal extends Component {
 			saline3Percent,
 			d5W,
 			sodiumPhosphate15mmol100ml,
-			readyForSubmission
+			readyForSubmission,
+			timeBetweenOrders
 		} = this.state
 
 		const { closeOrdersModal } = this.props;
@@ -225,9 +228,9 @@ export class OrdersModal extends Component {
 						<h2 className='orders-modal-h2'>Orders</h2>
 						<div className='orders-modal-header-button-container'>
 							<button 
-								className='header-btn' 
+								className='prov-values-btn' 
 								onClick={event => this.fillForm(event)}
-							>Add provisional values
+							>Add sample values
 							</button>
 								<button 
 									className='orders-modal-close-btn-top'
@@ -239,6 +242,18 @@ export class OrdersModal extends Component {
 						</div>
 					</header>
 
+					<div className='timeBetweenOrders-container'>
+						<h3 className='timeBetweenOrders-label'>Time Between Orders</h3>
+						<input 
+							type='number'
+							min='0' 
+							step='1'
+							className='timeBetweenOrders-input'
+							name={'timeBetweenOrders'}
+							value={timeBetweenOrders}
+							onChange={event => this.handleStringChange(event)}
+							/>
+					</div>
 					<section className='orders-modality-container'>
 						<div className='header-info-container'>
 							<h3 className='orders-modal-section-header'>Modality</h3>
