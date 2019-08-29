@@ -4,7 +4,7 @@
 	box-shadow: 3px 3px #d0d6d3;
 	height: 80%;
 	margin: 3rem auto;
-	width: 80%;
+	width: 50%;
 	display: grid;
 	grid-template-columns: 2rem 1fr;
 }
@@ -15,11 +15,41 @@
 }
 
 .orders-modal-main-content {
-	padding: 0 0 0 2rem;
+	padding: 0 1rem;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-areas: 
+	'header header'
+	'main modality'
+	'main other'
+	'main anticoagulation'
+	'main .'
+	'footer footer';
+}
+
+.orders-replacement-fluid-container {
+	width: 100%;
+	grid-area: main;
+}
+
+.input-container-replacementFluidFlowRate {
+	margin: 1rem 0;
+}
+
+.input-text-header-replacementFluidFlowRate {
+	margin: 0 0 1rem;
+}
+
+.orders-modal-section-header {
+	margin: 0;
+	color: #979797;
 }
 
 .orders-modal-header {
-
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	grid-area: header;
 }
 
 .orders-modal-h2 {
@@ -27,9 +57,44 @@
 	text-align: left;
 }
 
+.orders-modal-header-button-container {
+	width: 16rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header-btn {
+	color: #4c4646;
+	font-weight: 700;
+	width: 12rem;
+	border: none;
+	border-radius: 10px;
+	height: 3rem;
+	font-size: 1rem;
+}
+
+.header-btn:hover {
+	box-shadow: 0px 0px 10px #d0d6d3;
+}
+
+.orders-modal-close-btn-top {
+	font-size: 2rem;
+  color: #4c4646;
+	border: none;
+	height: 3rem;
+	width: 3rem;
+	border-radius: 50%;
+}
+
+.orders-modal-close-btn-top:hover {
+	box-shadow: 0px 0px 10px #d0d6d3;
+}
+
 .orders-modality-container {
-	height: 18rem;
+	height: 9rem;
 	text-align: left;
+	grid-area: modality;
 }
 
 .fa-question-circle {
@@ -38,44 +103,117 @@
 
 .textbook-link {
 	color: #000;
+	margin: 0 1rem 0 0;
+}
+
+.input-container-main {
+	height: 45rem;
+	display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+	justify-content: space-between;
+	width: 100%;
 }
 
 .header-info-container {
 	align-items: center;
 	display: flex;
-  justify-content: flex-start;
+	height: 2.5rem;
+}
+
+.input-text-header {
+	color: #414141;
 }
 
 .input-container {
 	background-color: #FFF;
 	display: flex;
   flex-direction: column;
-	width: 50%;
+	height: 2rem;
   margin: 1rem;
-  padding: 1rem;
 }
 
 .input-error-container {
-  width: 100%;
-  margin: 1rem 0 0 0;
-	height: 4rem;
+  width: 50%;
+	height: 3rem;
+	overflow: scroll;
+	width: 80%;
+}
+
+.error-add-border {
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px #d0d6d3;
 }
 
 .input-error-text {
+	color: red;
 	font-size: 0.75rem;
-  text-align: left;
+	text-align: left;
+	margin: 0.5rem 0 0 0;
   overflow-wrap: normal;
 }
 
 .orders-modality-other-container {
-	height: 10rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	height: 9rem;
+	grid-area: other;
+	text-align: left;
+	margin: 0 0 1rem;
+}
+
+.modality-checkbox-label {
+  color: #232323;
+  font-weight: 600;
 }
 
 .orders-modality-anticoagulation-container {
-	height: 12rem;
+	height: 6rem;
+	text-align: left;
+	grid-area: anticoagulation;
+}
+
+.other-fluids-meds-checkbox {
+	margin: 0.25rem;
 }
 
 .input-radio {
 	cursor: pointer;
 }
 
+.orders-modal-footer {
+	grid-area: footer;
+	margin: 3rem auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 65%;
+}
+
+.footer-btn {
+	color: #4c4646;
+	font-weight: 700;
+	width: 10rem;
+	border: none;
+	border-radius: 10px;
+	height: 2.5rem;
+	font-size: 1.5rem;
+}
+
+.footer-btn:hover {
+	box-shadow: 0px 0px 10px #d0d6d3;
+}
+
+.submit-btn-active {
+	color: #fff;
+	background-color: #5ea0f8;
+}
+
+.submit-btn-active:hover {
+	box-shadow: 2px 1px 20px 4px #d0d6d3;
+}
+
+.submit-btn-inactive {
+	color: #bababa;
+}

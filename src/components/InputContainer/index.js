@@ -17,7 +17,7 @@ const InputContainer = ({ type, currentInputState, handleInputChange, dosagesToD
 	})
 
 	return (
-		<div className='InputContainer'>
+		<div className={`InputContainer-${type}`}>
 			{ inputCards }
 		</div>
 	)

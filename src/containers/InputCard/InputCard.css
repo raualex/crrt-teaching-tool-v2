@@ -1,0 +1,21 @@
+.InputCard-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-info-container-number {
+  display: flex;
+  align-items: center;
+  height: 2.25rem;
+}
+
+.input-text-header {
+  text-align: left;
+}
+
+.input-number {
+  width: 50%;
+  height: 1.25rem;
+  border-radius: 5px;
+  border: 1px solid #a09e9e;
+}

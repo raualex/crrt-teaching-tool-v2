@@ -1,0 +1,15 @@
+.InputContainer {
+  width: 100%;
+}
+
+.InputContainer-radio {
+    display: flex;
+    flex-direction: column;
+    height: 5rem;
+    justify-content: space-evenly;
+}
+
+.modality-radio-label {
+  color: #232323;
+  font-weight: 600;
+}

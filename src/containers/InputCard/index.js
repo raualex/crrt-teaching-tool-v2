@@ -9,12 +9,12 @@ class InputCard extends Component {
 		const { errorMessages, dosageNames } = orderDosages;
 
 		return (
-				<article className='input-container'>
+				<article className={`input-container-${type} input-container-${dosage}`}>
 					{ 
 						type === 'number' &&
 							<div className='InputCard-text'>
-								<div className='header-info-container'>
-									<h4>{ dosageNames[dosage] }</h4>
+								<div className={`header-info-container-${type}`}>
+									<h4 className={`input-text-header input-text-header-${type}`}>{ dosageNames[dosage] }</h4>
 										<a 
 											href='https://github.com/raualex/crrt-teaching-tool-v2' 
 											className='textbook-link'
@@ -22,27 +22,28 @@ class InputCard extends Component {
 											<i className='far fa-question-circle'></i>
 										</a>
 								</div>
+									<input 
+										type='number'
+										className='input-number'
+										name={dosage}
+										value={isNaN(currentInput) ? '' : currentInput}
+										onChange={event => handleInputChange(event)}
+									/>
+									<div 
+										className={'input-error-container' + (dosageErrors.includes(dosage) && ' error-add-border')}>
+										<p className='input-error-text'>{
+											dosageErrors.includes(dosage) ? errorMessages[dosage] : ''
+										}
+										</p>
+									</div>
 
-								<input 
-									type='number'
-									className='input-text'
-									name={dosage}
-									value={isNaN(currentInput) ? 0 : currentInput}
-									onChange={event => handleInputChange(event)}
-								/>
-								<div className='input-error-container'>
-									<p className='input-error-text'>{
-										dosageErrors.includes(dosage) ? errorMessages[dosage] : ''
-									}
-									</p>
-								</div>
 							</div>
 					}
 
 					{
 						type === 'radio' &&
 							<div className='modality-radio'>
-								<label>
+								<label className='modality-radio-label'>
 									<input 
 										type='radio'
 										className='input-radio'
