@@ -3,6 +3,7 @@ import './App.css';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LandingPage from '../components/LandingPage';
+import CaseSelectionModal from '../containers/CaseSelectionModal';
 import Simulator from '../containers/Simulator';
 import Textbook from '../components/Textbook';
 import Calculator from '../components/Calculator';
@@ -15,11 +16,13 @@ export class App extends Component {
   }
 
   render() {
+    let { selectedCase } = this.props
+
     return (
       <div className="App">
         <Switch>
           <Route exact path='/' component={LandingPage} />
-          <Route exact path="/simulator" component={Simulator} />
+          <Route exact path="/simulator" component={selectedCase === {} ? CaseSelectionModal : Simulator} />
           <Route exact path="/textbook" component={Textbook} />
           <Route exect path="/calculator" component={Calculator} />
         </Switch>
@@ -27,6 +30,10 @@ export class App extends Component {
     )
   }
 }
+
+export const mapStateToProps = (state) => ({
+  selectedCase: state.selectedCase
+})
 
 export const mapDispatchToProps = (dispatch) => ({
   fetchCases: () => dispatch(fetchCases())
