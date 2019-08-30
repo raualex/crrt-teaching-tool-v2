@@ -1,9 +1,20 @@
 export const submitOrder = (order) => ({
 	type: 'SUBMIT_ORDER',
-	order: order
+	order
 })
 
-export const setTime = (time) => ({
+export const setTime = ({currentTime, currentDay}) => ({
 	type: 'SET_TIME',
-	time: time
+	currentTime, 
+	currentDay
+})
+
+export const setTimeBetweenOrders = (timeBetweenOrders) => ({
+	type: 'SET_TIME_BETWEEN_ORDERS',
+	timeBetweenOrders
+})
+
+export const validateTimeBetweenOrders = () => ({
+	type: 'VALIDATE_TIME_BETWEEN_ORDERS',
+	timeBetweenOrdersIsValid: true
 })
