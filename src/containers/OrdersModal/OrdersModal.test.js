@@ -16,8 +16,13 @@ describe('OrdersModal', () => {
 												setTime={jest.fn()}
 												orders={mockOrders.mockOrders}
 												submitOrder={jest.fn()}
+												validateTimeBetweenOrders={jest.fn()}
 												hasErrored={false}
 												isLoading={false}
+												time={{
+													currentTime: 10,
+													currentDay: 1
+												}}
 											/>)
 		mockEvent = {
 			target: {
