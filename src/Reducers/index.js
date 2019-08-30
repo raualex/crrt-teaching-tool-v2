@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { isLoadingReducer, hasErroredReducer } from './general-reducers';
 import { selectedModalReducer } from './selection-reducers';
 import { ordersReducer, timeReducer } from './ordersReducers';
-import { allCasesReducer } from './case-reducers.js';
+import { allCasesReducer, selectedCaseReducer } from './case-reducers.js';
 
 const rootReducer = combineReducers({
   isLoading: isLoadingReducer,
@@ -10,7 +10,8 @@ const rootReducer = combineReducers({
   selectedModal: selectedModalReducer,
   orders: ordersReducer,
   currentTime: timeReducer,
-  allCases: allCasesReducer
+  allCases: allCasesReducer,
+  selectedCase: selectedCaseReducer
 });
 
 export default rootReducer;
