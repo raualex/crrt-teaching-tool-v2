@@ -16,20 +16,13 @@ export class App extends Component {
   }
 
   render() {
-    let { selectedCase } = this.props
-    let neededComponent;
-
-    if (selectedCase.id === undefined) {
-      neededComponent = CaseSelectionModal
-    } else {
-      neededComponent = Simulator
-    }
 
     return (
       <div className="App">
         <Switch>
-          <Route exact path='/' component={LandingPage} />
-          <Route exact path="/simulator" component={neededComponent} />
+          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/select_a_case" component={CaseSelectionModal} />
+          <Route exact path="/simulator" component={Simulator} />
           <Route exact path="/textbook" component={Textbook} />
           <Route exect path="/calculator" component={Calculator} />
         </Switch>

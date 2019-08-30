@@ -10,7 +10,7 @@ function LandingPage() {
         <div className='lp-link-button-container'>
           <NavLink 
             className='lp-link-buttons'
-            to="/simulator"
+            to="/select_a_case"
           >
             CRRT Simulator
           </NavLink>

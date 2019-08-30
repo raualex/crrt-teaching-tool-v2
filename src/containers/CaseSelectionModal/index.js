@@ -19,16 +19,18 @@ export class CaseSelectionModal extends Component {
 
   handleClick = (event) => {
     let { caseNumber } = this.state
-    let { allCases, selectActiveCase } = this.props
+    let { allCases, selectActiveCase, location } = this.props
     let selectedCase;
 
     event.preventDefault()
-    selectedCase = allCases.filter((patientCase) => {
-      console.log(patientCase.id)
-      console.log(caseNumber)
-      return patientCase.id === caseNumber
-    })
+    selectedCase = allCases.reduce((acc, patientCase) => {
+      if (patientCase.id === caseNumber) {
+        acc = patientCase
+      }
+      return acc
+    }, {})
     selectActiveCase(selectedCase)
+    location.pathname = '/simulator'
   }
 
   render() {
