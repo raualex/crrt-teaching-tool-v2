@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './OrdersModal.css';
 import { connect } from 'react-redux';
-import { submitOrder, setTime } from '../../Actions/ordersActions';
+import { submitOrder, setTime, setTimeBetweenOrders } from '../../Actions/ordersActions';
 import orderDosages from '../../utils/orderDosages.js';
 import InputContainer from '../../components/InputContainer';
 const uuidv4 = require('uuid/v4');
@@ -124,12 +124,18 @@ export class OrdersModal extends Component {
 	// Creating TimeStamp Start
 
 	createTimeStamp = () => {
-		const { currentTime, currentDay } = this.state
+		const { currentTime, currentDay } = this.props.time
     return `${currentTime}:00 - Day ${currentDay}`;
 	}
 	
+	handletimeBetweenOrdersChange = (event) => {
+		const { value } = event.target
+		this.props.setTimeBetweenOrders(value)
+	}
+
 	incrementTimeBetweenOrders = () => {
-		let { currentTime, currentDay, timeBetweenOrders } = this.state 
+		let { currentTime, currentDay } = this.props.time
+		const { timeBetweenOrders } = this.props
 
 		currentTime += timeBetweenOrders
 
@@ -138,10 +144,15 @@ export class OrdersModal extends Component {
 			currentDay++
 		}
 
-		this.setState({
-			currentTime,
+		const newTime = {
+			currentTime, 
 			currentDay
-		})
+		}
+		this.props.setTime(newTime)
+		// this.setState({
+		// 	currentTime,
+		// 	currentDay
+		// })
 	}
 
 // Creating TimeStamp End
@@ -154,7 +165,7 @@ export class OrdersModal extends Component {
 		
 		submitOrder(newOrder)
 		closeOrdersModal(event)
-		setTime(currentTime + 8)
+		// setTime(currentTime + 8)
 	}
 
 	toggleCheckBoxes = event => {
@@ -208,11 +219,10 @@ export class OrdersModal extends Component {
 			saline3Percent,
 			d5W,
 			sodiumPhosphate15mmol100ml,
-			readyForSubmission,
-			timeBetweenOrders
+			readyForSubmission
 		} = this.state
 
-		const { closeOrdersModal } = this.props;
+		const { closeOrdersModal, timeBetweenOrders } = this.props;
 		const {
 			replacementFluidDosages,
 			modalityDosages, 
@@ -248,10 +258,11 @@ export class OrdersModal extends Component {
 							type='number'
 							min='0' 
 							step='1'
+							max='24'
 							className='timeBetweenOrders-input'
 							name={'timeBetweenOrders'}
 							value={timeBetweenOrders}
-							onChange={event => this.handleStringChange(event)}
+							onChange={event => this.handletimeBetweenOrdersChange(event)}
 							/>
 					</div>
 					<section className='orders-modality-container'>
@@ -387,14 +398,16 @@ export class OrdersModal extends Component {
 	}
 }
 
-export const mapStateToProps = ({ orders, currentTime }) => ({
+export const mapStateToProps = ({ orders, time, timeBetweenOrders }) => ({
 	orders,
-	currentTime
+	time,
+	timeBetweenOrders
 });
 
 export const mapDispatchToProps = (dispatch) => ({
 	submitOrder: (order) => dispatch(submitOrder(order)),
-	setTime: (newTime) => dispatch(setTime(newTime))
+	setTime: (newTime) => dispatch(setTime(newTime)),
+	setTimeBetweenOrders: (TimeBetweenOrders) => dispatch(setTimeBetweenOrders(TimeBetweenOrders))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrdersModal);
