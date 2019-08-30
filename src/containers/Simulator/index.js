@@ -195,6 +195,7 @@ export class Simulator extends Component {
 		      { showOrdersModal === true &&
 		      	<OrdersModal closeOrdersModal={event => this.toggleOrdersModal(event)}/>
 		      }
+
           { showOrdersModal === false &&
             <div className='dataOutputContainer'>
               <div className='modalBtnContainer'>
