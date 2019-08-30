@@ -12,8 +12,3 @@ export const submitOrder = (order) => ({
 	type: 'SUBMIT_ORDER',
 	order: order
 })
-
-export const setCases = (cases) => ({
-  type: 'SET_CASES',
-  cases: cases
-})

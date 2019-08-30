@@ -1,4 +1,5 @@
-import { isLoading, hasErrored, setCases } from '../Actions';
+import { isLoading, hasErrored } from '../Actions';
+import { setCases } from '../Actions/case-actions.js';
 import { getCases } from '../utils/API.js';
 
 export const fetchCases = () => {
