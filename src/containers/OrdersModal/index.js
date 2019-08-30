@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './OrdersModal.css';
 import { connect } from 'react-redux';
-import { submitOrder, setTime, setTimeBetweenOrders } from '../../Actions/ordersActions';
+import { submitOrder, setTime, setTimeBetweenOrders, validateTimeBetweenOrders } from '../../Actions/ordersActions';
 import orderDosages from '../../utils/orderDosages.js';
 import InputContainer from '../../components/InputContainer';
 const uuidv4 = require('uuid/v4');
@@ -48,6 +48,7 @@ export class OrdersModal extends Component {
 
 	checkForInvalidInputs = () => {
 		const { requiredRanges, replacementFluidDosages } = orderDosages
+
 		const invalidEntries = replacementFluidDosages.reduce((wrongValues, medication) => {
 			if(this.state[medication] !== 0) {
 				if(this.state[medication] < requiredRanges[medication].min || this.state[medication] > requiredRanges[medication].max) {
@@ -61,9 +62,10 @@ export class OrdersModal extends Component {
 	}
 
 	validateOrder = () => {
+		const { timeBetweenOrders } = this.props
 		const invalidEntries = this.checkForInvalidInputs()
 
-		if(invalidEntries.length) {
+		if(invalidEntries.length || timeBetweenOrders === 0) {
 			this.setState({ 
 				dosageErrors: invalidEntries,
 				readyForSubmission: false 
@@ -117,7 +119,6 @@ export class OrdersModal extends Component {
 			}
 		}
 
-		this.incrementTimeBetweenOrders()
 		return order
 	}
 
@@ -130,7 +131,17 @@ export class OrdersModal extends Component {
 	
 	handletimeBetweenOrdersChange = (event) => {
 		const { value } = event.target
-		this.props.setTimeBetweenOrders(value)
+		const timeBetweenOrders = this.validateEnteredTimeBetweenOrders(value)
+		this.props.setTimeBetweenOrders(timeBetweenOrders)
+		this.validateOrder()
+	}
+
+	validateEnteredTimeBetweenOrders = (enteredTime) => {
+		if(enteredTime >= 2 && enteredTime <= 24) {
+			return Math.round(enteredTime)
+		} else {
+			return 0
+		}
 	}
 
 	incrementTimeBetweenOrders = () => {
@@ -149,10 +160,6 @@ export class OrdersModal extends Component {
 			currentDay
 		}
 		this.props.setTime(newTime)
-		// this.setState({
-		// 	currentTime,
-		// 	currentDay
-		// })
 	}
 
 // Creating TimeStamp End
@@ -160,12 +167,13 @@ export class OrdersModal extends Component {
 
 	submitNewOrder = event => {
 		event.preventDefault();
-		const { submitOrder, closeOrdersModal, setTime, currentTime } = this.props
+		const { submitOrder, closeOrdersModal, validateTimeBetweenOrders } = this.props
 		const newOrder = this.compileOrder()
 		
 		submitOrder(newOrder)
 		closeOrdersModal(event)
-		// setTime(currentTime + 8)
+		this.incrementTimeBetweenOrders()
+		validateTimeBetweenOrders()
 	}
 
 	toggleCheckBoxes = event => {
@@ -222,7 +230,7 @@ export class OrdersModal extends Component {
 			readyForSubmission
 		} = this.state
 
-		const { closeOrdersModal, timeBetweenOrders } = this.props;
+		const { closeOrdersModal, timeBetweenOrders, timeBetweenOrdersIsValid } = this.props;
 		const {
 			replacementFluidDosages,
 			modalityDosages, 
@@ -233,7 +241,7 @@ export class OrdersModal extends Component {
 			<form className='OrdersModal'>
 				<div className='orders-modal-sidebar'>
 				</div>
-				<div className='orders-modal-main-content'>
+				<div className={!timeBetweenOrdersIsValid ? 'orders-modal-main-content' : 'orders-modal-main-content-no-interval-input'}>
 					<header className='orders-modal-header'>
 						<h2 className='orders-modal-h2'>Orders</h2>
 						<div className='orders-modal-header-button-container'>
@@ -252,19 +260,22 @@ export class OrdersModal extends Component {
 						</div>
 					</header>
 
-					<div className='timeBetweenOrders-container'>
-						<h3 className='timeBetweenOrders-label'>Time Between Orders</h3>
-						<input 
-							type='number'
-							min='0' 
-							step='1'
-							max='24'
-							className='timeBetweenOrders-input'
-							name={'timeBetweenOrders'}
-							value={timeBetweenOrders}
-							onChange={event => this.handletimeBetweenOrdersChange(event)}
-							/>
-					</div>
+						{!timeBetweenOrdersIsValid &&
+							
+							<div className='timeBetweenOrders-container'>
+								<h3 className='timeBetweenOrders-label'>Time Between Orders</h3>
+								<input 
+									type='number'
+									min='0' 
+									step='1'
+									max='24'
+									className='timeBetweenOrders-input'
+									name={'timeBetweenOrders'}
+									value={timeBetweenOrders}
+									onChange={event => this.handletimeBetweenOrdersChange(event)}
+									/>
+							</div>
+						}
 					<section className='orders-modality-container'>
 						<div className='header-info-container'>
 							<h3 className='orders-modal-section-header'>Modality</h3>
@@ -398,16 +409,18 @@ export class OrdersModal extends Component {
 	}
 }
 
-export const mapStateToProps = ({ orders, time, timeBetweenOrders }) => ({
+export const mapStateToProps = ({ orders, time, timeBetweenOrders, timeBetweenOrdersIsValid }) => ({
 	orders,
 	time,
-	timeBetweenOrders
+	timeBetweenOrders, 
+	timeBetweenOrdersIsValid
 });
 
 export const mapDispatchToProps = (dispatch) => ({
 	submitOrder: (order) => dispatch(submitOrder(order)),
 	setTime: (newTime) => dispatch(setTime(newTime)),
-	setTimeBetweenOrders: (TimeBetweenOrders) => dispatch(setTimeBetweenOrders(TimeBetweenOrders))
+	setTimeBetweenOrders: (TimeBetweenOrders) => dispatch(setTimeBetweenOrders(TimeBetweenOrders)),
+	validateTimeBetweenOrders: () => dispatch(validateTimeBetweenOrders()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrdersModal);

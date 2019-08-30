@@ -28,6 +28,19 @@
 	'footer footer';
 }
 
+.orders-modal-main-content-no-interval-input {
+	padding: 0 1rem;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-areas: 
+	'header header'
+	'main modality'
+	'main other'
+	'main anticoagulation'
+	'main .'
+	'footer footer';
+}
+
 .orders-replacement-fluid-container {
 	width: 100%;
 	grid-area: main;
