@@ -109,6 +109,7 @@
 	border-radius: 10px;
 	height: 3rem;
 	font-size: 1rem;
+	outline: none;
 }
 
 .prov-values-btn {
@@ -118,6 +119,18 @@
 	border-radius: 10px;
 	height: 3rem;
 	font-size: 1rem;
+	outline: none;
+}
+
+.prov-values-btn:hover {
+	background-color: #5ea0f8;
+	color: #fff;
+}
+
+.prov-values-btn:active {
+	background-color: #fff;
+	border: solid 2px #5ea0f8;
+	color: #5ea0f8;
 }
 
 .orders-modal-close-btn-top {
@@ -127,10 +140,16 @@
 	height: 3rem;
 	width: 3rem;
 	border-radius: 50%;
+	outline: none;
 }
 
 .orders-modal-close-btn-top:hover {
 	box-shadow: 0px 0px 10px #d0d6d3;
+}
+
+.orders-modal-close-btn-top:active {
+	background-color: #4c4646;
+	color: #fff;
 }
 
 .orders-modality-container {
@@ -241,11 +260,18 @@
 	border-radius: 10px;
 	height: 2.5rem;
 	font-size: 1.5rem;
+	outline: none;
 }
 
 .footer-btn:hover {
 	color: #fff;
 	background-color: #4c4646;
+}
+
+.footer-btn:active {
+	background-color: #fff;
+	border: solid 2px #4c4646;
+	color: #4c4646;
 }
 
 .submit-btn-active {
@@ -254,7 +280,14 @@
 }
 
 .submit-btn-active:hover {
-	box-shadow: 2px 1px 20px 4px #d0d6d3;
+	background-color: #4591f7;
+	box-shadow: 2px 2px 2px 2px #d0d6d3;
+}
+
+.submit-btn-active:active {
+	background-color: #fff;
+	border: solid 2px #5ea0f8;
+	color: #5ea0f8;
 }
 
 .submit-btn-inactive {
