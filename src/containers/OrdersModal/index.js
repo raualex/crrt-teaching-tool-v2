@@ -265,10 +265,8 @@ export class OrdersModal extends Component {
 							<div className='timeBetweenOrders-container'>
 								<h3 className='timeBetweenOrders-label'>Time Between Orders</h3>
 								<input 
-									type='number'
-									min='0' 
-									step='1'
-									max='24'
+									type='text'
+									pattern="[0-9]*"
 									className='timeBetweenOrders-input'
 									name={'timeBetweenOrders'}
 									value={timeBetweenOrders}

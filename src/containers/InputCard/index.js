@@ -23,8 +23,9 @@ class InputCard extends Component {
 										</a>
 								</div>
 									<input 
-										type='number'
+										type='text'
 										className='input-number'
+										pattern="[0-9]*"
 										name={dosage}
 										value={isNaN(currentInput) ? '' : currentInput}
 										onChange={event => handleInputChange(event)}
