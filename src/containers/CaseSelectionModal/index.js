@@ -8,18 +8,41 @@ export class CaseSelectionModal extends Component {
     super(props)
 
     this.state = {
-      caseNumber: undefined
+      caseNumber: undefined,
+      error: ''
+    }
+  }
+
+  validateCaseNumEntry = () => {
+    let { caseNumber, error } = this.state
+
+    if (caseNumber !== undefined && error === '') {
+      return false
+    } else {
+      return true
     }
   }
 
   handleChange = (event) => {
+    let { allCases } = this.props
     let { value } = event.target
-    this.setState({caseNumber: parseInt(value)})
+    let candidateValue = parseInt(value)
+    let error = ''
+
+    if(candidateValue >= 1 && candidateValue <= allCases.length) {
+      this.setState({caseNumber: parseInt(value)})
+      error = ''
+    } else if (candidateValue > allCases.length || candidateValue === 0) {
+      error = `There is no case #${candidateValue}`
+    } else if (isNaN(candidateValue) || candidateValue === undefined) {
+      error = `Please enter a valid number`
+    }
+    this.setState({error})
   }
 
   handleClick = (event) => {
     let { caseNumber } = this.state
-    let { allCases, selectActiveCase, location } = this.props
+    let { allCases, selectActiveCase, location, history } = this.props
     let selectedCase;
 
     event.preventDefault()
@@ -31,15 +54,30 @@ export class CaseSelectionModal extends Component {
     }, {})
     selectActiveCase(selectedCase)
     location.pathname = '/simulator'
+    history.push('/simulator')
   }
 
   render() {
+
     return(
       <div className='csm-main-container'>
         <h1>Select a Case ID for the Simulator</h1>
         <form>
-          <input onChange={this.handleChange}></input>
-          <button onClick={this.handleClick}>Submit</button>
+          <div className='csm-input-submit-container'>
+          <input
+            className='csm-input' 
+            type='text'
+            onChange={this.handleChange}
+          />
+          <button
+            className='csm-submit-btn' 
+            onClick={this.handleClick}
+            disabled={this.validateCaseNumEntry()}
+          >Submit</button>
+          </div>
+          <div className='csm-error-container'>
+            {this.state.error}
+          </div>
         </form>
       </div>
     )

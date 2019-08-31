@@ -137,7 +137,9 @@ export class OrdersModal extends Component {
 	}
 
 	validateEnteredTimeBetweenOrders = (enteredTime) => {
+		const { validateTimeBetweenOrders } = this.props
 		if(enteredTime >= 2 && enteredTime <= 24) {
+			validateTimeBetweenOrders()
 			return Math.round(enteredTime)
 		} else {
 			return 0
@@ -167,13 +169,12 @@ export class OrdersModal extends Component {
 
 	submitNewOrder = event => {
 		event.preventDefault();
-		const { submitOrder, closeOrdersModal, validateTimeBetweenOrders } = this.props
+		const { submitOrder, closeOrdersModal } = this.props
 		const newOrder = this.compileOrder()
 		
 		submitOrder(newOrder)
 		closeOrdersModal(event)
 		this.incrementTimeBetweenOrders()
-		validateTimeBetweenOrders()
 	}
 
 	toggleCheckBoxes = event => {
@@ -230,7 +231,7 @@ export class OrdersModal extends Component {
 			readyForSubmission
 		} = this.state
 
-		const { closeOrdersModal, timeBetweenOrders, timeBetweenOrdersIsValid } = this.props;
+		const { orders, closeOrdersModal, timeBetweenOrders } = this.props;
 		const {
 			replacementFluidDosages,
 			modalityDosages, 
@@ -241,7 +242,7 @@ export class OrdersModal extends Component {
 			<form className='OrdersModal'>
 				<div className='orders-modal-sidebar'>
 				</div>
-				<div className={!timeBetweenOrdersIsValid ? 'orders-modal-main-content' : 'orders-modal-main-content-no-interval-input'}>
+				<div className={!orders.length ? 'orders-modal-main-content' : 'orders-modal-main-content-no-interval-input'}>
 					<header className='orders-modal-header'>
 						<h2 className='orders-modal-h2'>Orders</h2>
 						<div className='orders-modal-header-button-container'>
@@ -260,7 +261,7 @@ export class OrdersModal extends Component {
 						</div>
 					</header>
 
-						{!timeBetweenOrdersIsValid &&
+						{!orders.length &&
 							
 							<div className='timeBetweenOrders-container'>
 								<h3 className='timeBetweenOrders-label'>Time Between Orders</h3>
