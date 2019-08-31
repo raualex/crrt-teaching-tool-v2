@@ -8,13 +8,39 @@ export class CaseSelectionModal extends Component {
     super(props)
 
     this.state = {
-      caseNumber: undefined
+      caseNumber: undefined,
+      error: ''
+    }
+  }
+
+  checkForValidCase = () => {
+    let { caseNumber, error } = this.state
+
+    if (caseNumber !== undefined && error === '') {
+      return false
+    } else {
+      return true
     }
   }
 
   handleChange = (event) => {
+    let { allCases } = this.props
     let { value } = event.target
-    this.setState({caseNumber: parseInt(value)})
+    let candidateValue = parseInt(value)
+    console.log('candidateValue: ',candidateValue)
+    let error = ''
+
+    if(candidateValue >= 1 && candidateValue <= allCases.length) {
+      this.setState({caseNumber: parseInt(value)})
+      error = ''
+    } else if (candidateValue > allCases.length || candidateValue === 0) {
+      error = `There is no case #${candidateValue}`
+      console.log(error)
+    } else if (isNaN(candidateValue) || candidateValue === undefined) {
+      error = `Please enter a valid number`
+      console.log(error)
+    }
+    this.setState({error})
   }
 
   handleClick = (event) => {
@@ -35,12 +61,19 @@ export class CaseSelectionModal extends Component {
   }
 
   render() {
+
     return(
       <div className='csm-main-container'>
         <h1>Select a Case ID for the Simulator</h1>
         <form>
-          <input onChange={this.handleChange}></input>
-          <button onClick={this.handleClick}>Submit</button>
+          <input 
+            type='text'
+            onChange={this.handleChange}
+          />
+          <button 
+            onClick={this.handleClick}
+            disabled={this.checkForValidCase()}
+          >Submit</button>
         </form>
       </div>
     )

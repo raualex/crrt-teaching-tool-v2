@@ -231,7 +231,7 @@ export class OrdersModal extends Component {
 			readyForSubmission
 		} = this.state
 
-		const { orders, closeOrdersModal, timeBetweenOrders, timeBetweenOrdersIsValid } = this.props;
+		const { orders, closeOrdersModal, timeBetweenOrders } = this.props;
 		const {
 			replacementFluidDosages,
 			modalityDosages, 
