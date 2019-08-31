@@ -19,7 +19,7 @@ export class CaseSelectionModal extends Component {
 
   handleClick = (event) => {
     let { caseNumber } = this.state
-    let { allCases, selectActiveCase, location } = this.props
+    let { allCases, selectActiveCase, location, history } = this.props
     let selectedCase;
 
     event.preventDefault()
@@ -31,6 +31,7 @@ export class CaseSelectionModal extends Component {
     }, {})
     selectActiveCase(selectedCase)
     location.pathname = '/simulator'
+    history.push('/simulator')
   }
 
   render() {
