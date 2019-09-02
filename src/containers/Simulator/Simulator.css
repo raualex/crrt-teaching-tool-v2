@@ -14,10 +14,16 @@
   padding: 21px;
 }
 
-.dataOutputContainer {
+/* .dataOutputContainer {
   display: flex;
   height: 100vh;
   width: 100vw;
+} */
+
+.dataOutputContainer {
+  display: grid;
+  grid-template-columns: 16rem 1fr;
+  height: 100%;
 }
 
 .btn-active,
@@ -29,11 +35,10 @@
 }
 
 .btn-active {
-  /* border-bottom: solid 2px #000;
+  border-bottom: solid 2px #000;
   border-left: solid 2px #000;
   border-right: solid 2px #000;
-  border-top: solid 2px #000; */
-  background-color: blue;
+  border-top: solid 2px #000;
   font-size: 1rem;
   font-weight: bold;
 }
@@ -60,9 +65,9 @@
   background-color: #eff7fe;
   display: flex;
   flex-direction: column;
-  height: 80%;
+  height: 37rem;
   justify-content: center;
-  width: 250px;
+  /* width: 250px; */
 }
 
 .modal-container {
@@ -70,7 +75,7 @@
   /*Maybe try?*/
   /* overflow-x: scroll;
   overflow-y: scroll; */
-  width: 82.35%;
+  /* width: 82.35%; */
 }
 
 .simulator-header {
@@ -140,8 +145,8 @@
   /*z-index: 1;*/
 }
 
-body,
+/* body,
 #root,
 .App {
   width: 100vw;
-}
+} */
