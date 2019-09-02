@@ -1,8 +1,22 @@
 .OrderResultsContainer {
-	border: 2px solid #efefef;
-	border-radius: 5px;
-	height: 70%;
-	margin: 2rem auto;
-	overflow: scroll;
-	width: 50%;
+  background-color: #fff;
+  border: 2px solid #efefef;
+  border-radius: 10px;
+  height: 70%;
+  margin: 2rem auto;
+  overflow: scroll;
+  width: 50%;
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+}
+
+.orders-results-sidebar {
+  background-color: #4ea84e;
+  border-radius: 5px 0 0 5px;
+}
+
+.orders-results-main-content {
+  padding: 0 1rem;
+
+  grid-template-areas: ;
 }

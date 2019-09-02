@@ -1,21 +1,24 @@
 .OrderResultsCard {
-	margin: 1rem auto;
-	width: 70%;
+  margin: 1rem auto;
+  width: 60%;
 }
 
 .order-results-header {
-	text-align: left;
+  text-align: left;
+  color: #323030;
 }
 
 .order-results-message-container {
-	width: 80%;
+  width: 100%;
+  padding: 0;
 }
 
 .order-results-message {
-	text-align: left;
+  text-align: left;
+  margin: 0 0 0.75rem;
 }
 
 .order-results-break {
   border: 1px solid #efefef;
-	width: 70%;	
+  width: 70%;
 }
