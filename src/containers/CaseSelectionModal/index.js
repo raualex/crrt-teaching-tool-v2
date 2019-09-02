@@ -17,9 +17,11 @@ export class CaseSelectionModal extends Component {
     let { caseNumber, error } = this.state
 
     if (caseNumber !== undefined && error === '') {
-      return false
-    } else {
+      console.log(true)
       return true
+    } else {
+      console.log(false)
+      return false
     }
   }
 
@@ -30,14 +32,16 @@ export class CaseSelectionModal extends Component {
     let error = ''
 
     if(candidateValue >= 1 && candidateValue <= allCases.length) {
-      this.setState({caseNumber: parseInt(value)})
       error = ''
     } else if (candidateValue > allCases.length || candidateValue === 0) {
       error = `There is no case #${candidateValue}`
     } else if (isNaN(candidateValue) || candidateValue === undefined) {
       error = `Please enter a valid number`
     }
-    this.setState({error})
+    this.setState({
+      caseNumber: candidateValue,
+      error
+    })
   }
 
   handleClick = (event) => {
@@ -58,7 +62,6 @@ export class CaseSelectionModal extends Component {
   }
 
   render() {
-
     return(
       <div className='csm-main-container'>
         <h1>Select a Case ID for the Simulator</h1>
@@ -70,9 +73,9 @@ export class CaseSelectionModal extends Component {
             onChange={this.handleChange}
           />
           <button
-            className='csm-submit-btn' 
+            className={`${this.validateCaseNumEntry() ? 'csm-submit-btn-active' : 'csm-submit-btn'}`} 
             onClick={this.handleClick}
-            disabled={this.validateCaseNumEntry()}
+            disabled={!this.validateCaseNumEntry()}
           >Submit</button>
           </div>
           <div className='csm-error-container'>
