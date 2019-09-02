@@ -35,6 +35,7 @@
   height: 2rem;
   font-size: 1rem;
   outline: none;
+  cursor: not-allowed;
 }
 
 .csm-submit-btn:hover {
@@ -42,10 +43,17 @@
   background-color: #4c4646;
 }
 
-.csm-submit-btn:active {
+.csm-submit-btn-active {
   background-color: #fff;
   border: solid 2px #4c4646;
   color: #4c4646;
+  font-weight: 700;
+  width: 8rem;
+  border-radius: 10px;
+  height: 2rem;
+  font-size: 1rem;
+  outline: none;
+  cursor: pointer;
 }
 
 .csm-error-container {

@@ -1,227 +1,227 @@
 .OrdersModal {
-	background-color: #FFF;
-	border-radius: 5px;
-	box-shadow: 3px 3px #d0d6d3;
-	height: 80%;
-	margin: 3rem auto;
-	width: 50%;
-	display: grid;
-	grid-template-columns: 2rem 1fr;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 3px 3px #d0d6d3;
+  height: 80%;
+  margin: 3rem auto;
+  width: 50%;
+  display: grid;
+  grid-template-columns: 2rem 1fr;
 }
 
 .orders-modal-sidebar {
-	background-color: #5ea0f8;
-	border-radius: 5px 0 0 5px;
+  background-color: #5ea0f8;
+  border-radius: 5px 0 0 5px;
 }
 
 .orders-modal-main-content {
-	padding: 0 1rem;
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-areas: 
-	'header header'
-	'main timeBetween'
-	'main modality'
-	'main other'
-	'main anticoagulation'
-	'main .'
-	'footer footer';
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "header header"
+    "main timeBetween"
+    "main modality"
+    "main other"
+    "main anticoagulation"
+    "main ."
+    "footer footer";
 }
 
 .orders-modal-main-content-no-interval-input {
-	padding: 0 1rem;
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-areas: 
-	'header header'
-	'main modality'
-	'main other'
-	'main anticoagulation'
-	'main .'
-	'footer footer';
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "header header"
+    "main modality"
+    "main other"
+    "main anticoagulation"
+    "main ."
+    "footer footer";
 }
 
 .orders-replacement-fluid-container {
-	width: 100%;
-	grid-area: main;
+  width: 100%;
+  grid-area: main;
 }
 
 .input-container-replacementFluidFlowRate {
-	margin: 1rem 0;
+  margin: 1rem 0;
 }
 
 .input-text-header-replacementFluidFlowRate {
-	margin: 0 0 1rem;
+  margin: 0 0 1rem;
 }
 
 .orders-modal-section-header {
-	margin: 0;
-	color: #979797;
+  margin: 0;
+  color: #979797;
 }
 
 .orders-modal-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  grid-area: header;
 }
 
 .orders-modal-h2 {
-	color: #5ea0f8;
-	text-align: left;
+  color: #5ea0f8;
+  text-align: left;
 }
 
 .orders-modal-header-button-container {
-	width: 16rem;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+  width: 16rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .timeBetweenOrders-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: flex-start;
-	grid-area: timeBetween;
-	margin: 0 0 1rem;
-	height: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  grid-area: timeBetween;
+  margin: 0 0 1rem;
+  height: 4rem;
 }
 
 .timeBetweenOrders-label {
-	text-align: left;
-	margin: 0;
-	color: #979797;
+  text-align: left;
+  margin: 0;
+  color: #979797;
 }
 
 .timeBetweenOrders-input {
-	width: 4rem;
+  width: 4rem;
   height: 1.25rem;
   border-radius: 5px;
-	border: 1px solid #a09e9e;
-	padding: 0 0 0 0.25rem;
+  border: 1px solid #a09e9e;
+  padding: 0 0 0 0.25rem;
 }
 
 .header-btn {
-	font-weight: 700;
-	width: 12rem;
-	border: none;
-	border-radius: 10px;
-	height: 3rem;
-	font-size: 1rem;
-	outline: none;
+  font-weight: 700;
+  width: 12rem;
+  border: none;
+  border-radius: 10px;
+  height: 3rem;
+  font-size: 1rem;
+  outline: none;
 }
 
 .prov-values-btn {
-	font-weight: 700;
-	width: 12rem;
-	border: none;
-	border-radius: 10px;
-	height: 3rem;
-	font-size: 1rem;
-	outline: none;
+  font-weight: 700;
+  width: 12rem;
+  border: none;
+  border-radius: 10px;
+  height: 3rem;
+  font-size: 1rem;
+  outline: none;
 }
 
 .prov-values-btn:hover {
-	background-color: #5ea0f8;
-	color: #fff;
+  background-color: #5ea0f8;
+  color: #fff;
 }
 
 .prov-values-btn:active {
-	background-color: #fff;
-	border: solid 2px #5ea0f8;
-	color: #5ea0f8;
+  background-color: #fff;
+  border: solid 2px #5ea0f8;
+  color: #5ea0f8;
 }
 
 .orders-modal-close-btn-top {
-	font-size: 2rem;
+  font-size: 2rem;
   color: #4c4646;
-	border: none;
-	height: 3rem;
-	width: 3rem;
-	border-radius: 50%;
-	outline: none;
+  border: none;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  outline: none;
 }
 
 .orders-modal-close-btn-top:hover {
-	box-shadow: 0px 0px 10px #d0d6d3;
+  box-shadow: 0px 0px 10px #d0d6d3;
 }
 
 .orders-modal-close-btn-top:active {
-	background-color: #4c4646;
-	color: #fff;
+  background-color: #4c4646;
+  color: #fff;
 }
 
 .orders-modality-container {
-	height: 9rem;
-	text-align: left;
-	grid-area: modality;
+  height: 9rem;
+  text-align: left;
+  grid-area: modality;
 }
 
 .fa-question-circle {
-	margin: 0 0 0 0.25rem;	
+  margin: 0 0 0 0.25rem;
 }
 
 .textbook-link {
-	color: #000;
-	margin: 0 1rem 0 0;
+  color: #000;
+  margin: 0 1rem 0 0;
 }
 
 .input-container-main {
-	height: 45rem;
-	display: flex;
+  height: 45rem;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
-	justify-content: space-between;
-	width: 100%;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .header-info-container {
-	align-items: center;
-	display: flex;
-	height: 2.5rem;
+  align-items: center;
+  display: flex;
+  height: 2.5rem;
 }
 
 .input-text-header {
-	color: #414141;
+  color: #414141;
 }
 
 .input-container {
-	background-color: #FFF;
-	display: flex;
+  background-color: #fff;
+  display: flex;
   flex-direction: column;
-	height: 2rem;
+  height: 2rem;
   margin: 1rem;
 }
 
 .input-error-container {
   width: 50%;
-	height: 3rem;
-	overflow: scroll;
-	width: 80%;
+  height: 3rem;
+  overflow: scroll;
+  width: 80%;
 }
 
 .error-add-border {
-	border-radius: 5px;
-	box-shadow: 1px 1px 1px #d0d6d3;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px #d0d6d3;
 }
 
 .input-error-text {
-	color: red;
-	font-size: 0.75rem;
-	text-align: left;
-	margin: 0.5rem 0 0 0;
+  color: red;
+  font-size: 0.75rem;
+  text-align: left;
+  margin: 0.5rem 0 0 0;
   overflow-wrap: normal;
 }
 
 .orders-modality-other-container {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	height: 9rem;
-	grid-area: other;
-	text-align: left;
-	margin: 0 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 9rem;
+  grid-area: other;
+  text-align: left;
+  margin: 0 0 1rem;
 }
 
 .modality-checkbox-label {
@@ -230,66 +230,66 @@
 }
 
 .orders-modality-anticoagulation-container {
-	height: 6rem;
-	text-align: left;
-	grid-area: anticoagulation;
+  height: 6rem;
+  text-align: left;
+  grid-area: anticoagulation;
 }
 
 .other-fluids-meds-checkbox {
-	margin: 0.25rem;
+  margin: 0.25rem;
 }
 
 .input-radio {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .orders-modal-footer {
-	grid-area: footer;
-	margin: 3rem auto;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	width: 75%;
+  grid-area: footer;
+  margin: 3rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 75%;
 }
 
 .footer-btn {
-	color: #4c4646;
-	font-weight: 700;
-	width: 10rem;
-	border: none;
-	border-radius: 10px;
-	height: 2.5rem;
-	font-size: 1.5rem;
-	outline: none;
+  color: #4c4646;
+  font-weight: 700;
+  width: 10rem;
+  border: none;
+  border-radius: 10px;
+  height: 2.5rem;
+  font-size: 1.5rem;
+  outline: none;
 }
 
 .footer-btn:hover {
-	color: #fff;
-	background-color: #4c4646;
+  color: #fff;
+  background-color: #4c4646;
 }
 
 .footer-btn:active {
-	background-color: #fff;
-	border: solid 2px #4c4646;
-	color: #4c4646;
+  background-color: #fff;
+  border: solid 2px #4c4646;
+  color: #4c4646;
 }
 
 .submit-btn-active {
-	color: #fff;
-	background-color: #5ea0f8;
+  color: #fff;
+  background-color: #5ea0f8;
 }
 
 .submit-btn-active:hover {
-	background-color: #4591f7;
-	box-shadow: 2px 2px 2px 2px #d0d6d3;
+  background-color: #4591f7;
+  box-shadow: 2px 2px 2px 2px #d0d6d3;
 }
 
 .submit-btn-active:active {
-	background-color: #fff;
-	border: solid 2px #5ea0f8;
-	color: #5ea0f8;
+  background-color: #fff;
+  border: solid 2px #5ea0f8;
+  color: #5ea0f8;
 }
 
 .submit-btn-inactive {
-	color: #bababa;
+  color: #bababa;
 }
