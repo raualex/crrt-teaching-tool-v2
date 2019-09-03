@@ -13,6 +13,14 @@ export class DataOutputTable extends Component {
   //element with that number for every value in the array, and add it to the modalTableRowKeys element in the map below,
   //right after the <td> with the key name in it
 
+  cleanModalname = (modalName) => {
+    let modalNameArr = modalName.split(' ')
+    modalNameArr = modalNameArr.map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1)
+    })
+    return modalNameArr.join('')
+  }
+
   mapArrayValuesForTables = (arr) => {
     return arr.map((outputNum) => {
       return <td className='table-key' key={uuidv4()}>{outputNum}</td>
@@ -25,6 +33,19 @@ export class DataOutputTable extends Component {
       finalArr.push(<th key={uuidv4()} className='blank-table-head'>{'Timestamp'}</th>)
     }
     return finalArr
+  }
+
+  createBulletPointsForNonTables = () => {
+    let { selectedModal, selectedCase } = this.props;
+    let cleanedModalName = this.cleanModalname(selectedModal)
+    let selectedCaseKeys = Object.keys(selectedCase)
+
+    cleanedModalName = cleanedModalName.charAt(0).toLowerCase() + cleanedModalName.slice(1)
+
+    if (selectedCaseKeys.includes(cleanedModalName)) {
+      console.log(JSON.parse(selectedCase[cleanedModalName]))
+    }
+    return <li>Test</li>
   }
 
   render() {
@@ -62,7 +83,7 @@ export class DataOutputTable extends Component {
       return(
         <div className={'dataot-' + modalNameForClass}>
           <ul>
-            <li>List Items from case in Redux</li>
+            {this.createBulletPointsForNonTables()}
           </ul>
         </div>
       )
@@ -71,7 +92,8 @@ export class DataOutputTable extends Component {
 }
 
 export const mapStateToProps = (state) => ({
-  selectedModal: state.selectedModal
+  selectedModal: state.selectedModal,
+  selectedCase: state.selectedCase
 })
 
 export default connect(mapStateToProps)(DataOutputTable)
