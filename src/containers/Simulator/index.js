@@ -114,8 +114,13 @@ export class Simulator extends Component {
   }
 
   render() {
-    const { selectedModal } = this.props
+    const { selectedModal, selectedCase, location, history } = this.props
     const { showOrdersModal, btnClicked, ordersResults } = this.state
+
+    if (!selectedCase.id) {
+      location.pathname = '/select_a_case'
+      history.push('/select_a_case')
+    }
   
     if (selectedModal === '') {
       return(
@@ -246,8 +251,9 @@ export class Simulator extends Component {
   }
 }
 
-export const mapStateToProps = ({ selectedModal, orders }) => ({
+export const mapStateToProps = ({ selectedModal, selectedCase, orders }) => ({
   selectedModal,
+  selectedCase,
   orders
 })
 
