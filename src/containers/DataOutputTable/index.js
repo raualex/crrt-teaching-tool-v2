@@ -48,16 +48,29 @@ export class DataOutputTable extends Component {
       modalTextArray = Object.entries(JSON.parse(selectedCase[cleanedModalName]))
     } else if (selectedCaseKeys.includes(cleanedModalName) && selectedModal === 'Physical Exam') {
       modalTextArray = Object.entries(JSON.parse(selectedCase[cleanedModalName]))
-      // console.log(JSON.parse(selectedCase[cleanedModalName]) + 'Physical Exam')
     } else if (selectedCaseKeys.includes(cleanedModalName) && selectedModal === 'Imaging') {
-      // console.log(typeof JSON.parse(selectedCase[cleanedModalName]) + 'Imaging')
+      modalTextArray = JSON.parse(selectedCase[cleanedModalName])
     }
     console.log(modalTextArray)
 
-    finalArray = modalTextArray.map((textForBulletPoint) => {
-      return <li><strong>{textForBulletPoint[0]}:</strong> {textForBulletPoint[1]}</li>
-    })
+    finalArray = this.printFinalArray(modalTextArray)
     return finalArray
+  }
+
+  printFinalArray = (arr) => {
+    let { selectedModal } = this.props;
+
+    if (selectedModal === 'History of Present Illness' ||
+      selectedModal === 'Physical Exam'
+    ) {
+      return arr.map((textForBulletPoint) => {
+        return <li><strong>{textForBulletPoint[0]}:</strong> {textForBulletPoint[1]}</li>
+      })
+    } else {
+      return arr.map((textForBulletPoint) => {
+        return <li>{textForBulletPoint}</li>
+      })
+    }
   }
 
   render() {
