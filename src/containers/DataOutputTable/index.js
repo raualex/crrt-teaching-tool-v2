@@ -51,7 +51,6 @@ export class DataOutputTable extends Component {
     } else if (selectedCaseKeys.includes(cleanedModalName) && selectedModal === 'Imaging') {
       modalTextArray = JSON.parse(selectedCase[cleanedModalName])
     }
-    console.log(modalTextArray)
 
     finalArray = this.printFinalArray(modalTextArray)
     return finalArray
@@ -64,11 +63,11 @@ export class DataOutputTable extends Component {
       selectedModal === 'Physical Exam'
     ) {
       return arr.map((textForBulletPoint) => {
-        return <li><strong>{textForBulletPoint[0]}:</strong> {textForBulletPoint[1]}</li>
+        return <li key={uuidv4()}><strong>{textForBulletPoint[0]}:</strong> {textForBulletPoint[1]}</li>
       })
     } else {
       return arr.map((textForBulletPoint) => {
-        return <li>{textForBulletPoint}</li>
+        return <li key={uuidv4()}>{textForBulletPoint}</li>
       })
     }
   }
