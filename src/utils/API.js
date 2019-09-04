@@ -4,5 +4,16 @@ export const getCases = async () => {
     method: "GET"
   });
   const result = await response.json()
-  return result
+
+  let cleanedResult = result.map((patientCase) => {
+    return cleanImagingObj(patientCase)
+  })
+  return cleanedResult
+}
+
+const cleanImagingObj = (patientCase) => {
+  patientCase.imaging = patientCase.imaging.slice(1)
+  patientCase.imaging = patientCase.imaging.slice(0, patientCase.imaging.length - 1)
+  patientCase.imaging = '[' + patientCase.imaging + ']'
+  return patientCase
 }
