@@ -55,7 +55,7 @@ export class DataOutputTable extends Component {
     console.log(modalTextArray)
 
     finalArray = modalTextArray.map((textForBulletPoint) => {
-      return <li>{textForBulletPoint[0]}: {textForBulletPoint[1]}</li>
+      return <li><strong>{textForBulletPoint[0]}:</strong> {textForBulletPoint[1]}</li>
     })
     return finalArray
   }
