@@ -63,11 +63,14 @@ export class DataOutputTable extends Component {
       selectedModal === 'Physical Exam'
     ) {
       return arr.map((textForBulletPoint) => {
-        return <li key={uuidv4()}><strong>{textForBulletPoint[0]}:</strong> {textForBulletPoint[1]}</li>
+        return <li 
+            key={uuidv4()} 
+            className='dataot-line-item'
+          ><strong>{textForBulletPoint[0]}:</strong> {textForBulletPoint[1]}</li>
       })
     } else {
       return arr.map((textForBulletPoint) => {
-        return <li key={uuidv4()}>{textForBulletPoint}</li>
+        return <li key={uuidv4()} className='dataot-line-item'>{textForBulletPoint}</li>
       })
     }
   }
@@ -104,6 +107,8 @@ export class DataOutputTable extends Component {
         </table>
       )
     } else {
+      modalNameForClass = selectedModal.replace(/\s/g, '-')
+
       return(
         <div className={'dataot-' + modalNameForClass}>
           <ul>
