@@ -13,6 +13,14 @@ export class DataOutputTable extends Component {
   //element with that number for every value in the array, and add it to the modalTableRowKeys element in the map below,
   //right after the <td> with the key name in it
 
+  cleanModalname = (modalName) => {
+    let modalNameArr = modalName.split(' ')
+    modalNameArr = modalNameArr.map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1)
+    })
+    return modalNameArr.join('')
+  }
+
   mapArrayValuesForTables = (arr) => {
     return arr.map((outputNum) => {
       return <td className='table-key' key={uuidv4()}>{outputNum}</td>
@@ -25,6 +33,46 @@ export class DataOutputTable extends Component {
       finalArr.push(<th key={uuidv4()} className='blank-table-head'>{'Timestamp'}</th>)
     }
     return finalArr
+  }
+
+  createBulletPointsForNonTables = () => {
+    let { selectedModal, selectedCase } = this.props;
+    let cleanedModalName = this.cleanModalname(selectedModal)
+    let selectedCaseKeys = Object.keys(selectedCase)
+    let modalTextArray;
+    let finalArray;
+
+    cleanedModalName = cleanedModalName.charAt(0).toLowerCase() + cleanedModalName.slice(1)
+
+    if (selectedCaseKeys.includes(cleanedModalName) && selectedModal === 'History of Present Illness') {
+      modalTextArray = Object.entries(JSON.parse(selectedCase[cleanedModalName]))
+    } else if (selectedCaseKeys.includes(cleanedModalName) && selectedModal === 'Physical Exam') {
+      modalTextArray = Object.entries(JSON.parse(selectedCase[cleanedModalName]))
+    } else if (selectedCaseKeys.includes(cleanedModalName) && selectedModal === 'Imaging') {
+      modalTextArray = JSON.parse(selectedCase[cleanedModalName])
+    }
+
+    finalArray = this.printFinalArray(modalTextArray)
+    return finalArray
+  }
+
+  printFinalArray = (arr) => {
+    let { selectedModal } = this.props;
+
+    if (selectedModal === 'History of Present Illness' ||
+      selectedModal === 'Physical Exam'
+    ) {
+      return arr.map((textForBulletPoint) => {
+        return <li 
+            key={uuidv4()} 
+            className='dataot-line-item'
+          ><strong>{textForBulletPoint[0]}:</strong> {textForBulletPoint[1]}</li>
+      })
+    } else {
+      return arr.map((textForBulletPoint) => {
+        return <li key={uuidv4()} className='dataot-line-item'>{textForBulletPoint}</li>
+      })
+    }
   }
 
   render() {
@@ -59,10 +107,12 @@ export class DataOutputTable extends Component {
         </table>
       )
     } else {
+      modalNameForClass = selectedModal.replace(/\s/g, '-')
+
       return(
         <div className={'dataot-' + modalNameForClass}>
           <ul>
-            <li>List Items from case in Redux</li>
+            {this.createBulletPointsForNonTables()}
           </ul>
         </div>
       )
@@ -71,7 +121,8 @@ export class DataOutputTable extends Component {
 }
 
 export const mapStateToProps = (state) => ({
-  selectedModal: state.selectedModal
+  selectedModal: state.selectedModal,
+  selectedCase: state.selectedCase
 })
 
 export default connect(mapStateToProps)(DataOutputTable)

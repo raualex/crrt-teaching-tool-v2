@@ -1,5 +1,16 @@
-/* .dataot-Laboratory-Data {
-} */
+.dataot-History-of-Present-Illness,
+.dataot-Imaging,
+.dataot-Physical-Exam {
+  padding: 30px 60px 60px 60px;
+  text-align: left;
+}
+
+.dataot-line-item {
+  list-style-position: inside;
+  list-style-type: none;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
 
 .blank-table-head {
   background-color: #EFF7FE;
