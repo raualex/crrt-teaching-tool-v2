@@ -32,34 +32,36 @@ export const compileLabData = (
   usualWeight,
   currentOrder
 ) => {
- 
-  const labDataResults = labDataValues.reduce((updatedLabResults, med) => {
+  const labDataKeys = Object.keys(labDataValues)
+
+  const labDataResults = labDataKeys.reduce((updatedLabResults, labKey) => {
     const {
-      name,
       dialysate,
       effluentFlowRate,
       volumeOfDistribution,
       productionRate
-    } = med;
+    } = labDataValues[labKey];
     let initialValue
 
-    if(!labData[name].length) {
-      initialValue = currentOrder.dosages[name];
-    } else {
-      initialValue = labData[name][labData[name].length - 1];
+    for(let i=1; i<=timeBetweenOrders; i++) {
+      if(!labData[labKey].length) {
+        initialValue = currentOrder.dosages[labKey];
+      } else {
+        initialValue = labData[labKey][labData[labKey].length - 1];
+      }
+  
+      const labResult = calculateLab(
+        initialValue,
+        dialysate,
+        effluentFlowRate,
+        timeBetweenOrders,
+        usualWeight,
+        volumeOfDistribution,
+        productionRate
+      );
+  
+      updatedLabResults[labKey] = labData[labKey].push(parseFloat(labResult));
     }
-
-    const labResult = calculateLab(
-      initialValue,
-      dialysate,
-      effluentFlowRate,
-      timeBetweenOrders,
-      usualWeight,
-      volumeOfDistribution,
-      productionRate
-    );
-
-    updatedLabResults[name] = labData[name].push(parseFloat(labResult));
     
     return updatedLabResults;
   }, {});

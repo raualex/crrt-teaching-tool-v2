@@ -1,6 +1,5 @@
-export const labDataValues = [
-  {
-    name: "sodium",
+export const labDataValues = {
+  "sodium": {
     initialValue: undefined,
     dialysate: 140,
     effluentFlowRate: 2,
@@ -9,8 +8,7 @@ export const labDataValues = [
     volumeOfDistribution: 42,
     productionRate: 0
   },
-  {
-    name: "potassium",
+  "potassium": {
     initialValue: undefined,
     dialysate: 0,
     effluentFlowRate: 4,
@@ -19,8 +17,7 @@ export const labDataValues = [
     volumeOfDistribution: 42,
     productionRate: 0
   },
-  {
-    name: "chloride",
+  "chloride": {
     initialValue: undefined,
     dialysate: 100,
     effluentFlowRate: 2,
@@ -29,8 +26,7 @@ export const labDataValues = [
     volumeOfDistribution: 42,
     productionRate: 0
   },
-  {
-    name: "bicarbonate",
+  "bicarbonate": {
     initialValue: undefined,
     dialysate: 35,
     effluentFlowRate: 2,
@@ -39,8 +35,7 @@ export const labDataValues = [
     volumeOfDistribution: 42,
     productionRate: -50
   },
-  {
-    name: "bun",
+  "bun": {
     initialValue: undefined,
     dialysate: 0,
     effluentFlowRate: 2,
@@ -49,8 +44,7 @@ export const labDataValues = [
     volumeOfDistribution: 42,
     productionRate: null
   },
-  {
-    name: "creatinine",
+  "creatinine": {
     initialValue: undefined,
     dialysate: 0,
     effluentFlowRate: 2,
@@ -59,8 +53,7 @@ export const labDataValues = [
     volumeOfDistribution: 42,
     productionRate: 3
   },
-  {
-    name: "calcium",
+  "calcium": {
     initialValue: undefined,
     dialysate: 10,
     effluentFlowRate: 2,
@@ -69,8 +62,7 @@ export const labDataValues = [
     volumeOfDistribution: 42,
     productionRate: 0
   },
-  {
-    name: "phosphorous",
+  "phosphorous": {
     initialValue: undefined,
     dialysate: 0,
     effluentFlowRate: 2,
@@ -79,4 +71,4 @@ export const labDataValues = [
     volumeOfDistribution: 42,
     productionRate: 0
   }
-];
+};
