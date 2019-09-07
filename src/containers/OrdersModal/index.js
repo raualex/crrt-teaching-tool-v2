@@ -57,7 +57,7 @@ export class OrdersModal extends Component {
         selectedCase.usualWeight,
         orders[orders.length - 1]
       );
-  
+
       calculateLabData(newLabData);
       this.incrementTimeBetweenOrders();
       closeOrdersModal();

@@ -34,22 +34,30 @@ export const compileLabData = (
 ) => {
   const labDataKeys = Object.keys(labDataValues)
 
-  const labDataResults = labDataKeys.reduce((updatedLabResults, labKey) => {
+  const newLabData = labDataKeys.reduce((updatedLabResults, labKey) => {
+
     const {
       dialysate,
       effluentFlowRate,
       volumeOfDistribution,
       productionRate
     } = labDataValues[labKey];
+
     let initialValue
 
+    if(!updatedLabResults[labKey]) {
+      updatedLabResults[labKey] = []
+    }
+
+    if(!labData[labKey].length) {
+      initialValue = currentOrder.dosages[labKey];
+    } else {
+      updatedLabResults[labKey] = labData[labKey]
+      const lastLabDataIndex = labData[labKey].length - 1
+      initialValue = labData[labKey][lastLabDataIndex];
+    }
+
     for(let i=1; i<=timeBetweenOrders; i++) {
-      if(!labData[labKey].length) {
-        initialValue = currentOrder.dosages[labKey];
-      } else {
-        initialValue = labData[labKey][labData[labKey].length - 1];
-      }
-  
       const labResult = calculateLab(
         initialValue,
         dialysate,
@@ -60,25 +68,14 @@ export const compileLabData = (
         productionRate
       );
   
-      updatedLabResults[labKey] = labData[labKey].push(parseFloat(labResult));
+      updatedLabResults[labKey].push(parseFloat(labResult));
+      
+      const lastUpdatedLabResultsIndex = updatedLabResults[labKey].length - 1
+      initialValue = updatedLabResults[labKey][lastUpdatedLabResultsIndex]
     }
-    
     return updatedLabResults;
   }, {});
-
-  // ok//call in orders modal - upon orders submission
-  //ok //take args: (labData object from Redux, time interval from Redux or orders submission, weight from selectedCase in Redux, entire obje t of values from user order submission)
-  //call caculateLab(initialValue...) for each element (sodium, potassium, etc.) and push those values into the correct arrays in the Redux object that came in as an arg
-  //cycle through that for each hour set by the time interval "9(i.e.:  time interval = 2, newReduxLabDataObj = { sodium: [ calculateLab results 1, calculateLab results 2], potassium: [calculateLab results 1, calculateLab results 2]"
-  //once the final object from the calucaltions is complete, fire reducer/action to replace lab data object in redux with new one
+  return newLabData
 };
 
 //once done, need bicarbonate and pc02
-
-// initialValue, //whatever user types
-// dialysate, //hard code these in from excel
-// effluentFlowRate, //hard code these in from excel
-// time, //hourly time between orders
-// weight, //case
-// volumeOfDistribution, //hard code these in from excel
-// productionRate //hard code these in from excel
