@@ -33,7 +33,7 @@ export class OrdersModal extends Component {
       sodiumPhosphate15mmol100ml: false,
       anticoagulation: "None",
       readyForSubmission: false,
-      dosageErrors: [],
+      dosageErrors: ['empty'],
       currentTime: 10,
       currentDay: 1,
       timeBetweenOrders: 8
@@ -46,9 +46,19 @@ export class OrdersModal extends Component {
       calculateLabData,
       orders,
       timeBetweenOrders,
+      timeBetweenOrdersIsValid,
       selectedCase,
       labData
     } = this.props;
+
+    if(timeBetweenOrdersIsValid !== prevProps.timeBetweenOrdersIsValid) {
+      if(timeBetweenOrdersIsValid === false) {
+        this.setState({ readyForSubmission: false })
+      } else {
+        // this.setState({ readyForSubmission: true })
+      }
+      this.validateOrder()
+    }
 
     if(this.props.orders !== prevProps.orders) {
       const newLabData = compileLabData(
@@ -102,19 +112,41 @@ export class OrdersModal extends Component {
   };
 
   validateOrder = () => {
-    const { timeBetweenOrders } = this.props;
-    const invalidEntries = this.checkForInvalidInputs();
+    const { timeBetweenOrders, timeBetweenOrdersIsValid } = this.props;
+    const { dosageErrors } = this.state
 
-    if (invalidEntries.length || timeBetweenOrders === 0) {
+    if(!timeBetweenOrdersIsValid || timeBetweenOrders === 0) {
+      const invalidEntries = this.checkForInvalidInputs();
+
+      this.setState({
+        readyForSubmission: false,
+        dosageErrors: invalidEntries
+      });
+      return
+    }
+
+    if(timeBetweenOrdersIsValid) {
+      const invalidEntries = this.checkForInvalidInputs();
+      // debugger
+      if (invalidEntries.length === 0 && !dosageErrors.includes("empty")) {
+        this.setState({
+          dosageErrors: ["empty"],
+          readyForSubmission: true
+        });
+        return
+      }
+
       this.setState({
         dosageErrors: invalidEntries,
         readyForSubmission: false
       });
-    } else {
-      this.setState({
-        dosageErrors: [],
-        readyForSubmission: true
-      });
+
+      if(dosageErrors.includes("empty") || invalidEntries.length) {
+        this.setState({
+          readyForSubmission: false
+        });
+        return
+      }
     }
   };
 
