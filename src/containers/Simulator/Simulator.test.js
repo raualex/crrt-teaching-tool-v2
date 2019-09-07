@@ -4,9 +4,10 @@ import { shallow } from 'enzyme';
 
 describe('Simulator', () => {
   let wrapper;
+  let mockCase = { id: 3 }
 
   beforeEach(() => {
-    wrapper = shallow(<Simulator />)
+    wrapper = shallow(<Simulator selectedCase={mockCase}/>)
   });
 
   it('matches the snapshot', () => {
@@ -14,16 +15,17 @@ describe('Simulator', () => {
   });
 
   it('matches the snapshot with a selectedModal', () => {
-    wrapper = shallow(<Simulator selectedModal={'Imaging'} />)
+    wrapper = shallow(<Simulator selectedModal={'Imaging'} selectedCase={mockCase}/>)
     expect(wrapper).toMatchSnapshot()
   });
 });
 
 describe('toggleOrdersModal', () => {
   let wrapper;
+  let mockCase = { id: 3 }
 
   beforeEach(() => {
-    wrapper = shallow(<Simulator />)
+    wrapper = shallow(<Simulator selectedCase={mockCase}/>)
   });
   
   const mockEvent = {
