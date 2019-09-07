@@ -118,9 +118,13 @@ export class OrdersModal extends Component {
     if(!timeBetweenOrdersIsValid || timeBetweenOrders === 0) {
       const invalidEntries = this.checkForInvalidInputs();
 
+      if(invalidEntries.length) {
+        this.setState({
+          dosageErrors: invalidEntries
+        });
+      }
       this.setState({
         readyForSubmission: false,
-        dosageErrors: invalidEntries
       });
       return
     }
