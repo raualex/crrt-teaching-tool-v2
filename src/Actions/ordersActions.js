@@ -14,7 +14,7 @@ export const setTimeBetweenOrders = (timeBetweenOrders) => ({
 	timeBetweenOrders
 })
 
-export const validateTimeBetweenOrders = () => ({
+export const validateTimeBetweenOrders = (isValid) => ({
 	type: 'VALIDATE_TIME_BETWEEN_ORDERS',
-	timeBetweenOrdersIsValid: true
+	timeBetweenOrdersIsValid: isValid
 })

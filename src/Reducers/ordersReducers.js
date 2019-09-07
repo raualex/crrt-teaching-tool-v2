@@ -37,7 +37,7 @@ export const timeBetweenOrdersReducer = (state = 0, action) => {
 export const validateTimeBetweenOrdersReducer = (state = false, action) => {
   switch (action.type) {
     case "VALIDATE_TIME_BETWEEN_ORDERS":
-      return action.timeBetweenOrdersIsValid;
+      return action.timeBetweenOrdersIsValid
     default:
       return state;
   }

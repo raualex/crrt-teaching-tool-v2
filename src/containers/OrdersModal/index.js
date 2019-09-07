@@ -178,12 +178,17 @@ export class OrdersModal extends Component {
 
   validateEnteredTimeBetweenOrders = enteredTime => {
     const { validateTimeBetweenOrders } = this.props;
-    if (enteredTime >= 2 && enteredTime <= 24) {
-      validateTimeBetweenOrders();
-      return Math.round(enteredTime);
-    } else {
-      return 0;
-    }
+    const parsedTime = parseFloat(enteredTime)
+    if(!isNaN(parsedTime)) {
+      if (parsedTime >= 2 && parsedTime <= 24) {
+        validateTimeBetweenOrders(true);
+        return Math.round(parsedTime);
+      } 
+      validateTimeBetweenOrders(false)
+      return parsedTime
+    } 
+    validateTimeBetweenOrders(false)
+    return enteredTime
   };
 
   incrementTimeBetweenOrders = () => {
@@ -269,7 +274,12 @@ export class OrdersModal extends Component {
       readyForSubmission
     } = this.state;
 
-    const { orders, closeOrdersModal, timeBetweenOrders } = this.props;
+    const { 
+      orders, 
+      closeOrdersModal, 
+      timeBetweenOrders 
+    } = this.props;
+    
     const {
       replacementFluidDosages,
       modalityDosages,
@@ -309,7 +319,7 @@ export class OrdersModal extends Component {
               <h3 className="timeBetweenOrders-label">Time Between Orders</h3>
               <input
                 type="text"
-                pattern="[0-9]*"
+                // pattern="[0-9]*"
                 className="timeBetweenOrders-input"
                 name={"timeBetweenOrders"}
                 value={timeBetweenOrders}
@@ -483,7 +493,7 @@ export const mapDispatchToProps = dispatch => ({
   setTime: newTime => dispatch(setTime(newTime)),
   setTimeBetweenOrders: TimeBetweenOrders =>
     dispatch(setTimeBetweenOrders(TimeBetweenOrders)),
-  validateTimeBetweenOrders: () => dispatch(validateTimeBetweenOrders()),
+  validateTimeBetweenOrders: (isValid) => dispatch(validateTimeBetweenOrders(isValid)),
   calculateLabData: (newLabData) => dispatch(calculateLabData(newLabData))
 });
 
