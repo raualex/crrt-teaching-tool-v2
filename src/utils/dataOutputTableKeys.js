@@ -1,6 +1,5 @@
 const modalKeys = {
-
-  'LaboratoryData': [
+  LaboratoryData: [
     "Sodium",
     "Potassium",
     "Chloride",
@@ -26,26 +25,23 @@ const modalKeys = {
     "Blood Culture",
     "Urine Culture"
   ],
-  'Input/Output': [
-    'Calcium Gluconate',
-    'Albumin',
-    'Vancomycin',
-    'Tube Feeds',
-    'Total Input',
-    'Net Input/Output',
-    'Cumulative Input/Output'
+  "Input/Output": [
+    "Calcium Gluconate",
+    "Albumin",
+    "Vancomycin",
+    "Tube Feeds",
+    "Total Input",
+    "Net Input/Output",
+    "Cumulative Input/Output"
   ],
-  'Vitals': [
-    'Temperature',
-    'Heart Rate',
-    'Respiratory Rate',
-    'Blood Pressure',
-    'Weight'
+  Vitals: [
+    "Temperature",
+    "Heart Rate",
+    "Respiratory Rate",
+    "Blood Pressure",
+    "Weight"
   ],
-  'Medications': [
-    'Scheduled',
-    'Infusions'
-  ]
-}
+  Medications: ["Scheduled", "Infusions"]
+};
 
-export default modalKeys
+export default modalKeys;

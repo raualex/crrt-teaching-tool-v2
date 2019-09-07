@@ -7,9 +7,10 @@ import {
   setTimeBetweenOrders,
   validateTimeBetweenOrders
 } from "../../Actions/ordersActions";
+import { calculateLabData } from "../../Actions/calculationActions";
 import orderDosages from "../../utils/orderDosages.js";
 import InputContainer from "../../components/InputContainer";
-import { compileLabData } from "../../utils/labDataValues";
+import { compileLabData } from "../../utils/labEquations";
 const uuidv4 = require("uuid/v4");
 
 export class OrdersModal extends Component {
@@ -37,6 +38,30 @@ export class OrdersModal extends Component {
       currentDay: 1,
       timeBetweenOrders: 8
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      closeOrdersModal,
+      calculateLabData,
+      orders,
+      timeBetweenOrders,
+      selectedCase,
+      labData
+    } = this.props;
+
+    if(this.props.orders !== prevProps.orders) {
+      const newLabData = compileLabData(
+        labData,
+        timeBetweenOrders,
+        selectedCase.usualWeight,
+        orders[orders.length - 1]
+      );
+  
+      calculateLabData(newLabData);
+      this.incrementTimeBetweenOrders();
+      closeOrdersModal();
+    }
   }
 
   handleStringChange = event => {
@@ -183,20 +208,8 @@ export class OrdersModal extends Component {
 
   submitNewOrder = event => {
     event.preventDefault();
-    const {
-      submitOrder,
-      closeOrdersModal,
-      calculateLabData,
-      timeBetweenOrders
-    } = this.props;
     const newOrder = this.compileOrder();
-
-    submitOrder(newOrder);
-    const newLabData = compileLabData();
-    calculateLabData(newLabData);
-
-    closeOrdersModal(event);
-    this.incrementTimeBetweenOrders();
+    this.props.submitOrder(newOrder);
   };
 
   toggleCheckBoxes = event => {
@@ -453,12 +466,16 @@ export const mapStateToProps = ({
   orders,
   time,
   timeBetweenOrders,
-  timeBetweenOrdersIsValid
+  timeBetweenOrdersIsValid,
+  selectedCase,
+  labData
 }) => ({
   orders,
   time,
   timeBetweenOrders,
-  timeBetweenOrdersIsValid
+  timeBetweenOrdersIsValid,
+  selectedCase,
+  labData
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -466,7 +483,8 @@ export const mapDispatchToProps = dispatch => ({
   setTime: newTime => dispatch(setTime(newTime)),
   setTimeBetweenOrders: TimeBetweenOrders =>
     dispatch(setTimeBetweenOrders(TimeBetweenOrders)),
-  validateTimeBetweenOrders: () => dispatch(validateTimeBetweenOrders())
+  validateTimeBetweenOrders: () => dispatch(validateTimeBetweenOrders()),
+  calculateLabData: (newLabData) => dispatch(calculateLabData(newLabData))
 });
 
 export default connect(

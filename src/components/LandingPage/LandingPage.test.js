@@ -1,16 +1,15 @@
-import React from 'react';
-import LandingPage from './';
-import { shallow } from 'enzyme';
+import React from "react";
+import LandingPage from "./";
+import { shallow } from "enzyme";
 
-describe('LandingPage', () => {
+describe("LandingPage", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<LandingPage />)
+    wrapper = shallow(<LandingPage />);
   });
 
-  it('matches the snapshot', () => {
-    expect(wrapper).toMatchSnapshot()
+  it("matches the snapshot", () => {
+    expect(wrapper).toMatchSnapshot();
   });
-
 });

@@ -1,46 +1,44 @@
-import React from 'react';
-import { DataOutputModal, mapStateToProps, mapDispatchToProps } from './';
-import { shallow } from 'enzyme';
+import React from "react";
+import { DataOutputModal, mapStateToProps, mapDispatchToProps } from "./";
+import { shallow } from "enzyme";
 
-describe('DataOutputModal', () => {
+describe("DataOutputModal", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<DataOutputModal />)
+    wrapper = shallow(<DataOutputModal />);
   });
 
-  it('matches the snapshot', () => {
-    expect(wrapper).toMatchSnapshot()
+  it("matches the snapshot", () => {
+    expect(wrapper).toMatchSnapshot();
   });
-
 });
 
-describe('mapStateToProps function', () => {
-  it('should return an object with the selected output modal', () => {
+describe("mapStateToProps function", () => {
+  it("should return an object with the selected output modal", () => {
     const mockState = {
-      selectedModal: 'Imaging',
-      somethingElse: 'wut?'
-    }
+      selectedModal: "Imaging",
+      somethingElse: "wut?"
+    };
     const expected = {
-      selectedModal: 'Imaging'
-    }
-    const mappedProps = mapStateToProps(mockState)
+      selectedModal: "Imaging"
+    };
+    const mappedProps = mapStateToProps(mockState);
 
-    expect(mappedProps).toEqual(expected)
+    expect(mappedProps).toEqual(expected);
   });
-
 });
 
-describe('mapDispatchToProps function', () => {
+describe("mapDispatchToProps function", () => {
   let mockDispatch = jest.fn();
   let mappedProps;
 
   beforeEach(() => {
-    mappedProps = mapDispatchToProps(mockDispatch)
+    mappedProps = mapDispatchToProps(mockDispatch);
   });
 
-  it('should call dispatch when setSelectedModal is called', () => {
-    mappedProps.setSelectedModal()
+  it("should call dispatch when setSelectedModal is called", () => {
+    mappedProps.setSelectedModal();
     expect(mockDispatch).toHaveBeenCalled();
   });
 });

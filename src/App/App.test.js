@@ -1,16 +1,15 @@
-import React from 'react';
-import App from './';
-import { shallow } from 'enzyme';
+import React from "react";
+import App from "./";
+import { shallow } from "enzyme";
 
-describe('App', () => {
+describe("App", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<App />)
+    wrapper = shallow(<App />);
   });
 
-  it('matches the snapshot', () => {
-    expect(wrapper).toMatchSnapshot()
+  it("matches the snapshot", () => {
+    expect(wrapper).toMatchSnapshot();
   });
-
 });
