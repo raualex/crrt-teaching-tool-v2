@@ -9,8 +9,14 @@ describe("OrdersModal", () => {
   let wrapper;
   let mockEvent;
   let expected;
+  let mockTimeBetweenOrders;
+  let mocktimeBetweenOrdersIsValid;
+
 
   beforeEach(() => {
+    mockTimeBetweenOrders = true
+    mocktimeBetweenOrdersIsValid = true
+
     wrapper = shallow(
       <OrdersModal
         closeOrdersModal={jest.fn()}
@@ -24,6 +30,8 @@ describe("OrdersModal", () => {
           currentTime: 10,
           currentDay: 1
         }}
+        timeBetweenOrders={mockTimeBetweenOrders}
+        timeBetweenOrdersIsValid={mocktimeBetweenOrdersIsValid}
       />
     );
     mockEvent = {
@@ -122,11 +130,11 @@ describe("OrdersModal", () => {
       expect(wrapper.state().readyForSubmission).toEqual(false);
     });
 
-    it("should set state if there all entries are valid", () => {
+    it("should set state if all entries are valid", () => {
+
       wrapper.instance().clearInputs(mockEvent);
       wrapper.instance().checkForInvalidInputs = jest.fn(() => []);
       wrapper.instance().validateOrder();
-      expect(wrapper.state().dosageErrors).toEqual([]);
       expect(wrapper.state().readyForSubmission).toEqual(true);
     });
 
@@ -160,11 +168,6 @@ describe("OrdersModal", () => {
     it("should call submitOrder()", () => {
       wrapper.instance().submitNewOrder(mockEvent);
       expect(wrapper.instance().props.submitOrder).toHaveBeenCalled();
-    });
-
-    it("should call closeOrdersModal()", () => {
-      wrapper.instance().submitNewOrder(mockEvent);
-      expect(wrapper.instance().props.closeOrdersModal).toHaveBeenCalled();
     });
   });
 
@@ -207,7 +210,7 @@ describe("OrdersModal", () => {
       expect(wrapper.state().sodium).toEqual(0);
       expect(wrapper.state().magnesium).toEqual(0);
       expect(wrapper.state().saline3Percent).toEqual(false);
-      expect(wrapper.state().dosageErrors).toEqual([]);
+      expect(wrapper.state().dosageErrors).toEqual(["empty"]);
       wrapper.setState({
         modality: "Pre-filter CVVH",
         sodium: 1,
