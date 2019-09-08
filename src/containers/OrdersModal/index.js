@@ -33,7 +33,7 @@ export class OrdersModal extends Component {
       sodiumPhosphate15mmol100ml: false,
       anticoagulation: "None",
       readyForSubmission: false,
-      dosageErrors: ['empty'],
+      dosageErrors: [],
       currentTime: 10,
       currentDay: 1,
       timeBetweenOrders: 8
@@ -46,19 +46,18 @@ export class OrdersModal extends Component {
       calculateLabData,
       orders,
       timeBetweenOrders,
-      timeBetweenOrdersIsValid,
       selectedCase,
       labData
     } = this.props;
 
-    if(timeBetweenOrdersIsValid !== prevProps.timeBetweenOrdersIsValid) {
-      if(timeBetweenOrdersIsValid === false) {
-        this.setState({ readyForSubmission: false })
-      } else {
-        // this.setState({ readyForSubmission: true })
-      }
-      this.validateOrder()
-    }
+  //   if(timeBetweenOrdersIsValid !== prevProps.timeBetweenOrdersIsValid) {
+  //     if(timeBetweenOrdersIsValid === false) {
+  //       this.setState({ readyForSubmission: false })
+  //     } else {
+  //       // this.setState({ readyForSubmission: true })
+  //     }
+  //     this.validateOrder()
+  //   }
 
     if(this.props.orders !== prevProps.orders) {
       const newLabData = compileLabData(
@@ -86,72 +85,83 @@ export class OrdersModal extends Component {
       {
         [name]: parsedValue
       },
-      () => this.validateOrder()
+			() => this.checkForInvalidInputs(name)
     );
   };
 
-  checkForInvalidInputs = () => {
-    const { requiredRanges, replacementFluidDosages } = orderDosages;
+  checkForInvalidInputs = (name) => {
+		const { requiredRanges, replacementFluidDosages } = orderDosages;
+		const { dosageErrors } = this.state
+		let invalidEntries = [];
 
-    const invalidEntries = replacementFluidDosages.reduce(
-      (wrongValues, medication) => {
-        if (this.state[medication] !== 0) {
-          if (
-            this.state[medication] < requiredRanges[medication].min ||
-            this.state[medication] > requiredRanges[medication].max
-          ) {
-            wrongValues.push(medication);
-          }
-        }
-        return wrongValues;
-      },
-      []
-    );
+		if (!name) {
+    	invalidEntries = replacementFluidDosages.reduce(
+      	(wrongValues, medication) => {
 
-    return invalidEntries;
-  };
+       	  if (
+          	this.state[medication] < requiredRanges[medication].min ||
+        	  this.state[medication] > requiredRanges[medication].max
+       	  ) {
+        	  wrongValues.push(medication);
+       	  }
+
+        	return wrongValues;
+      	},
+    	  []
+   	  );
+		} else if (name) {
+			invalidEntries = [name]
+
+			if (
+				this.state[name] < requiredRanges[name].min ||
+				this.state[name] > requiredRanges[name].max
+			 ) {
+				this.setState({ 
+					dosageErrors: [...dosageErrors, ...invalidEntries],
+					readyForSubmission: false
+				})
+			 } else {
+				 
+				this.setState({ 
+					dosageErrors: this.checkDosageErrors(name)
+				}, () => this.checkIfReadyForSubmission())
+			 }
+		}
+
+		return invalidEntries;
+	};
+
+	checkDosageErrors = (invalidEntry) => {
+		const { dosageErrors } = this.state
+		let newDosageErrors = [];
+
+		newDosageErrors = dosageErrors.filter((elementName) => {
+			return elementName !== invalidEntry
+		})
+		
+		return newDosageErrors
+	}
+
+	checkIfReadyForSubmission = () => {
+		const { timeBetweenOrdersIsValid } = this.props
+		const { dosageErrors } = this.state
+
+		if (dosageErrors.length || !timeBetweenOrdersIsValid) {
+			this.setState({ readyForSubmission: false })
+		} else {
+			this.setState({ readyForSubmission: true })
+		}
+	}
 
   validateOrder = () => {
-    const { timeBetweenOrders, timeBetweenOrdersIsValid } = this.props;
-    const { dosageErrors } = this.state
+    const { timeBetweenOrdersIsValid } = this.props;
+		const invalidEntries = this.checkForInvalidInputs();
 
-    if(!timeBetweenOrdersIsValid || timeBetweenOrders === 0) {
-      const invalidEntries = this.checkForInvalidInputs();
-
-      if(invalidEntries.length) {
-        this.setState({
-          dosageErrors: invalidEntries
-        });
-      }
-      this.setState({
-        readyForSubmission: false,
-      });
-      return
-    }
-
-    if(timeBetweenOrdersIsValid) {
-      const invalidEntries = this.checkForInvalidInputs();
-      // debugger
-      if (invalidEntries.length === 0 && !dosageErrors.includes("empty")) {
-        this.setState({
-          dosageErrors: ["empty"],
-          readyForSubmission: true
-        });
-        return
-      }
-
-      this.setState({
-        dosageErrors: invalidEntries,
-        readyForSubmission: false
-      });
-
-      if(dosageErrors.includes("empty") || invalidEntries.length) {
-        this.setState({
-          readyForSubmission: false
-        });
-        return
-      }
-    }
+		if(timeBetweenOrdersIsValid && invalidEntries.length === 0) {
+		  this.setState({ dosageErrors: [] }, () => this.checkIfReadyForSubmission());
+		} else if (!timeBetweenOrdersIsValid || invalidEntries.length !== 0) {
+			this.checkIfReadyForSubmission()
+		}
   };
 
   compileOrder = () => {
@@ -205,11 +215,11 @@ export class OrdersModal extends Component {
     return `${currentTime}:00 - Day ${currentDay}`;
   };
 
-  handletimeBetweenOrdersChange = event => {
-    const { value } = event.target;
-    const timeBetweenOrders = this.validateEnteredTimeBetweenOrders(value);
-    this.props.setTimeBetweenOrders(timeBetweenOrders);
-    this.validateOrder();
+  handletimeBetweenOrdersChange = async event => {
+		const { value } = event.target;
+		const timeBetweenOrders = await this.validateEnteredTimeBetweenOrders(value);
+		await this.props.setTimeBetweenOrders(timeBetweenOrders);
+		this.validateOrder();
   };
 
   validateEnteredTimeBetweenOrders = enteredTime => {
@@ -219,12 +229,14 @@ export class OrdersModal extends Component {
       if (parsedTime >= 2 && parsedTime <= 24) {
         validateTimeBetweenOrders(true);
         return Math.round(parsedTime);
-      } 
-      validateTimeBetweenOrders(false)
-      return parsedTime
-    } 
-    validateTimeBetweenOrders(false)
-    return enteredTime
+      } else {
+				validateTimeBetweenOrders(false)
+        return parsedTime
+			}
+    } else {
+			validateTimeBetweenOrders(false)
+      return enteredTime
+		} 
   };
 
   incrementTimeBetweenOrders = () => {
@@ -250,7 +262,8 @@ export class OrdersModal extends Component {
   submitNewOrder = event => {
     event.preventDefault();
     const newOrder = this.compileOrder();
-    this.props.submitOrder(newOrder);
+		this.props.submitOrder(newOrder);
+		// this.props.closeOrdersModal()
   };
 
   toggleCheckBoxes = event => {

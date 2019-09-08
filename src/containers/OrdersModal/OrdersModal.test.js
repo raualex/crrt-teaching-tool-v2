@@ -70,11 +70,6 @@ describe("OrdersModal", () => {
       expect(wrapper.state().sodium).toEqual(4);
     });
 
-    it("should invoke validateOrder()", () => {
-      wrapper.instance().validateOrder = jest.fn();
-      wrapper.instance().handleNumberChange(mockEvent);
-      expect(wrapper.instance().validateOrder).toHaveBeenCalled();
-    });
   });
 
   describe("checkForInvalidInputs()", () => {
@@ -121,13 +116,14 @@ describe("OrdersModal", () => {
       };
     });
 
-    it("should set state if there are invalid entries", () => {
+    it("should fire checkIfReadyForSubmission if there are invalid entries", () => {
       wrapper.instance().clearInputs(mockEvent);
       wrapper.setState({ readyForSubmission: true });
-      wrapper.instance().checkForInvalidInputs = jest.fn(() => ["sodium"]);
+      wrapper.instance().checkIfReadyForSubmission = jest.fn()
+      // wrapper.instance().checkForInvalidInputs = jest.fn(() => ["sodium"]);
       wrapper.instance().validateOrder();
-      expect(wrapper.state().dosageErrors).toEqual(["sodium"]);
-      expect(wrapper.state().readyForSubmission).toEqual(false);
+      // expect(wrapper.state().dosageErrors).toEqual(["sodium"]);
+      expect(wrapper.instance().checkIfReadyForSubmission).toHaveBeenCalled();
     });
 
     it("should set state if all entries are valid", () => {
@@ -210,7 +206,7 @@ describe("OrdersModal", () => {
       expect(wrapper.state().sodium).toEqual(0);
       expect(wrapper.state().magnesium).toEqual(0);
       expect(wrapper.state().saline3Percent).toEqual(false);
-      expect(wrapper.state().dosageErrors).toEqual(["empty"]);
+      expect(wrapper.state().dosageErrors).toEqual([]);
       wrapper.setState({
         modality: "Pre-filter CVVH",
         sodium: 1,
