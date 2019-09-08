@@ -33,7 +33,7 @@ export class OrdersModal extends Component {
       sodiumPhosphate15mmol100ml: false,
       anticoagulation: "None",
       readyForSubmission: false,
-      dosageErrors: ['empty'],
+      dosageErrors: [],
       currentTime: 10,
       currentDay: 1,
       timeBetweenOrders: 8
@@ -76,7 +76,7 @@ export class OrdersModal extends Component {
 
   handleStringChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value }, () => this.checkForInvalidInputs(name, value));
   };
 
   handleNumberChange = event => {
