@@ -40,16 +40,16 @@ export class OrdersModal extends Component {
     };
   }
 
-  // componentDidUpdate(prevProps) {
-  //   const {
-  //     closeOrdersModal,
-  //     calculateLabData,
-  //     orders,
-  //     timeBetweenOrders,
-  //     timeBetweenOrdersIsValid,
-  //     selectedCase,
-  //     labData
-  //   } = this.props;
+  componentDidUpdate(prevProps) {
+    const {
+      closeOrdersModal,
+      calculateLabData,
+      orders,
+      timeBetweenOrders,
+      timeBetweenOrdersIsValid,
+      selectedCase,
+      labData
+    } = this.props;
 
   //   if(timeBetweenOrdersIsValid !== prevProps.timeBetweenOrdersIsValid) {
   //     if(timeBetweenOrdersIsValid === false) {
@@ -60,19 +60,19 @@ export class OrdersModal extends Component {
   //     this.validateOrder()
   //   }
 
-  //   if(this.props.orders !== prevProps.orders) {
-  //     const newLabData = compileLabData(
-  //       labData,
-  //       timeBetweenOrders,
-  //       selectedCase.usualWeight,
-  //       orders[orders.length - 1]
-  //     );
+    if(this.props.orders !== prevProps.orders) {
+      const newLabData = compileLabData(
+        labData,
+        timeBetweenOrders,
+        selectedCase.usualWeight,
+        orders[orders.length - 1]
+      );
 
-  //     calculateLabData(newLabData);
-  //     this.incrementTimeBetweenOrders();
-  //     closeOrdersModal();
-  //   }
-  // }
+      calculateLabData(newLabData);
+      this.incrementTimeBetweenOrders();
+      closeOrdersModal();
+    }
+  }
 
   handleStringChange = event => {
     const { name, value } = event.target;
@@ -216,12 +216,11 @@ export class OrdersModal extends Component {
     return `${currentTime}:00 - Day ${currentDay}`;
   };
 
-  handletimeBetweenOrdersChange = event => {
+  handletimeBetweenOrdersChange = async event => {
 		const { value } = event.target;
-		debugger
-		const timeBetweenOrders = this.validateEnteredTimeBetweenOrders(value);
-		this.props.setTimeBetweenOrders(timeBetweenOrders);
-    this.validateOrder();
+		const timeBetweenOrders = await this.validateEnteredTimeBetweenOrders(value);
+		await this.props.setTimeBetweenOrders(timeBetweenOrders);
+		this.validateOrder();
   };
 
   validateEnteredTimeBetweenOrders = enteredTime => {
@@ -264,7 +263,8 @@ export class OrdersModal extends Component {
   submitNewOrder = event => {
     event.preventDefault();
     const newOrder = this.compileOrder();
-    this.props.submitOrder(newOrder);
+		this.props.submitOrder(newOrder);
+		// this.props.closeOrdersModal()
   };
 
   toggleCheckBoxes = event => {
