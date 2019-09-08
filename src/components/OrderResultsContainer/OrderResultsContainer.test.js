@@ -1,9 +1,9 @@
-import React from 'react';
-import OrderResultsContainer from './';
-import { shallow } from 'enzyme';
-import orderDosages from '../../utils/orderDosages.js';
+import React from "react";
+import OrderResultsContainer from "./";
+import { shallow } from "enzyme";
+import orderDosages from "../../utils/orderDosages.js";
 
-describe('OrderResultsContainer', () => {
+describe("OrderResultsContainer", () => {
   let wrapper;
   let mockState;
 
@@ -11,7 +11,7 @@ describe('OrderResultsContainer', () => {
     wrapper = shallow(<OrderResultsContainer />);
   });
 
-  it('Should render like snapshot', () => {
+  it("Should render like snapshot", () => {
     expect(wrapper).toMatchSnapshot();
   });
 });

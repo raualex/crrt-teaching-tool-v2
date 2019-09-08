@@ -1,8 +1,8 @@
 export const selectedModalReducer = (state = "", action) => {
-  switch(action.type) {
-    case 'SELECTED_MODAL':
-      return action.selectedModal
+  switch (action.type) {
+    case "SELECTED_MODAL":
+      return action.selectedModal;
     default:
-      return state
+      return state;
   }
-}
+};

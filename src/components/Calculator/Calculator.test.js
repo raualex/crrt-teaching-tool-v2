@@ -1,16 +1,15 @@
-import React from 'react';
-import Calculator from './';
-import { shallow } from 'enzyme';
+import React from "react";
+import Calculator from "./";
+import { shallow } from "enzyme";
 
-describe('Calculator', () => {
+describe("Calculator", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<Calculator />)
+    wrapper = shallow(<Calculator />);
   });
 
-  it('matches the snapshot', () => {
-    expect(wrapper).toMatchSnapshot()
+  it("matches the snapshot", () => {
+    expect(wrapper).toMatchSnapshot();
   });
-
 });
