@@ -46,7 +46,6 @@ export class OrdersModal extends Component {
       calculateLabData,
       orders,
       timeBetweenOrders,
-      timeBetweenOrdersIsValid,
       selectedCase,
       labData
     } = this.props;
