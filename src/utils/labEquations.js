@@ -1,6 +1,6 @@
 import { labDataValues } from "../utils/labDataValues";
 
-const excelRound = (val) => {
+const excelRound = val => {
   // var coef = Math.pow(10, num);
   // return (Math.round(val * coef))/coef;
 
@@ -32,85 +32,94 @@ export const compileLabData = (
   usualWeight,
   currentOrder
 ) => {
-  const currentLabDataResultsKeys = Object.keys(labData)
-  const primaryLabDataKeys = Object.keys(labDataValues)
+  const currentLabDataResultsKeys = Object.keys(labData);
+  const primaryLabDataKeys = Object.keys(labDataValues);
 
-  const newLabData = currentLabDataResultsKeys.reduce((updatedLabResults, labKey) => {
-    if(!updatedLabResults[labKey]) {
-      updatedLabResults[labKey] = []
-    }
+  const newLabData = currentLabDataResultsKeys.reduce(
+    (updatedLabResults, labKey) => {
+      if (!updatedLabResults[labKey]) {
+        updatedLabResults[labKey] = [];
+      }
 
-    let initialValue
-    let initialBicarbonateValue
+      let initialValue;
+      let initialBicarbonateValue;
 
-    if(!labData[labKey].length) {
-      initialValue = currentOrder.dosages[labKey];
-    } else {
-      updatedLabResults[labKey] = labData[labKey]
-      const lastLabDataIndex = labData[labKey].length - 1
-      initialValue = labData[labKey][lastLabDataIndex];
-    }
+      if (!labData[labKey].length) {
+        initialValue = currentOrder.dosages[labKey];
+      } else {
+        updatedLabResults[labKey] = labData[labKey];
+        const lastLabDataIndex = labData[labKey].length - 1;
+        initialValue = labData[labKey][lastLabDataIndex];
+      }
 
-    if(primaryLabDataKeys.includes(labKey)) {
-      const {
-        dialysate,
-        effluentFlowRate,
-        volumeOfDistribution,
-        productionRate
-      } = labDataValues[labKey];
-  
-      for(let i=1; i<=timeBetweenOrders; i++) {
-        const labResult = calculateLab(
-          initialValue,
+      if (primaryLabDataKeys.includes(labKey)) {
+        const {
           dialysate,
           effluentFlowRate,
-          timeBetweenOrders,
-          usualWeight,
           volumeOfDistribution,
           productionRate
-        );
-    
-        updatedLabResults[labKey].push(parseFloat(labResult));
-        
-        const lastUpdatedLabResultsIndex = updatedLabResults[labKey].length - 1
-        initialValue = updatedLabResults[labKey][lastUpdatedLabResultsIndex]
-      }
-    } else if(labKey === 'ph'){
-      if(!updatedLabResults.pc02) {
-        updatedLabResults.pc02 = []
-      } 
-      if(!labData.bicarbonate.length) {
-        initialBicarbonateValue = currentOrder.dosages.bicarbonate
-      } else {
-        updatedLabResults.bicarbonate = labData[labKey]
-        const lastUpdatedBicarbonateIndex = updatedLabResults.bicarbonate.length - 1
-        initialBicarbonateValue = updatedLabResults.bicarbonate[lastUpdatedBicarbonateIndex]
-      }
-      
+        } = labDataValues[labKey];
 
-      for(let i=1; i<=timeBetweenOrders; i++) {
-        const phResults = calculatePH(initialBicarbonateValue)
-        updatedLabResults.ph.push(phResults.ph)
-        updatedLabResults.pc02.push(phResults.pc02)
+        for (let i = 1; i <= timeBetweenOrders; i++) {
+          const labResult = calculateLab(
+            initialValue,
+            dialysate,
+            effluentFlowRate,
+            timeBetweenOrders,
+            usualWeight,
+            volumeOfDistribution,
+            productionRate
+          );
 
-        const lastUpdatedBicarbonateIndex = updatedLabResults.bicarbonate.length - 1
-        initialBicarbonateValue = updatedLabResults.bicarbonate[lastUpdatedBicarbonateIndex]
+          updatedLabResults[labKey].push(parseFloat(labResult));
+
+          const lastUpdatedLabResultsIndex =
+            updatedLabResults[labKey].length - 1;
+          initialValue = updatedLabResults[labKey][lastUpdatedLabResultsIndex];
+        }
+      } else if (labKey === "ph") {
+        if (!updatedLabResults.pc02) {
+          updatedLabResults.pc02 = [];
+        }
+        if (!labData.bicarbonate.length) {
+          initialBicarbonateValue = currentOrder.dosages.bicarbonate;
+        } else {
+          updatedLabResults.bicarbonate = labData[labKey];
+          const lastUpdatedBicarbonateIndex =
+            updatedLabResults.bicarbonate.length - 1;
+          initialBicarbonateValue =
+            updatedLabResults.bicarbonate[lastUpdatedBicarbonateIndex];
+        }
+
+        for (let i = 1; i <= timeBetweenOrders; i++) {
+          const phResults = calculatePH(initialBicarbonateValue);
+          updatedLabResults.ph.push(phResults.ph);
+          updatedLabResults.pc02.push(phResults.pc02);
+
+          const lastUpdatedBicarbonateIndex =
+            updatedLabResults.bicarbonate.length - 1;
+          initialBicarbonateValue =
+            updatedLabResults.bicarbonate[lastUpdatedBicarbonateIndex];
+        }
       }
-    }
-    return updatedLabResults;
-  }, {});
-  
-  return newLabData
+      return updatedLabResults;
+    },
+    {}
+  );
+
+  return newLabData;
 };
 
-const calculatePH = (bicarbonate) => {
-  const pc02 = parseFloat(excelRound((1.5*bicarbonate)+8));
-  const ph = parseFloat(excelRound(6.1 + Math.log(bicarbonate/(0.03*pc02)) / Math.log(10)));
+const calculatePH = bicarbonate => {
+  const pc02 = parseFloat(excelRound(1.5 * bicarbonate + 8));
+  const ph = parseFloat(
+    excelRound(6.1 + Math.log(bicarbonate / (0.03 * pc02)) / Math.log(10))
+  );
   return {
     ph,
     pc02
-  }
-}
+  };
+};
 
 //once done, need bicarbonate and pc02
 
@@ -132,4 +141,4 @@ const calculatePH = (bicarbonate) => {
 //   }
 
 //   return parseFloat(_currentCaseStudySheet.labs.elements[currentLabSetIndex][lab]);
-// } 
+// }
