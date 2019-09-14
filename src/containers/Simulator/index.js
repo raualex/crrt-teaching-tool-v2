@@ -12,10 +12,7 @@ export class Simulator extends Component {
     this.state = {
       showOrdersModal: false,
       btnClicked: "",
-      ordersResults: [],
-      currentTime: 0,
-      currentDay: 0,
-      amPm: "AM"
+      ordersResults: []
       //each order result will be an object consisting of timestamp and array of messages
     };
   }
@@ -24,6 +21,7 @@ export class Simulator extends Component {
     const { orders } = this.props;
     // Typical usage (don't forget to compare props):
     if (orders !== prevProps.orders) {
+      /* For each order, add its results messages */
       // this.checkCurrentOrderResults()
     }
   }
@@ -109,7 +107,7 @@ export class Simulator extends Component {
   };
 
   toggleOrdersModal = event => {
-    if(event) {
+    if (event) {
       event.preventDefault();
     }
     this.setState({ showOrdersModal: !this.state.showOrdersModal });

@@ -50,16 +50,16 @@ export class OrdersModal extends Component {
       labData
     } = this.props;
 
-  //   if(timeBetweenOrdersIsValid !== prevProps.timeBetweenOrdersIsValid) {
-  //     if(timeBetweenOrdersIsValid === false) {
-  //       this.setState({ readyForSubmission: false })
-  //     } else {
-  //       // this.setState({ readyForSubmission: true })
-  //     }
-  //     this.validateOrder()
-  //   }
+    //   if(timeBetweenOrdersIsValid !== prevProps.timeBetweenOrdersIsValid) {
+    //     if(timeBetweenOrdersIsValid === false) {
+    //       this.setState({ readyForSubmission: false })
+    //     } else {
+    //       // this.setState({ readyForSubmission: true })
+    //     }
+    //     this.validateOrder()
+    //   }
 
-    if(this.props.orders !== prevProps.orders) {
+    if (this.props.orders !== prevProps.orders) {
       const newLabData = compileLabData(
         labData,
         timeBetweenOrders,
@@ -75,7 +75,9 @@ export class OrdersModal extends Component {
 
   handleStringChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value }, () => this.checkForInvalidInputs(name, value));
+    this.setState({ [name]: value }, () =>
+      this.checkForInvalidInputs(name, value)
+    );
   };
 
   handleNumberChange = event => {
@@ -85,83 +87,86 @@ export class OrdersModal extends Component {
       {
         [name]: parsedValue
       },
-			() => this.checkForInvalidInputs(name)
+      () => this.checkForInvalidInputs(name)
     );
   };
 
-  checkForInvalidInputs = (name) => {
-		const { requiredRanges, replacementFluidDosages } = orderDosages;
-		const { dosageErrors } = this.state
-		let invalidEntries = [];
+  checkForInvalidInputs = name => {
+    const { requiredRanges, replacementFluidDosages } = orderDosages;
+    const { dosageErrors } = this.state;
+    let invalidEntries = [];
 
-		if (!name) {
-    	invalidEntries = replacementFluidDosages.reduce(
-      	(wrongValues, medication) => {
+    if (!name) {
+      invalidEntries = replacementFluidDosages.reduce(
+        (wrongValues, medication) => {
+          if (
+            this.state[medication] < requiredRanges[medication].min ||
+            this.state[medication] > requiredRanges[medication].max
+          ) {
+            wrongValues.push(medication);
+          }
 
-       	  if (
-          	this.state[medication] < requiredRanges[medication].min ||
-        	  this.state[medication] > requiredRanges[medication].max
-       	  ) {
-        	  wrongValues.push(medication);
-       	  }
+          return wrongValues;
+        },
+        []
+      );
+    } else if (name) {
+      invalidEntries = [name];
 
-        	return wrongValues;
-      	},
-    	  []
-   	  );
-		} else if (name) {
-			invalidEntries = [name]
+      if (
+        this.state[name] < requiredRanges[name].min ||
+        this.state[name] > requiredRanges[name].max
+      ) {
+        this.setState({
+          dosageErrors: [...dosageErrors, ...invalidEntries],
+          readyForSubmission: false
+        });
+      } else {
+        this.setState(
+          {
+            dosageErrors: this.checkDosageErrors(name)
+          },
+          () => this.checkIfReadyForSubmission()
+        );
+      }
+    }
 
-			if (
-				this.state[name] < requiredRanges[name].min ||
-				this.state[name] > requiredRanges[name].max
-			 ) {
-				this.setState({ 
-					dosageErrors: [...dosageErrors, ...invalidEntries],
-					readyForSubmission: false
-				})
-			 } else {
-				 
-				this.setState({ 
-					dosageErrors: this.checkDosageErrors(name)
-				}, () => this.checkIfReadyForSubmission())
-			 }
-		}
+    return invalidEntries;
+  };
 
-		return invalidEntries;
-	};
+  checkDosageErrors = invalidEntry => {
+    const { dosageErrors } = this.state;
+    let newDosageErrors = [];
 
-	checkDosageErrors = (invalidEntry) => {
-		const { dosageErrors } = this.state
-		let newDosageErrors = [];
+    newDosageErrors = dosageErrors.filter(elementName => {
+      return elementName !== invalidEntry;
+    });
 
-		newDosageErrors = dosageErrors.filter((elementName) => {
-			return elementName !== invalidEntry
-		})
-		
-		return newDosageErrors
-	}
+    return newDosageErrors;
+  };
 
-	checkIfReadyForSubmission = () => {
-		const { timeBetweenOrdersIsValid } = this.props
-		const { dosageErrors } = this.state
+  checkIfReadyForSubmission = () => {
+    const { timeBetweenOrdersIsValid } = this.props;
+    const { dosageErrors } = this.state;
 
-		if (dosageErrors.length || !timeBetweenOrdersIsValid) {
-			this.setState({ readyForSubmission: false })
-		} else {
-			this.setState({ readyForSubmission: true })
-		}
-	}
+    if (dosageErrors.length || !timeBetweenOrdersIsValid) {
+      this.setState({ readyForSubmission: false });
+    } else {
+      this.setState({ readyForSubmission: true });
+    }
+  };
 
   validateOrder = () => {
     const { timeBetweenOrdersIsValid } = this.props;
-		const invalidEntries = this.checkForInvalidInputs();
+    const invalidEntries = this.checkForInvalidInputs();
 
-		if(timeBetweenOrdersIsValid && invalidEntries.length === 0) {
-		  this.setState({ dosageErrors: [] }, () => this.checkIfReadyForSubmission());
-		} else if (!timeBetweenOrdersIsValid || invalidEntries.length !== 0) {
-			this.checkIfReadyForSubmission()
-		}
+    if (timeBetweenOrdersIsValid && invalidEntries.length === 0) {
+      this.setState({ dosageErrors: [] }, () =>
+        this.checkIfReadyForSubmission()
+      );
+    } else if (!timeBetweenOrdersIsValid || invalidEntries.length !== 0) {
+      this.checkIfReadyForSubmission();
+    }
   };
 
   compileOrder = () => {
@@ -216,27 +221,29 @@ export class OrdersModal extends Component {
   };
 
   handletimeBetweenOrdersChange = async event => {
-		const { value } = event.target;
-		const timeBetweenOrders = await this.validateEnteredTimeBetweenOrders(value);
-		await this.props.setTimeBetweenOrders(timeBetweenOrders);
-		this.validateOrder();
+    const { value } = event.target;
+    const timeBetweenOrders = await this.validateEnteredTimeBetweenOrders(
+      value
+    );
+    await this.props.setTimeBetweenOrders(timeBetweenOrders);
+    this.validateOrder();
   };
 
   validateEnteredTimeBetweenOrders = enteredTime => {
     const { validateTimeBetweenOrders } = this.props;
-    const parsedTime = parseFloat(enteredTime)
-    if(!isNaN(parsedTime)) {
+    const parsedTime = parseFloat(enteredTime);
+    if (!isNaN(parsedTime)) {
       if (parsedTime >= 2 && parsedTime <= 24) {
         validateTimeBetweenOrders(true);
         return Math.round(parsedTime);
       } else {
-				validateTimeBetweenOrders(false)
-        return parsedTime
-			}
+        validateTimeBetweenOrders(false);
+        return parsedTime;
+      }
     } else {
-			validateTimeBetweenOrders(false)
-      return enteredTime
-		} 
+      validateTimeBetweenOrders(false);
+      return enteredTime;
+    }
   };
 
   incrementTimeBetweenOrders = () => {
@@ -262,8 +269,8 @@ export class OrdersModal extends Component {
   submitNewOrder = event => {
     event.preventDefault();
     const newOrder = this.compileOrder();
-		this.props.submitOrder(newOrder);
-		// this.props.closeOrdersModal()
+    this.props.submitOrder(newOrder);
+    // this.props.closeOrdersModal()
   };
 
   toggleCheckBoxes = event => {
@@ -323,12 +330,8 @@ export class OrdersModal extends Component {
       readyForSubmission
     } = this.state;
 
-    const { 
-      orders, 
-      closeOrdersModal, 
-      timeBetweenOrders 
-    } = this.props;
-    
+    const { orders, closeOrdersModal, timeBetweenOrders } = this.props;
+
     const {
       replacementFluidDosages,
       modalityDosages,
@@ -542,8 +545,9 @@ export const mapDispatchToProps = dispatch => ({
   setTime: newTime => dispatch(setTime(newTime)),
   setTimeBetweenOrders: TimeBetweenOrders =>
     dispatch(setTimeBetweenOrders(TimeBetweenOrders)),
-  validateTimeBetweenOrders: (isValid) => dispatch(validateTimeBetweenOrders(isValid)),
-  calculateLabData: (newLabData) => dispatch(calculateLabData(newLabData))
+  validateTimeBetweenOrders: isValid =>
+    dispatch(validateTimeBetweenOrders(isValid)),
+  calculateLabData: newLabData => dispatch(calculateLabData(newLabData))
 });
 
 export default connect(
