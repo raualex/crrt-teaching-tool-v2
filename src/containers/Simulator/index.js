@@ -11,9 +11,7 @@ export class Simulator extends Component {
     super(props);
     this.state = {
       showOrdersModal: false,
-      btnClicked: "",
-      ordersResults: []
-      //each order result will be an object consisting of timestamp and array of messages
+      btnClicked: ""
     };
   }
 
@@ -25,70 +23,6 @@ export class Simulator extends Component {
       // this.checkCurrentOrderResults()
     }
   }
-
-  // checkCurrentOrderResults = () => {
-  //   //sample orderResult
-  //   // {
-  // 	// 	timeStamp: '10:00 AM - Day 1',
-  // 	// 	messages: ['mock message','mock message']
-  //   // }
-
-  //   //checks current order's input ranges against ranges in utils/orderResultsData.js
-  //   //if there are warnings, add them to messages array
-  //   //if there are no warnings, add 'CRRT is running smoothly. There were no reported issues since the previous update.' to messages array
-
-  //   //import ordersResults from utils
-
-  //   const { orders } = this.props
-  //   let messages = [];
-  //   const currentOrder = orders[orders.length-1]
-
-  //   for(medication in currentOrder) {
-
-  //     const belowRangeMessage = checkResultsForBelowRange(currentOrder, medication)
-  //     const aboveRangeMessage = checkResultsForAboveRange(currentOrder, medication)
-
-  //     if(belowRangeMessage === aboveRangeMessage) {
-  //       messages.push(belowRangeMessage)
-  //     } else {
-  //       messages.push(belowRangeMessage)
-  //       messages.push(aboveRangeMessage)
-  //     }
-  //   }
-  //   const timeStamp = createTimeStamp()
-  //   const newOrderResults = {
-  //     timeStamp,
-  //     messages
-  //   }
-  //   const ordersResults = [...this.state.orderResults, newOrderResults]
-  //   this.setState({ ordersResults })
-  // }
-
-  // checkResultsForBelowRange = (currentOrder, medication) => {
-  //   const { concerning, urgent, lethal } = currentOrder[medication].dosageRanges.belowRange;
-  //   if(currentOrder[medication] < concerning && currentOrder[medication] > urgent) {
-  //     return ordersResults[concerning]
-  //   } else if (currentOrder[medication] < urgent && currentOrder[medication] > lethal) {
-  //     return ordersResults[urgent]
-  //   } else if (currentOrder[medication] < lethal){
-  //     return ordersResults[lethal]
-  //   } else {
-  //     return 'CRRT is running smoothly. There were no reported issues since the previous update.'
-  //   }
-  // }
-
-  // checkResultsForAboveRange = (currentOrder, medication) => {
-  //   const { concerning, urgent, lethal } = currentOrder[medication].dosageRanges.aboveRange;
-  //   if(currentOrder[medication] > concerning && currentOrder[medication] < urgent) {
-  //     return ordersResults[concerning]
-  //   } else if (currentOrder[medication] > urgent && currentOrder[medication] < lethal) {
-  //     return ordersResults[urgent]
-  //   } else if (currentOrder[medication] > lethal){
-  //     return ordersResults[lethal]
-  //   } else {
-  //     return 'CRRT is running smoothly. There were no reported issues since the previous update.'
-  //   }
-  // }
 
   handleClick = event => {
     let { name } = event.target;

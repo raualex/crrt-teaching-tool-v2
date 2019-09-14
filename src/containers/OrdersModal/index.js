@@ -5,7 +5,8 @@ import {
   submitOrder,
   setTime,
   setTimeBetweenOrders,
-  validateTimeBetweenOrders
+  validateTimeBetweenOrders,
+  addResultsMessagesToOrder
 } from "../../Actions/ordersActions";
 import { calculateLabData } from "../../Actions/calculationActions";
 import orderDosages from "../../utils/orderDosages.js";
@@ -40,38 +41,98 @@ export class OrdersModal extends Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     const {
       closeOrdersModal,
       calculateLabData,
       orders,
       timeBetweenOrders,
       selectedCase,
-      labData
+      labData,
+      addResultsMessagesToOrder
     } = this.props;
 
-    //   if(timeBetweenOrdersIsValid !== prevProps.timeBetweenOrdersIsValid) {
-    //     if(timeBetweenOrdersIsValid === false) {
-    //       this.setState({ readyForSubmission: false })
-    //     } else {
-    //       // this.setState({ readyForSubmission: true })
-    //     }
-    //     this.validateOrder()
-    //   }
-
     if (this.props.orders !== prevProps.orders) {
+      let currentOrder = orders[orders.length - 1];
       const newLabData = compileLabData(
         labData,
         timeBetweenOrders,
         selectedCase.usualWeight,
-        orders[orders.length - 1]
+        currentOrder
       );
 
-      calculateLabData(newLabData);
+      const addedLabData = await calculateLabData(newLabData);
+      // const resultsMessages = await this.checkCurrentOrderResults(addedLabData);
+      const resultsMessages = ["alvin", "simon", "theodore"];
+      console.log("currentOrder.id: ", currentOrder.id);
+      addResultsMessagesToOrder(resultsMessages, currentOrder.id);
       this.incrementTimeBetweenOrders();
       closeOrdersModal();
     }
   }
+
+  checkCurrentOrderResults = () => {
+    //sample orderResult
+    // {
+    // 	timeStamp: '10:00 AM - Day 1',
+    // 	messages: ['mock message','mock message']
+    // }
+
+    //checks current order's input ranges against ranges in utils/orderResultsData.js
+    //if there are warnings, add them to messages array
+    //if there are no warnings, add 'CRRT is running smoothly. There were no reported issues since the previous update.' to messages array
+
+    //import ordersResults from utils
+
+    const { orders } = this.props;
+    let messages = [];
+    const currentOrder = orders[orders.length - 1];
+
+    // for (let medication in currentOrder) {
+    //   const belowRangeMessage = checkResultsForBelowRange(
+    //     currentOrder,
+    //     medication
+    //   );
+    //   const aboveRangeMessage = checkResultsForAboveRange(
+    //     currentOrder,
+    //     medication
+    //   );
+
+    //   if (belowRangeMessage === aboveRangeMessage) {
+    //     messages.push(belowRangeMessage);
+    //   } else {
+    //     messages.push(belowRangeMessage);
+    //     messages.push(aboveRangeMessage);
+    //   }
+    // }
+    return messages;
+  };
+
+  // checkResultsForBelowRange = (currentOrder, medication) => {
+  //   const { concerning, urgent, lethal } = currentOrder[medication].dosageRanges.belowRange;
+  //   if(currentOrder[medication] < concerning && currentOrder[medication] > urgent) {
+  //     return ordersResults[concerning]
+  //   } else if (currentOrder[medication] < urgent && currentOrder[medication] > lethal) {
+  //     return ordersResults[urgent]
+  //   } else if (currentOrder[medication] < lethal){
+  //     return ordersResults[lethal]
+  //   } else {
+  //     return 'CRRT is running smoothly. There were no reported issues since the previous update.'
+  //   }
+  // }
+
+  // checkResultsForAboveRange = (currentOrder, medication) => {
+  //   const { concerning, urgent, lethal } = currentOrder[medication].dosageRanges.aboveRange;
+  //   if(currentOrder[medication] > concerning && currentOrder[medication] < urgent) {
+  //     return ordersResults[concerning]
+  //   } else if (currentOrder[medication] > urgent && currentOrder[medication] < lethal) {
+  //     return ordersResults[urgent]
+  //   } else if (currentOrder[medication] > lethal){
+  //     return ordersResults[lethal]
+  //   } else {
+  //     return 'CRRT is running smoothly. There were no reported issues since the previous update.'
+  //   }
+  // }
 
   handleStringChange = event => {
     const { name, value } = event.target;
@@ -547,7 +608,9 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(setTimeBetweenOrders(TimeBetweenOrders)),
   validateTimeBetweenOrders: isValid =>
     dispatch(validateTimeBetweenOrders(isValid)),
-  calculateLabData: newLabData => dispatch(calculateLabData(newLabData))
+  calculateLabData: newLabData => dispatch(calculateLabData(newLabData)),
+  addResultsMessagesToOrder: (resultsMessages, id) =>
+    dispatch(addResultsMessagesToOrder(resultsMessages, id))
 });
 
 export default connect(
