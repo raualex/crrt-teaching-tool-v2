@@ -1,6 +1,6 @@
 import { labDataValues } from "../utils/labDataValues";
 
-const excelRound = (val, num) => {
+const excelRound = (val) => {
   // var coef = Math.pow(10, num);
   // return (Math.round(val * coef))/coef;
 
@@ -32,22 +32,16 @@ export const compileLabData = (
   usualWeight,
   currentOrder
 ) => {
-  const labDataKeys = Object.keys(labDataValues)
+  const currentLabDataResultsKeys = Object.keys(labData)
+  const primaryLabDataKeys = Object.keys(labDataValues)
 
-  const newLabData = labDataKeys.reduce((updatedLabResults, labKey) => {
-
-    const {
-      dialysate,
-      effluentFlowRate,
-      volumeOfDistribution,
-      productionRate
-    } = labDataValues[labKey];
-
-    let initialValue
-
+  const newLabData = currentLabDataResultsKeys.reduce((updatedLabResults, labKey) => {
     if(!updatedLabResults[labKey]) {
       updatedLabResults[labKey] = []
     }
+
+    let initialValue
+    let initialBicarbonateValue
 
     if(!labData[labKey].length) {
       initialValue = currentOrder.dosages[labKey];
@@ -57,25 +51,85 @@ export const compileLabData = (
       initialValue = labData[labKey][lastLabDataIndex];
     }
 
-    for(let i=1; i<=timeBetweenOrders; i++) {
-      const labResult = calculateLab(
-        initialValue,
+    if(primaryLabDataKeys.includes(labKey)) {
+      const {
         dialysate,
         effluentFlowRate,
-        timeBetweenOrders,
-        usualWeight,
         volumeOfDistribution,
         productionRate
-      );
+      } = labDataValues[labKey];
   
-      updatedLabResults[labKey].push(parseFloat(labResult));
+      for(let i=1; i<=timeBetweenOrders; i++) {
+        const labResult = calculateLab(
+          initialValue,
+          dialysate,
+          effluentFlowRate,
+          timeBetweenOrders,
+          usualWeight,
+          volumeOfDistribution,
+          productionRate
+        );
+    
+        updatedLabResults[labKey].push(parseFloat(labResult));
+        
+        const lastUpdatedLabResultsIndex = updatedLabResults[labKey].length - 1
+        initialValue = updatedLabResults[labKey][lastUpdatedLabResultsIndex]
+      }
+    } else if(labKey === 'ph'){
+      if(!updatedLabResults.pc02) {
+        updatedLabResults.pc02 = []
+      } 
+      if(!labData.bicarbonate.length) {
+        initialBicarbonateValue = currentOrder.dosages.bicarbonate
+      } else {
+        updatedLabResults.bicarbonate = labData[labKey]
+        const lastUpdatedBicarbonateIndex = updatedLabResults.bicarbonate.length - 1
+        initialBicarbonateValue = updatedLabResults.bicarbonate[lastUpdatedBicarbonateIndex]
+      }
       
-      const lastUpdatedLabResultsIndex = updatedLabResults[labKey].length - 1
-      initialValue = updatedLabResults[labKey][lastUpdatedLabResultsIndex]
+
+      for(let i=1; i<=timeBetweenOrders; i++) {
+        const phResults = calculatePH(initialBicarbonateValue)
+        updatedLabResults.ph.push(phResults.ph)
+        updatedLabResults.pc02.push(phResults.pc02)
+
+        const lastUpdatedBicarbonateIndex = updatedLabResults.bicarbonate.length - 1
+        initialBicarbonateValue = updatedLabResults.bicarbonate[lastUpdatedBicarbonateIndex]
+      }
     }
     return updatedLabResults;
   }, {});
+  
   return newLabData
 };
 
+const calculatePH = (bicarbonate) => {
+  const pc02 = parseFloat(excelRound((1.5*bicarbonate)+8));
+  const ph = parseFloat(excelRound(6.1 + Math.log(bicarbonate/(0.03*pc02)) / Math.log(10)));
+  return {
+    ph,
+    pc02
+  }
+}
+
 //once done, need bicarbonate and pc02
+
+//from crrt 1
+// const calculatePH = (bicarbonate) => {
+//   const PCO2 = getCurrentLab("PC02");
+//   const pH = 6.1 + Math.log(bicarbonate/(0.03*PCO2)) / Math.log(10);
+//   console.log("calculatePH : pH", pH);
+//   return excelRound(pH, 2);
+// }
+
+// const getCurrentLab = (lab) => {
+//   let currentLabSetIndex;
+
+//   if (this.props.timeStamp === 0) {
+//     currentLabSetIndex = 1;
+//   } else {
+//     currentLabSetIndex = (_currentTime/8) + 1;
+//   }
+
+//   return parseFloat(_currentCaseStudySheet.labs.elements[currentLabSetIndex][lab]);
+// } 
