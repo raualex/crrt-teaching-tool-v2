@@ -65,9 +65,8 @@ export class OrdersModal extends Component {
 
       await calculateLabData(newLabData);
       const resultsMessages = this.checkCurrentOrderResults();
-      // const resultsMessages = ["alvin", "simon", "theodore"];
-      console.log("currentOrder.id: ", currentOrder.id);
-      addResultsMessagesToOrder(resultsMessages, currentOrder.id);
+
+      addResultsMessagesToOrder(resultsMessages, currentOrder);
       this.incrementTimeBetweenOrders();
       closeOrdersModal();
     }
@@ -109,7 +108,6 @@ export class OrdersModal extends Component {
     } else {
       messages.push(defaultMessage);
     }
-    console.log(messages);
     return messages;
   };
 

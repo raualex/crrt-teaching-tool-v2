@@ -46,12 +46,14 @@ export const validateTimeBetweenOrdersReducer = (state = false, action) => {
 export const addResultsMessagesToOrderReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_RESULTS_MESSAGES_TO_ORDER":
-      const { id, resultsMessages } = action;
+      const { messages } = action;
+      const { id, timeStamp } = action.currentOrder;
       return [
         ...state,
         {
           id,
-          resultsMessages
+          timeStamp,
+          messages
         }
       ];
 

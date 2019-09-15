@@ -47,9 +47,27 @@ export class Simulator extends Component {
     this.setState({ showOrdersModal: !this.state.showOrdersModal });
   };
 
+  getOrderResultsMessages = () => {
+    const { resultsMessages } = this.props;
+    return resultsMessages.map(order => {
+      const { timeStamp, messages } = order;
+      return {
+        timeStamp,
+        messages
+      };
+    });
+  };
+
   render() {
-    const { selectedModal, selectedCase, location, history } = this.props;
-    const { showOrdersModal, btnClicked, ordersResults } = this.state;
+    const {
+      selectedModal,
+      selectedCase,
+      location,
+      history,
+      resultsMessages,
+      orders
+    } = this.props;
+    const { showOrdersModal, btnClicked } = this.state;
 
     if (!selectedCase.id) {
       location.pathname = "/select_a_case";
@@ -158,7 +176,9 @@ export class Simulator extends Component {
                   Physical Exam
                 </button>
               </div>
-              <OrderResultsContainer ordersResults={ordersResults} />
+              <OrderResultsContainer
+                orderResults={this.getOrderResultsMessages()}
+              />
             </div>
           )}
         </div>
@@ -277,10 +297,16 @@ export class Simulator extends Component {
   }
 }
 
-export const mapStateToProps = ({ selectedModal, selectedCase, orders }) => ({
+export const mapStateToProps = ({
   selectedModal,
   selectedCase,
-  orders
+  orders,
+  resultsMessages
+}) => ({
+  selectedModal,
+  selectedCase,
+  orders,
+  resultsMessages
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -19,8 +19,8 @@ export const validateTimeBetweenOrders = isValid => ({
   timeBetweenOrdersIsValid: isValid
 });
 
-export const addResultsMessagesToOrder = (resultsMessages, id) => ({
+export const addResultsMessagesToOrder = (messages, currentOrder) => ({
   type: "ADD_RESULTS_MESSAGES_TO_ORDER",
-  resultsMessages,
-  id
+  messages,
+  currentOrder
 });
