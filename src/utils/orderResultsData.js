@@ -1,4 +1,4 @@
-const ordersResults = {
+const ordersResultsMessages = {
   sodium: {
     belowRange: {
       concerning:
@@ -11,7 +11,8 @@ const ordersResults = {
       concerning:
         "The primary team is concerned about the patient’s hypernatremia.",
       urgent: null,
-      lethal: "The patient developed a subarachnoid hemorrhage in the hospital, and was transitioned to comfort care by the family. The patient’s severe hypernatremia was thought to be the main contributor. Try the scenario again, with closer attention to sodium values."
+      lethal:
+        "The patient developed a subarachnoid hemorrhage in the hospital, and was transitioned to comfort care by the family. The patient’s severe hypernatremia was thought to be the main contributor. Try the scenario again, with closer attention to sodium values."
     }
   },
   potassium: {
@@ -23,9 +24,11 @@ const ordersResults = {
         "The patient developed ventricular fibrillation, and resuscitation efforts were ended after 30 minutes of CPR. The patient’s extreme hypokalemia was thought to be the inciting factor. Try the case again, and make sure there is enough potassium in the replacement or dialysate fluid to maintain normal values."
     },
     aboveRange: {
-      concerning: "The primary team is concerned about the patient’s hyperkalemia.",
+      concerning:
+        "The primary team is concerned about the patient’s hyperkalemia.",
       urgent: null,
-      lethal: "The patient went into PEA arrest, and could not be resuscitated.  Their potassium >7.0 was thought to be the cause.  Try the scenario again, with careful potassium monitoring"
+      lethal:
+        "The patient went into PEA arrest, and could not be resuscitated.  Their potassium >7.0 was thought to be the cause.  Try the scenario again, with careful potassium monitoring"
     }
   },
   chloride: {
@@ -42,12 +45,14 @@ const ordersResults = {
   },
   bicarbonate: {
     belowRange: {
-      concerning: "The team is concerned about the patient’s bicarbonate value.",
+      concerning:
+        "The team is concerned about the patient’s bicarbonate value.",
       urgent: null,
       lethal: null
     },
     aboveRange: {
-      concerning: "The team is concerned about the patient’s elevated bicarbonate.",
+      concerning:
+        "The team is concerned about the patient’s elevated bicarbonate.",
       urgent: null,
       lethal: null
     }
@@ -88,7 +93,8 @@ const ordersResults = {
       concerning:
         "The primary team is concerned about the patient’s hypophosphatemia, and would like you to address the problem",
       urgent: null,
-      lethal: "The patient developed PEA arrest, and could not be resuscitated.  The patient’s phosphorous <1.0 was thought to be the main reason for cardiac arrest.  Please try again, with careful monitoring of phosphorous values"
+      lethal:
+        "The patient developed PEA arrest, and could not be resuscitated.  The patient’s phosphorous <1.0 was thought to be the main reason for cardiac arrest.  Please try again, with careful monitoring of phosphorous values"
     },
     aboveRange: {
       concerning: null,
@@ -98,15 +104,19 @@ const ordersResults = {
   },
   grossUltraFiltration: {
     belowRange: {
-      concerning: "The team is concerned about the patient’s positive fluid balance.",
+      concerning:
+        "The team is concerned about the patient’s positive fluid balance.",
       urgent: null,
-      lethal: "The patient developed sepsis from ventilator associated pneumonia, and passed away.  Extreme fluid overload predispose to infection and sepsis, and should be avoided.  Please try again with higher rates of ultrafiltration.“"
+      lethal:
+        "The patient developed sepsis from ventilator associated pneumonia, and passed away.  Extreme fluid overload predispose to infection and sepsis, and should be avoided.  Please try again with higher rates of ultrafiltration.“"
     },
     aboveRange: {
       concerning:
         "The team is concerned that the rate of ultrafiltration is a bit too brisk for his current condition.",
-      urgent: "The patient’s pressor requirements are increasing, and the team is concerned that the high rate of ultrafiltration is causing hemodynamic instability. Please reduce your ultrafiltration rate.",
-      lethal: "The patient developed PEA arrest and could not be resuscitated.  The extremely high ultrafiltration was thought to be the main precipitant.  Please try again, with more careful monitoring of ins and outs."
+      urgent:
+        "The patient’s pressor requirements are increasing, and the team is concerned that the high rate of ultrafiltration is causing hemodynamic instability. Please reduce your ultrafiltration rate.",
+      lethal:
+        "The patient developed PEA arrest and could not be resuscitated.  The extremely high ultrafiltration was thought to be the main precipitant.  Please try again, with more careful monitoring of ins and outs."
     }
   },
   bloodFlowRate: {
@@ -137,15 +147,20 @@ const ordersResults = {
   pH: {
     belowRange: {
       concerning: "The primary team is concerned about the patient’s acidosis.",
-      urgent: "The primary team has been urgently paging about the patient’s acidosis, which requires immediate attention ",
-      lethal: "The patient went into PEA arrest, and could not be resuscitated.  The patient’s severe acidosis was thought to be a primary contributor."
+      urgent:
+        "The primary team has been urgently paging about the patient’s acidosis, which requires immediate attention ",
+      lethal:
+        "The patient went into PEA arrest, and could not be resuscitated.  The patient’s severe acidosis was thought to be a primary contributor."
     },
     aboveRange: {
-      concerning: "The primary team is concerned about the patient’s alkalosis.",
-      urgent: "The primary team has been urgently paging about the patient’s alkalosis, which requires immediate attention ",
-      lethal: "The patient developed prolonged seizure activity and expired.  pH > 7.65 is associated with a mortliaty of >80% in ICU patients.  Try the scenario again, with closer attention to the bicarbonate in the dialysate or replacement fluid."
+      concerning:
+        "The primary team is concerned about the patient’s alkalosis.",
+      urgent:
+        "The primary team has been urgently paging about the patient’s alkalosis, which requires immediate attention ",
+      lethal:
+        "The patient developed prolonged seizure activity and expired.  pH > 7.65 is associated with a mortliaty of >80% in ICU patients.  Try the scenario again, with closer attention to the bicarbonate in the dialysate or replacement fluid."
     }
   }
 };
 
-export default ordersResults;
+export default ordersResultsMessages;

@@ -12,6 +12,8 @@ import { calculateLabData } from "../../Actions/calculationActions";
 import orderDosages from "../../utils/orderDosages.js";
 import InputContainer from "../../components/InputContainer";
 import { compileLabData } from "../../utils/labEquations";
+import orderWarningRanges from "../../utils/orderWarningRanges";
+import ordersResultsMessages from "../../utils/orderResultsData";
 const uuidv4 = require("uuid/v4");
 
 export class OrdersModal extends Component {
@@ -61,9 +63,9 @@ export class OrdersModal extends Component {
         currentOrder
       );
 
-      const addedLabData = await calculateLabData(newLabData);
-      // const resultsMessages = await this.checkCurrentOrderResults(addedLabData);
-      const resultsMessages = ["alvin", "simon", "theodore"];
+      await calculateLabData(newLabData);
+      const resultsMessages = this.checkCurrentOrderResults();
+      // const resultsMessages = ["alvin", "simon", "theodore"];
       console.log("currentOrder.id: ", currentOrder.id);
       addResultsMessagesToOrder(resultsMessages, currentOrder.id);
       this.incrementTimeBetweenOrders();
@@ -72,67 +74,86 @@ export class OrdersModal extends Component {
   }
 
   checkCurrentOrderResults = () => {
-    //sample orderResult
-    // {
-    // 	timeStamp: '10:00 AM - Day 1',
-    // 	messages: ['mock message','mock message']
-    // }
-
-    //checks current order's input ranges against ranges in utils/orderResultsData.js
+    //checks current order's Redux labData output against ranges each case, then prints according warning messages stored in utils/orderResultsData.js
     //if there are warnings, add them to messages array
     //if there are no warnings, add 'CRRT is running smoothly. There were no reported issues since the previous update.' to messages array
 
-    //import ordersResults from utils
-
-    const { orders } = this.props;
+    // const warningRangeKeys = Object.keys(selectedCase.warningRanges);
+    const warningRangeKeys = Object.keys(orderWarningRanges);
+    const defaultMessage =
+      "CRRT is running smoothly. There were no reported issues since the previous update.";
     let messages = [];
-    const currentOrder = orders[orders.length - 1];
+    const results = warningRangeKeys.reduce((allMessages, medication) => {
+      const belowRangeMessage = this.checkResultsForBelowRange(medication);
+      const aboveRangeMessage = this.checkResultsForAboveRange(medication);
 
-    // for (let medication in currentOrder) {
-    //   const belowRangeMessage = checkResultsForBelowRange(
-    //     currentOrder,
-    //     medication
-    //   );
-    //   const aboveRangeMessage = checkResultsForAboveRange(
-    //     currentOrder,
-    //     medication
-    //   );
+      if (
+        belowRangeMessage.length &&
+        !messages.includes(belowRangeMessage) &&
+        !messages.includes(aboveRangeMessage)
+      ) {
+        messages.push(belowRangeMessage);
+      }
+      if (
+        aboveRangeMessage.length &&
+        !messages.includes(aboveRangeMessage) &&
+        !messages.includes(belowRangeMessage)
+      ) {
+        messages.push(aboveRangeMessage);
+      }
+      return allMessages;
+    }, []);
 
-    //   if (belowRangeMessage === aboveRangeMessage) {
-    //     messages.push(belowRangeMessage);
-    //   } else {
-    //     messages.push(belowRangeMessage);
-    //     messages.push(aboveRangeMessage);
-    //   }
-    // }
+    if (results.length) {
+      messages = results;
+    } else {
+      messages.push(defaultMessage);
+    }
+    console.log(messages);
     return messages;
   };
 
-  // checkResultsForBelowRange = (currentOrder, medication) => {
-  //   const { concerning, urgent, lethal } = currentOrder[medication].dosageRanges.belowRange;
-  //   if(currentOrder[medication] < concerning && currentOrder[medication] > urgent) {
-  //     return ordersResults[concerning]
-  //   } else if (currentOrder[medication] < urgent && currentOrder[medication] > lethal) {
-  //     return ordersResults[urgent]
-  //   } else if (currentOrder[medication] < lethal){
-  //     return ordersResults[lethal]
-  //   } else {
-  //     return 'CRRT is running smoothly. There were no reported issues since the previous update.'
-  //   }
-  // }
+  checkResultsForBelowRange = medication => {
+    const { labData } = this.props;
+    let message = "";
+    // const { warningRanges } = this.props.selectedCase;
+    const warningRanges = orderWarningRanges;
+    if (labData[medication]) {
+      const mostRecentLabResult =
+        labData[medication][labData[medication].length - 1];
+      const { belowRange } = warningRanges[medication];
 
-  // checkResultsForAboveRange = (currentOrder, medication) => {
-  //   const { concerning, urgent, lethal } = currentOrder[medication].dosageRanges.aboveRange;
-  //   if(currentOrder[medication] > concerning && currentOrder[medication] < urgent) {
-  //     return ordersResults[concerning]
-  //   } else if (currentOrder[medication] > urgent && currentOrder[medication] < lethal) {
-  //     return ordersResults[urgent]
-  //   } else if (currentOrder[medication] > lethal){
-  //     return ordersResults[lethal]
-  //   } else {
-  //     return 'CRRT is running smoothly. There were no reported issues since the previous update.'
-  //   }
-  // }
+      for (let range in belowRange) {
+        if (belowRange[range] !== null) {
+          if (mostRecentLabResult < belowRange[range]) {
+            message = ordersResultsMessages[medication].belowRange[range];
+          }
+        }
+      }
+    }
+    return message;
+  };
+
+  checkResultsForAboveRange = medication => {
+    const { labData } = this.props;
+    let message = "";
+    // const { warningRanges } = this.props.selectedCase;
+    const warningRanges = orderWarningRanges;
+    if (labData[medication]) {
+      const mostRecentLabResult =
+        labData[medication][labData[medication].length - 1];
+      const { aboveRange } = warningRanges[medication];
+
+      for (let range in aboveRange) {
+        if (aboveRange[range] !== null) {
+          if (mostRecentLabResult > aboveRange[range]) {
+            message = ordersResultsMessages[medication].aboveRange[range];
+          }
+        }
+      }
+    }
+    return message;
+  };
 
   handleStringChange = event => {
     const { name, value } = event.target;
