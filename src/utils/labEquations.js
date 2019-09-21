@@ -142,3 +142,63 @@ const calculatePH = bicarbonate => {
 
 //   return parseFloat(_currentCaseStudySheet.labs.elements[currentLabSetIndex][lab]);
 // }
+
+const defaultLabDataState = {
+  // sodium: [],
+  // potassium: [],
+  // chloride: [],
+  // bicarbonate: [],
+  // bun: [],
+  // creatinine: [],
+  // calcium: [],
+  ionizedCalcium: [],
+  magnesium: [],
+  // phosphorous: [],
+  // ph: [],
+  filtrationFraction: [],
+  calciumFinalPostFilter: [],
+  lactate: [],
+  albumin: [],
+  wbc: [],
+  hemoglobin: [],
+  hematocrit: [],
+  plateletCount: [],
+  // pc02: [],
+  granularCasts: [],
+  renalEpithelialCasts: [],
+  bloodCulture: [],
+  urineCulture: []
+};
+
+//Now need to factor in anticoag, etc., and calculate sodium accordingly
+//Points system?
+
+// runLabs() line 1161 - older CRRT version
+// runCitrateCalculations
+
+// // NOTE: Because sodium calculations are a bit different than other lab values, we need to recalculate
+// // sodium using the calculateSodium() function.
+// newLabs["sodium"] = calculateSodium(volumeOfDistribution, effluentFlowRate);
+// // NOTE: If we're using sodium phosphate, we need to recalculate the phosphorous results
+// if (orders.otherFluidsSodiumPhosphate) {
+//   console.log("runLabs : using sodium phosphate");
+//   newLabs["phosphorous"] = calculatePhosphourous(volumeOfDistribution, effluentFlowRate);
+// }
+
+// preLabChecks(effluentFlowRate);
+// postLabChecks() {
+//   switch (_currentCaseStudyId) {
+//     case 1:
+//       checkSodium();
+//       checkPotassium();
+//       checkChloride();
+//       checkBicarbonate();
+//       checkCalcium();
+//       checkMagnesium();
+//       checkPhosphorous();
+//       checkGrossUltrafiltration();
+//       handleSimulationCompletion();
+//       break;
+
+// checkIfUsedCitrate()
+// checkBloodFlowRate()

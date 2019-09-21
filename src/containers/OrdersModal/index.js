@@ -388,14 +388,14 @@ export class OrdersModal extends Component {
       {
         modality: "Pre-filter CVVH",
         sodium: 135,
-        potassium: 3,
-        chloride: 96,
-        bicarbonate: 25,
+        potassium: 2,
+        chloride: 100,
+        bicarbonate: 30,
         calcium: 2,
         magnesium: 1,
         phosphorous: 1,
-        grossUltraFiltration: 1500,
-        bloodFlowRate: 250,
+        grossUltraFiltration: 1000,
+        bloodFlowRate: 300,
         replacementFluidFlowRate: 7
       },
       () => this.validateOrder()
