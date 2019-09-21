@@ -634,11 +634,11 @@ var _historicalVitals = {
 //   );
 // }
 
-// function runLabs() {
+// export function runLabs() {
 //   _ordersCounter++;
 //   var newLabs = {};
 //   var dialysate = {};
-//   var orders = getOrders();
+//   var orders /*= getOrders()*/;
 //   var didClot = false;
 //   _currentOrders = orders;
 //   var startingWeight =
