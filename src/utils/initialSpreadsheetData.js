@@ -1,4 +1,4 @@
-const labsCase1 = {
+export const labsCase1 = {
   time: [-2, -1],
   labNum: [-2, -1],
   sodium: [145, 145],
@@ -25,4 +25,36 @@ const labsCase1 = {
   renalEpithelialCasts: ["5-10/HPF"],
   bloodCulture: ["No Growth"],
   urineCulture: ["No Growth"]
+};
+
+export const labsCase2 = {
+  time: [-2, -1],
+  labNum: [-2, -1],
+  sodium: [145, 145],
+  potassium: [3.6, 3.4],
+  chloride: [123, 116],
+  bicarbonate: [14, 13],
+  bun: [44, 48],
+  creatinine: [2.27, 3.12],
+  calcium: [7.7, 7.6],
+  ionizedCalcium: [0.95, 0.97],
+  magnesium: [1.7, 1.9],
+  phosphorous: [4.4, 6.3],
+  lactate: [13.4, 9.6],
+  albumin: [2.4, 2.2],
+  // AlkPhos: [191],
+  // AST: [12,920],
+  // ALT: [773],
+  // Bilirubin: [1.7],
+  // INR: [4.3],
+  wbc: [6.7, 6.5],
+  hemoglobin: [9.3, 8.6],
+  hematocrit: [29.3, 24],
+  plateletCount: [85, 92],
+  pH: [7.07, 7.22],
+  PC02: [28, 35],
+  granularCasts: ["0-5/HPF"],
+  HyalineCasts: ["11-30/HPF"],
+  bloodCulture: ["noGrowth"],
+  urineCulture: ["noGrowth"]
 };
