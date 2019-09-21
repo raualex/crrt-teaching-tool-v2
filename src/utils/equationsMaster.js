@@ -1748,7 +1748,7 @@ export function showInfo(data) {
 //   return currentWeightInKilos;
 // }
 
-function calculateFiltrationFraction(orders) {
+const calculateFiltrationFraction = orders => {
   let filtrationFraction;
   const hematocrit = getCurrentLab("hematocrit") / 100;
   console.log("calculateFiltrationFraction : hematocrit ", hematocrit);
@@ -1778,7 +1778,7 @@ function calculateFiltrationFraction(orders) {
       break;
   }
   return excelRound(filtrationFraction, 2);
-}
+};
 
 // function calculateFiltrationFraction(orders) {
 //   var ff;
@@ -2700,12 +2700,12 @@ function calculateEffluentFlowRate(orders) {
 //   return decodeURIComponent(results[2].replace(/\+/g, " "));
 // }
 
-// function excelRound(val, num) {
-//   // var coef = Math.pow(10, num);
-//   // return (Math.round(val * coef))/coef;
+function excelRound(val, num) {
+  // var coef = Math.pow(10, num);
+  // return (Math.round(val * coef))/coef;
 
-//   return Number.parseFloat(val).toFixed(2);
-// }
+  return Number.parseFloat(val).toFixed(2);
+}
 
 // // String.prototype.capitalize = function() {
 // //   return this.charAt(0).toUpperCase() + this.slice(1);

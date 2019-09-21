@@ -61,3 +61,131 @@ export const labs = {
     urineCulture: ["noGrowth"]
   }
 };
+
+export const inputOutput = {
+  1: {
+    fentanyl: [5, 5],
+    vasopressin: [6, 6],
+    cisatracurium: [20, 20],
+    midazolam: [5, 5],
+    norepinephrine: [350, 350],
+    normalSalineBolus: [0, 8000],
+    normalSalineCarrier: [40, 40],
+    meropenem: [55, 17],
+    levofloxacin: [150, 0],
+    calciumGluconate: [0, 0],
+    albumin: [0, 0],
+    vancomycin: [0, 0],
+    tubeFeeds: [0, 0],
+    total: [631, 8443],
+    previousSixHourTotal: []
+  },
+  2: {
+    acetylcysteine: [98, 102],
+    fentanyl: [5, 5],
+    vasopressin: [6, 6],
+    norepinephrine: [75, 60],
+    normalSalineBolus: [4000, 0],
+    normalSalineCarrier: [40, 40],
+    total: [4224, 213],
+    previousSixHourTotal: []
+  }
+};
+
+export const vitals = {
+  1: {
+    temperature: [36.7],
+    heartRate: [91],
+    respiratoryRate: [28],
+    bloodPressure: ["138/44"],
+    weight: [102]
+  },
+  2: {
+    temperature: [36.7],
+    heartRate: [91],
+    respiratoryRate: [28],
+    bloodPressure: ["138/44"],
+    weight: [60]
+  }
+};
+
+export const productionRates = {
+  1: {
+    sodium: [0],
+    potassium: [0],
+    chloride: [0],
+    bicarbonate: [-20],
+    bun: [40],
+    creatinine: [2.5],
+    calcium: [0],
+    phosphorous: [0],
+    magnesium: [0]
+  },
+  2: {
+    sodium: [0],
+    potassium: [0],
+    chloride: [0],
+    bicarbonate: [-20],
+    bun: [0],
+    creatinine: [0],
+    calcium: [0],
+    phosphorous: [0],
+    magnesium: [0]
+  }
+};
+
+export const medications = {
+  1: {
+    scheduledMedication: [
+      "Atorvastatin 40 mg Daily",
+      "Cefepime 2000 mg q8hr",
+      "Hydrocortisone sodium sucinate 50 mg QID",
+      "Insulin lispro sliding scale",
+      "Levofloxacin 500 mg IV BID",
+      "Pantoprazole 40 mg IV Daily",
+      "Senna 17.2 mg BID",
+      "thyroid (ARMOUR) 120 mg Daily",
+      "Vancomycin 1250 mg IV BID"
+    ],
+    infusions: [
+      "Cisatracurium (2 mg/mL)",
+      "Fentanyl (50 mcg/mL)",
+      "Midazolam (1 mg/mL)",
+      "Norepinephrine (64 mcg/mL)",
+      "Vasopressin (0.4 U/mL)"
+    ]
+  },
+  2: {
+    scheduledMedication: [
+      "Atorvastatin 40 mg Daily",
+      "Cefepime 2000 mg q8hr",
+      "Hydrocortisone sodium sucinate 50 mg QID",
+      "Insulin lispro sliding scale",
+      "Levofloxacin 500 mg IV BID",
+      "Pantoprazole 40 mg IV Daily",
+      "Senna 17.2 mg BID",
+      "thyroid (ARMOUR) 120 mg Daily",
+      "Vancomycin 1250 mg IV BID"
+    ],
+    infusions: [
+      "Cisatracurium (2 mg/mL)",
+      "Fentanyl (50 mcg/mL)",
+      "Midazolam (1 mg/mL)",
+      "Norepinephrine (64 mcg/mL)",
+      "Vasopressin (0.4 U/mL)"
+    ]
+  }
+};
+
+export const accessPressure = {
+  1: {
+    accessPressure: [-94, -101],
+    venousPressure: [123, 123],
+    effluentPressure: [160, 146]
+  },
+  2: {
+    accessPressure: [-114, -114],
+    venousPressure: [232, 232],
+    effluentPressure: [269, 271]
+  }
+};
