@@ -601,7 +601,7 @@ function initializeSpreadsheet(promise) {
 function calculatePH(bicarbonate) {
   var PCO2 = getCurrentLab("PC02");
   console.log("Heeeeeeeeee PCO2: ", PCO2);
-  var pH = 6.1 + Math.log(bicarbonate / (0.03 * PCO2)) / Math.log(10);
+  var pH = 6.1 + Math.log(bicarbonate / (0.03 *\ PCO2)) / Math.log(10);
   console.log("calculatePH : pH", pH);
   return excelRound(pH, 2);
 }
@@ -1422,33 +1422,62 @@ function calculateNewWeight(orders, totalHoursOfFiltration) {
 }
 
 function calculateFiltrationFraction(orders) {
-  var ff;
-  var hct = getCurrentLab("hematocrit") / 100;
-  console.log("calculateFiltrationFraction : hematocrit ", hct);
+  var filtrationFraction;
+  var hematocrit = getCurrentLab("hematocrit") / 100;
+  console.log("calculateFiltrationFraction : hematocrit ", hematocrit);
 
   switch (orders["modality"]) {
-    case "pre-filter-cvvh":
-      ff =
-        ((orders["Qr"] + orders["grossUF"] / 1000) /
-          (((orders["BFR"] * 60) / 1000) * (1 - hct) + orders["Qr"])) *
+    case "Pre-filter CVVH":
+      filtrationFraction =
+        ((orders["replacementFluidFlowRate"] + orders["grossUltraFiltration"] / 1000) /
+          (((orders["bloodFlowRate"] * 60) / 1000) * (1 - hematocrit) + orders["replacementFluidFlowRate"])) *
         100;
       break;
-    case "post-filter-cvvh":
-      ff =
-        ((orders["Qr"] + orders["grossUF"] / 1000) /
-          (((orders["BFR"] * 60) / 1000) * (1 - hct))) *
+    case "Post-filter CVVH":
+      filtrationFraction =
+        ((orders["replacementFluidFlowRate"] + orders["grossUltraFiltration"] / 1000) /
+          (((orders["bloodFlowRate"] * 60) / 1000) * (1 - hematocrit))) *
         100;
       break;
-    case "cvvhd":
-      ff =
-        (orders["grossUF"] /
+    case "CVVHD":
+      filtrationFraction =
+        (orders["grossUltraFiltration"] /
           1000 /
-          (((orders["BFR"] * 60) / 1000) * (1 - hct))) *
+          (((orders["bloodFlowRate"] * 60) / 1000) * (1 - hematocrit))) *
         100;
       break;
   }
-  return excelRound(ff, 2);
+  return excelRound(filtrationFraction, 2);
 }
+
+// function calculateFiltrationFraction(orders) {
+//   var ff;
+//   var hct = getCurrentLab("hematocrit") / 100;
+//   console.log("calculateFiltrationFraction : hematocrit ", hct);
+
+//   switch (orders["modality"]) {
+//     case "pre-filter-cvvh":
+//       ff =
+//         ((orders["Qr"] + orders["grossUF"] / 1000) /
+//           (((orders["BFR"] * 60) / 1000) * (1 - hct) + orders["Qr"])) *
+//         100;
+//       break;
+//     case "post-filter-cvvh":
+//       ff =
+//         ((orders["Qr"] + orders["grossUF"] / 1000) /
+//           (((orders["BFR"] * 60) / 1000) * (1 - hct))) *
+//         100;
+//       break;
+//     case "cvvhd":
+//       ff =
+//         (orders["grossUF"] /
+//           1000 /
+//           (((orders["BFR"] * 60) / 1000) * (1 - hct))) *
+//         100;
+//       break;
+//   }
+//   return excelRound(ff, 2);
+// }
 
 function calculateEffluentFlowRate(orders) {
   var efr;
