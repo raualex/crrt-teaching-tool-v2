@@ -1,4 +1,4 @@
-const labsCase1 = {
+export const labsCase1 = {
   time: [-2, -1],
   labNum: [-2, -1],
   sodium: [145, 145],

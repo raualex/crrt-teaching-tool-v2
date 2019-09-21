@@ -8,10 +8,13 @@ import Simulator from "../containers/Simulator";
 import Textbook from "../components/Textbook";
 import Calculator from "../components/Calculator";
 import { fetchCases } from "../thunks/fetchCases.js";
+import { showInfo } from '../utils/equationsMaster.js';
+import { labsCase1 } from '../utils/initialSpreadsheetData.js';
 
 export class App extends Component {
   componentDidMount = () => {
     this.props.fetchCases();
+    showInfo(labsCase1)
   };
 
   render() {
