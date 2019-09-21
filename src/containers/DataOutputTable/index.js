@@ -103,20 +103,18 @@ export class DataOutputTable extends Component {
   };
 
   render() {
-    let { selectedModal } = this.props;
-    let modalNameForClass;
+    let { selectedModal, labData } = this.props;
+    let modalNameForClass = selectedModal.replace(/\s/g, "-");
     let modalNameForKeys;
     let modalTableRowKeys;
     let rowsNumber =
       mockReduxOrdersForModal.mockReduxOrdersForModal["Vitals"].length;
 
     if (
-      selectedModal === "Laboratory Data" ||
       selectedModal === "Input/Output" ||
       selectedModal === "Vitals" ||
       selectedModal === "Medications"
     ) {
-      modalNameForClass = selectedModal.replace(/\s/g, "-");
       modalNameForKeys = selectedModal.replace(/\s/g, "");
       modalTableRowKeys = modalKeys[modalNameForKeys].map((keyName, index) => {
         return (
@@ -142,9 +140,51 @@ export class DataOutputTable extends Component {
           <tbody>{modalTableRowKeys}</tbody>
         </table>
       );
-    } else {
-      modalNameForClass = selectedModal.replace(/\s/g, "-");
+    } else if (selectedModal === "Laboratory Data") {
+      modalNameForKeys = selectedModal.replace(/\s/g, "");
+      modalTableRowKeys = modalKeys[modalNameForKeys].reduce((acc, keyName, index) => {
+        let keyNoSpaces = keyName.replace(/\s/g, "")
+        let newKeyName;
 
+        if (
+          keyNoSpaces === 'BUN' || 
+          keyNoSpaces === 'WBC' || 
+          keyNoSpaces === 'pH' || 
+          keyNoSpaces === 'PC02'
+        ) {
+          newKeyName = keyNoSpaces.toLowerCase()
+        } else {
+          newKeyName = keyNoSpaces.charAt(0).toLowerCase() + keyNoSpaces.slice(1)
+        }
+
+        if (labData[newKeyName]) {
+          acc.push(
+            <tr key={uuidv4()}>
+              <td key={uuidv4()} className={"table-key index" + index}>
+               {keyName}
+              </td>
+              {this.mapArrayValuesForTables(
+                labData[newKeyName]
+                // mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys]
+              )}
+            </tr>
+          );
+        }
+        return acc
+      }, []);
+console.log(modalTableRowKeys)
+      return (
+        <table className={"dataot-" + modalNameForClass}>
+          <thead>
+            <tr>
+              <th className="blank-table-head"></th>
+              {this.createTableColumnHeaders(rowsNumber)}
+            </tr>
+          </thead>
+          <tbody>{modalTableRowKeys}</tbody>
+        </table>
+      );
+    } else {
       return (
         <div className={"dataot-" + modalNameForClass}>
           <ul>{this.createBulletPointsForNonTables()}</ul>
@@ -156,7 +196,8 @@ export class DataOutputTable extends Component {
 
 export const mapStateToProps = state => ({
   selectedModal: state.selectedModal,
-  selectedCase: state.selectedCase
+  selectedCase: state.selectedCase,
+  labData: state.labData
 });
 
 export default connect(mapStateToProps)(DataOutputTable);

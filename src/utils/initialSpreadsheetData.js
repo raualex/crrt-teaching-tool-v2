@@ -13,7 +13,7 @@ export const labs = {
     magnesium: [1.7, 1.9],
     phosphorous: [4.4, 6.3],
     filtrationFraction: [null, null],
-    // calciumFinalPostFilter: [],
+    calciumFinalPostFilter: [null, null],
     lactate: [3.3, 6.1],
     albumin: [3.1],
     wbc: [29.3, 29.3],
@@ -40,6 +40,8 @@ export const labs = {
     ionizedCalcium: [0.95, 0.97],
     magnesium: [1.7, 1.9],
     phosphorous: [4.4, 6.3],
+    filtrationFraction: [null, null],
+    calciumFinalPostFilter: [null, null],
     lactate: [13.4, 9.6],
     albumin: [2.4, 2.2],
     // AlkPhos: [191],
@@ -54,7 +56,7 @@ export const labs = {
     pH: [7.07, 7.22],
     PC02: [28, 35],
     granularCasts: ["0-5/HPF"],
-    HyalineCasts: ["11-30/HPF"],
+    hyalineCasts: ["11-30/HPF"],
     bloodCulture: ["noGrowth"],
     urineCulture: ["noGrowth"]
   }

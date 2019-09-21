@@ -22,6 +22,7 @@ const modalKeys = {
     "PC02",
     "Granular Casts",
     "Renal Epithelial Casts",
+    "Hyaline Casts",
     "Blood Culture",
     "Urine Culture"
   ],
