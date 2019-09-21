@@ -1,4 +1,4 @@
-import { labsCase1 } from './initialSpreadsheetData.js';
+import { labsCase1 } from "./initialSpreadsheetData.js";
 
 var _points = {
   bloodFlowRateInRange: [],
@@ -568,39 +568,39 @@ var _historicalVitals = {
 // }
 
 // export function initializeSpreadsheet(/*promise*/) {
-  // var publicSpreadsheetUrl =
-  //   "https://docs.google.com/spreadsheets/d/1KAn-DDLp-R1Msdju4w8fqhgPSd9n5ShfCIzJ7DFtkJQ/pubhtml";
-  
-  // Tabletop.init({
-  //   key: publicSpreadsheetUrl,
-  //   callback: showInfo,
-  //   simpleSheet: false
-  // });
+// var publicSpreadsheetUrl =
+//   "https://docs.google.com/spreadsheets/d/1KAn-DDLp-R1Msdju4w8fqhgPSd9n5ShfCIzJ7DFtkJQ/pubhtml";
 
-  export function showInfo(data) {
-    // _currentCaseStudySheet = data;
-    // _currentCaseStudySheet.inputOutput =
-    //   _currentCaseStudySheet["inputOutputCase" + _currentCaseStudyId];
-    // _currentCaseStudySheet.vitals =
-    //   _currentCaseStudySheet["vitalsCase" + _currentCaseStudyId];
-    _currentCaseStudySheet.labs = data
+// Tabletop.init({
+//   key: publicSpreadsheetUrl,
+//   callback: showInfo,
+//   simpleSheet: false
+// });
+
+export function showInfo(data) {
+  // _currentCaseStudySheet = data;
+  // _currentCaseStudySheet.inputOutput =
+  //   _currentCaseStudySheet["inputOutputCase" + _currentCaseStudyId];
+  // _currentCaseStudySheet.vitals =
+  //   _currentCaseStudySheet["vitalsCase" + _currentCaseStudyId];
+  _currentCaseStudySheet.labs = data;
   // _currentCaseStudySheet["labsCase" + _currentCaseStudyId*/];
-    // _currentCaseStudySheet.productionRates =
-    //   _currentCaseStudySheet["productionRatesCase" + _currentCaseStudyId];
-    // _currentCaseStudySheet.accessPressures =
-    //   _currentCaseStudySheet["accessPressuresCase" + _currentCaseStudyId];
-    // _currentCaseStudySheet.medications =
-    //   _currentCaseStudySheet["medicationsCase" + _currentCaseStudyId];
-    console.log(_currentCaseStudySheet)
-    //_currentCaseStudySheet.vitals = _currentCaseStudySheet.vitalsCase1;
-    //_currentCaseStudySheet.labs = _currentCaseStudySheet.labsCase1;
-    //_currentCaseStudySheet.productionRates = _currentCaseStudySheet.productionRatesCase1;
-    //_currentCaseStudySheet.accessPressures = _currentCaseStudySheet.accessPressuresCase1;
-    //_currentCaseStudySheet.medications = _currentCaseStudySheet.medicationsCase1;
-    // promise.resolve();
+  // _currentCaseStudySheet.productionRates =
+  //   _currentCaseStudySheet["productionRatesCase" + _currentCaseStudyId];
+  // _currentCaseStudySheet.accessPressures =
+  //   _currentCaseStudySheet["accessPressuresCase" + _currentCaseStudyId];
+  // _currentCaseStudySheet.medications =
+  //   _currentCaseStudySheet["medicationsCase" + _currentCaseStudyId];
+  console.log(_currentCaseStudySheet);
+  //_currentCaseStudySheet.vitals = _currentCaseStudySheet.vitalsCase1;
+  //_currentCaseStudySheet.labs = _currentCaseStudySheet.labsCase1;
+  //_currentCaseStudySheet.productionRates = _currentCaseStudySheet.productionRatesCase1;
+  //_currentCaseStudySheet.accessPressures = _currentCaseStudySheet.accessPressuresCase1;
+  //_currentCaseStudySheet.medications = _currentCaseStudySheet.medicationsCase1;
+  // promise.resolve();
 
-    // console.log(data);
-  }
+  // console.log(data);
+}
 // }
 
 // function calculatePH(bicarbonate) {
@@ -1571,38 +1571,32 @@ var _historicalVitals = {
 //   }
 // }
 
-<<<<<<< HEAD
-    //_currentCaseStudySheet.vitals = _currentCaseStudySheet.vitalsCase1;
-    //_currentCaseStudySheet.labs = _currentCaseStudySheet.labsCase1;
-    //_currentCaseStudySheet.productionRates = _currentCaseStudySheet.productionRatesCase1;
-    //_currentCaseStudySheet.accessPressures = _currentCaseStudySheet.accessPressuresCase1;
-    //_currentCaseStudySheet.medications = _currentCaseStudySheet.medicationsCase1;
-    promise.resolve();
-    console.log(data);
-  }
-}
+//_currentCaseStudySheet.vitals = _currentCaseStudySheet.vitalsCase1;
+//_currentCaseStudySheet.labs = _currentCaseStudySheet.labsCase1;
+//_currentCaseStudySheet.productionRates = _currentCaseStudySheet.productionRatesCase1;
+//_currentCaseStudySheet.accessPressures = _currentCaseStudySheet.accessPressuresCase1;
+//_currentCaseStudySheet.medications = _currentCaseStudySheet.medicationsCase1;
+//     promise.resolve();
+//     console.log(data);
+//   }
+// }
 
-function calculatePH(bicarbonate) {
-  var PCO2 = getCurrentLab("PC02");
-  console.log("Heeeeeeeeee PCO2: ", PCO2);
-  var pH = 6.1 + Math.log(bicarbonate / (0.03 *\ PCO2)) / Math.log(10);
-  console.log("calculatePH : pH", pH);
-  return excelRound(pH, 2);
-}
+// function calculatePH(bicarbonate) {
+//   var PCO2 = getCurrentLab("PC02");
+//   console.log("Heeeeeeeeee PCO2: ", PCO2);
+//   var pH = 6.1 + Math.log(bicarbonate / (0.03 *\ PCO2)) / Math.log(10);
+//   console.log("calculatePH : pH", pH);
+//   return excelRound(pH, 2);
+// }
 
-function getCurrentLab(lab) {
-  var currentLabSetIndex;
-  console.log("heeeeeee _currentTime: ", _currentTime);
-  if (_currentTime === 0) {
-    currentLabSetIndex = 1;
-  } else {
-    currentLabSetIndex = _currentTime / 8 + 1;
-  }
-=======
-// function checkIfUsedCitrate() {
-//   if (orders.anticoagulation === "citrate") {
-//     _usedCitrate = true;
->>>>>>> equation-migration
+// function getCurrentLab(lab) {
+//   var currentLabSetIndex;
+//   console.log("heeeeeee _currentTime: ", _currentTime);
+//   if (_currentTime === 0) {
+//     currentLabSetIndex = 1;
+//   } else {
+//     currentLabSetIndex = _currentTime / 8 + 1;
+//   }
 
 //     if (currentTime === 8) {
 //       _usedCitrateFirst = true;
@@ -1742,33 +1736,36 @@ function getCurrentLab(lab) {
 //     totalPoints = totalPoints + 5;
 //   }
 
-  var grossFiltrationPastEightHoursInLiters =
-    (orders["grossUF"] / 1000) * totalHoursOfFiltration;
-  var previousWeightInKilos = parseFloat(
-    _historicalVitals["weight"][_historicalVitals["weight"].length - 1]
-  );
+//   var grossFiltrationPastEightHoursInLiters =
+//     (orders["grossUF"] / 1000) * totalHoursOfFiltration;
+//   var previousWeightInKilos = parseFloat(
+//     _historicalVitals["weight"][_historicalVitals["weight"].length - 1]
+//   );
 
-  var currentWeightInKilos =
-    previousWeightInKilos +
-    (totalInputInL - grossFiltrationPastEightHoursInLiters);
-  return currentWeightInKilos;
-}
+//   var currentWeightInKilos =
+//     previousWeightInKilos +
+//     (totalInputInL - grossFiltrationPastEightHoursInLiters);
+//   return currentWeightInKilos;
+// }
 
 function calculateFiltrationFraction(orders) {
-  var filtrationFraction;
-  var hematocrit = getCurrentLab("hematocrit") / 100;
+  let filtrationFraction;
+  const hematocrit = getCurrentLab("hematocrit") / 100;
   console.log("calculateFiltrationFraction : hematocrit ", hematocrit);
 
   switch (orders["modality"]) {
     case "Pre-filter CVVH":
       filtrationFraction =
-        ((orders["replacementFluidFlowRate"] + orders["grossUltraFiltration"] / 1000) /
-          (((orders["bloodFlowRate"] * 60) / 1000) * (1 - hematocrit) + orders["replacementFluidFlowRate"])) *
+        ((orders["replacementFluidFlowRate"] +
+          orders["grossUltraFiltration"] / 1000) /
+          (((orders["bloodFlowRate"] * 60) / 1000) * (1 - hematocrit) +
+            orders["replacementFluidFlowRate"])) *
         100;
       break;
     case "Post-filter CVVH":
       filtrationFraction =
-        ((orders["replacementFluidFlowRate"] + orders["grossUltraFiltration"] / 1000) /
+        ((orders["replacementFluidFlowRate"] +
+          orders["grossUltraFiltration"] / 1000) /
           (((orders["bloodFlowRate"] * 60) / 1000) * (1 - hematocrit))) *
         100;
       break;
@@ -1831,6 +1828,7 @@ function calculateEffluentFlowRate(orders) {
       efr = orders["Qd"] + orders["grossUF"] / 1000;
       break;
   }
+}
 
 //   if (currentPotassium < 2.5) {
 //     var d = Math.Random();
@@ -2711,4 +2709,4 @@ function calculateEffluentFlowRate(orders) {
 
 // // String.prototype.capitalize = function() {
 // //   return this.charAt(0).toUpperCase() + this.slice(1);
-// // };
+// };
