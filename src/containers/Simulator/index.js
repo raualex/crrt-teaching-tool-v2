@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import "./Simulator.css";
 import { connect } from "react-redux";
 import { setSelectedModal } from "../../Actions/selection-actions";
+import { calculateLabData } from "../../Actions/calculationActions";
 import DataOutputModal from "../DataOutputModal";
 import OrdersModal from "../OrdersModal";
 import OrderResultsContainer from "../../components/OrderResultsContainer";
+import { labs } from '../../utils/initialSpreadsheetData.js';
 
 export class Simulator extends Component {
   constructor(props) {
@@ -13,6 +15,16 @@ export class Simulator extends Component {
       showOrdersModal: false,
       btnClicked: ""
     };
+  }
+
+  componentDidMount() {
+    const { selectedCase, calculateLabData } = this.props;
+
+    if (selectedCase.id === 1 || selectedCase.id === 2) {
+      calculateLabData(labs[selectedCase.id])
+    } else {
+      return
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -310,7 +322,8 @@ export const mapStateToProps = ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  setSelectedModal: modal => dispatch(setSelectedModal(modal))
+  setSelectedModal: modal => dispatch(setSelectedModal(modal)),
+  calculateLabData: newLabData => dispatch(calculateLabData(newLabData))
 });
 
 export default connect(

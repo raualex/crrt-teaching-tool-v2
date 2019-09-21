@@ -14,6 +14,7 @@ import InputContainer from "../../components/InputContainer";
 import { compileLabData } from "../../utils/labEquations";
 import orderWarningRanges from "../../utils/orderWarningRanges";
 import ordersResultsMessages from "../../utils/orderResultsData";
+// import { runLabs } from '../../utils/equationsMaster.js'
 const uuidv4 = require("uuid/v4");
 
 export class OrdersModal extends Component {
@@ -56,6 +57,12 @@ export class OrdersModal extends Component {
 
     if (this.props.orders !== prevProps.orders) {
       let currentOrder = orders[orders.length - 1];
+      // const newLabData = runLabs(
+      //   labData,
+      //   timeBetweenOrders,
+      //   selectedCase.usualWeight,
+        
+      // )
       const newLabData = compileLabData(
         labData,
         timeBetweenOrders,

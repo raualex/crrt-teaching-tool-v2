@@ -24,6 +24,7 @@ const defaultLabDataState = {
   bloodCulture: [],
   urineCulture: []
 };
+
 export const calculateLabDataReducer = (
   state = defaultLabDataState,
   action
