@@ -460,7 +460,8 @@ export class OrdersModal extends Component {
       saline3Percent,
       d5W,
       sodiumPhosphate15mmol100ml,
-      readyForSubmission
+      readyForSubmission,
+      anticoagulation
     } = this.state;
 
     const { orders, closeOrdersModal, timeBetweenOrders } = this.props;
@@ -469,7 +470,8 @@ export class OrdersModal extends Component {
       replacementFluidDosages,
       modalityDosages,
       anticoagulationDosages,
-      otherFluidDosages
+      otherFluidDosages,
+      citrateDosages
     } = orderDosages;
 
     return (
@@ -647,6 +649,16 @@ export class OrdersModal extends Component {
               dosagesToDisplay={anticoagulationDosages}
               radioButtonCategory={"anticoagulation"}
             />
+            {anticoagulation === "Citrate" && (
+              <InputContainer
+                className="input-container-anticoagulation"
+                type={"number"}
+                currentInputState={this.state}
+                handleInputChange={this.handleNumberChange}
+                dosagesToDisplay={citrateDosages}
+                radioButtonCategory={null}
+              />
+            )}
           </section>
 
           <footer className="orders-modal-footer">

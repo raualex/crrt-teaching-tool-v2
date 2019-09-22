@@ -74,7 +74,9 @@ const orderDosages = {
     bloodFlowRate: "Blood Flow Rate (mL/min)",
     replacementFluidFlowRate: "Fluid Flow Rate (L/hr)",
     otherFluidsBolusValue: "Bolus (mL)",
-    otherFluidsInfusionValue: "Continuous Infusion Rate (ml/Hr)"
+    otherFluidsInfusionValue: "Continuous Infusion Rate (ml/Hr)",
+    citrateFlowRate: "Citrate Flow Rate (mL/hr)",
+    caClInfusionRate: "CaCl Infusion Rate (mL/hr)"
   },
   modalityDosages: ["Pre-filter CVVH", "Post-filter CVVH", "CVVHD"],
   anticoagulationDosages: ["None", "Citrate"],
@@ -91,15 +93,7 @@ const orderDosages = {
     "replacementFluidFlowRate"
   ],
   otherFluidDosages: ["otherFluidsBolusValue", "otherFluidsInfusionValue"],
-  // otherFluidDosageNames: {
-  //   otherFluidsBolusValue: "Bolus (mL)",
-  //   otherFluidsInfusionValue: "Continuous Infusion Rate (ml/Hr)"
-  // },
-  citrateDosages: ["citrateFlowRate", "caClInfusionRate"],
-  citrateDosageNames: {
-    citrateFlowRate: "Citrate Flow Rate (mL/hr)",
-    caClInfusionRate: "CaCl Infusion Rate (mL/hr)"
-  }
+  citrateDosages: ["citrateFlowRate", "caClInfusionRate"]
 };
 
 export default orderDosages;
