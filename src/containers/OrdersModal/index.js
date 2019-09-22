@@ -272,7 +272,7 @@ export class OrdersModal extends Component {
   };
 
   compileOrder = () => {
-    const { timeBetweenOrders } = this.props
+    const { timeBetweenOrders } = this.props;
     const {
       modality,
       sodium,
@@ -316,25 +316,25 @@ export class OrdersModal extends Component {
       otherFluidsD5W: d5W,
       otherFluidsSodiumPhosphate: sodiumPhosphate15mmol100ml,
       otherFluidsBolusValue: "still need to add",
-      otherFluidsInfusionValue: "still need to add",
+      otherFluidsInfusionValue: "still need to add"
     };
-      // dosages: {
-      //   modality,
-      //   sodium,
-      //   potassium,
-      //   chloride,
-      //   bicarbonate,
-      //   calcium,
-      //   magnesium,
-      //   phosphorous,
-      //   grossUltraFiltration,
-      //   bloodFlowRate,
-      //   replacementFluidFlowRate,
-      //   saline3Percent,
-      //   d5W,
-      //   sodiumPhosphate15mmol100ml,
-      //   anticoagulation
-      // }
+    // dosages: {
+    //   modality,
+    //   sodium,
+    //   potassium,
+    //   chloride,
+    //   bicarbonate,
+    //   calcium,
+    //   magnesium,
+    //   phosphorous,
+    //   grossUltraFiltration,
+    //   bloodFlowRate,
+    //   replacementFluidFlowRate,
+    //   saline3Percent,
+    //   d5W,
+    //   sodiumPhosphate15mmol100ml,
+    //   anticoagulation
+    // }
 
     return order;
   };
@@ -401,7 +401,13 @@ export class OrdersModal extends Component {
 
   toggleCheckBoxes = event => {
     const { name } = event.target;
-    this.setState({ [name]: !this.state[name] });
+    if (name === "saline3Percent") {
+      this.setState({ [name]: !this.state[name], d5W: false });
+    } else if (name === "d5W") {
+      this.setState({ [name]: !this.state[name], saline3Percent: false });
+    } else {
+      this.setState({ [name]: !this.state[name] });
+    }
   };
 
   clearInputs = event => {
@@ -462,7 +468,8 @@ export class OrdersModal extends Component {
     const {
       replacementFluidDosages,
       modalityDosages,
-      anticoagulationDosages
+      anticoagulationDosages,
+      otherFluidDosages
     } = orderDosages;
 
     return (
@@ -608,6 +615,26 @@ export class OrdersModal extends Component {
                 </a>
               </label>
             </div>
+            {saline3Percent && (
+              <InputContainer
+                className="input-container-other-fluids"
+                type={"number"}
+                currentInputState={this.state}
+                handleInputChange={this.handleNumberChange}
+                dosagesToDisplay={otherFluidDosages}
+                radioButtonCategory={null}
+              />
+            )}
+            {d5W && (
+              <InputContainer
+                className="input-container-other-fluids"
+                type={"number"}
+                currentInputState={this.state}
+                handleInputChange={this.handleNumberChange}
+                dosagesToDisplay={otherFluidDosages}
+                radioButtonCategory={null}
+              />
+            )}
           </section>
 
           <section className="orders-modality-anticoagulation-container">

@@ -70,9 +70,11 @@ const orderDosages = {
     calcium: "Calcium",
     magnesium: "Magnesium",
     phosphorous: "Phosphorous",
-    grossUltraFiltration: "Gross Ultrafiltration",
-    bloodFlowRate: "Blood Flow Rate",
-    replacementFluidFlowRate: "Replacement Fluid Flow Rate"
+    grossUltraFiltration: "Gross Ultrafiltration (ml/Hr)",
+    bloodFlowRate: "Blood Flow Rate (mL/min)",
+    replacementFluidFlowRate: "Fluid Flow Rate (L/hr)",
+    otherFluidsBolusValue: "Bolus (mL)",
+    otherFluidsInfusionValue: "Continuous Infusion Rate (ml/Hr)"
   },
   modalityDosages: ["Pre-filter CVVH", "Post-filter CVVH", "CVVHD"],
   anticoagulationDosages: ["None", "Citrate"],
@@ -87,7 +89,17 @@ const orderDosages = {
     "grossUltraFiltration",
     "bloodFlowRate",
     "replacementFluidFlowRate"
-  ]
+  ],
+  otherFluidDosages: ["otherFluidsBolusValue", "otherFluidsInfusionValue"],
+  // otherFluidDosageNames: {
+  //   otherFluidsBolusValue: "Bolus (mL)",
+  //   otherFluidsInfusionValue: "Continuous Infusion Rate (ml/Hr)"
+  // },
+  citrateDosages: ["citrateFlowRate", "caClInfusionRate"],
+  citrateDosageNames: {
+    citrateFlowRate: "Citrate Flow Rate (mL/hr)",
+    caClInfusionRate: "CaCl Infusion Rate (mL/hr)"
+  }
 };
 
 export default orderDosages;

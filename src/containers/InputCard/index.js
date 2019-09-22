@@ -3,6 +3,20 @@ import "./InputCard.css";
 import orderDosages from "../../utils/orderDosages.js";
 
 class InputCard extends Component {
+  getInputHeader = () => {
+    const { dosageNames } = orderDosages;
+    const { dosage, currentInputState, dosagesToDisplay } = this.props;
+    const { saline3Percent, d5W } = currentInputState;
+
+    if (saline3Percent && dosagesToDisplay.includes("otherFluidsBolusValue")) {
+      return `Sodium ${dosageNames[dosage]}`;
+    } else if (d5W && dosagesToDisplay.includes("otherFluidsBolusValue")) {
+      return `D5W ${dosageNames[dosage]}`;
+    } else {
+      return dosageNames[dosage];
+    }
+  };
+
   render() {
     const {
       type,
@@ -20,7 +34,7 @@ class InputCard extends Component {
           <div className="InputCard-text">
             <div className={`header-info-container-${type}`}>
               <h4 className={`input-text-header input-text-header-${type}`}>
-                {dosageNames[dosage]}
+                {this.getInputHeader()}
               </h4>
               <a
                 href="https://github.com/raualex/crrt-teaching-tool-v2"

@@ -14,6 +14,14 @@
   border-radius: 5px 0 0 5px;
 }
 
+.input-container-other-fluids {
+  grid-area: otherInputs;
+}
+
+.input-container-citrate {
+  grid-area: anticoagulationInputs;
+}
+
 .orders-modal-main-content {
   padding: 0 1rem;
   display: grid;
@@ -23,7 +31,11 @@
     "main timeBetween"
     "main modality"
     "main other"
+    "main otherInputs"
+    "main otherInputs"
     "main anticoagulation"
+    "main anticoagulationInputs"
+    "main anticoagulationInputs"
     "main ."
     "footer footer";
 }
