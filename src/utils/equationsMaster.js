@@ -638,7 +638,7 @@ export function showInfo(data) {
 //   _ordersCounter++;
 //   var newLabs = {};
 //   var dialysate = {};
-//   var orders /*= getOrders()*/;
+//   var orders = getOrders();
 //   var didClot = false;
 //   _currentOrders = orders;
 //   var startingWeight =
@@ -1810,26 +1810,26 @@ const calculateFiltrationFraction = orders => {
 //   return excelRound(ff, 2);
 // }
 
-function calculateEffluentFlowRate(orders) {
-  var efr;
-  var currentFiltrationFraction = orders.filtrationFraction;
+// function calculateEffluentFlowRate(orders) {
+//   var efr;
+//   var currentFiltrationFraction = orders.filtrationFraction;
 
-  switch (orders["modality"]) {
-    case "pre-filter-cvvh":
-      efr =
-        ((orders["BFR"] * 60) /
-          1000 /
-          ((orders["BFR"] * 60) / 1000 + orders["Qr"])) *
-        (orders["Qr"] + orders["grossUF"] / 1000);
-      break;
-    case "post-filter-cvvh":
-      efr = orders["Qr"] + orders["grossUF"] / 1000;
-      break;
-    case "cvvhd":
-      efr = orders["Qd"] + orders["grossUF"] / 1000;
-      break;
-  }
-}
+//   switch (orders["modality"]) {
+//     case "pre-filter-cvvh":
+//       efr =
+//         ((orders["BFR"] * 60) /
+//           1000 /
+//           ((orders["BFR"] * 60) / 1000 + orders["Qr"])) *
+//         (orders["Qr"] + orders["grossUF"] / 1000);
+//       break;
+//     case "post-filter-cvvh":
+//       efr = orders["Qr"] + orders["grossUF"] / 1000;
+//       break;
+//     case "cvvhd":
+//       efr = orders["Qd"] + orders["grossUF"] / 1000;
+//       break;
+//   }
+// }
 
 //   if (currentPotassium < 2.5) {
 //     var d = Math.Random();

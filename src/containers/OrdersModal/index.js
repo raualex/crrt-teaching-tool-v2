@@ -36,6 +36,10 @@ export class OrdersModal extends Component {
       d5W: false,
       sodiumPhosphate15mmol100ml: false,
       anticoagulation: "None",
+      otherFluidsBolusValue: 0,
+      otherFluidsInfusionValue: 0,
+      citrateFlowRate: 0,
+      caClInfusionRate: 0,
       readyForSubmission: false,
       dosageErrors: [],
       currentTime: 10,
@@ -61,7 +65,7 @@ export class OrdersModal extends Component {
       //   labData,
       //   timeBetweenOrders,
       //   selectedCase.usualWeight,
-        
+
       // )
       const newLabData = compileLabData(
         labData,
@@ -182,7 +186,18 @@ export class OrdersModal extends Component {
     const { requiredRanges, replacementFluidDosages } = orderDosages;
     const { dosageErrors } = this.state;
     let invalidEntries = [];
+    const staticInputs = [
+      "modality",
+      "saline3Percent",
+      "d5W",
+      "sodiumPhosphate15mmol100ml",
+      "anticoagulation",
+      "readyForSubmission"
+    ];
 
+    if (staticInputs.includes(name)) {
+      return;
+    }
     if (!name) {
       invalidEntries = replacementFluidDosages.reduce(
         (wrongValues, medication) => {
@@ -199,7 +214,7 @@ export class OrdersModal extends Component {
       );
     } else if (name) {
       invalidEntries = [name];
-
+      console.log("deezNames: ", name);
       if (
         this.state[name] < requiredRanges[name].min ||
         this.state[name] > requiredRanges[name].max
@@ -411,6 +426,7 @@ export class OrdersModal extends Component {
 
   render() {
     const {
+      modality,
       saline3Percent,
       d5W,
       sodiumPhosphate15mmol100ml,
@@ -488,7 +504,9 @@ export class OrdersModal extends Component {
 
           <section className="orders-replacement-fluid-container">
             <div className="header-info-container">
-              <h3 className="orders-modal-section-header">Replacement Fluid</h3>
+              <h3 className="orders-modal-section-header">
+                {modality === "CVVHD" ? "Dialysate Fluid" : "Replacement Fluid"}
+              </h3>
               <a
                 href="https://github.com/raualex/crrt-teaching-tool-v2"
                 className="textbook-link"
