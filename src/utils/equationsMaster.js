@@ -1750,7 +1750,8 @@ export function showInfo(data) {
 
 const calculateFiltrationFraction = orders => {
   let filtrationFraction;
-  const hematocrit = getCurrentLab("hematocrit") / 100;
+  // const hematocrit = getCurrentLab("hematocrit") / 100;
+  const hematocrit = 5;
   console.log("calculateFiltrationFraction : hematocrit ", hematocrit);
 
   switch (orders["modality"]) {
