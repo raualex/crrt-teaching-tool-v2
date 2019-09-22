@@ -257,6 +257,7 @@ export class OrdersModal extends Component {
   };
 
   compileOrder = () => {
+    const { timeBetweenOrders } = this.props
     const {
       modality,
       sodium,
@@ -278,8 +279,7 @@ export class OrdersModal extends Component {
     const order = {
       id: uuidv4(),
       timeStamp: this.createTimeStamp(),
-      dosages: {
-        modality,
+      fluidDialysateValues: {
         sodium,
         potassium,
         chloride,
@@ -287,15 +287,39 @@ export class OrdersModal extends Component {
         calcium,
         magnesium,
         phosphorous,
-        grossUltraFiltration,
-        bloodFlowRate,
-        replacementFluidFlowRate,
-        saline3Percent,
-        d5W,
-        sodiumPhosphate15mmol100ml,
-        anticoagulation
-      }
+        BUN: 0,
+        creatinine: 0
+      },
+      modality,
+      anticoagulation,
+      BFR: bloodFlowRate,
+      Qr: replacementFluidFlowRate,
+      Qd: replacementFluidFlowRate,
+      grossUF: grossUltraFiltration,
+      timeToNextLabs: timeBetweenOrders,
+      otherFluidsSaline: saline3Percent,
+      otherFluidsD5W: d5W,
+      otherFluidsSodiumPhosphate: sodiumPhosphate15mmol100ml,
+      otherFluidsBolusValue: "still need to add",
+      otherFluidsInfusionValue: "still need to add",
     };
+      // dosages: {
+      //   modality,
+      //   sodium,
+      //   potassium,
+      //   chloride,
+      //   bicarbonate,
+      //   calcium,
+      //   magnesium,
+      //   phosphorous,
+      //   grossUltraFiltration,
+      //   bloodFlowRate,
+      //   replacementFluidFlowRate,
+      //   saline3Percent,
+      //   d5W,
+      //   sodiumPhosphate15mmol100ml,
+      //   anticoagulation
+      // }
 
     return order;
   };

@@ -347,8 +347,8 @@ export const labs = {
     ],
     granularCasts: ["0-5/HPF"],
     hyalineCasts: ["11-30/HPF"],
-    bloodCulture: ["noGrowth"],
-    urineCulture: ["noGrowth"]
+    bloodCulture: ["No Growth"],
+    urineCulture: ["No Growth"]
   }
 };
 
