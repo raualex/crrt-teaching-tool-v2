@@ -174,6 +174,7 @@ export class OrdersModal extends Component {
   handleNumberChange = event => {
     const { name, value } = event.target;
     const parsedValue = parseFloat(value.trim());
+
     this.setState(
       {
         [name]: parsedValue
@@ -192,7 +193,11 @@ export class OrdersModal extends Component {
       "d5W",
       "sodiumPhosphate15mmol100ml",
       "anticoagulation",
-      "readyForSubmission"
+      "readyForSubmission",
+      "otherFluidsBolusValue",
+      "otherFluidsInfusionValue",
+      "citrateFlowRate",
+      "caClInfusionRate"
     ];
 
     if (staticInputs.includes(name)) {
@@ -214,7 +219,7 @@ export class OrdersModal extends Component {
       );
     } else if (name) {
       invalidEntries = [name];
-      console.log("deezNames: ", name);
+
       if (
         this.state[name] < requiredRanges[name].min ||
         this.state[name] > requiredRanges[name].max
@@ -288,7 +293,11 @@ export class OrdersModal extends Component {
       saline3Percent,
       d5W,
       sodiumPhosphate15mmol100ml,
-      anticoagulation
+      anticoagulation,
+      otherFluidsBolusValue,
+      otherFluidsInfusionValue,
+      citrateFlowRate,
+      caClInfusionRate
     } = this.state;
 
     const order = {
@@ -315,8 +324,10 @@ export class OrdersModal extends Component {
       otherFluidsSaline: saline3Percent,
       otherFluidsD5W: d5W,
       otherFluidsSodiumPhosphate: sodiumPhosphate15mmol100ml,
-      otherFluidsBolusValue: "still need to add",
-      otherFluidsInfusionValue: "still need to add"
+      otherFluidsBolusValue,
+      otherFluidsInfusionValue,
+      citrateFlowRate,
+      caClInfusionRate
     };
     // dosages: {
     //   modality,
