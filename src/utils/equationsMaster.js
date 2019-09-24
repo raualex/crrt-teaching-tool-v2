@@ -1,4 +1,11 @@
-import { labsCase1 } from "./initialSpreadsheetData.js";
+import {
+  labs,
+  inputOutput,
+  vitals,
+  productionRates,
+  medications,
+  accessPressure
+} from "./initialSpreadsheetData.js";
 
 var _points = {
   bloodFlowRateInRange: [],
@@ -611,6 +618,17 @@ export function showInfo(data) {
 //   return excelRound(pH, 2);
 // }
 
+const getCurrentLab = (lab, caseId) => {
+  var currentLabSetIndex;
+  if (_currentTime === 0) {
+    currentLabSetIndex = 1;
+  } else {
+    currentLabSetIndex = _currentTime / 8 + 1;
+  }
+
+  return parseFloat(labs[caseId][lab][currentLabSetIndex]);
+};
+
 // function getCurrentLab(lab) {
 //   var currentLabSetIndex;
 //   console.log("heeeeeee _currentTime: ", _currentTime);
@@ -634,140 +652,146 @@ export function showInfo(data) {
 //   );
 // }
 
-// export function runLabs() {
-//   _ordersCounter++;
-//   var newLabs = {};
-//   var dialysate = {};
-//   var orders = getOrders();
-//   var didClot = false;
-//   _currentOrders = orders;
-//   var startingWeight =
-//     _historicalVitals["weight"][_historicalVitals["weight"].length - 1];
-//   newLabs["ionizedCalcium"] =
-//     _historicalLabs["calcium"][_historicalLabs["calcium"].length - 1] / 8;
-//   newLabs["filtrationFraction"] = orders.filtrationFraction;
+export function runLabs(
+  orders,
+  time,
+  timeBetweenOrders,
+  selectedCase,
+  labData
+) {
+  _ordersCounter++;
+  var newLabs = {};
+  var dialysate = {};
+  var orders = getOrder(orders, time, timeBetweenOrders, selectedCase);
+  var didClot = false;
+  _currentOrders = orders;
+  var startingWeight =
+    _historicalVitals["weight"][_historicalVitals["weight"].length - 1];
+  newLabs["ionizedCalcium"] =
+    _historicalLabs["calcium"][_historicalLabs["calcium"].length - 1] / 8;
+  newLabs["filtrationFraction"] = orders.filtrationFraction;
 
-//   var initialEffluentFlowRate = calculateEffluentFlowRate(orders);
-//   console.log("initialEffluentFlowRate :", initialEffluentFlowRate);
+  var initialEffluentFlowRate = calculateEffluentFlowRate(orders);
+  console.log("initialEffluentFlowRate :", initialEffluentFlowRate);
 
-//   switch (_currentCaseStudyId) {
-//     case 1:
-//       console.log("case 1 : checkFilterClottingCase1()");
-//       didClot = checkFilterClottingCase1();
-//       break;
-//     case 2:
-//       console.log("case 2 : checkFilterClottingCase2()");
-//       didClot = checkFilterClottingCase2(
-//         startingWeight,
-//         effluentFlowRate,
-//         newLabs["ionizedCalcium"]
-//       );
-//       break;
-//   }
+  switch (_currentCaseStudyId) {
+    case 1:
+      console.log("case 1 : checkFilterClottingCase1()");
+      didClot = checkFilterClottingCase1();
+      break;
+    case 2:
+      console.log("case 2 : checkFilterClottingCase2()");
+      didClot = checkFilterClottingCase2(
+        startingWeight,
+        effluentFlowRate,
+        newLabs["ionizedCalcium"]
+      );
+      break;
+  }
 
-//   var adjustedEffluentFlowRate = calculateAdjustedEffluentFlowRate(
-//     initialEffluentFlowRate,
-//     newLabs["filtrationFraction"],
-//     startingWeight,
-//     newLabs["ionizedCalcium"],
-//     didClot
-//   );
-//   var totalHoursOfFiltration = calculateTotalHoursOfFiltration(
-//     initialEffluentFlowRate,
-//     newLabs["filtrationFraction"],
-//     startingWeight,
-//     newLabs["ionizedCalcium"],
-//     didClot
-//   );
+  var adjustedEffluentFlowRate = calculateAdjustedEffluentFlowRate(
+    initialEffluentFlowRate,
+    newLabs["filtrationFraction"],
+    startingWeight,
+    newLabs["ionizedCalcium"],
+    didClot
+  );
+  var totalHoursOfFiltration = calculateTotalHoursOfFiltration(
+    initialEffluentFlowRate,
+    newLabs["filtrationFraction"],
+    startingWeight,
+    newLabs["ionizedCalcium"],
+    didClot
+  );
 
-//   console.log("adjustedEffluentFlowRate :", adjustedEffluentFlowRate);
-//   var effluentFlowRate = adjustedEffluentFlowRate;
+  console.log("adjustedEffluentFlowRate :", adjustedEffluentFlowRate);
+  var effluentFlowRate = adjustedEffluentFlowRate;
 
-//   var volumeOfDistribution = calculateVolumeOfDistribution(orders);
-//   var productionRates = _currentCaseStudySheet.productionRates.elements;
-//   console.log("Sasaaaaaaaaa productionRates: ", productionRates);
+  var volumeOfDistribution = calculateVolumeOfDistribution(orders);
+  var productionRates = _currentCaseStudySheet.productionRates.elements;
+  console.log("Sasaaaaaaaaa productionRates: ", productionRates);
 
-//   preLabChecks(effluentFlowRate);
-//   for (var i = 0; i < productionRates.length; i++) {
-//     console.log("calculateLab(): component: ", productionRates[i].component);
-//     console.log(
-//       "calculateLab(): initialValue: ",
-//       _historicalLabs[productionRates[i].component][
-//         _historicalLabs[productionRates[i].component].length - 1
-//       ]
-//     );
-//     console.log(
-//       "calculateLab(): dialysate: ",
-//       orders.fluidDialysateValues[productionRates[i].component]
-//     );
-//     console.log("calculateLab(): effluentFlowRate: ", effluentFlowRate);
-//     console.log("calculateLab(): time: ", orders["timeToNextLabs"]);
-//     console.log("calculateLab(): weight: ", startingWeight);
-//     console.log("calculateLab(): volumeOfDistribution: ", volumeOfDistribution);
-//     console.log(
-//       "calculateLab(): productionRate: ",
-//       productionRates[i].productionRate
-//     );
+  preLabChecks(effluentFlowRate);
+  for (var i = 0; i < productionRates.length; i++) {
+    console.log("calculateLab(): component: ", productionRates[i].component);
+    console.log(
+      "calculateLab(): initialValue: ",
+      _historicalLabs[productionRates[i].component][
+        _historicalLabs[productionRates[i].component].length - 1
+      ]
+    );
+    console.log(
+      "calculateLab(): dialysate: ",
+      orders.fluidDialysateValues[productionRates[i].component]
+    );
+    console.log("calculateLab(): effluentFlowRate: ", effluentFlowRate);
+    console.log("calculateLab(): time: ", orders["timeToNextLabs"]);
+    console.log("calculateLab(): weight: ", startingWeight);
+    console.log("calculateLab(): volumeOfDistribution: ", volumeOfDistribution);
+    console.log(
+      "calculateLab(): productionRate: ",
+      productionRates[i].productionRate
+    );
 
-//     // NOTE: Params for calculateLab(): initialValue, dialysate, effluentFlowRate, time, weight, volumeOfDistribution, productionRate
+    // NOTE: Params for calculateLab(): initialValue, dialysate, effluentFlowRate, time, weight, volumeOfDistribution, productionRate
 
-//     newLabs[productionRates[i].component] = calculateLab(
-//       parseFloat(
-//         _historicalLabs[productionRates[i].component][
-//           _historicalLabs[productionRates[i].component].length - 1
-//         ]
-//       ),
-//       parseFloat(orders.fluidDialysateValues[productionRates[i].component]),
-//       parseFloat(effluentFlowRate),
-//       parseFloat(orders["timeToNextLabs"]),
-//       parseFloat(startingWeight),
-//       parseFloat(volumeOfDistribution),
-//       parseFloat(productionRates[i].productionRate)
-//     );
-//     console.log(
-//       "WEEEEEEEEEEE newLabs[productionRates[i].component]",
-//       newLabs[productionRates[i].component]
-//     );
-//     console.log("newLabs : ", newLabs);
-//   }
+    newLabs[productionRates[i].component] = calculateLab(
+      parseFloat(
+        _historicalLabs[productionRates[i].component][
+          _historicalLabs[productionRates[i].component].length - 1
+        ]
+      ),
+      parseFloat(orders.fluidDialysateValues[productionRates[i].component]),
+      parseFloat(effluentFlowRate),
+      parseFloat(orders["timeToNextLabs"]),
+      parseFloat(startingWeight),
+      parseFloat(volumeOfDistribution),
+      parseFloat(productionRates[i].productionRate)
+    );
+    console.log(
+      "WEEEEEEEEEEE newLabs[productionRates[i].component]",
+      newLabs[productionRates[i].component]
+    );
+    console.log("newLabs : ", newLabs);
+  }
 
-//   // NOTE: Because sodium calculations are a bit different than other lab values, we need to recalculate
-//   // sodium using the calculateSodium() function.
-//   newLabs["sodium"] = calculateSodium(volumeOfDistribution, effluentFlowRate);
-//   // NOTE: If we're using sodium phosphate, we need to recalculate the phosphorous results
-//   if (orders.otherFluidsSodiumPhosphate) {
-//     console.log("runLabs : using sodium phosphate");
-//     newLabs["phosphorous"] = calculatePhosphourous(
-//       volumeOfDistribution,
-//       effluentFlowRate
-//     );
-//   }
+  // NOTE: Because sodium calculations are a bit different than other lab values, we need to recalculate
+  // sodium using the calculateSodium() function.
+  newLabs["sodium"] = calculateSodium(volumeOfDistribution, effluentFlowRate);
+  // NOTE: If we're using sodium phosphate, we need to recalculate the phosphorous results
+  if (orders.otherFluidsSodiumPhosphate) {
+    console.log("runLabs : using sodium phosphate");
+    newLabs["phosphorous"] = calculatePhosphourous(
+      volumeOfDistribution,
+      effluentFlowRate
+    );
+  }
 
-//   if (orders.anticoagulation === "citrate") {
-//     var citrateResults = runCitrateCalculations(
-//       startingWeight,
-//       effluentFlowRate,
-//       newLabs["ionizedCalcium"]
-//     );
-//     newLabs["bicarbonate"] = citrateResults["bicarbonate"];
-//     newLabs["calcium"] = citrateResults["calcium"];
-//     newLabs["ionizedCalcium"] = citrateResults["ionizedCalcium"];
-//     newLabs["calciumFinalPostFilter"] =
-//       citrateResults["calciumFinalPostFilter"];
-//   }
-//   newLabs["pH"] = calculatePH(newLabs["bicarbonate"]);
+  if (orders.anticoagulation === "citrate") {
+    var citrateResults = runCitrateCalculations(
+      startingWeight,
+      effluentFlowRate,
+      newLabs["ionizedCalcium"]
+    );
+    newLabs["bicarbonate"] = citrateResults["bicarbonate"];
+    newLabs["calcium"] = citrateResults["calcium"];
+    newLabs["ionizedCalcium"] = citrateResults["ionizedCalcium"];
+    newLabs["calciumFinalPostFilter"] =
+      citrateResults["calciumFinalPostFilter"];
+  }
+  newLabs["pH"] = calculatePH(newLabs["bicarbonate"]);
 
-//   newLabs = roundLabs(newLabs);
+  newLabs = roundLabs(newLabs);
 
-//   saveLabValues(newLabs);
-//   incrementTime();
-//   copyStaticLabsToHistorical();
-//   setNewWeight(totalHoursOfFiltration);
-//   setVolumeOverload();
-//   setPageVariables();
-//   postLabChecks();
-//   processMessages();
-// }
+  saveLabValues(newLabs);
+  incrementTime();
+  copyStaticLabsToHistorical();
+  setNewWeight(totalHoursOfFiltration);
+  setVolumeOverload();
+  setPageVariables();
+  postLabChecks();
+  processMessages();
+}
 
 // function roundLabs(newLabs) {
 //   newLabs["sodium"] = Number.parseFloat(newLabs["sodium"]).toFixed(0);
@@ -1222,43 +1246,43 @@ export function showInfo(data) {
 //   return factor;
 // }
 
-// function getOrders() {
-//   var orders = {
-//     fluid: $("input[name=fluid]:checked").val(),
-//     fluidDialysateValues: {
-//       sodium: parseFloat($("#replacement-fluid-sodium-value").val()),
-//       potassium: parseFloat($("#replacement-fluid-potassium-value").val()),
-//       chloride: parseFloat($("#replacement-fluid-chloride-value").val()),
-//       bicarbonate: parseFloat($("#replacement-fluid-bicarbonate-value").val()),
-//       calcium: parseFloat($("#replacement-fluid-calcium-value").val()) * 4,
-//       magnesium: parseFloat($("#replacement-fluid-magnesium-value").val()),
-//       phosphorous: parseFloat($("#replacement-fluid-phosphorous-value").val()),
-//       BUN: 0,
-//       creatinine: 0
-//     },
-//     modality: $("input[name=modality]:checked").val(),
-//     anticoagulation: $("input[name=anticoagulation]:checked").val(),
-//     BFR: parseInt($("#bloodFlowRate").val()),
-//     Qr: parseInt($("#fluidFlowRate").val()),
-//     Qd: parseInt($("#fluidFlowRate").val()),
-//     grossUF: parseInt($("#grossHourlyFluidRemoval").val()),
-//     timeToNextLabs: calculateTimeToNextSetOfLabs(),
-//     otherFluidsSaline: $("input[name=otherFluidsSaline]:checked").val(),
-//     otherFluidsD5W: $("input[name=otherFluidsD5W]:checked").val(),
-//     otherFluidsSodiumPhosphate: $(
-//       "input[name=otherFluidsSodiumPhosphate]:checked"
-//     ).val(),
-//     otherFluidsBolusValue: parseFloat(
-//       $("input[name=otherFluidsBolusValue]").val()
-//     ),
-//     otherFluidsInfusionValue: parseFloat(
-//       $("input[name=otherFluidsInfusionValue]").val()
-//     )
-//   };
-//   var ff = calculateFiltrationFraction(orders);
-//   orders.filtrationFraction = ff;
-//   return orders;
-// }
+function getOrder(orders, time, timeBetweenOrders, selectedCase) {
+  var order = {
+    fluid: $("input[name=fluid]:checked").val(),
+    fluidDialysateValues: {
+      sodium: parseFloat($("#replacement-fluid-sodium-value").val()),
+      potassium: parseFloat($("#replacement-fluid-potassium-value").val()),
+      chloride: parseFloat($("#replacement-fluid-chloride-value").val()),
+      bicarbonate: parseFloat($("#replacement-fluid-bicarbonate-value").val()),
+      calcium: parseFloat($("#replacement-fluid-calcium-value").val()) * 4,
+      magnesium: parseFloat($("#replacement-fluid-magnesium-value").val()),
+      phosphorous: parseFloat($("#replacement-fluid-phosphorous-value").val()),
+      BUN: 0,
+      creatinine: 0
+    },
+    modality: $("input[name=modality]:checked").val(),
+    anticoagulation: $("input[name=anticoagulation]:checked").val(),
+    BFR: parseInt($("#bloodFlowRate").val()),
+    Qr: parseInt($("#fluidFlowRate").val()),
+    Qd: parseInt($("#fluidFlowRate").val()),
+    grossUF: parseInt($("#grossHourlyFluidRemoval").val()),
+    timeToNextLabs: calculateTimeToNextSetOfLabs(),
+    otherFluidsSaline: $("input[name=otherFluidsSaline]:checked").val(),
+    otherFluidsD5W: $("input[name=otherFluidsD5W]:checked").val(),
+    otherFluidsSodiumPhosphate: $(
+      "input[name=otherFluidsSodiumPhosphate]:checked"
+    ).val(),
+    otherFluidsBolusValue: parseFloat(
+      $("input[name=otherFluidsBolusValue]").val()
+    ),
+    otherFluidsInfusionValue: parseFloat(
+      $("input[name=otherFluidsInfusionValue]").val()
+    )
+  };
+  var ff = calculateFiltrationFraction(order, selectedCase.id);
+  order.filtrationFraction = ff;
+  return order;
+}
 
 // function incrementTime() {
 //   _currentTime = _currentTime + _currentOrders["timeToNextLabs"];
@@ -1748,43 +1772,72 @@ export function showInfo(data) {
 //   return currentWeightInKilos;
 // }
 
-const calculateFiltrationFraction = orders => {
-  let filtrationFraction;
-  // const hematocrit = getCurrentLab("hematocrit") / 100;
-  const hematocrit = 5;
-  console.log("calculateFiltrationFraction : hematocrit ", hematocrit);
+// const calculateFiltrationFraction = orders => {
+//   let filtrationFraction;
+//   // const hematocrit = getCurrentLab("hematocrit") / 100;
+//   const hematocrit = 5;
+//   console.log("calculateFiltrationFraction : hematocrit ", hematocrit);
 
-  switch (orders["modality"]) {
+//   switch (orders["modality"]) {
+//     case "Pre-filter CVVH":
+//       filtrationFraction =
+//         ((orders["replacementFluidFlowRate"] +
+//           orders["grossUltraFiltration"] / 1000) /
+//           (((orders["bloodFlowRate"] * 60) / 1000) * (1 - hematocrit) +
+//             orders["replacementFluidFlowRate"])) *
+//         100;
+//       break;
+//     case "Post-filter CVVH":
+//       filtrationFraction =
+//         ((orders["replacementFluidFlowRate"] +
+//           orders["grossUltraFiltration"] / 1000) /
+//           (((orders["bloodFlowRate"] * 60) / 1000) * (1 - hematocrit))) *
+//         100;
+//       break;
+//     case "CVVHD":
+//       filtrationFraction =
+//         (orders["grossUltraFiltration"] /
+//           1000 /
+//           (((orders["bloodFlowRate"] * 60) / 1000) * (1 - hematocrit))) *
+//         100;
+//       break;
+//   }
+//   return excelRound(filtrationFraction, 2);
+// };
+
+const calculateFiltrationFraction = (order, caseId) => {
+  var ff;
+  var hct = getCurrentLab("hematocrit", caseId) / 100;
+  console.log("calculateFiltrationFraction : hematocrit ", hct);
+  console.log("order order ORDER: ", order);
+
+  switch (order["modality"]) {
     case "Pre-filter CVVH":
-      filtrationFraction =
-        ((orders["replacementFluidFlowRate"] +
-          orders["grossUltraFiltration"] / 1000) /
-          (((orders["bloodFlowRate"] * 60) / 1000) * (1 - hematocrit) +
-            orders["replacementFluidFlowRate"])) *
+      ff =
+        ((order["Qr"] + order["grossUF"] / 1000) /
+          (((order["BFR"] * 60) / 1000) * (1 - hct) + order["Qr"])) *
         100;
       break;
     case "Post-filter CVVH":
-      filtrationFraction =
-        ((orders["replacementFluidFlowRate"] +
-          orders["grossUltraFiltration"] / 1000) /
-          (((orders["bloodFlowRate"] * 60) / 1000) * (1 - hematocrit))) *
+      ff =
+        ((order["Qr"] + order["grossUF"] / 1000) /
+          (((order["BFR"] * 60) / 1000) * (1 - hct))) *
         100;
       break;
     case "CVVHD":
-      filtrationFraction =
-        (orders["grossUltraFiltration"] /
-          1000 /
-          (((orders["bloodFlowRate"] * 60) / 1000) * (1 - hematocrit))) *
+      ff =
+        (order["grossUF"] / 1000 / (((order["BFR"] * 60) / 1000) * (1 - hct))) *
         100;
       break;
   }
-  return excelRound(filtrationFraction, 2);
+  return excelRound(ff, 2);
 };
 
-// function calculateFiltrationFraction(orders) {
+// const calculateFiltrationFraction = orders => {
 //   var ff;
 //   var hct = getCurrentLab("hematocrit") / 100;
 //   console.log("calculateFiltrationFraction : hematocrit ", hct);
+//   console.log("order order ORDER: ", orders);
 
 //   switch (orders["modality"]) {
 //     case "pre-filter-cvvh":
@@ -1808,7 +1861,7 @@ const calculateFiltrationFraction = orders => {
 //       break;
 //   }
 //   return excelRound(ff, 2);
-// }
+// };
 
 // function calculateEffluentFlowRate(orders) {
 //   var efr;
