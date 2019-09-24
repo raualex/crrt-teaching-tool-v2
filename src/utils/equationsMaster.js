@@ -1,5 +1,6 @@
 import { labsCase1 } from "./initialSpreadsheetData.js";
 import { mockOrderForMigrationFunctions } from './mockOrders.js';
+import { inputOutput } from './initialSpreadsheetData.js';
 
 var _points = {
   bloodFlowRateInRange: [],
@@ -1288,12 +1289,13 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
   var otherFluidsSaline = orders["otherFluidsSaline"];
   var otherFluidsD5W = orders["otherFluidsD5W"];
   var otherFluidsSodiumPhosphate = orders["otherFluidsSodiumPhosphate"];
-  var labFluidsInPastEightHoursInLiters =
-    parseFloat(
-      _currentCaseStudySheet.inputOutput.elements[_currentTime + 1][
-        "previousSixHourTotal"
-      ]
-    ) / 1000;
+  // var labFluidsInPastEightHoursInLiters =
+  //   parseFloat(
+  //     _currentCaseStudySheet.inputOutput.elements[_currentTime + 1][
+  //       "previousSixHourTotal"
+  //     ]
+  //   ) / 1000;
+  var labFluidsInPastEightHoursInLiters = inputOutput['1'].previousSixHourTotal[_currentTime + 1] / 1000
 
   totalInputInL += labFluidsInPastEightHoursInLiters;
   console.log(
@@ -1350,9 +1352,10 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
   var startingTime = _currentTime - 8;
   for (var i = 0; i < 8; i++) {
     var input = 0;
-    input += parseFloat(
-      _currentCaseStudySheet.inputOutput.elements[startingTime + i + 2]["total"]
-    );
+    // input += parseFloat(
+    //   _currentCaseStudySheet.inputOutput.elements[startingTime + i + 2]["total"]
+    // );
+    input += parseFloat(inputOutput['1'].total[startingTime + i + 2])
 
     if (orders.anticoagulation === "citrate") {
       // var citFlowRate = parseFloat($("#citrateFlowRate").val());
