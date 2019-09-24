@@ -1303,7 +1303,7 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
     labFluidsInPastEightHoursInLiters
   );
   console.log("totalInputInL :", totalInputInL);
-
+console.log(orders)
   if (orders.anticoagulation === "citrate") {
     var citrateFlowRateInLPerHr = orders.citrateFlowRate / 1000;
       // parseFloat($("#citrateFlowRate").val()) / 1000;

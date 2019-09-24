@@ -1,4 +1,4 @@
-const mockOrders = [
+export const mockOrders = [
   {
     modality: "Pre-filter CVVH",
     sodium: 1,
@@ -35,7 +35,7 @@ const mockOrders = [
   }
 ];
 
-const defaultState = {
+export const defaultState = {
   modality: "Pre-filter CVVH",
   sodium: 0,
   potassium: 0,
@@ -53,14 +53,14 @@ const defaultState = {
   anticoagulation: "None"
 };
 
-const mockReduxOrdersForModal = {
+export const mockReduxOrdersForModal = {
   "Input/Output": [17, 6, 4.2, 22],
   LaboratoryData: [1, 23, 659, 55.4],
   Vitals: [3, 45, 7, 34],
   Medications: [1, 2, 3, 4]
 };
 
-const mockOrderForMigrationFunctions = {
+export const mockOrderForMigrationFunctions = {
   fluidDialysateValues: {
     sodium: 135,
     potassium: 2,
@@ -89,7 +89,7 @@ const mockOrderForMigrationFunctions = {
 }
 
 const mockCurrentOrdersForMigrationFunctions = {
-  
+
 }
 
-export default { mockOrders, defaultState, mockReduxOrdersForModal, mockOrderForMigrationFunctions };
+// export default { mockOrders, defaultState, mockReduxOrdersForModal, mockOrderForMigrationFunctions };

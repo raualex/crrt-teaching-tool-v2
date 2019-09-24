@@ -8,7 +8,7 @@ import OrdersModal from "../OrdersModal";
 import OrderResultsContainer from "../../components/OrderResultsContainer";
 import { labs } from '../../utils/initialSpreadsheetData.js';
 
-import mockOrderForMigrationFunctions from '../../utils/mockOrders.js';
+import { mockOrderForMigrationFunctions } from '../../utils/mockOrders.js';
 import { calculateNewWeight } from '../../utils/equationsMaster.js';
 
 export class Simulator extends Component {
