@@ -60,4 +60,36 @@ const mockReduxOrdersForModal = {
   Medications: [1, 2, 3, 4]
 };
 
-export default { mockOrders, defaultState, mockReduxOrdersForModal };
+const mockOrderForMigrationFunctions = {
+  fluidDialysateValues: {
+    sodium: 135,
+    potassium: 2,
+    chloride: 100,
+    bicarbonate: 20,
+    calcium: 2,
+    magnesium: 1,
+    phosphorous: 1,
+    BUN: 0,
+    creatinine: 0
+  },
+  modality: "Pre-filter CVVH",
+  anticoagulation: "citrate",
+  BFR: 200,
+  Qr: 2,
+  Qd: 2,
+  grossUF: 500,
+  timeToNextLabs: 8,
+  otherFluidsSaline: false,
+  otherFluidsD5W: true,
+  otherFluidsSodiumPhosphate: false,
+  otherFluidsBolusValue: 20,
+  otherFluidsInfusionValue: 2,
+  citrateFlowRate: 10,
+  caClInfusionRate: 2
+}
+
+const mockCurrentOrdersForMigrationFunctions = {
+  
+}
+
+export default { mockOrders, defaultState, mockReduxOrdersForModal, mockOrderForMigrationFunctions };
