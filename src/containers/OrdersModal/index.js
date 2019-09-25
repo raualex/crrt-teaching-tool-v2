@@ -56,7 +56,8 @@ export class OrdersModal extends Component {
       timeBetweenOrders,
       selectedCase,
       labData,
-      addResultsMessagesToOrder
+      addResultsMessagesToOrder,
+      time
     } = this.props;
 
     if (this.props.orders !== prevProps.orders) {
