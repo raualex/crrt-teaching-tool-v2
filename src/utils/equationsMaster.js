@@ -1,10 +1,10 @@
 import {
-  labs,
-  inputOutput,
-  vitals,
-  productionRates,
-  medications,
-  accessPressure
+  labsInitial,
+  inputOutputInitial,
+  vitalsInitial,
+  productionRatesInitial,
+  medicationsInitial,
+  accessPressureInitial
 } from "./initialSpreadsheetData.js";
 
 var _points = {
@@ -626,7 +626,7 @@ const getCurrentLab = (lab, caseId) => {
     currentLabSetIndex = _currentTime / 8 + 1;
   }
 
-  return parseFloat(labs[caseId][lab][currentLabSetIndex]);
+  return parseFloat(labsInitial[caseId][lab][currentLabSetIndex]);
 };
 
 // function getCurrentAccessPressure(pressure) {
@@ -700,7 +700,7 @@ export function runLabs(
   var effluentFlowRate = adjustedEffluentFlowRate;
 
   var volumeOfDistribution = calculateVolumeOfDistribution(order, selectedCase);
-  var productionRates = _currentCaseStudySheet.productionRates.elements;
+  var productionRates = productionRatesInitial[selectedCase.id];
   console.log("Sasaaaaaaaaa productionRates: ", productionRates);
 
   preLabChecks(effluentFlowRate, orders, time, selectedCase);
@@ -772,14 +772,14 @@ export function runLabs(
     newLabs["calciumFinalPostFilter"] =
       citrateResults["calciumFinalPostFilter"];
   }
-  newLabs["pH"] = calculatePH(newLabs["bicarbonate"]);
+  newLabs["pH"] = calculatePH(newLabs["bicarbonate"], selectedCase);
 
   newLabs = roundLabs(newLabs);
 
   saveLabValues(newLabs);
   incrementTime();
-  copyStaticLabsToHistorical();
-  setNewWeight(totalHoursOfFiltration, order);
+  copyStaticLabsToHistorical(time, selectedCase);
+  setNewWeight(totalHoursOfFiltration, order, selectedCase);
   setVolumeOverload();
   setPageVariables();
   postLabChecks(orders, time, selectedCase);
@@ -802,13 +802,21 @@ function roundLabs(newLabs) {
   return newLabs;
 }
 
-function copyStaticLabsToHistorical() {
-  var currentLabSet = _currentTime / 8 + 1;
+function copyStaticLabsToHistorical(time, selectedCase) {
+  // var currentLabSet = _currentTime / 8 + 1;
+
+  // for (var i = 0; i < _staticLabs.length; i++) {
+  //   if (_currentCaseStudySheet.labs.elements[currentLabSet][_staticLabs[i]]) {
+  //     _historicalLabs[_staticLabs[i]].push(
+  //       _currentCaseStudySheet.labs.elements[currentLabSet][_staticLabs[i]]
+  //     );
+  //   }
+  // }
 
   for (var i = 0; i < _staticLabs.length; i++) {
-    if (_currentCaseStudySheet.labs.elements[currentLabSet][_staticLabs[i]]) {
+    if (labsInitial[selectedCase.id][_staticLabs[i]]) {
       _historicalLabs[_staticLabs[i]].push(
-        _currentCaseStudySheet.labs.elements[currentLabSet][_staticLabs[i]]
+        labsInitial[selectedCase.id][_staticLabs[i]]
       );
     }
   }
@@ -1124,13 +1132,13 @@ function saveLabValues(newLabs) {
   }
 }
 
-function setNewWeight(totalHoursOfFiltration, order) {
+function setNewWeight(totalHoursOfFiltration, order, selectedCase) {
   // var newWeight = excelRound(
   //   calculateNewWeight(_currentOrders, totalHoursOfFiltration),
   //   2
   // );
   var newWeight = excelRound(
-    calculateNewWeight(order, totalHoursOfFiltration),
+    calculateNewWeight(order, totalHoursOfFiltration, selectedCase),
     2
   );
   console.log("newWeight : ", newWeight);
@@ -1294,7 +1302,7 @@ function incrementTime() {
   _currentTime = _currentTime + _currentOrders["timeToNextLabs"];
 }
 
-function calculateNewWeight(order, totalHoursOfFiltration) {
+function calculateNewWeight(order, totalHoursOfFiltration, selectedCase) {
   // NOTE:
   // new weight = old weight + difference between input and output
   // 1L = 1Kg
@@ -1314,8 +1322,8 @@ function calculateNewWeight(order, totalHoursOfFiltration) {
   var otherFluidsSodiumPhosphate = _currentOrders["otherFluidsSodiumPhosphate"];
   var labFluidsInPastEightHoursInLiters =
     parseFloat(
-      _currentCaseStudySheet.inputOutput.elements[_currentTime + 1][
-        "previousSixHourTotal"
+      inputOutputInitial[selectedCase.id]["previousSixHourTotal"][
+        inputOutputInitial[selectedCase.id]["previousSixHourTotal"].length - 1
       ]
     ) / 1000;
 
@@ -1596,11 +1604,9 @@ function postLabChecks(order, time, selectedCase) {
 //   }
 // }
 
-function calculatePH(bicarbonate) {
-  var PCO2 = getCurrentLab("PC02");
-  console.log("Heeeeeeeeee PCO2: ", PCO2);
+function calculatePH(bicarbonate, selectedCase) {
+  var PCO2 = getCurrentLab("pc02", selectedCase.id);
   var pH = 6.1 + Math.log(bicarbonate / (0.03 * PCO2)) / Math.log(10);
-  console.log("calculatePH : pH", pH);
   return excelRound(pH, 2);
 }
 

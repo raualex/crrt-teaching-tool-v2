@@ -6,7 +6,7 @@ import { calculateLabData } from "../../Actions/calculationActions";
 import DataOutputModal from "../DataOutputModal";
 import OrdersModal from "../OrdersModal";
 import OrderResultsContainer from "../../components/OrderResultsContainer";
-import { labs } from '../../utils/initialSpreadsheetData.js';
+import { labsInitial } from "../../utils/initialSpreadsheetData.js";
 
 export class Simulator extends Component {
   constructor(props) {
@@ -21,9 +21,9 @@ export class Simulator extends Component {
     const { selectedCase, calculateLabData } = this.props;
 
     if (selectedCase.id === 1 || selectedCase.id === 2) {
-      calculateLabData(labs[selectedCase.id])
+      calculateLabData(labsInitial[selectedCase.id]);
     } else {
-      return
+      return;
     }
   }
 

@@ -1,4 +1,4 @@
-export const labs = {
+export const labsInitial = {
   1: {
     time: [-2, -1],
     labNum: [-2, -1],
@@ -352,7 +352,7 @@ export const labs = {
   }
 };
 
-export const inputOutput = {
+export const inputOutputInitial = {
   1: {
     fentanyl: [5, 5],
     vasopressin: [6, 6],
@@ -382,7 +382,7 @@ export const inputOutput = {
   }
 };
 
-export const vitals = {
+export const vitalsInitial = {
   1: {
     temperature: [36.7],
     heartRate: [91],
@@ -399,7 +399,7 @@ export const vitals = {
   }
 };
 
-export const productionRates = {
+export const productionRatesInitial = {
   1: {
     sodium: [0],
     potassium: [0],
@@ -424,7 +424,7 @@ export const productionRates = {
   }
 };
 
-export const medications = {
+export const medicationsInitial = {
   1: {
     scheduledMedication: [
       "Atorvastatin 40 mg Daily",
@@ -467,7 +467,7 @@ export const medications = {
   }
 };
 
-export const accessPressure = {
+export const accessPressureInitial = {
   1: {
     accessPressure: [-94, -101],
     venousPressure: [123, 123],
