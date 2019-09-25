@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   labsInitial,
   inputOutputInitial,
@@ -6,6 +7,11 @@ import {
   medicationsInitial,
   accessPressureInitial
 } from "./initialSpreadsheetData.js";
+=======
+import { labsCase1 } from "./initialSpreadsheetData.js";
+import { mockOrderForMigrationFunctions } from './mockOrders.js';
+import { inputOutput, vitals } from './initialSpreadsheetData.js';
+>>>>>>> fix-calculate-new-weight-func
 
 var _points = {
   bloodFlowRateInRange: [],
@@ -49,7 +55,7 @@ var _currentCaseStudyId;
 var _currentCaseStudy;
 var _currentCaseStudySheet = {};
 var _currentDose;
-var _currentTime;
+var _currentTime = 10;
 var newTime = 0;
 var _usedCitrate = false;
 var _usedCitrateFirst = false;
@@ -1298,11 +1304,7 @@ function getCitrateMetabolismFactor() {
 //   return order;
 // }
 
-function incrementTime() {
-  _currentTime = _currentTime + _currentOrders["timeToNextLabs"];
-}
-
-function calculateNewWeight(order, totalHoursOfFiltration, selectedCase) {
+export function calculateNewWeight(orders, totalHoursOfFiltration) {
   // NOTE:
   // new weight = old weight + difference between input and output
   // 1L = 1Kg
@@ -1315,17 +1317,23 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase) {
   var data = {};
 
   var totalInputInL = 0;
-  var bolusValue = _currentOrders["otherFluidsBolusValue"];
-  var infusionValue = _currentOrders["otherFluidsInfusionValue"];
-  var otherFluidsSaline = _currentOrders["otherFluidsSaline"];
-  var otherFluidsD5W = _currentOrders["otherFluidsD5W"];
-  var otherFluidsSodiumPhosphate = _currentOrders["otherFluidsSodiumPhosphate"];
-  var labFluidsInPastEightHoursInLiters =
-    parseFloat(
-      inputOutputInitial[selectedCase.id]["previousSixHourTotal"][
-        inputOutputInitial[selectedCase.id]["previousSixHourTotal"].length - 1
-      ]
-    ) / 1000;
+  // var bolusValue = _currentOrders["otherFluidsBolusValue"];
+  // var infusionValue = _currentOrders["otherFluidsInfusionValue"];
+  // var otherFluidsSaline = _currentOrders["otherFluidsSaline"];
+  // var otherFluidsD5W = _currentOrders["otherFluidsD5W"];
+  // var otherFluidsSodiumPhosphate = _currentOrders["otherFluidsSodiumPhosphate"];
+  var bolusValue = orders["otherFluidsBolusValue"];
+  var infusionValue = orders["otherFluidsInfusionValue"];
+  var otherFluidsSaline = orders["otherFluidsSaline"];
+  var otherFluidsD5W = orders["otherFluidsD5W"];
+  var otherFluidsSodiumPhosphate = orders["otherFluidsSodiumPhosphate"];
+  // var labFluidsInPastEightHoursInLiters =
+  //   parseFloat(
+  //     _currentCaseStudySheet.inputOutput.elements[_currentTime + 1][
+  //       "previousSixHourTotal"
+  //     ]
+  //   ) / 1000;
+  var labFluidsInPastEightHoursInLiters = inputOutput['1'].previousSixHourTotal[_currentTime + 1] / 1000
 
   totalInputInL += labFluidsInPastEightHoursInLiters;
   console.log(
@@ -1333,11 +1341,10 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase) {
     labFluidsInPastEightHoursInLiters
   );
   console.log("totalInputInL :", totalInputInL);
-
-  if (order.anticoagulation === "citrate") {
-    // var citrateFlowRateInLPerHr =
-    //   parseFloat($("#citrateFlowRate").val()) / 1000;
-    var citrateFlowRateInLPerHr = order.citrateFlowRate / 1000;
+console.log(orders)
+  if (orders.anticoagulation === "citrate") {
+    var citrateFlowRateInLPerHr = orders.citrateFlowRate / 1000;
+      // parseFloat($("#citrateFlowRate").val()) / 1000;
     var citratePastEightHoursInLiters = citrateFlowRateInLPerHr * 8;
     totalInputInL += citratePastEightHoursInLiters;
 
@@ -1347,9 +1354,8 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase) {
     );
     console.log("totalInputInL :", totalInputInL);
 
-    // var calciumClFlowRateInLPerHr =
-    //   parseFloat($("#caclInfusionRate").val()) / 1000;
-    var calciumClFlowRateInLPerHr = order.caClInfusionRate / 1000;
+    var calciumClFlowRateInLPerHr = orders.caClInfusionRate / 1000;
+      // parseFloat($("#caclInfusionRate").val()) / 1000;
     var calciumClPastEightHoursInLiters = calciumClFlowRateInLPerHr * 8;
     totalInputInL += calciumClPastEightHoursInLiters;
 
@@ -1360,7 +1366,7 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase) {
     console.log("totalInputInL :", totalInputInL);
   }
 
-  if (order.otherFluidsSodiumPhosphate) {
+  if (orders.otherFluidsSodiumPhosphate) {
     var sodiumPhosphateInLiters = 0.1;
     totalInputInL += sodiumPhosphateInLiters;
     console.log("totalInputInL :", totalInputInL);
@@ -1384,15 +1390,16 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase) {
   var startingTime = _currentTime - 8;
   for (var i = 0; i < 8; i++) {
     var input = 0;
-    input += parseFloat(
-      _currentCaseStudySheet.inputOutput.elements[startingTime + i + 2]["total"]
-    );
+    // input += parseFloat(
+    //   _currentCaseStudySheet.inputOutput.elements[startingTime + i + 2]["total"]
+    // );
+    input += parseFloat(inputOutput['1'].total[startingTime + i + 2])
 
-    if (order.anticoagulation === "citrate") {
+    if (orders.anticoagulation === "citrate") {
       // var citFlowRate = parseFloat($("#citrateFlowRate").val());
       // var caclFlowRate = parseFloat($("#caclInfusionRate").val());
-      var citFlowRate = order.citrateFlowRate;
-      var caclFlowRate = order.caClInfusionRate;
+      var citFlowRate = orders.citrateFlowRate
+      var caclFlowRate = orders.caClInfusionRate
 
       if (citFlowRate) {
         input += citFlowRate;
@@ -1413,7 +1420,7 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase) {
       if (bolusValue) {
         input += bolusValue;
       }
-      if (order.otherFluidsSodiumPhosphate) {
+      if (orders.otherFluidsSodiumPhosphate) {
         input += 100;
       }
     }
@@ -1436,10 +1443,10 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase) {
 
   for (var i = 0; i < totalHoursOfFiltration; i++) {
     _historicalInputOutput["ultrafiltration"][ultrafiltrationStartingTime + i] =
-      order["grossUF"];
+      orders["grossUF"];
     // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in the future
     _historicalInputOutput["totalOutput"][ultrafiltrationStartingTime + i] =
-      order["grossUF"];
+      orders["grossUF"];
   }
 
   for (var i = 0; i < 8; i++) {
@@ -1457,14 +1464,15 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase) {
   }
 
   var grossFiltrationPastEightHoursInLiters =
-    (order["grossUF"] / 1000) * totalHoursOfFiltration;
+    (orders["grossUF"] / 1000) * totalHoursOfFiltration;
   var previousWeightInKilos = parseFloat(
-    _historicalVitals["weight"][_historicalVitals["weight"].length - 1]
+    vitals["1"].weight[vitals["1"].weight.length - 1]
   );
 
   var currentWeightInKilos =
     previousWeightInKilos +
     (totalInputInL - grossFiltrationPastEightHoursInLiters);
+
   return currentWeightInKilos;
 }
 

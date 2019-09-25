@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./DataOutputTable.css";
 import { connect } from "react-redux";
 import modalKeys from "../../utils/dataOutputTableKeys.js";
-import mockReduxOrdersForModal from "../../utils/mockOrders.js";
+import { mockReduxOrdersForModal } from "../../utils/mockOrders.js";
 const uuidv4 = require("uuid/v4");
 
 export class DataOutputTable extends Component {
