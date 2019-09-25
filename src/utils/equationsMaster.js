@@ -1,6 +1,6 @@
 import { labsCase1 } from "./initialSpreadsheetData.js";
 import { mockOrderForMigrationFunctions } from './mockOrders.js';
-import { inputOutput } from './initialSpreadsheetData.js';
+import { inputOutput, vitals } from './initialSpreadsheetData.js';
 
 var _points = {
   bloodFlowRateInRange: [],
@@ -1428,15 +1428,13 @@ console.log(orders)
   var grossFiltrationPastEightHoursInLiters =
     (orders["grossUF"] / 1000) * totalHoursOfFiltration;
   var previousWeightInKilos = parseFloat(
-    _historicalVitals["weight"][_historicalVitals["weight"].length - 1]
+    vitals["1"].weight[vitals["1"].weight.length - 1]
   );
 
   var currentWeightInKilos =
     previousWeightInKilos +
     (totalInputInL - grossFiltrationPastEightHoursInLiters);
 
-
-  console.log(currentWeightInKilos)
   return currentWeightInKilos;
 }
 

@@ -8,9 +8,6 @@ import OrdersModal from "../OrdersModal";
 import OrderResultsContainer from "../../components/OrderResultsContainer";
 import { labs } from '../../utils/initialSpreadsheetData.js';
 
-import { mockOrderForMigrationFunctions } from '../../utils/mockOrders.js';
-import { calculateNewWeight } from '../../utils/equationsMaster.js';
-
 export class Simulator extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +19,7 @@ export class Simulator extends Component {
 
   componentDidMount() {
     const { selectedCase, calculateLabData } = this.props;
-    calculateNewWeight(mockOrderForMigrationFunctions, 8)
+
     if (selectedCase.id === 1 || selectedCase.id === 2) {
       calculateLabData(labs[selectedCase.id])
     } else {
