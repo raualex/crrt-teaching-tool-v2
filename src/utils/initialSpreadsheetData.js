@@ -324,7 +324,7 @@ export const labsInitial = {
       121
     ],
     pH: [7.07, 7.22],
-    PC02: [
+    pc02: [
       28,
       35,
       27,

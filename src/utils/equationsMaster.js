@@ -620,12 +620,12 @@ export function showInfo(data) {
 //   return excelRound(pH, 2);
 // }
 
-const getCurrentLab = (lab, caseId) => {
+const getCurrentLab = (lab, caseId, currentTime, timeBetweenOrders) => {
   var currentLabSetIndex;
-  if (_currentTime === 0) {
+  if (currentTime === 0) {
     currentLabSetIndex = 1;
   } else {
-    currentLabSetIndex = _currentTime / 8 + 1;
+    currentLabSetIndex = Math.floor(currentTime / timeBetweenOrders) + 1;
   }
 
   return parseFloat(labsInitial[caseId][lab][currentLabSetIndex]);
@@ -651,20 +651,25 @@ export function runLabs(
   let newLabs = {};
   let dialysate = {};
   // var order = getOrder(orders, time, timeBetweenOrders, selectedCase);
-  let order = orders[orders.length - 1];
-  order.filtrationFraction = calculateFiltrationFraction(
-    order,
-    selectedCase.id
+  let currentOrder = orders[orders.length - 1];
+  currentOrder.filtrationFraction = calculateFiltrationFraction(
+    currentOrder,
+    selectedCase.id,
+    time.currentTime,
+    timeBetweenOrders
   );
+  console.log("CURRENT ORDER: ", currentOrder);
+
   let didClot = false;
-  _currentOrders = order;
+  _currentOrders = currentOrder;
   let startingWeight =
     _historicalVitals["weight"][_historicalVitals["weight"].length - 1];
   newLabs["ionizedCalcium"] =
-    _historicalLabs["calcium"][_historicalLabs["calcium"].length - 1] / 8;
-  newLabs["filtrationFraction"] = order.filtrationFraction;
-
-  let initialEffluentFlowRate = calculateEffluentFlowRate(order);
+    _historicalLabs["calcium"][_historicalLabs["calcium"].length - 1] /
+    timeBetweenOrders;
+  newLabs["filtrationFraction"] = currentOrder.filtrationFraction;
+  // debugger;
+  let initialEffluentFlowRate = calculateEffluentFlowRate(currentOrder);
   console.log("initialEffluentFlowRate :", initialEffluentFlowRate);
 
   switch (selectedCase.id) {
@@ -675,14 +680,16 @@ export function runLabs(
     case 2:
       console.log("case 2 : checkFilterClottingCase2()");
       didClot = checkFilterClottingCase2(
+        currentOrder,
         startingWeight,
-        effluentFlowRate,
+        initialEffluentFlowRate,
         newLabs["ionizedCalcium"]
       );
       break;
   }
 
   var adjustedEffluentFlowRate = calculateAdjustedEffluentFlowRate(
+    selectedCase.id,
     initialEffluentFlowRate,
     newLabs["filtrationFraction"],
     startingWeight,
@@ -690,7 +697,8 @@ export function runLabs(
     didClot
   );
   var totalHoursOfFiltration = calculateTotalHoursOfFiltration(
-    order,
+    selectedCase.id,
+    currentOrder,
     initialEffluentFlowRate,
     newLabs["filtrationFraction"],
     startingWeight,
@@ -699,52 +707,67 @@ export function runLabs(
   );
 
   console.log("adjustedEffluentFlowRate :", adjustedEffluentFlowRate);
+  console.log("totalHoursOfFiltration: ", totalHoursOfFiltration);
   var effluentFlowRate = adjustedEffluentFlowRate;
 
-  var volumeOfDistribution = calculateVolumeOfDistribution(order, selectedCase);
+  var volumeOfDistribution = calculateVolumeOfDistribution(
+    currentOrder,
+    selectedCase
+  );
+  console.log("volumeOfDistribution: ", volumeOfDistribution);
   var productionRates = productionRatesInitial[selectedCase.id];
   console.log("Sasaaaaaaaaa productionRates: ", productionRates);
 
   preLabChecks(effluentFlowRate, orders, time, selectedCase);
-  for (var i = 0; i < productionRates.length; i++) {
-    console.log("calculateLab(): component: ", productionRates[i].component);
+
+  //We stopped here.
+
+  console.log("THE THING WE NEED: ", productionRates);
+  let prodRateKeys = Object.keys(productionRates);
+  for (var i = 0; i < prodRateKeys.length; i++) {
+    console.log(
+      "calculateLab(): component: ",
+      productionRates[prodRateKeys[i]]
+    );
     console.log(
       "calculateLab(): initialValue: ",
-      _historicalLabs[productionRates[i].component][
-        _historicalLabs[productionRates[i].component].length - 1
+      _historicalLabs[productionRates[prodRateKeys[i]]][
+        _historicalLabs[productionRates[prodRateKeys[i]]].length - 1
       ]
     );
     console.log(
       "calculateLab(): dialysate: ",
-      order.fluidDialysateValues[productionRates[i].component]
+      currentOrder.fluidDialysateValues[productionRates[prodRateKeys[i]]]
     );
     console.log("calculateLab(): effluentFlowRate: ", effluentFlowRate);
-    console.log("calculateLab(): time: ", order["timeToNextLabs"]);
+    console.log("calculateLab(): time: ", currentOrder["timeToNextLabs"]);
     console.log("calculateLab(): weight: ", startingWeight);
     console.log("calculateLab(): volumeOfDistribution: ", volumeOfDistribution);
     console.log(
       "calculateLab(): productionRate: ",
-      productionRates[i].productionRate
+      productionRates[prodRateKeys[i]]
     );
 
     // NOTE: Params for calculateLab(): initialValue, dialysate, effluentFlowRate, time, weight, volumeOfDistribution, productionRate
 
-    newLabs[productionRates[i].component] = calculateLab(
+    newLabs[productionRates[prodRateKeys[i]]] = calculateLab(
       parseFloat(
-        _historicalLabs[productionRates[i].component][
-          _historicalLabs[productionRates[i].component].length - 1
+        _historicalLabs[productionRates[prodRateKeys[i]]][
+          _historicalLabs[productionRates[prodRateKeys[i]]].length - 1
         ]
       ),
-      parseFloat(order.fluidDialysateValues[productionRates[i].component]),
+      parseFloat(
+        currentOrder.fluidDialysateValues[productionRates[prodRateKeys[i]]]
+      ),
       parseFloat(effluentFlowRate),
-      parseFloat(order["timeToNextLabs"]),
+      parseFloat(currentOrder["timeToNextLabs"]),
       parseFloat(startingWeight),
       parseFloat(volumeOfDistribution),
-      parseFloat(productionRates[i].productionRate)
+      parseFloat(productionRates[prodRateKeys[i]])
     );
     console.log(
       "WEEEEEEEEEEE newLabs[productionRates[i].component]",
-      newLabs[productionRates[i].component]
+      newLabs[productionRates[prodRateKeys[i]]]
     );
     console.log("newLabs : ", newLabs);
   }
@@ -753,7 +776,7 @@ export function runLabs(
   // sodium using the calculateSodium() function.
   newLabs["sodium"] = calculateSodium(volumeOfDistribution, effluentFlowRate);
   // NOTE: If we're using sodium phosphate, we need to recalculate the phosphorous results
-  if (order.otherFluidsSodiumPhosphate) {
+  if (currentOrder.otherFluidsSodiumPhosphate) {
     console.log("runLabs : using sodium phosphate");
     newLabs["phosphorous"] = calculatePhosphourous(
       volumeOfDistribution,
@@ -761,9 +784,9 @@ export function runLabs(
     );
   }
 
-  if (order.anticoagulation === "citrate") {
+  if (currentOrder.anticoagulation === "citrate") {
     var citrateResults = runCitrateCalculations(
-      order,
+      currentOrder,
       startingWeight,
       effluentFlowRate,
       newLabs["ionizedCalcium"]
@@ -774,14 +797,19 @@ export function runLabs(
     newLabs["calciumFinalPostFilter"] =
       citrateResults["calciumFinalPostFilter"];
   }
-  newLabs["pH"] = calculatePH(newLabs["bicarbonate"], selectedCase);
+  newLabs["pH"] = calculatePH(
+    newLabs["bicarbonate"],
+    selectedCase,
+    time.currentTime,
+    timeBetweenOrders
+  );
 
   newLabs = roundLabs(newLabs);
 
   saveLabValues(newLabs);
   // incrementTime(); //This function needs to increment time in Redux
   copyStaticLabsToHistorical(time, selectedCase);
-  setNewWeight(totalHoursOfFiltration, order, selectedCase);
+  setNewWeight(totalHoursOfFiltration, currentOrder, selectedCase);
   setVolumeOverload();
   setPageVariables();
   postLabChecks(orders, time, selectedCase);
@@ -921,6 +949,7 @@ function calculatePhosphourous(volumeOfDistribution, effluentFlowRate) {
 }
 
 function calculateTotalHoursOfFiltration(
+  currentCaseId,
   order,
   effluentFlowRate,
   currentFiltrationFraction,
@@ -928,7 +957,7 @@ function calculateTotalHoursOfFiltration(
   ionizedCalcium,
   didClot
 ) {
-  switch (_currentCaseStudyId) {
+  switch (currentCaseId) {
     case 1:
       return calculateTotalHoursOfFiltrationCase1(
         order,
@@ -1021,13 +1050,14 @@ function calculateTotalHoursOfFiltrationCase2(
 }
 
 function calculateAdjustedEffluentFlowRate(
+  currentCaseId,
   effluentFlowRate,
   currentFiltrationFraction,
   startingWeight,
   ionizedCalcium,
   didClot
 ) {
-  switch (_currentCaseStudyId) {
+  switch (currentCaseId) {
     case 1:
       console.log(
         "case 1 : calculateAdjustedEffluentFlowRateCase1():",
@@ -1472,23 +1502,23 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
   return currentWeightInKilos;
 }
 
-function calculateEffluentFlowRate(order) {
+function calculateEffluentFlowRate(currentOrder) {
   var efr;
-  var currentFiltrationFraction = order.filtrationFraction;
-
-  switch (order["modality"]) {
-    case "pre-filter-cvvh":
+  // var currentFiltrationFraction = currentOrder.filtrationFraction;
+  console.log("EFFULENT CURRENT ORDER", currentOrder);
+  switch (currentOrder["modality"]) {
+    case "Pre-filter CVVH":
       efr =
-        ((order["BFR"] * 60) /
+        ((currentOrder["BFR"] * 60) /
           1000 /
-          ((order["BFR"] * 60) / 1000 + order["Qr"])) *
-        (order["Qr"] + order["grossUF"] / 1000);
+          ((currentOrder["BFR"] * 60) / 1000 + currentOrder["Qr"])) *
+        (currentOrder["Qr"] + currentOrder["grossUF"] / 1000);
       break;
-    case "post-filter-cvvh":
-      efr = order["Qr"] + order["grossUF"] / 1000;
+    case "Post-filter CVVH":
+      efr = currentOrder["Qr"] + currentOrder["grossUF"] / 1000;
       break;
-    case "cvvhd":
-      efr = order["Qd"] + order["grossUF"] / 1000;
+    case "CVVHD":
+      efr = currentOrder["Qd"] + currentOrder["grossUF"] / 1000;
       break;
   }
 
@@ -1515,8 +1545,9 @@ function calculateEdema(orders, selectedCase) {
   //   _currentCaseStudy.startingData["usualWeight"]
   // );
   return (
-    _historicalVitals["weight"][_historicalVitals["weight"].length - 1] -
-    selectedCase.usualWeight
+    vitalsInitial[selectedCase.id].weight[
+      vitalsInitial[selectedCase.id].weight.length - 1
+    ] - selectedCase.usualWeight
   );
 }
 
@@ -1608,8 +1639,18 @@ function postLabChecks(order, time, selectedCase) {
 //   }
 // }
 
-function calculatePH(bicarbonate, selectedCase) {
-  var PCO2 = getCurrentLab("pc02", selectedCase.id);
+function calculatePH(
+  bicarbonate,
+  selectedCase,
+  currentTime,
+  timeBetweenOrders
+) {
+  var PCO2 = getCurrentLab(
+    "pc02",
+    selectedCase.id,
+    currentTime,
+    timeBetweenOrders
+  );
   var pH = 6.1 + Math.log(bicarbonate / (0.03 * PCO2)) / Math.log(10);
   return excelRound(pH, 2);
 }
@@ -1792,28 +1833,37 @@ function checkPotassiumCase2(order, time, selectedCase) {
   return;
 }
 
-const calculateFiltrationFraction = (order, caseId) => {
+const calculateFiltrationFraction = (
+  currentOrder,
+  caseId,
+  currentTime,
+  timeBetweenOrders
+) => {
   var ff;
-  var hct = getCurrentLab("hematocrit", caseId) / 100;
+  var hct =
+    getCurrentLab("hematocrit", caseId, currentTime, timeBetweenOrders) / 100;
   console.log("calculateFiltrationFraction : hematocrit ", hct);
-  console.log("order order ORDER: ", order);
+  console.log("order order ORDER: ", currentOrder);
 
-  switch (order["modality"]) {
+  switch (currentOrder["modality"]) {
     case "Pre-filter CVVH":
       ff =
-        ((order["Qr"] + order["grossUF"] / 1000) /
-          (((order["BFR"] * 60) / 1000) * (1 - hct) + order["Qr"])) *
+        ((currentOrder["Qr"] + currentOrder["grossUF"] / 1000) /
+          (((currentOrder["BFR"] * 60) / 1000) * (1 - hct) +
+            currentOrder["Qr"])) *
         100;
       break;
     case "Post-filter CVVH":
       ff =
-        ((order["Qr"] + order["grossUF"] / 1000) /
-          (((order["BFR"] * 60) / 1000) * (1 - hct))) *
+        ((currentOrder["Qr"] + currentOrder["grossUF"] / 1000) /
+          (((currentOrder["BFR"] * 60) / 1000) * (1 - hct))) *
         100;
       break;
     case "CVVHD":
       ff =
-        (order["grossUF"] / 1000 / (((order["BFR"] * 60) / 1000) * (1 - hct))) *
+        (currentOrder["grossUF"] /
+          1000 /
+          (((currentOrder["BFR"] * 60) / 1000) * (1 - hct))) *
         100;
       break;
   }
@@ -2170,7 +2220,7 @@ function checkGrossUltrafiltration() {
 
 function checkFilterClottingCase1() {
   var totalPoints = 0;
-  var currentFiltrationFraction = _currentOrders.filtrationFraction;
+  var currentFiltrationFraction = parseFloat(_currentOrders.filtrationFraction);
   var didClot = false;
 
   if (currentFiltrationFraction < 25) {
@@ -2184,7 +2234,7 @@ function checkFilterClottingCase1() {
   if (
     currentFiltrationFraction > 25 &&
     currentFiltrationFraction <= 30 &&
-    _currentOrders.anticoagulation === "none"
+    _currentOrders.anticoagulation === "None"
   ) {
     var msg = "The patient’s filter clotted once, and was replaced.";
     _numFiltersUsed = _numFiltersUsed + 1;
@@ -2195,7 +2245,7 @@ function checkFilterClottingCase1() {
 
   if (
     currentFiltrationFraction > 30 &&
-    _currentOrders.anticoagulation === "none"
+    _currentOrders.anticoagulation === "None"
   ) {
     // TODO: effluent is divided by 3, gross UF for 4 hours will be 0 (Not sure what to do if BFR is also modifying effluent rate and UF time)
     var msg = "The patient’s filter clotted twice, and was replaced.";
@@ -2209,16 +2259,19 @@ function checkFilterClottingCase1() {
   return didClot;
 }
 function checkFilterClottingCase2(
-  order,
+  currentOrder,
   startingWeight,
   effluentFlowRate,
   ionizedCalcium
 ) {
+  console.log("hardy har har: ", effluentFlowRate);
+  console.log("effluentFlowRate :", effluentFlowRate);
   var totalPoints = 0;
   var currentFiltrationFraction = _currentOrders.filtrationFraction;
   var didClot = false;
 
   var initialCitrateResults = runCitrateCalculations(
+    currentOrder,
     startingWeight,
     effluentFlowRate,
     ionizedCalcium
