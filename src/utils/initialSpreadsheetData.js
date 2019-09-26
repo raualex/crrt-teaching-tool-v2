@@ -352,6 +352,7 @@ export const labsInitial = {
   }
 };
 
+
 export const inputOutputInitial = {
   1: {
     fentanyl: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
@@ -479,3 +480,22 @@ export const accessPressureInitial = {
     effluentPressure: [269, 271]
   }
 };
+
+export const labsCase1 = {
+  id:1,
+  sodiumProductionRate:"0.00",
+  potassiumProductionRate:"4.30",
+  chlorideProductionRate:"0.00",
+  bicarbonateProductionRate:"-20.00",
+  BUNProductionRate:"40.00",
+  creatinineProductionRate:"3.00",
+  calciumProductionRate:"0.00",
+  filtrationFractionStarting:"0.00",
+  gender:"female",
+  usualWeight:"86.80",
+  historyOfPresentIllness:{"overview":["A 72 year old lady with a history of HTN, COPD, and DM is brought to the Emergency Department by ambulance after being found unresponsive by family members.","Upon arrival she is found to be in acute hypoxemic respiratory failure requiring emergent intubation.","Initial vital signs are temperature 39.1 C, HR 128, BP 78/53, RR 30.","A chest x-ray shows a left lower lobe infiltrate.","The patient is started on norepinephrine.","Creatinine is 2.7, up from 0.86 one month earlier.","Her urine output in the first 4 hours is 44 cc’s of urine.","The decision is made to start the patient on continuous renal replacement therapy. A 15 cm Mahurkar in the right internal jugular vein."],"pastMedicalHistory":["Hypertension","Insulin-dependent Diabetes Mellitus Type 2","COPD","CKD 3 (baseline creatinine 1.4 - 1.6)"],"pastSurgicalHistory":["Abdominal hernia repair"],"socialHistory":["Current smoker, 1/2 pack per day. Has been smoking since age 17.","No alcohol or other drug use.","Retired from work in retail."],"familyHistory":["No family history of renal disease."]},
+  vitalSigns:{"bloodPressureStarting":"78/53","respiratoryRateStarting":30,"temperatureStarting":39.1,"heartRateStarting":128,"weightStarting":102},
+  medications:[],
+  imaging:["1500: Chest X-ray","The chest x-ray shows a left lower lobe consolidation consistent with infection. The remainder of the lungs are clear."],
+  physicalExam:{"general":"Appears acutely ill","ENT":"Intubated","heart":"Tachycardic, no murmurs, rubs, or gallops","lungs":"Decreased breath sounds in the left lower lobe","abdomen":"Non-distended","extremities":"No edema","psych":"Intubated and sedated"}
+}

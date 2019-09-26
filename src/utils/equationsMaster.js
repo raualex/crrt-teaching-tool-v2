@@ -1,17 +1,13 @@
-<<<<<<< HEAD
 import {
   labsInitial,
   inputOutputInitial,
   vitalsInitial,
   productionRatesInitial,
   medicationsInitial,
-  accessPressureInitial
+  accessPressureInitial,
+  labsCase1
 } from "./initialSpreadsheetData.js";
-=======
-import { labsCase1 } from "./initialSpreadsheetData.js";
-import { mockOrderForMigrationFunctions } from './mockOrders.js';
-import { inputOutput, vitals } from './initialSpreadsheetData.js';
->>>>>>> fix-calculate-new-weight-func
+import { mockOrderForMigrationFunctions } from "./mockOrders.js";
 
 var _points = {
   bloodFlowRateInRange: [],
@@ -783,7 +779,7 @@ export function runLabs(
   newLabs = roundLabs(newLabs);
 
   saveLabValues(newLabs);
-  incrementTime();
+  // incrementTime(); //This function needs to increment time in Redux
   copyStaticLabsToHistorical(time, selectedCase);
   setNewWeight(totalHoursOfFiltration, order, selectedCase);
   setVolumeOverload();
@@ -829,7 +825,7 @@ function copyStaticLabsToHistorical(time, selectedCase) {
 }
 
 function setVolumeOverload() {
-  var usualWeight = _currentCaseStudy.startingData["usualWeight"];
+  var usualWeight = labsCase1.usualWeight;
   var currentWeight =
     _historicalVitals["weight"][_historicalVitals["weight"].length - 1];
   var overload = excelRound(
@@ -1031,7 +1027,6 @@ function calculateAdjustedEffluentFlowRate(
   ionizedCalcium,
   didClot
 ) {
-  console.log(_currentCaseStudyId, typeof _currentCaseStudyId);
   switch (_currentCaseStudyId) {
     case 1:
       console.log(
@@ -1333,7 +1328,8 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
   //       "previousSixHourTotal"
   //     ]
   //   ) / 1000;
-  var labFluidsInPastEightHoursInLiters = inputOutput['1'].previousSixHourTotal[_currentTime + 1] / 1000
+  var labFluidsInPastEightHoursInLiters =
+    inputOutputInitial["1"].previousSixHourTotal[_currentTime + 1] / 1000;
 
   totalInputInL += labFluidsInPastEightHoursInLiters;
   console.log(
@@ -1341,10 +1337,10 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
     labFluidsInPastEightHoursInLiters
   );
   console.log("totalInputInL :", totalInputInL);
-console.log(orders)
+  console.log(orders);
   if (orders.anticoagulation === "citrate") {
     var citrateFlowRateInLPerHr = orders.citrateFlowRate / 1000;
-      // parseFloat($("#citrateFlowRate").val()) / 1000;
+    // parseFloat($("#citrateFlowRate").val()) / 1000;
     var citratePastEightHoursInLiters = citrateFlowRateInLPerHr * 8;
     totalInputInL += citratePastEightHoursInLiters;
 
@@ -1355,7 +1351,7 @@ console.log(orders)
     console.log("totalInputInL :", totalInputInL);
 
     var calciumClFlowRateInLPerHr = orders.caClInfusionRate / 1000;
-      // parseFloat($("#caclInfusionRate").val()) / 1000;
+    // parseFloat($("#caclInfusionRate").val()) / 1000;
     var calciumClPastEightHoursInLiters = calciumClFlowRateInLPerHr * 8;
     totalInputInL += calciumClPastEightHoursInLiters;
 
@@ -1393,13 +1389,13 @@ console.log(orders)
     // input += parseFloat(
     //   _currentCaseStudySheet.inputOutput.elements[startingTime + i + 2]["total"]
     // );
-    input += parseFloat(inputOutput['1'].total[startingTime + i + 2])
+    input += parseFloat(inputOutputInitial["1"].total[startingTime + i + 2]);
 
     if (orders.anticoagulation === "citrate") {
       // var citFlowRate = parseFloat($("#citrateFlowRate").val());
       // var caclFlowRate = parseFloat($("#caclInfusionRate").val());
-      var citFlowRate = orders.citrateFlowRate
-      var caclFlowRate = orders.caClInfusionRate
+      var citFlowRate = orders.citrateFlowRate;
+      var caclFlowRate = orders.caClInfusionRate;
 
       if (citFlowRate) {
         input += citFlowRate;
@@ -1466,7 +1462,7 @@ console.log(orders)
   var grossFiltrationPastEightHoursInLiters =
     (orders["grossUF"] / 1000) * totalHoursOfFiltration;
   var previousWeightInKilos = parseFloat(
-    vitals["1"].weight[vitals["1"].weight.length - 1]
+    vitalsInitial["1"].weight[vitalsInitial["1"].weight.length - 1]
   );
 
   var currentWeightInKilos =
