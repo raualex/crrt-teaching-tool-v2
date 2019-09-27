@@ -63,24 +63,24 @@ var _dynamicLabs = [
   "potassium",
   "chloride",
   "bicarbonate",
-  "BUN",
+  "bun",
   "creatinine",
   "calcium",
   "ionizedCalcium",
   "magnesium",
   "phosphorous",
-  "pH",
+  "ph",
   "filtrationFraction",
   "calciumFinalPostFilter"
 ];
 var _staticLabs = [
   "lactate",
   "albumin",
-  "WBC",
+  "wbc",
   "hemoglobin",
   "hematocrit",
   "plateletCount",
-  "PC02",
+  "pc02",
   "granularCasts",
   "renalEpithelialCasts",
   "bloodCulture",
@@ -92,7 +92,7 @@ var _labs = [
   "potassium",
   "chloride",
   "bicarbonate",
-  "BUN",
+  "bun",
   "creatinine",
   "calcium",
   "ionizedCalcium",
@@ -100,7 +100,7 @@ var _labs = [
   "phosphorous",
   "calciumFinalPostFilter",
   "filtrationFraction",
-  "PH"
+  "ph"
 ];
 var _vitals = [
   "bloodPressure",
@@ -159,7 +159,7 @@ var _historicalLabs = {
   potassium: [],
   chloride: [],
   bicarbonate: [],
-  BUN: [],
+  bun: [],
   creatinine: [],
   calcium: [],
   ionizedCalcium: [],
@@ -167,14 +167,14 @@ var _historicalLabs = {
   phosphorous: [],
   calciumFinalPostFilter: [],
   filtrationFraction: [],
-  pH: [],
+  ph: [],
   lactate: [],
   albumin: [],
-  WBC: [],
+  wbc: [],
   hemoglobin: [],
   hematocrit: [],
   plateletCount: [],
-  PC02: [],
+  pc02: [],
   granularCasts: [],
   renalEpithelialCasts: [],
   bloodCulture: [],
@@ -196,13 +196,13 @@ var _dynamicLabs = [
   "potassium",
   "chloride",
   "bicarbonate",
-  "BUN",
+  "bun",
   "creatinine",
   "calcium",
   "ionizedCalcium",
   "magnesium",
   "phosphorous",
-  "pH",
+  "ph",
   "filtrationFraction"
 ];
 var _dynamicComponents = [
@@ -210,7 +210,7 @@ var _dynamicComponents = [
   "potassium",
   "chloride",
   "bicarbonate",
-  "BUN",
+  "bun",
   "creatinine",
   "calcium",
   "phosphorous",
@@ -219,11 +219,11 @@ var _dynamicComponents = [
 var _staticLabs = [
   "lactate",
   "albumin",
-  "WBC",
+  "wbc",
   "hemoglobin",
   "hematocrit",
   "plateletCount",
-  "PC02",
+  "pc02",
   "granularCasts",
   "renalEpithelialCasts",
   "bloodCulture",
@@ -663,10 +663,13 @@ export function runLabs(
   let didClot = false;
   _currentOrders = currentOrder;
   let startingWeight =
-    _historicalVitals["weight"][_historicalVitals["weight"].length - 1];
+    vitalsInitial[selectedCase.id]["weight"][
+      vitalsInitial[selectedCase.id]["weight"].length - 1
+    ];
   newLabs["ionizedCalcium"] =
-    _historicalLabs["calcium"][_historicalLabs["calcium"].length - 1] /
-    timeBetweenOrders;
+    labsInitial[selectedCase.id]["calcium"][
+      labsInitial[selectedCase.id]["calcium"].length - 1
+    ] / timeBetweenOrders;
   newLabs["filtrationFraction"] = currentOrder.filtrationFraction;
   // debugger;
   let initialEffluentFlowRate = calculateEffluentFlowRate(currentOrder);
@@ -720,10 +723,8 @@ export function runLabs(
 
   preLabChecks(effluentFlowRate, orders, time, selectedCase);
 
-  //We stopped here.
-
-  console.log("THE THING WE NEED: ", productionRates);
   let prodRateKeys = Object.keys(productionRates);
+
   for (var i = 0; i < prodRateKeys.length; i++) {
     console.log(
       "calculateLab(): component: ",
@@ -731,13 +732,13 @@ export function runLabs(
     );
     console.log(
       "calculateLab(): initialValue: ",
-      _historicalLabs[productionRates[prodRateKeys[i]]][
-        _historicalLabs[productionRates[prodRateKeys[i]]].length - 1
+      labsInitial[selectedCase.id][prodRateKeys[i]][
+        labsInitial[selectedCase.id][prodRateKeys[i]].length - 1
       ]
     );
     console.log(
       "calculateLab(): dialysate: ",
-      currentOrder.fluidDialysateValues[productionRates[prodRateKeys[i]]]
+      currentOrder.fluidDialysateValues[prodRateKeys[i]]
     );
     console.log("calculateLab(): effluentFlowRate: ", effluentFlowRate);
     console.log("calculateLab(): time: ", currentOrder["timeToNextLabs"]);
@@ -749,32 +750,35 @@ export function runLabs(
     );
 
     // NOTE: Params for calculateLab(): initialValue, dialysate, effluentFlowRate, time, weight, volumeOfDistribution, productionRate
-
-    newLabs[productionRates[prodRateKeys[i]]] = calculateLab(
+    console.log(
+      "THE THING WE NEED: ",
+      productionRatesInitial[selectedCase.id][prodRateKeys[i]],
+      prodRateKeys[i]
+    );
+    newLabs[prodRateKeys[i]] = calculateLab(
       parseFloat(
-        _historicalLabs[productionRates[prodRateKeys[i]]][
-          _historicalLabs[productionRates[prodRateKeys[i]]].length - 1
+        labsInitial[selectedCase.id][prodRateKeys[i]][
+          labsInitial[selectedCase.id][prodRateKeys[i]].length - 1
         ]
       ),
-      parseFloat(
-        currentOrder.fluidDialysateValues[productionRates[prodRateKeys[i]]]
-      ),
+      parseFloat(currentOrder.fluidDialysateValues[prodRateKeys[i]]),
       parseFloat(effluentFlowRate),
       parseFloat(currentOrder["timeToNextLabs"]),
       parseFloat(startingWeight),
       parseFloat(volumeOfDistribution),
-      parseFloat(productionRates[prodRateKeys[i]])
-    );
-    console.log(
-      "WEEEEEEEEEEE newLabs[productionRates[i].component]",
-      newLabs[productionRates[prodRateKeys[i]]]
+      parseFloat(productionRatesInitial[selectedCase.id][prodRateKeys[i]][0])
     );
     console.log("newLabs : ", newLabs);
   }
 
   // NOTE: Because sodium calculations are a bit different than other lab values, we need to recalculate
   // sodium using the calculateSodium() function.
-  newLabs["sodium"] = calculateSodium(volumeOfDistribution, effluentFlowRate);
+  newLabs["sodium"] = calculateSodium(
+    volumeOfDistribution,
+    effluentFlowRate,
+    selectedCase,
+    startingWeight
+  );
   // NOTE: If we're using sodium phosphate, we need to recalculate the phosphorous results
   if (currentOrder.otherFluidsSodiumPhosphate) {
     console.log("runLabs : using sodium phosphate");
@@ -821,7 +825,7 @@ function roundLabs(newLabs) {
   newLabs["potassium"] = Number.parseFloat(newLabs["potassium"]).toFixed(1);
   newLabs["chloride"] = Number.parseFloat(newLabs["chloride"]).toFixed(0);
   newLabs["bicarbonate"] = Number.parseFloat(newLabs["bicarbonate"]).toFixed(0);
-  newLabs["BUN"] = Number.parseFloat(newLabs["BUN"]).toFixed(0);
+  newLabs["bun"] = Number.parseFloat(newLabs["bun"]).toFixed(0);
   newLabs["creatinine"] = Number.parseFloat(newLabs["creatinine"]).toFixed(2);
   newLabs["calcium"] = Number.parseFloat(newLabs["calcium"]).toFixed(1);
   newLabs["ionizedCalcium"] = Number.parseFloat(
@@ -863,7 +867,12 @@ function setVolumeOverload() {
   _historicalOverload.push(overload);
 }
 
-function calculateSodium(volumeOfDistribution, effluentFlowRate) {
+function calculateSodium(
+  volumeOfDistribution,
+  effluentFlowRate,
+  selectedCase,
+  startingWeight
+) {
   console.log(
     "calculateSodium params: " + volumeOfDistribution,
     effluentFlowRate
@@ -879,12 +888,11 @@ function calculateSodium(volumeOfDistribution, effluentFlowRate) {
 
   // default initial sodium is the previous historical value.
   var initialSodium = parseFloat(
-    _historicalLabs["sodium"][_historicalLabs["sodium"].length - 1]
+    labsInitial[selectedCase.id]["sodium"][
+      labsInitial[selectedCase.id]["sodium"].length - 1
+    ]
   );
 
-  var startingWeight = parseFloat(
-    _historicalVitals["weight"][_historicalVitals["weight"].length - 1]
-  );
   var threePercentSalineConcentration;
 
   // default dialysate value is the user entered value

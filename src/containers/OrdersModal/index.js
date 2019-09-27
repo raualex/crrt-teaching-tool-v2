@@ -313,7 +313,7 @@ export class OrdersModal extends Component {
         calcium,
         magnesium,
         phosphorous,
-        BUN: 0,
+        bun: 0,
         creatinine: 0
       },
       modality,
