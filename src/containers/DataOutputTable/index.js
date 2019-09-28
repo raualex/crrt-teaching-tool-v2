@@ -20,14 +20,18 @@ export class DataOutputTable extends Component {
     return modalNameArr.join("");
   };
 
-  mapArrayValuesForTables = arr => {
-    return arr.map(outputNum => {
-      return (
-        <td className="table-key" key={uuidv4()}>
-          {outputNum}
-        </td>
-      );
-    });
+  mapArrayValuesForTables = (labDataArr, lengthNum) => {
+    console.log(labDataArr)
+    return labDataArr.reduce((acc, outputNum, index) => {
+      if (index < lengthNum) {
+        acc.push(
+          <td className="table-key" key={uuidv4()}>
+            {outputNum}
+          </td>
+        );
+      }
+      return acc
+    },[]);
   };
 
   createTableColumnHeaders = arrNum => {
@@ -123,7 +127,8 @@ export class DataOutputTable extends Component {
               {keyName}
             </td>
             {this.mapArrayValuesForTables(
-              mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys]
+              mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys],
+              labData.sodium.length
             )}
           </tr>
         );
@@ -164,7 +169,8 @@ export class DataOutputTable extends Component {
                {keyName}
               </td>
               {this.mapArrayValuesForTables(
-                labData[newKeyName]
+                labData[newKeyName],
+                labData.sodium.length
                 // mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys]
               )}
             </tr>
