@@ -77,12 +77,32 @@ export class OrdersModal extends Component {
         selectedCase,
         labData
       );
-      const resultsMessages = this.checkCurrentOrderResults();
 
+      const resultsMessages = this.checkCurrentOrderResults();
+        console.log(newLabData)
+      calculateLabData(this.addNewLabDataToPreviousLabData(labData, newLabData))
       addResultsMessagesToOrder(resultsMessages, currentOrder);
       this.incrementTimeBetweenOrders();
       closeOrdersModal();
     }
+  }
+
+  addNewLabDataToPreviousLabData = (oldLabData, newLabData) => {
+    let finalLabData = oldLabData;
+    finalLabData.sodium = [...oldLabData.sodium, parseFloat(newLabData.sodium)]
+    finalLabData.potassium = [...oldLabData.potassium, parseFloat(newLabData.potassium)]
+    finalLabData.chloride = [...oldLabData.chloride, parseFloat(newLabData.chloride)]
+    finalLabData.bicarbonate = [...oldLabData.bicarbonate, parseFloat(newLabData.bicarbonate)]
+    finalLabData.bun = [...oldLabData.bun, parseFloat(newLabData.bun)]
+    finalLabData.creatinine = [...oldLabData.creatinine, parseFloat(newLabData.creatinine)]
+    finalLabData.calcium = [...oldLabData.calcium, parseFloat(newLabData.calcium)]
+    finalLabData.phosphorous = [...oldLabData.phosphorous, parseFloat(newLabData.phosphorous)]
+    finalLabData.filtrationFraction = [...oldLabData.filtrationFraction, parseFloat(newLabData.filtrationFraction)]
+    finalLabData.ionizedCalcium = [...oldLabData.ionizedCalcium, parseFloat(newLabData.ionizedCalcium)]
+    finalLabData.magnesium = [...oldLabData.magnesium, parseFloat(newLabData.magnesium)]
+    finalLabData.ph = [...oldLabData.ph, parseFloat(newLabData.ph)]
+
+    return finalLabData
   }
 
   checkCurrentOrderResults = () => {

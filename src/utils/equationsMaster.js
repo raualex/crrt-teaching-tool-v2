@@ -719,7 +719,6 @@ export function runLabs(
   );
   console.log("volumeOfDistribution: ", volumeOfDistribution);
   var productionRates = productionRatesInitial[selectedCase.id];
-  console.log("Sasaaaaaaaaa productionRates: ", productionRates);
 
   preLabChecks(effluentFlowRate, orders, time, selectedCase);
 
@@ -750,11 +749,7 @@ export function runLabs(
     );
 
     // NOTE: Params for calculateLab(): initialValue, dialysate, effluentFlowRate, time, weight, volumeOfDistribution, productionRate
-    console.log(
-      "THE THING WE NEED: ",
-      productionRatesInitial[selectedCase.id][prodRateKeys[i]],
-      prodRateKeys[i]
-    );
+
     newLabs[prodRateKeys[i]] = calculateLab(
       parseFloat(
         labsInitial[selectedCase.id][prodRateKeys[i]][
@@ -801,7 +796,7 @@ export function runLabs(
     newLabs["calciumFinalPostFilter"] =
       citrateResults["calciumFinalPostFilter"];
   }
-  newLabs["pH"] = calculatePH(
+  newLabs["ph"] = calculatePH(
     newLabs["bicarbonate"],
     selectedCase,
     time.currentTime,
@@ -809,15 +804,15 @@ export function runLabs(
   );
 
   newLabs = roundLabs(newLabs);
-
-  saveLabValues(newLabs);
-  // incrementTime(); //This function needs to increment time in Redux
-  copyStaticLabsToHistorical(time, selectedCase);
-  setNewWeight(totalHoursOfFiltration, currentOrder, selectedCase);
-  setVolumeOverload();
-  setPageVariables();
-  postLabChecks(orders, time, selectedCase);
-  processMessages();
+  // saveLabValues(newLabs);
+  // // incrementTime(); //This function needs to increment time in Redux
+  // copyStaticLabsToHistorical(time, selectedCase);
+  // setNewWeight(totalHoursOfFiltration, currentOrder, selectedCase);
+  // setVolumeOverload();
+  // setPageVariables();
+  // postLabChecks(orders, time, selectedCase);
+  // processMessages();
+  return newLabs
 }
 
 function roundLabs(newLabs) {
@@ -2272,7 +2267,6 @@ function checkFilterClottingCase2(
   effluentFlowRate,
   ionizedCalcium
 ) {
-  console.log("hardy har har: ", effluentFlowRate);
   console.log("effluentFlowRate :", effluentFlowRate);
   var totalPoints = 0;
   var currentFiltrationFraction = _currentOrders.filtrationFraction;

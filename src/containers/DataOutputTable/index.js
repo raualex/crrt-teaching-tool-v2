@@ -107,8 +107,8 @@ export class DataOutputTable extends Component {
     let modalNameForClass = selectedModal.replace(/\s/g, "-");
     let modalNameForKeys;
     let modalTableRowKeys;
-    let rowsNumber =
-      mockReduxOrdersForModal.mockReduxOrdersForModal["Vitals"].length;
+    let rowsNumber = 2;
+      // mockReduxOrdersForModal.mockReduxOrdersForModal["Vitals"].length;
 
     if (
       selectedModal === "Input/Output" ||
