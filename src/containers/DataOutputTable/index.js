@@ -3,6 +3,7 @@ import "./DataOutputTable.css";
 import { connect } from "react-redux";
 import modalKeys from "../../utils/dataOutputTableKeys.js";
 import { mockReduxOrdersForModal } from "../../utils/mockOrders.js";
+import { conditionalExpression } from "@babel/types";
 const uuidv4 = require("uuid/v4");
 
 export class DataOutputTable extends Component {
@@ -21,8 +22,7 @@ export class DataOutputTable extends Component {
   };
 
   mapArrayValuesForTables = (labDataArr, lengthNum) => {
-    console.log(labDataArr)
-    return labDataArr.reduce((acc, outputNum, index) => {
+    let finalLabs = labDataArr.reduce((acc, outputNum, index) => { 
       if (index < lengthNum) {
         acc.push(
           <td className="table-key" key={uuidv4()}>
@@ -30,8 +30,18 @@ export class DataOutputTable extends Component {
           </td>
         );
       }
+
       return acc
     },[]);
+
+    while(finalLabs.length < lengthNum) {
+      finalLabs.push(
+        <td className="table-key" key={uuidv4()}>
+          {" "}
+        </td>
+      );
+    }
+    return finalLabs
   };
 
   createTableColumnHeaders = arrNum => {
