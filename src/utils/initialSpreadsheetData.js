@@ -1,6 +1,6 @@
 export const labsInitial = {
   1: {
-    time: [-2, -1],
+    time: ['Pre-CRRT 1', 'Pre-CRRT 2'],
     labNum: [-2, -1],
     sodium: [145, 145],
     potassium: [3.6, 3.4],
@@ -118,7 +118,7 @@ export const labsInitial = {
     urineCulture: ["No Growth"]
   },
   2: {
-    time: [-2, -1],
+    time: ['Pre-CRRT 1', 'Pre-CRRT 2',],
     labNum: [-2, -1],
     sodium: [145, 145],
     potassium: [3.6, 3.4],

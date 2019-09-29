@@ -45,11 +45,12 @@ export class DataOutputTable extends Component {
   };
 
   createTableColumnHeaders = arrNum => {
+    let { labData } = this.props
     let finalArr = [];
     for (var i = 0; i < arrNum; i++) {
       finalArr.push(
         <th key={uuidv4()} className="blank-table-head">
-          {"Timestamp"}
+          {labData.time[i]}
         </th>
       );
     }

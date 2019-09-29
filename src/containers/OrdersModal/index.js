@@ -89,6 +89,8 @@ export class OrdersModal extends Component {
 
   addNewLabDataToPreviousLabData = (oldLabData, newLabData) => {
     let finalLabData = oldLabData;
+
+    finalLabData.time = [...oldLabData.time, newLabData.time]
     finalLabData.sodium = [...oldLabData.sodium, parseFloat(newLabData.sodium)]
     finalLabData.potassium = [...oldLabData.potassium, parseFloat(newLabData.potassium)]
     finalLabData.chloride = [...oldLabData.chloride, parseFloat(newLabData.chloride)]

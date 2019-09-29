@@ -802,6 +802,7 @@ export function runLabs(
     time.currentTime,
     timeBetweenOrders
   );
+  newLabs["time"] = orders[orders.length - 1].timeStamp
 
   newLabs = roundLabs(newLabs);
   // saveLabValues(newLabs);
