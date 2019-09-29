@@ -121,7 +121,7 @@ export class DataOutputTable extends Component {
     let modalNameForClass = selectedModal.replace(/\s/g, "-");
     let modalNameForKeys;
     let modalTableRowKeys;
-    let rowsNumber = 2;
+    let rowsNumber = labData.sodium.length;
       // mockReduxOrdersForModal.mockReduxOrdersForModal["Vitals"].length;
 
     if (
