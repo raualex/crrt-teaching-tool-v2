@@ -188,7 +188,7 @@ export class DataOutputTable extends Component {
         }
         return acc
       }, []);
-console.log(modalTableRowKeys)
+
       return (
         <table className={"dataot-" + modalNameForClass}>
           <thead>
