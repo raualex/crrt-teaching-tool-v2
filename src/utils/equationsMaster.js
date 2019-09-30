@@ -1525,13 +1525,13 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, t
   var data = {}
 
   var totalInputInL = 0;
-  var bolusValue = _currentOrders["otherFluidsBolusValue"];
-  var infusionValue = _currentOrders["otherFluidsInfusionValue"];
-  var otherFluidsSaline = _currentOrders["otherFluidsSaline"];
-  var otherFluidsD5W = _currentOrders["otherFluidsD5W"];
-  var otherFluidsSodiumPhosphate = _currentOrders["otherFluidsSodiumPhosphate"];
+  var bolusValue = order["otherFluidsBolusValue"];
+  var infusionValue = order["otherFluidsInfusionValue"];
+  var otherFluidsSaline = order["otherFluidsSaline"];
+  var otherFluidsD5W = order["otherFluidsD5W"];
+  var otherFluidsSodiumPhosphate = order["otherFluidsSodiumPhosphate"];
   // var labFluidsInPastEightHoursInLiters = (parseFloat(_currentCaseStudySheet.inputOutput.elements[_currentTime+1]["previousSixHourTotal"]))/1000;
-  var labFluidsInPastEightHoursInLiters = (parseFloat(inputOutputInitial[selectedCase.id].previousSixHourTotal[_currentTime+1]))/1000
+  var labFluidsInPastEightHoursInLiters = (parseFloat(inputOutputInitial[selectedCase.id].previousSixHourTotal[time+1]))/1000
 
   totalInputInL += labFluidsInPastEightHoursInLiters;
   console.log("labFluidsInPastEightHoursInLiters :", labFluidsInPastEightHoursInLiters);
@@ -1539,14 +1539,14 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, t
 
   if(order.anticoagulation === 'citrate') {
     var citrateFlowRateInLPerHr = (order.citrateFlowRate/1000);
-    var citratePastEightHoursInLiters = citrateFlowRateInLPerHr*8;
+    var citratePastEightHoursInLiters = citrateFlowRateInLPerHr*timeBetweenOrders;
     totalInputInL += citratePastEightHoursInLiters;
 
     console.log("citratePastEightHoursInLiters : ", citratePastEightHoursInLiters);
     console.log("totalInputInL :", totalInputInL);
 
     var calciumClFlowRateInLPerHr = (order.caClInfusionRate/1000);
-    var calciumClPastEightHoursInLiters = calciumClFlowRateInLPerHr*8;
+    var calciumClPastEightHoursInLiters = calciumClFlowRateInLPerHr*timeBetweenOrders;
     totalInputInL += calciumClPastEightHoursInLiters;
 
     console.log("calciumClPastEightHoursInLiters : ", calciumClPastEightHoursInLiters);
@@ -1575,8 +1575,8 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, t
     console.log("totalInputInL :", totalInputInL);
   }
 
-  var startingTime = _currentTime - 8;
-  for(var i=0;i<8;i++) {
+  var startingTime = time - 8;
+  for(var i=0;i<timeBetweenOrders;i++) {
     var input = 0;
     // input += parseFloat(_currentCaseStudySheet.inputOutput.elements[startingTime+i+2]["total"]);
     input += parseFloat(inputOutputInitial[selectedCase.id].total[startingTime+i+2]);
@@ -1615,11 +1615,10 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, t
     _historicalInputOutput["totalInput"].push(input);
   }
 
-  var startingTime = _currentTime-8;
-  var ultrafiltrationStartingTime = _currentTime - totalHoursOfFiltration;
-  var differenceBetweenStartingTimeAndHoursOfFiltration = _currentTime - totalHoursOfFiltration;
-  // debugger
-  console.log(time)
+  var startingTime = time-8;
+  var ultrafiltrationStartingTime = time - totalHoursOfFiltration;
+  var differenceBetweenStartingTimeAndHoursOfFiltration = time - totalHoursOfFiltration;
+
   // NOTE: Make sure we set the ultrafiltration rate to 0 for the time that
   // the filter is clogged.
   for (var i=0;i<differenceBetweenStartingTimeAndHoursOfFiltration;i++){
@@ -1636,7 +1635,7 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, t
   console.log(_historicalInputOutput["ultrafiltration"], "_historicalInputOutput[ultrafiltration]")
   console.log(_historicalInputOutput["totalOutput"], "_historicalInputOutput[totalOutput]")
 
-  for (var i=0;i<8;i++) {
+  for (var i=0;i<timeBetweenOrders;i++) {
     var input = _historicalInputOutput["totalInput"][i];
     var output= _historicalInputOutput["totalOutput"][i];
     _historicalInputOutput["netInputOutput"][i]=input-output;
