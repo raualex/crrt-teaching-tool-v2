@@ -808,7 +808,7 @@ export function runLabs(
   // saveLabValues(newLabs);
   // // incrementTime(); //This function needs to increment time in Redux
   // copyStaticLabsToHistorical(time, selectedCase);
-  // setNewWeight(totalHoursOfFiltration, currentOrder, selectedCase);
+  setNewWeight(totalHoursOfFiltration, currentOrder, selectedCase, time, timeBetweenOrders);
   // setVolumeOverload();
   // setPageVariables();
   // postLabChecks(orders, time, selectedCase);
@@ -1167,13 +1167,13 @@ function saveLabValues(newLabs) {
   }
 }
 
-function setNewWeight(totalHoursOfFiltration, order, selectedCase) {
+function setNewWeight(totalHoursOfFiltration, order, selectedCase, time, timeBetweenOrders) {
   // var newWeight = excelRound(
   //   calculateNewWeight(_currentOrders, totalHoursOfFiltration),
   //   2
   // );
   var newWeight = excelRound(
-    calculateNewWeight(order, totalHoursOfFiltration, selectedCase),
+    calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, timeBetweenOrders),
     2
   );
   console.log("newWeight : ", newWeight);
@@ -1333,7 +1333,7 @@ function getCitrateMetabolismFactor() {
 //   return order;
 // }
 
-export function calculateNewWeight(orders, totalHoursOfFiltration) {
+export function calculateNewWeight(orders, totalHoursOfFiltration, selectedCase, time,timeBetweenOrders) {
   // NOTE:
   // new weight = old weight + difference between input and output
   // 1L = 1Kg
@@ -1342,7 +1342,6 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
     "calculateNewWeight() : totalHoursOfFiltration : ",
     totalHoursOfFiltration
   );
-
   var data = {};
 
   var totalInputInL = 0;
@@ -1363,7 +1362,7 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
   //     ]
   //   ) / 1000;
   var labFluidsInPastEightHoursInLiters =
-    inputOutputInitial["1"].previousSixHourTotal[_currentTime + 1] / 1000;
+    inputOutputInitial[selectedCase.id].previousSixHourTotal[time.currentTime + 1] / 1000;
 
   totalInputInL += labFluidsInPastEightHoursInLiters;
   console.log(
@@ -1371,11 +1370,11 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
     labFluidsInPastEightHoursInLiters
   );
   console.log("totalInputInL :", totalInputInL);
-  console.log(orders);
+
   if (orders.anticoagulation === "citrate") {
     var citrateFlowRateInLPerHr = orders.citrateFlowRate / 1000;
     // parseFloat($("#citrateFlowRate").val()) / 1000;
-    var citratePastEightHoursInLiters = citrateFlowRateInLPerHr * 8;
+    var citratePastEightHoursInLiters = citrateFlowRateInLPerHr * timeBetweenOrders;
     totalInputInL += citratePastEightHoursInLiters;
 
     console.log(
@@ -1386,7 +1385,7 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
 
     var calciumClFlowRateInLPerHr = orders.caClInfusionRate / 1000;
     // parseFloat($("#caclInfusionRate").val()) / 1000;
-    var calciumClPastEightHoursInLiters = calciumClFlowRateInLPerHr * 8;
+    var calciumClPastEightHoursInLiters = calciumClFlowRateInLPerHr * timeBetweenOrders;
     totalInputInL += calciumClPastEightHoursInLiters;
 
     console.log(
@@ -1411,20 +1410,21 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
 
   if (infusionValue) {
     var infusionInL = infusionValue / 1000;
-    var infusionPastEightHours = infusionInL * 8;
+    var infusionPastEightHours = infusionInL * timeBetweenOrders;
     totalInputInL += infusionPastEightHours;
     console.log("infusionPastEightHours : ", infusionPastEightHours);
     console.log("totalInputInL :", totalInputInL);
   }
 
-  var startingTime = _currentTime - 8;
-  for (var i = 0; i < 8; i++) {
+  var startingTime = time.currentTime - timeBetweenOrders;
+
+  for (var i = 0; i < timeBetweenOrders; i++) {
     var input = 0;
     // input += parseFloat(
     //   _currentCaseStudySheet.inputOutput.elements[startingTime + i + 2]["total"]
     // );
-    input += parseFloat(inputOutputInitial["1"].total[startingTime + i + 2]);
-
+    input += parseFloat(inputOutputInitial[selectedCase.id].total[startingTime + i + 2]);
+    
     if (orders.anticoagulation === "citrate") {
       // var citFlowRate = parseFloat($("#citrateFlowRate").val());
       // var caclFlowRate = parseFloat($("#caclInfusionRate").val());
@@ -1458,11 +1458,12 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
     _historicalInputOutput["totalInput"].push(input);
   }
 
-  var startingTime = _currentTime - 8;
-  var ultrafiltrationStartingTime = _currentTime - totalHoursOfFiltration;
+  var startingTime = time.currentTime - timeBetweenOrders;
+  var ultrafiltrationStartingTime = time.currentTime - totalHoursOfFiltration;
   var differenceBetweenStartingTimeAndHoursOfFiltration =
-    _currentTime - totalHoursOfFiltration;
-
+  time.currentTime - totalHoursOfFiltration;
+console.log(ultrafiltrationStartingTime, "ultrafiltrationStartingTime")
+console.log(totalHoursOfFiltration, "totalHoursOfFiltration")
   // NOTE: Make sure we set the ultrafiltration rate to 0 for the time that
   // the filter is clogged.
   for (var i = 0; i < differenceBetweenStartingTimeAndHoursOfFiltration; i++) {
@@ -1479,10 +1480,12 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
       orders["grossUF"];
   }
 
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < timeBetweenOrders; i++) {
     var input = _historicalInputOutput["totalInput"][startingTime + i];
     var output = _historicalInputOutput["totalOutput"][startingTime + i];
+
     _historicalInputOutput["netInputOutput"][startingTime + i] = input - output;
+
     if (startingTime + i === 0) {
       _historicalInputOutput["cumulativeInputOutput"][startingTime + i] =
         _historicalInputOutput["netInputOutput"][startingTime + i];
@@ -1496,13 +1499,13 @@ export function calculateNewWeight(orders, totalHoursOfFiltration) {
   var grossFiltrationPastEightHoursInLiters =
     (orders["grossUF"] / 1000) * totalHoursOfFiltration;
   var previousWeightInKilos = parseFloat(
-    vitalsInitial["1"].weight[vitalsInitial["1"].weight.length - 1]
+    vitalsInitial[selectedCase.id].weight[vitalsInitial[selectedCase.id].weight.length - 1]
   );
 
   var currentWeightInKilos =
     previousWeightInKilos +
     (totalInputInL - grossFiltrationPastEightHoursInLiters);
-
+    console.log("HOPEFULLY INPUT OUTPUT DATA: ", _historicalInputOutput)
   return currentWeightInKilos;
 }
 
