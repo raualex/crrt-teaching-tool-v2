@@ -812,7 +812,7 @@ export function runLabs(
   // saveLabValues(newLabs);
   // // incrementTime(); //This function needs to increment time in Redux
   // copyStaticLabsToHistorical(time, selectedCase);
-  setNewWeight(totalHoursOfFiltration, currentOrder, selectedCase, time.currentTime, timeBetweenOrders);
+  setNewWeight(totalHoursOfFiltration, currentOrder, selectedCase, time.currentTime, timeBetweenOrders, time.currentDay);
   // setVolumeOverload();
   // setPageVariables();
   // postLabChecks(orders, time, selectedCase);
@@ -1177,13 +1177,13 @@ function saveLabValues(newLabs) {
   }
 }
 
-function setNewWeight(totalHoursOfFiltration, order, selectedCase, time, timeBetweenOrders) {
+function setNewWeight(totalHoursOfFiltration, order, selectedCase, time, timeBetweenOrders, currentDay) {
   // var newWeight = excelRound(
   //   calculateNewWeight(_currentOrders, totalHoursOfFiltration),
   //   2
   // );
   var newWeight = excelRound(
-    calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, timeBetweenOrders),
+    calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, timeBetweenOrders, currentDay),
     2
   );
   console.log("newWeight : ", newWeight);
@@ -1524,7 +1524,7 @@ function getCitrateMetabolismFactor() {
 // ----------------------------------------------------------------------------------------
 
 
-function calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, timeBetweenOrders) {
+function calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, timeBetweenOrders, currentDay) {
   // NOTE:
   // new weight = old weight + difference between input and output
   // 1L = 1Kg
@@ -1583,13 +1583,13 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, t
     console.log("infusionPastEightHours : ", infusionPastEightHours);
     console.log("totalInputInL :", totalInputInL);
   }
-
-  var startingTime = time - timeBetweenOrders;
+  var currentTimeByDay = 24 * (currentDay - 1)
+  var startingTime = (time + currentTimeByDay) - timeBetweenOrders;
   for(var i=0;i<timeBetweenOrders;i++) {
     var input = 0;
     // input += parseFloat(_currentCaseStudySheet.inputOutput.elements[startingTime+i+2]["total"]);
     input += parseFloat(inputOutputInitial[selectedCase.id].total[startingTime+i+2]);
-
+console.log("HOPEFULLY THE LAST THING WE NEED: ", inputOutputInitial[selectedCase.id].total, startingTime+i+2)
     if (order.anticoagulation === 'citrate') {
       // var citFlowRate = parseFloat($('#citrateFlowRate').val());
       // var caclFlowRate = parseFloat($('#caclInfusionRate').val());
