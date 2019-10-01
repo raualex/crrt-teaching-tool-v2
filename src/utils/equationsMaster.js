@@ -34,6 +34,8 @@ var _points = {
   }
 };
 
+var netInputOutputCounter = 1;
+var timesNetInputOutputCounterHitEight = 0;
 // NOTE:
 // _runTestMode and _runTestLabsNum can be used for testing
 // to autofill data, automatically run labs, etc.
@@ -1576,13 +1578,13 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, t
 
   if (infusionValue) {
     var infusionInL = infusionValue/1000;
-    var infusionPastEightHours = infusionInL*8;
+    var infusionPastEightHours = infusionInL*timeBetweenOrders;
     totalInputInL += infusionPastEightHours;
     console.log("infusionPastEightHours : ", infusionPastEightHours);
     console.log("totalInputInL :", totalInputInL);
   }
 
-  var startingTime = time - 8;
+  var startingTime = time - timeBetweenOrders;
   for(var i=0;i<timeBetweenOrders;i++) {
     var input = 0;
     // input += parseFloat(_currentCaseStudySheet.inputOutput.elements[startingTime+i+2]["total"]);
@@ -1649,13 +1651,33 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, t
   for (var i=0;i<timeBetweenOrders;i++) {
     var input;
     var output;
-    if(!_historicalInputOutput["netInputOutput"].length) {
+    if (netInputOutputCounter <= 8) {
+      netInputOutputCounter++
+    } else {
+      netInputOutputCounter = 1
+      timesNetInputOutputCounterHitEight++
+    }
+
+    if (
+      _historicalInputOutput["netInputOutput"].length < 8
+    ) {
       input = _historicalInputOutput["totalInput"][i];
       output = _historicalInputOutput["totalOutput"][i];
     _historicalInputOutput["netInputOutput"][i]=input-output;
+    } else if (
+      netInputOutputCounter === 1 && _historicalInputOutput["netInputOutput"].length >= 8 ||
+      netInputOutputCounter === 2 && _historicalInputOutput["netInputOutput"].length >= 8 ||
+      netInputOutputCounter === 3 && _historicalInputOutput["netInputOutput"].length >= 8 ||
+      netInputOutputCounter === 4 && _historicalInputOutput["netInputOutput"].length >= 8
+    ) {
+      console.log("less than 8: ", netInputOutputCounter)
+      input = _historicalInputOutput["totalInput"][netInputOutputCounter + timesNetInputOutputCounterHitEight];
+      output = _historicalInputOutput["totalOutput"][netInputOutputCounter + timesNetInputOutputCounterHitEight];
+    _historicalInputOutput["netInputOutput"].push(input-output);
     } else {
-      input = _historicalInputOutput["totalInput"][_historicalInputOutput["totalInput"].length - 1];
-      output = _historicalInputOutput["totalOutput"][_historicalInputOutput["totalInput"].length - 1];
+      console.log("more than 8: ", netInputOutputCounter)
+      input = _historicalInputOutput["totalInput"][netInputOutputCounter + timesNetInputOutputCounterHitEight];
+      output = _historicalInputOutput["totalOutput"][netInputOutputCounter + timesNetInputOutputCounterHitEight];
       _historicalInputOutput["netInputOutput"].push(input-output)
     }
 
@@ -2479,7 +2501,7 @@ function checkFilterClottingCase2(
     initialPostFilterIonizedCalcium <= 0.4
   ) {
     // 10% chance of a clot
-    var d = Math.Random();
+    var d = Math.random();
     if (d < 0.1) {
       didClot = true;
       totalPoints = totalPoints - 50;
@@ -2491,7 +2513,7 @@ function checkFilterClottingCase2(
     initialPostFilterIonizedCalcium <= 0.5
   ) {
     // 50% chance of a clot
-    var d = Math.Random();
+    var d = Math.random();
     if (d < 0.5) {
       didClot = true;
       totalPoints = totalPoints - 50;
