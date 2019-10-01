@@ -697,7 +697,8 @@ export function runLabs(
     newLabs["filtrationFraction"],
     startingWeight,
     newLabs["ionizedCalcium"],
-    didClot
+    didClot,
+    currentOrder
   );
   var totalHoursOfFiltration = calculateTotalHoursOfFiltration(
     selectedCase.id,
@@ -805,7 +806,7 @@ export function runLabs(
   newLabs["time"] = orders[orders.length - 1].timeStamp
 
   newLabs = roundLabs(newLabs);
-  console.log("THE THING WE NEED: ", time)
+
   // saveLabValues(newLabs);
   // // incrementTime(); //This function needs to increment time in Redux
   // copyStaticLabsToHistorical(time, selectedCase);
@@ -997,21 +998,21 @@ function calculateTotalHoursOfFiltrationCase1(
   var hoursOfFiltration = defaultHoursOfFiltration;
 
   if (
-    _currentOrders["BFR"] <= 150 ||
+    order["BFR"] <= 150 ||
     (currentFiltrationFraction > 25 &&
       currentFiltrationFraction <= 30 &&
-      _currentOrders.anticoagulation === "none")
+      order.anticoagulation === "none")
   ) {
     hoursOfFiltration = 4;
   }
 
   if (
     currentFiltrationFraction > 30 &&
-    _currentOrders.anticoagulation === "none"
+    order.anticoagulation === "none"
   ) {
     hoursOfFiltration = 2;
   }
-  if (_currentOrders.anticoagulation === "citrate") {
+  if (order.anticoagulation === "citrate") {
     var initialCitrateResults = runCitrateCalculations(
       order,
       startingWeight,
@@ -1043,7 +1044,7 @@ function calculateTotalHoursOfFiltrationCase2(
   var defaultHoursOfFiltration = 6;
   var hoursOfFiltration = defaultHoursOfFiltration;
 
-  if (_currentOrders["BFR"] < 150) {
+  if (order["BFR"] < 150) {
     hoursOfFiltration = 4;
   }
 
@@ -1060,7 +1061,8 @@ function calculateAdjustedEffluentFlowRate(
   currentFiltrationFraction,
   startingWeight,
   ionizedCalcium,
-  didClot
+  didClot,
+  order
 ) {
   switch (currentCaseId) {
     case 1:
@@ -1070,14 +1072,16 @@ function calculateAdjustedEffluentFlowRate(
           effluentFlowRate,
           currentFiltrationFraction,
           startingWeight,
-          ionizedCalcium
+          ionizedCalcium,
+          order
         )
       );
       return calculateAdjustedEffluentFlowRateCase1(
         effluentFlowRate,
         currentFiltrationFraction,
         startingWeight,
-        ionizedCalcium
+        ionizedCalcium,
+        order
       );
       break;
     case 2:
@@ -1087,7 +1091,8 @@ function calculateAdjustedEffluentFlowRate(
         currentFiltrationFraction,
         startingWeight,
         ionizedCalcium,
-        didClot
+        didClot,
+        order
       );
       break;
   }
@@ -1097,7 +1102,8 @@ function calculateAdjustedEffluentFlowRateCase1(
   effluentFlowRate,
   currentFiltrationFraction,
   startingWeight,
-  ionizedCalcium
+  ionizedCalcium,
+  order
 ) {
   var initialEFR = effluentFlowRate;
   var adjustedEFR;
@@ -1105,21 +1111,21 @@ function calculateAdjustedEffluentFlowRateCase1(
   // NOTE: these adjustments to the effluent flow rate based on BFR and filtration fraction
   // might only be applicable to case #1
   if (
-    _currentOrders["BFR"] <= 150 ||
+    order["BFR"] <= 150 ||
     (currentFiltrationFraction > 25 &&
       currentFiltrationFraction <= 30 &&
-      _currentOrders.anticoagulation === "none")
+      order.anticoagulation === "none")
   ) {
     efrAdjustment = 1.5;
   }
 
   if (
     currentFiltrationFraction > 30 &&
-    _currentOrders.anticoagulation === "none"
+    order.anticoagulation === "none"
   ) {
     efrAdjustment = 3;
   }
-  if (_currentOrders.anticoagulation === "citrate") {
+  if (order.anticoagulation === "citrate") {
     var initialCitrateResults = runCitrateCalculations(
       startingWeight,
       effluentFlowRate,
@@ -1144,7 +1150,8 @@ function calculateAdjustedEffluentFlowRateCase2(
   currentFiltrationFraction,
   startingWeight,
   ionizedCalcium,
-  didClot
+  didClot,
+  order
 ) {
   var initialEFR = effluentFlowRate;
   var adjustedEFR;
@@ -1615,40 +1622,53 @@ function calculateNewWeight(order, totalHoursOfFiltration, selectedCase, time, t
     _historicalInputOutput["totalInput"].push(input);
   }
 
-  var startingTime = time-8;
+  var startingTime = time-timeBetweenOrders;
   var ultrafiltrationStartingTime = time - totalHoursOfFiltration;
   var differenceBetweenStartingTimeAndHoursOfFiltration = time - totalHoursOfFiltration;
 
   // NOTE: Make sure we set the ultrafiltration rate to 0 for the time that
   // the filter is clogged.
-  for (var i=0;i<differenceBetweenStartingTimeAndHoursOfFiltration;i++){
-    _historicalInputOutput["ultrafiltration"][i] = 0;
-    // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in the future
-    _historicalInputOutput["totalOutput"][i] = 0;
-  }
-
-  for (var i=0;i<totalHoursOfFiltration;i++){
-    _historicalInputOutput["ultrafiltration"][ultrafiltrationStartingTime+i] = order["grossUF"];
-    // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in the future
-    _historicalInputOutput["totalOutput"][ultrafiltrationStartingTime+i] = order["grossUF"];
+  for (var i=0;i<timeBetweenOrders;i++){
+    if (
+    !_historicalInputOutput["ultrafiltration"].length ||
+    _historicalInputOutput["ultrafiltration"].length < 4 ||
+    _historicalInputOutput["ultrafiltration"][_historicalInputOutput["ultrafiltration"].length - 4] !== 0
+    ) {
+      _historicalInputOutput["ultrafiltration"].push(0);
+      // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in   the future
+      _historicalInputOutput["totalOutput"].push(0);
+    } else {
+      _historicalInputOutput["ultrafiltration"].push(order["grossUF"]);
+      // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in   the future
+      _historicalInputOutput["totalOutput"].push(order["grossUF"]);
+    }
   }
   console.log(_historicalInputOutput["ultrafiltration"], "_historicalInputOutput[ultrafiltration]")
   console.log(_historicalInputOutput["totalOutput"], "_historicalInputOutput[totalOutput]")
 
   for (var i=0;i<timeBetweenOrders;i++) {
-    var input = _historicalInputOutput["totalInput"][i];
-    var output= _historicalInputOutput["totalOutput"][i];
+    var input;
+    var output;
+    if(!_historicalInputOutput["netInputOutput"].length) {
+      input = _historicalInputOutput["totalInput"][i];
+      output = _historicalInputOutput["totalOutput"][i];
     _historicalInputOutput["netInputOutput"][i]=input-output;
+    } else {
+      input = _historicalInputOutput["totalInput"][_historicalInputOutput["totalInput"].length - 1];
+      output = _historicalInputOutput["totalOutput"][_historicalInputOutput["totalInput"].length - 1];
+      _historicalInputOutput["netInputOutput"].push(input-output)
+    }
 
-    console.log("INPUT VALUE: ", input)
-console.log("OUTPUT VALUE: ", output)
-console.log("input VALUE: ", _historicalInputOutput["totalInput"])
     if (i === 0) {
       _historicalInputOutput["cumulativeInputOutput"][i] = _historicalInputOutput["netInputOutput"][i];
     } else {
-      _historicalInputOutput["cumulativeInputOutput"][i] = _historicalInputOutput["netInputOutput"][i] + _historicalInputOutput["cumulativeInputOutput"][i-1];
+      _historicalInputOutput["cumulativeInputOutput"].push(_historicalInputOutput["netInputOutput"][_historicalInputOutput["netInputOutput"].length -1] + _historicalInputOutput["cumulativeInputOutput"][_historicalInputOutput["cumulativeInputOutput"].length - 1]);
     }
   }
+
+  console.log("INPUT VALUE: ", input)
+  console.log("OUTPUT VALUE: ", output)
+  console.log("input VALUE: ", _historicalInputOutput["totalInput"])
 
   var grossFiltrationPastEightHoursInLiters = (order["grossUF"]/1000)*totalHoursOfFiltration;
   // var previousWeightInKilos = parseFloat(_historicalVitals['weight'][_historicalVitals['weight'].length-1]);
