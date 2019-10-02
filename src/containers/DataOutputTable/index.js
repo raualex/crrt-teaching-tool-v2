@@ -21,7 +21,7 @@ export class DataOutputTable extends Component {
   };
 
   mapArrayValuesForTables = (labDataArr, lengthNum) => {
-    let finalLabs = labDataArr.reduce((acc, outputNum, index) => { 
+    let finalLabs = labDataArr.reduce((acc, outputNum, index) => {
       if (index < lengthNum) {
         acc.push(
           <td className="table-key" key={uuidv4()}>
@@ -30,21 +30,21 @@ export class DataOutputTable extends Component {
         );
       }
 
-      return acc
-    },[]);
+      return acc;
+    }, []);
 
-    while(finalLabs.length < lengthNum) {
+    while (finalLabs.length < lengthNum) {
       finalLabs.push(
         <td className="table-key" key={uuidv4()}>
           {" "}
         </td>
       );
     }
-    return finalLabs
+    return finalLabs;
   };
 
   createTableColumnHeaders = arrNum => {
-    let { labData } = this.props
+    let { labData } = this.props;
     let finalArr = [];
     for (var i = 0; i < arrNum; i++) {
       finalArr.push(
@@ -122,7 +122,7 @@ export class DataOutputTable extends Component {
     let modalNameForKeys;
     let modalTableRowKeys;
     let rowsNumber = labData.sodium.length;
-      // mockReduxOrdersForModal.mockReduxOrdersForModal["Vitals"].length;
+    // mockReduxOrdersForModal.mockReduxOrdersForModal["Vitals"].length;
 
     if (
       selectedModal === "Input/Output" ||
@@ -157,37 +157,41 @@ export class DataOutputTable extends Component {
       );
     } else if (selectedModal === "Laboratory Data") {
       modalNameForKeys = selectedModal.replace(/\s/g, "");
-      modalTableRowKeys = modalKeys[modalNameForKeys].reduce((acc, keyName, index) => {
-        let keyNoSpaces = keyName.replace(/\s/g, "")
-        let newKeyName;
+      modalTableRowKeys = modalKeys[modalNameForKeys].reduce(
+        (acc, keyName, index) => {
+          let keyNoSpaces = keyName.replace(/\s/g, "");
+          let newKeyName;
 
-        if (
-          keyNoSpaces === 'BUN' || 
-          keyNoSpaces === 'WBC' || 
-          keyNoSpaces === 'pH' || 
-          keyNoSpaces === 'PC02'
-        ) {
-          newKeyName = keyNoSpaces.toLowerCase()
-        } else {
-          newKeyName = keyNoSpaces.charAt(0).toLowerCase() + keyNoSpaces.slice(1)
-        }
+          if (
+            keyNoSpaces === "BUN" ||
+            keyNoSpaces === "WBC" ||
+            keyNoSpaces === "pH" ||
+            keyNoSpaces === "PC02"
+          ) {
+            newKeyName = keyNoSpaces.toLowerCase();
+          } else {
+            newKeyName =
+              keyNoSpaces.charAt(0).toLowerCase() + keyNoSpaces.slice(1);
+          }
 
-        if (labData[newKeyName]) {
-          acc.push(
-            <tr key={uuidv4()}>
-              <td key={uuidv4()} className={"table-key index" + index}>
-               {keyName}
-              </td>
-              {this.mapArrayValuesForTables(
-                labData[newKeyName],
-                labData.sodium.length
-                // mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys]
-              )}
-            </tr>
-          );
-        }
-        return acc
-      }, []);
+          if (labData[newKeyName]) {
+            acc.push(
+              <tr key={uuidv4()}>
+                <td key={uuidv4()} className={"table-key index" + index}>
+                  {keyName}
+                </td>
+                {this.mapArrayValuesForTables(
+                  labData[newKeyName],
+                  labData.sodium.length
+                  // mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys]
+                )}
+              </tr>
+            );
+          }
+          return acc;
+        },
+        []
+      );
 
       return (
         <table className={"dataot-" + modalNameForClass}>

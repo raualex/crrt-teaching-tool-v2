@@ -9,12 +9,18 @@ import {
   addResultsMessagesToOrder
 } from "../../Actions/ordersActions";
 import { calculateLabData } from "../../Actions/calculationActions";
+import { addMedications } from "../../Actions/medication-actions";
+import { addVitals } from "../../Actions/vitals-actions";
 import orderDosages from "../../utils/orderDosages.js";
 import InputContainer from "../../components/InputContainer";
 import { compileLabData } from "../../utils/labEquations";
 import orderWarningRanges from "../../utils/orderWarningRanges";
 import ordersResultsMessages from "../../utils/orderResultsData";
-import { runLabs } from "../../utils/equationsMaster.js";
+import {
+  runLabs,
+  getMedications,
+  getVitals
+} from "../../utils/equationsMaster.js";
 const uuidv4 = require("uuid/v4");
 
 export class OrdersModal extends Component {
@@ -57,7 +63,9 @@ export class OrdersModal extends Component {
       selectedCase,
       labData,
       addResultsMessagesToOrder,
-      time
+      time,
+      addMedications,
+      addVitals
     } = this.props;
 
     if (this.props.orders !== prevProps.orders) {
@@ -70,6 +78,8 @@ export class OrdersModal extends Component {
       // );
 
       // await calculateLabData(newLabData);
+
+      //LabData
       const newLabData = runLabs(
         orders,
         time,
@@ -79,8 +89,19 @@ export class OrdersModal extends Component {
       );
 
       const resultsMessages = this.checkCurrentOrderResults();
-        console.log(newLabData)
-      calculateLabData(this.addNewLabDataToPreviousLabData(labData, newLabData))
+      console.log(newLabData);
+      calculateLabData(
+        this.addNewLabDataToPreviousLabData(labData, newLabData)
+      );
+
+      //Medications
+      const medications = getMedications(timeBetweenOrders);
+      addMedications(medications);
+
+      //Vitals
+      const vitals = getVitals(timeBetweenOrders);
+      addVitals(vitals);
+
       addResultsMessagesToOrder(resultsMessages, currentOrder);
       this.incrementTimeBetweenOrders();
       closeOrdersModal();
@@ -90,22 +111,49 @@ export class OrdersModal extends Component {
   addNewLabDataToPreviousLabData = (oldLabData, newLabData) => {
     let finalLabData = oldLabData;
 
-    finalLabData.time = [...oldLabData.time, newLabData.time]
-    finalLabData.sodium = [...oldLabData.sodium, parseFloat(newLabData.sodium)]
-    finalLabData.potassium = [...oldLabData.potassium, parseFloat(newLabData.potassium)]
-    finalLabData.chloride = [...oldLabData.chloride, parseFloat(newLabData.chloride)]
-    finalLabData.bicarbonate = [...oldLabData.bicarbonate, parseFloat(newLabData.bicarbonate)]
-    finalLabData.bun = [...oldLabData.bun, parseFloat(newLabData.bun)]
-    finalLabData.creatinine = [...oldLabData.creatinine, parseFloat(newLabData.creatinine)]
-    finalLabData.calcium = [...oldLabData.calcium, parseFloat(newLabData.calcium)]
-    finalLabData.phosphorous = [...oldLabData.phosphorous, parseFloat(newLabData.phosphorous)]
-    finalLabData.filtrationFraction = [...oldLabData.filtrationFraction, parseFloat(newLabData.filtrationFraction)]
-    finalLabData.ionizedCalcium = [...oldLabData.ionizedCalcium, parseFloat(newLabData.ionizedCalcium)]
-    finalLabData.magnesium = [...oldLabData.magnesium, parseFloat(newLabData.magnesium)]
-    finalLabData.ph = [...oldLabData.ph, parseFloat(newLabData.ph)]
+    finalLabData.time = [...oldLabData.time, newLabData.time];
+    finalLabData.sodium = [...oldLabData.sodium, parseFloat(newLabData.sodium)];
+    finalLabData.potassium = [
+      ...oldLabData.potassium,
+      parseFloat(newLabData.potassium)
+    ];
+    finalLabData.chloride = [
+      ...oldLabData.chloride,
+      parseFloat(newLabData.chloride)
+    ];
+    finalLabData.bicarbonate = [
+      ...oldLabData.bicarbonate,
+      parseFloat(newLabData.bicarbonate)
+    ];
+    finalLabData.bun = [...oldLabData.bun, parseFloat(newLabData.bun)];
+    finalLabData.creatinine = [
+      ...oldLabData.creatinine,
+      parseFloat(newLabData.creatinine)
+    ];
+    finalLabData.calcium = [
+      ...oldLabData.calcium,
+      parseFloat(newLabData.calcium)
+    ];
+    finalLabData.phosphorous = [
+      ...oldLabData.phosphorous,
+      parseFloat(newLabData.phosphorous)
+    ];
+    finalLabData.filtrationFraction = [
+      ...oldLabData.filtrationFraction,
+      parseFloat(newLabData.filtrationFraction)
+    ];
+    finalLabData.ionizedCalcium = [
+      ...oldLabData.ionizedCalcium,
+      parseFloat(newLabData.ionizedCalcium)
+    ];
+    finalLabData.magnesium = [
+      ...oldLabData.magnesium,
+      parseFloat(newLabData.magnesium)
+    ];
+    finalLabData.ph = [...oldLabData.ph, parseFloat(newLabData.ph)];
 
-    return finalLabData
-  }
+    return finalLabData;
+  };
 
   checkCurrentOrderResults = () => {
     //checks current order's Redux labData output against ranges each case, then prints according warning messages stored in utils/orderResultsData.js
@@ -752,7 +800,10 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(validateTimeBetweenOrders(isValid)),
   calculateLabData: newLabData => dispatch(calculateLabData(newLabData)),
   addResultsMessagesToOrder: (resultsMessages, id) =>
-    dispatch(addResultsMessagesToOrder(resultsMessages, id))
+    dispatch(addResultsMessagesToOrder(resultsMessages, id)),
+  addMedications: timeBetweenOrders =>
+    dispatch(addMedications(timeBetweenOrders)),
+  addVitals: timeBetweenOrders => dispatch(addVitals(timeBetweenOrders))
 });
 
 export default connect(
