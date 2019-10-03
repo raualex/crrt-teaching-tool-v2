@@ -1907,18 +1907,36 @@ function postLabChecks(order, time, selectedCase) {
   }
 }
 
-export const getMedications = timeBetweenOrders => {
-  let medications = [];
-  for (let i = 0; i <= timeBetweenOrders; i++) {
-    medications.push(medicationsInitial[i]);
+export const getMedications = (timeBetweenOrders, selectedCaseId) => {
+  let medications = {
+    scheduledMedication: [],
+    infusions: []
+  };
+  for (let i = 0; i < timeBetweenOrders; i++) {
+    medications.scheduledMedication.push(
+      medicationsInitial[selectedCaseId].scheduledMedication[i]
+    );
+    medications.infusions.push(medicationsInitial[selectedCaseId].infusions[i]);
   }
   return medications;
 };
 
-export const getVitals = (orders, time, timeBetweenOrders, selectedCase) => {
-  let vitals = [];
-  for (let i = 0; i <= timeBetweenOrders; i++) {
-    vitals.push(vitalsInitial[i]);
+export const getVitals = (timeBetweenOrders, selectedCaseId) => {
+  let vitals = {
+    temperature: [],
+    heartRate: [],
+    respiratoryRate: [],
+    bloodPressure: [],
+    weight: []
+  };
+  for (let i = 0; i < timeBetweenOrders; i++) {
+    vitals.temperature.push(vitalsInitial[selectedCaseId].temperature[i]);
+    vitals.heartRate.push(vitalsInitial[selectedCaseId].heartRate[i]);
+    vitals.respiratoryRate.push(
+      vitalsInitial[selectedCaseId].respiratoryRate[i]
+    );
+    vitals.bloodPressure.push(vitalsInitial[selectedCaseId].bloodPressure[i]);
+    vitals.weight.push(vitalsInitial[selectedCaseId].weight[i]);
   }
   return vitals;
 };

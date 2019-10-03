@@ -1202,14 +1202,13 @@ export const medicationsInitial = {
 "thyroid (ARMOUR) 120 mg Daily",
 "Vancomycin 1250 mg IV BID"]
   ],
-
-    infusions: [
-      "Cisatracurium (2 mg/mL)",
-      "Fentanyl (50 mcg/mL)",
-      "Midazolam (1 mg/mL)",
-      "Norepinephrine (64 mcg/mL)",
-      "Vasopressin (0.4 U/mL)"
-    ]
+infusions: [
+  "Cisatracurium (2 mg/mL)",
+  "Fentanyl (50 mcg/mL)",
+  "Midazolam (1 mg/mL)",
+  "Norepinephrine (64 mcg/mL)",
+  "Vasopressin (0.4 U/mL)"
+]
   },
   2: {
     scheduledMedication: [

@@ -95,11 +95,11 @@ export class OrdersModal extends Component {
       );
 
       //Medications
-      const medications = getMedications(timeBetweenOrders);
+      const medications = getMedications(timeBetweenOrders, selectedCase.id);
       addMedications(medications);
 
       //Vitals
-      const vitals = getVitals(timeBetweenOrders);
+      const vitals = getVitals(timeBetweenOrders, selectedCase.id);
       addVitals(vitals);
 
       addResultsMessagesToOrder(resultsMessages, currentOrder);

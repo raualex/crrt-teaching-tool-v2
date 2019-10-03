@@ -10,6 +10,8 @@ import {
 } from "./ordersReducers";
 import { allCasesReducer, selectedCaseReducer } from "./case-reducers.js";
 import { calculateLabDataReducer } from "./calculation-reducers.js";
+import { medicationsReducer } from "./medications-reducer";
+import { vitalsReducer } from "./vitals-reducer";
 
 const rootReducer = combineReducers({
   isLoading: isLoadingReducer,
@@ -22,6 +24,8 @@ const rootReducer = combineReducers({
   allCases: allCasesReducer,
   selectedCase: selectedCaseReducer,
   labData: calculateLabDataReducer,
+  medications: medicationsReducer,
+  vitals: vitalsReducer,
   resultsMessages: addResultsMessagesToOrderReducer
 });
 
