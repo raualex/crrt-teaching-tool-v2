@@ -61,3 +61,15 @@ export const addResultsMessagesToOrderReducer = (state = [], action) => {
       return state;
   }
 };
+
+export const recordHourlyTimestampReducer = (
+  state = ["Pre-CRRT 1", "Pre-CRRT 2"],
+  action
+) => {
+  switch (action.type) {
+    case "RECORD_HOURLY_TIMESTAMP":
+      return [...state, ...action.timeStamps];
+    default:
+      return state;
+  }
+};

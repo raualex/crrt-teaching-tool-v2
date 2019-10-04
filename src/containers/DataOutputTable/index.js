@@ -124,39 +124,38 @@ export class DataOutputTable extends Component {
     let rowsNumber = labData.sodium.length;
     // mockReduxOrdersForModal.mockReduxOrdersForModal["Vitals"].length;
 
-    // if (
-    //   selectedModal === "Input/Output" ||
-    //   selectedModal === "Vitals" ||
-    //   selectedModal === "Medications"
-    // ) {
-    //   modalNameForKeys = selectedModal.replace(/\s/g, "");
-    //   modalTableRowKeys = modalKeys[modalNameForKeys].map((keyName, index) => {
-    //     return (
-    //       <tr key={uuidv4()}>
-    //         <td key={uuidv4()} className={"table-key index" + index}>
-    //           {keyName}
-    //         </td>
-    //         {this.mapArrayValuesForTables(
-    //           mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys],
-    //           labData.sodium.length
-    //         )}
-    //       </tr>
-    //     );
-    //   });
-
-    return (
-      <table className={"dataot-" + modalNameForClass}>
-        <thead>
-          <tr>
-            <th className="blank-table-head"></th>
-            {this.createTableColumnHeaders(rowsNumber)}
+    if (
+      selectedModal === "Input/Output" ||
+      selectedModal === "Vitals" ||
+      selectedModal === "Medications"
+    ) {
+      modalNameForKeys = selectedModal.replace(/\s/g, "");
+      modalTableRowKeys = modalKeys[modalNameForKeys].map((keyName, index) => {
+        return (
+          <tr key={uuidv4()}>
+            <td key={uuidv4()} className={"table-key index" + index}>
+              {keyName}
+            </td>
+            {this.mapArrayValuesForTables(
+              mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys],
+              labData.sodium.length
+            )}
           </tr>
-        </thead>
-        <tbody>{modalTableRowKeys}</tbody>
-      </table>
-    );
-    // } else if (selectedModal === "Laboratory Data") {
-    if (selectedModal === "Laboratory Data") {
+        );
+      });
+
+      return (
+        <table className={"dataot-" + modalNameForClass}>
+          <thead>
+            <tr>
+              <th className="blank-table-head"></th>
+              {this.createTableColumnHeaders(rowsNumber)}
+            </tr>
+          </thead>
+          <tbody>{modalTableRowKeys}</tbody>
+        </table>
+      );
+    } else if (selectedModal === "Laboratory Data") {
       modalNameForKeys = selectedModal.replace(/\s/g, "");
       modalTableRowKeys = modalKeys[modalNameForKeys].reduce(
         (acc, keyName, index) => {

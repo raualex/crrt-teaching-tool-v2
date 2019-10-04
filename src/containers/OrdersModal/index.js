@@ -6,7 +6,8 @@ import {
   setTime,
   setTimeBetweenOrders,
   validateTimeBetweenOrders,
-  addResultsMessagesToOrder
+  addResultsMessagesToOrder,
+  recordHourlyTimestamp
 } from "../../Actions/ordersActions";
 import { calculateLabData } from "../../Actions/calculationActions";
 import { addMedications } from "../../Actions/medication-actions";
@@ -63,7 +64,8 @@ export class OrdersModal extends Component {
       addResultsMessagesToOrder,
       time,
       addMedications,
-      addVitals
+      addVitals,
+      recordHourlyTimestamp
     } = this.props;
 
     if (this.props.orders !== prevProps.orders) {
@@ -102,9 +104,31 @@ export class OrdersModal extends Component {
 
       addResultsMessagesToOrder(resultsMessages, currentOrder);
       this.incrementTimeBetweenOrders();
+      recordHourlyTimestamp(
+        this.compileHourlyTimestamps(time, timeBetweenOrders)
+      );
       closeOrdersModal();
     }
   }
+
+  compileHourlyTimestamps = (time, timeBetweenOrders) => {
+    let { currentTime, currentDay } = time;
+    let finalTimeStampArray = [];
+    let startTime = currentTime;
+    let timeCounter = 0;
+
+    while (timeCounter !== timeBetweenOrders) {
+      finalTimeStampArray.push(`${startTime}:00 - Day ${currentDay}`);
+      if (startTime >= 24) {
+        startTime -= 24;
+      } else {
+        startTime++;
+      }
+      timeCounter++;
+    }
+    console.log(finalTimeStampArray, timeCounter, timeBetweenOrders);
+    return finalTimeStampArray;
+  };
 
   addNewLabDataToPreviousLabData = (oldLabData, newLabData) => {
     let finalLabData = oldLabData;
@@ -806,7 +830,9 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(addResultsMessagesToOrder(resultsMessages, id)),
   addMedications: timeBetweenOrders =>
     dispatch(addMedications(timeBetweenOrders)),
-  addVitals: timeBetweenOrders => dispatch(addVitals(timeBetweenOrders))
+  addVitals: timeBetweenOrders => dispatch(addVitals(timeBetweenOrders)),
+  recordHourlyTimestamp: timeStamps =>
+    dispatch(recordHourlyTimestamp(timeStamps))
 });
 
 export default connect(

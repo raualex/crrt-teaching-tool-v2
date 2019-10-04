@@ -24,3 +24,8 @@ export const addResultsMessagesToOrder = (messages, currentOrder) => ({
   messages,
   currentOrder
 });
+
+export const recordHourlyTimestamp = timeStamps => ({
+  type: "RECORD_HOURLY_TIMESTAMP",
+  timeStamps
+});
