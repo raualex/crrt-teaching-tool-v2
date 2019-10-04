@@ -1619,7 +1619,16 @@ function calculateNewWeight(
     console.log("totalInputInL :", totalInputInL);
   }
   var currentTimeByDay = 24 * (currentDay - 1);
-  var startingTime = time + currentTimeByDay - timeBetweenOrders;
+  var startingTime;
+
+  if (timeBetweenOrders <= 8) {
+    startingTime = time + currentTimeByDay - timeBetweenOrders
+  } else if (timeBetweenOrders > 8 && timeBetweenOrders <= 16) {
+    startingTime = time + currentTimeByDay - (timeBetweenOrders - 8)
+  } else {
+    startingTime = time + currentTimeByDay - (timeBetweenOrders - 16)
+  }
+
   for (var i = 0; i < timeBetweenOrders; i++) {
     var input = 0;
     // input += parseFloat(_currentCaseStudySheet.inputOutput.elements[startingTime+i+2]["total"]);
