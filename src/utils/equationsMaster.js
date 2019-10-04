@@ -1702,7 +1702,7 @@ function calculateNewWeight(
       netInputOutputCounter = 1;
       timesNetInputOutputCounterHitEight++;
     }
-console.log("PLEASE CHECK THIS: ", _historicalInputOutput["netInputOutput"].length, "counter: ", netInputOutputCounter)
+
     if (_historicalInputOutput["netInputOutput"].length < 8) {
       input = _historicalInputOutput["totalInput"][i];
       output = _historicalInputOutput["totalOutput"][i];
@@ -1717,7 +1717,7 @@ console.log("PLEASE CHECK THIS: ", _historicalInputOutput["netInputOutput"].leng
       (netInputOutputCounter === 4 &&
         _historicalInputOutput["netInputOutput"].length >= 8)
     ) {
-      console.log("FUKKINNNNNNNN less than 8: ", netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8));
+
       input =
         _historicalInputOutput["totalInput"][
           netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
@@ -1737,7 +1737,7 @@ console.log("PLEASE CHECK THIS: ", _historicalInputOutput["netInputOutput"].leng
       (netInputOutputCounter === 8 &&
         _historicalInputOutput["netInputOutput"].length > 8)
     ) {
-      console.log("FUKKINNNNNNNN more than 8: ", netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8));
+
       input =
         _historicalInputOutput["totalInput"][
           netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
@@ -1763,10 +1763,6 @@ console.log("PLEASE CHECK THIS: ", _historicalInputOutput["netInputOutput"].leng
       );
     }
   }
-
-  console.log("INPUT VALUE: ", input);
-  console.log("OUTPUT VALUE: ", output);
-  console.log("input VALUE: ", _historicalInputOutput["totalInput"]);
 
   var grossFiltrationPastEightHoursInLiters =
     (order["grossUF"] / 1000) * totalHoursOfFiltration;
