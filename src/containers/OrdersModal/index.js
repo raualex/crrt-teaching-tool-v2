@@ -13,8 +13,6 @@ import { addMedications } from "../../Actions/medication-actions";
 import { addVitals } from "../../Actions/vitals-actions";
 import orderDosages from "../../utils/orderDosages.js";
 import InputContainer from "../../components/InputContainer";
-import { compileLabData } from "../../utils/labEquations";
-import orderWarningRanges from "../../utils/orderWarningRanges";
 import ordersResultsMessages from "../../utils/orderResultsData";
 import {
   runLabs,
@@ -161,7 +159,10 @@ export class OrdersModal extends Component {
     //if there are no warnings, add 'CRRT is running smoothly. There were no reported issues since the previous update.' to messages array
 
     // const warningRangeKeys = Object.keys(selectedCase.warningRanges);
-    const warningRangeKeys = Object.keys(orderWarningRanges);
+    const warningRangesStringified = this.props.selectedCase.warningRanges;
+    const warningRanges = JSON.parse(warningRangesStringified);
+
+    const warningRangeKeys = Object.keys(warningRanges);
     const defaultMessage =
       "CRRT is running smoothly. There were no reported issues since the previous update.";
     let messages = [];
@@ -197,8 +198,9 @@ export class OrdersModal extends Component {
   checkResultsForBelowRange = medication => {
     const { labData } = this.props;
     let message = "";
-    // const { warningRanges } = this.props.selectedCase;
-    const warningRanges = orderWarningRanges;
+    const warningRangesStringified = this.props.selectedCase.warningRanges;
+    const warningRanges = JSON.parse(warningRangesStringified);
+
     if (labData[medication]) {
       const mostRecentLabResult =
         labData[medication][labData[medication].length - 1];
@@ -218,8 +220,9 @@ export class OrdersModal extends Component {
   checkResultsForAboveRange = medication => {
     const { labData } = this.props;
     let message = "";
-    // const { warningRanges } = this.props.selectedCase;
-    const warningRanges = orderWarningRanges;
+    const warningRangesStringified = this.props.selectedCase.warningRanges;
+    const warningRanges = JSON.parse(warningRangesStringified);
+
     if (labData[medication]) {
       const mostRecentLabResult =
         labData[medication][labData[medication].length - 1];
