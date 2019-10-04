@@ -34,7 +34,7 @@ var _points = {
   }
 };
 
-var netInputOutputCounter = 1;
+var netInputOutputCounter = 0;
 var timesNetInputOutputCounterHitEight = 0;
 // NOTE:
 // _runTestMode and _runTestLabsNum can be used for testing
@@ -1626,11 +1626,7 @@ function calculateNewWeight(
     input += parseFloat(
       inputOutputInitial[selectedCase.id].total[startingTime + i + 2]
     );
-    console.log(
-      "HOPEFULLY THE LAST THING WE NEED: ",
-      inputOutputInitial[selectedCase.id].total,
-      startingTime + i + 2
-    );
+
     if (order.anticoagulation === "citrate") {
       // var citFlowRate = parseFloat($('#citrateFlowRate').val());
       // var caclFlowRate = parseFloat($('#caclInfusionRate').val());
@@ -1700,13 +1696,13 @@ function calculateNewWeight(
   for (var i = 0; i < timeBetweenOrders; i++) {
     var input;
     var output;
-    if (netInputOutputCounter <= 8) {
+    if (netInputOutputCounter < 8) {
       netInputOutputCounter++;
     } else {
       netInputOutputCounter = 1;
       timesNetInputOutputCounterHitEight++;
     }
-
+console.log("PLEASE CHECK THIS: ", _historicalInputOutput["netInputOutput"].length, "counter: ", netInputOutputCounter)
     if (_historicalInputOutput["netInputOutput"].length < 8) {
       input = _historicalInputOutput["totalInput"][i];
       output = _historicalInputOutput["totalOutput"][i];
@@ -1721,25 +1717,34 @@ function calculateNewWeight(
       (netInputOutputCounter === 4 &&
         _historicalInputOutput["netInputOutput"].length >= 8)
     ) {
-      console.log("less than 8: ", netInputOutputCounter);
+      console.log("FUKKINNNNNNNN less than 8: ", netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8));
       input =
         _historicalInputOutput["totalInput"][
-          netInputOutputCounter + timesNetInputOutputCounterHitEight
+          netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
         ];
       output =
         _historicalInputOutput["totalOutput"][
-          netInputOutputCounter + timesNetInputOutputCounterHitEight
+          netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
         ];
       _historicalInputOutput["netInputOutput"].push(input - output);
-    } else {
-      console.log("more than 8: ", netInputOutputCounter);
+    } else if (
+      (netInputOutputCounter === 5 &&
+        _historicalInputOutput["netInputOutput"].length > 8) ||
+      (netInputOutputCounter === 6 &&
+        _historicalInputOutput["netInputOutput"].length > 8) ||
+      (netInputOutputCounter === 7 &&
+        _historicalInputOutput["netInputOutput"].length > 8) ||
+      (netInputOutputCounter === 8 &&
+        _historicalInputOutput["netInputOutput"].length > 8)
+    ) {
+      console.log("FUKKINNNNNNNN more than 8: ", netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8));
       input =
         _historicalInputOutput["totalInput"][
-          netInputOutputCounter + timesNetInputOutputCounterHitEight
+          netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
         ];
       output =
         _historicalInputOutput["totalOutput"][
-          netInputOutputCounter + timesNetInputOutputCounterHitEight
+          netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
         ];
       _historicalInputOutput["netInputOutput"].push(input - output);
     }
