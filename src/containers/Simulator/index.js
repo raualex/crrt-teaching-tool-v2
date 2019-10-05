@@ -2,11 +2,17 @@ import React, { Component } from "react";
 import "./Simulator.css";
 import { connect } from "react-redux";
 import { setSelectedModal } from "../../Actions/selection-actions";
-import { calculateLabData } from "../../Actions/calculationActions";
+import { 
+  calculateLabData,
+  setInputOutputData
+} from "../../Actions/calculationActions";
 import DataOutputModal from "../DataOutputModal";
 import OrdersModal from "../OrdersModal";
 import OrderResultsContainer from "../../components/OrderResultsContainer";
-import { labsInitial } from "../../utils/initialSpreadsheetData.js";
+import { 
+  labsInitial,
+  inputOutputInitial 
+} from "../../utils/initialSpreadsheetData.js";
 
 export class Simulator extends Component {
   constructor(props) {
@@ -18,10 +24,15 @@ export class Simulator extends Component {
   }
 
   componentDidMount() {
-    const { selectedCase, calculateLabData } = this.props;
+    const { 
+      selectedCase, 
+      calculateLabData,
+      setInputOutputData
+    } = this.props;
 
     if (selectedCase.id === 1 || selectedCase.id === 2) {
       calculateLabData(labsInitial[selectedCase.id]);
+      setInputOutputData(inputOutputInitial[selectedCase.id]);
     } else {
       return;
     }
@@ -323,7 +334,8 @@ export const mapStateToProps = ({
 
 export const mapDispatchToProps = dispatch => ({
   setSelectedModal: modal => dispatch(setSelectedModal(modal)),
-  calculateLabData: newLabData => dispatch(calculateLabData(newLabData))
+  calculateLabData: newLabData => dispatch(calculateLabData(newLabData)),
+  setInputOutputData: newInputOutput => dispatch(setInputOutputData(newInputOutput))
 });
 
 export default connect(

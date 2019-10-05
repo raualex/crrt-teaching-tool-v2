@@ -39,3 +39,12 @@ export const calculateLabDataReducer = (
       return state;
   }
 };
+
+export const setInputOutputReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "SET_INPUT_OUTPUT_DATA":
+      return action.newInputOutput;
+    default:
+      return state;
+  }
+}

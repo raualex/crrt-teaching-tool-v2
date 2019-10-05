@@ -190,7 +190,7 @@ var _historicalInputOutput = {
   netInputOutput: [],
   cumulativeInputOutput: [],
   citrate: [],
-  cacl: []
+  calciumChloride: []
 };
 
 var _dynamicLabs = [
@@ -825,6 +825,10 @@ export function runLabs(
   // postLabChecks(orders, time, selectedCase);
   // processMessages();
   return newLabs;
+}
+
+export function returnInputOutput() {
+  return _historicalInputOutput
 }
 
 function roundLabs(newLabs) {
@@ -1649,7 +1653,7 @@ function calculateNewWeight(
 
       if (caclFlowRate) {
         input += caclFlowRate;
-        _historicalInputOutput["cacl"].push(caclFlowRate);
+        _historicalInputOutput["calciumChloride"].push(caclFlowRate);
       }
     }
 

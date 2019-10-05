@@ -9,7 +9,10 @@ import {
   addResultsMessagesToOrder,
   recordHourlyTimestamp
 } from "../../Actions/ordersActions";
-import { calculateLabData } from "../../Actions/calculationActions";
+import { 
+  calculateLabData, 
+  setInputOutputData 
+} from "../../Actions/calculationActions";
 import { addMedications } from "../../Actions/medication-actions";
 import { addVitals } from "../../Actions/vitals-actions";
 import orderDosages from "../../utils/orderDosages.js";
@@ -18,7 +21,8 @@ import ordersResultsMessages from "../../utils/orderResultsData";
 import {
   runLabs,
   getMedications,
-  getVitals
+  getVitals,
+  returnInputOutput
 } from "../../utils/equationsMaster.js";
 const uuidv4 = require("uuid/v4");
 
@@ -88,6 +92,8 @@ export class OrdersModal extends Component {
         labData
       );
 
+      const inputOutput = returnInputOutput()
+        console.log("THIS IS IT: ", inputOutput)
       const resultsMessages = this.checkCurrentOrderResults();
       console.log(newLabData);
       calculateLabData(
@@ -826,6 +832,7 @@ export const mapDispatchToProps = dispatch => ({
   validateTimeBetweenOrders: isValid =>
     dispatch(validateTimeBetweenOrders(isValid)),
   calculateLabData: newLabData => dispatch(calculateLabData(newLabData)),
+  setInputOutputData: newInputOutput => dispatch(setInputOutputData(newInputOutput)),
   addResultsMessagesToOrder: (resultsMessages, id) =>
     dispatch(addResultsMessagesToOrder(resultsMessages, id)),
   addMedications: timeBetweenOrders =>
