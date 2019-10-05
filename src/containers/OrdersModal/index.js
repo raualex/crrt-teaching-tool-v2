@@ -93,7 +93,8 @@ export class OrdersModal extends Component {
       );
 
       const inputOutput = returnInputOutput()
-        console.log("THIS IS IT: ", inputOutput)
+      this.combineInputOutputObjects(inputOutput)
+
       const resultsMessages = this.checkCurrentOrderResults();
       console.log(newLabData);
       calculateLabData(
@@ -115,6 +116,21 @@ export class OrdersModal extends Component {
       );
       closeOrdersModal();
     }
+  }
+
+  combineInputOutputObjects = (newInputOutput) => {
+    let { inputOutputData, setInputOutputData } = this.props
+    let finalInputOutputData = inputOutputData
+
+    finalInputOutputData.citrate = [...finalInputOutputData.citrate, ...newInputOutput.citrate]
+    finalInputOutputData.calciumChloride = [...finalInputOutputData.calciumChloride, ...newInputOutput.calciumChloride]
+    finalInputOutputData.totalInput = [...finalInputOutputData.totalInput, ...newInputOutput.totalInput]
+    finalInputOutputData.ultrafiltration = [...finalInputOutputData.ultrafiltration, ...newInputOutput.ultrafiltration]
+    finalInputOutputData.totalOutput = [...finalInputOutputData.totalOutput, ...newInputOutput.totalOutput]
+    finalInputOutputData.netInputOutput = [...finalInputOutputData.netInputOutput, ...newInputOutput.netInputOutput]
+    finalInputOutputData.cumulativeInputOutput = [...finalInputOutputData.cumulativeInputOutput, ...newInputOutput.cumulativeInputOutput]
+
+    setInputOutputData(finalInputOutputData)
   }
 
   compileHourlyTimestamps = (time, timeBetweenOrders) => {
@@ -814,14 +830,16 @@ export const mapStateToProps = ({
   timeBetweenOrders,
   timeBetweenOrdersIsValid,
   selectedCase,
-  labData
+  labData,
+  inputOutputData
 }) => ({
   orders,
   time,
   timeBetweenOrders,
   timeBetweenOrdersIsValid,
   selectedCase,
-  labData
+  labData,
+  inputOutputData
 });
 
 export const mapDispatchToProps = dispatch => ({
