@@ -88,4 +88,33 @@ export const mockOrderForMigrationFunctions = {
   caClInfusionRate: 2
 }
 
+export const mockLabDataForTests = {
+  time: ['Pre-CRRT 1', 'Pre-CRRT 2', "10:00 - Day 1"],
+  labNum: [-2, -1],
+  sodium: [145, 145, 145],
+  potassium: [3.6, 3.4, 3.3],
+  chloride: [123, 116, 111],
+  bicarbonate: [14, 13, 14],
+  bun: [44, 48, 48],
+  creatinine: [2.27, 3.12, 3.1],
+  calcium: [7.7, 7.6, 7.5],
+  ionizedCalcium: [0.95, 0.97, 0.99],
+  magnesium: [1.7, 1.9, 1.2],
+  phosphorous: [4.4, 6.3, 5],
+  filtrationFraction: [null, null, 25.2],
+  calciumFinalPostFilter: [null, null, "22/6"],
+  lactate: [3.3, 6.1, 6.8],
+  albumin: [3.1],
+  wbc: [29.3, 29.3, 34.5],
+  hemoglobin: [9.4, 9.4, 10.7],
+  hematocrit: [28.5, 28.5, 32],
+  plateletCount: [48, 48, 41],
+  ph: [7.07, 7.21],
+  pc02: [46, 33, 27],
+  granularCasts: ["10-20/LPF"],
+  renalEpithelialCasts: ["5-10/HPF"],
+  bloodCulture: ["No Growth"],
+  urineCulture: ["No Growth"]
+}
+
 // export default { mockOrders, defaultState, mockReduxOrdersForModal, mockOrderForMigrationFunctions };

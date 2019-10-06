@@ -1,7 +1,7 @@
 import React from "react";
 import { OrdersModal, mapStateToProps, mapDispatchToProps } from "./";
 import { shallow } from "enzyme";
-import mockOrders from "../../utils/mockOrders";
+import { mockOrders } from "../../utils/mockOrders";
 import defaultState from "../../utils/mockOrders";
 import orderDosages from "../../utils/orderDosages.js";
 
@@ -21,7 +21,7 @@ describe("OrdersModal", () => {
       <OrdersModal
         closeOrdersModal={jest.fn()}
         setTime={jest.fn()}
-        orders={mockOrders.mockOrders}
+        orders={mockOrders}
         submitOrder={jest.fn()}
         validateTimeBetweenOrders={jest.fn()}
         hasErrored={false}
