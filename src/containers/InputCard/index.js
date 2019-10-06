@@ -26,7 +26,7 @@ class InputCard extends Component {
       dosageErrors,
       radioButtonCategory
     } = this.props;
-    const { errorMessages, dosageNames } = orderDosages;
+    const { errorMessages/*, dosageNames*/ } = orderDosages;
 
     return (
       <article className={`input-container-${type} input-container-${dosage}`}>

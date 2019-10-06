@@ -88,8 +88,4 @@ export const mockOrderForMigrationFunctions = {
   caClInfusionRate: 2
 }
 
-const mockCurrentOrdersForMigrationFunctions = {
-
-}
-
 // export default { mockOrders, defaultState, mockReduxOrdersForModal, mockOrderForMigrationFunctions };

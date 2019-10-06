@@ -45,7 +45,7 @@ var timesNetInputOutputCounterHitEight = 0;
 
 var _numFiltersUsed = 1;
 // var _currentCycleClotNumber = 0;
-var _messages = [];
+// var _messages = [];
 var _newMessages = [];
 // var _caseStudies;
 var _currentOrders;
@@ -55,8 +55,8 @@ var _currentCaseStudySheet = {};
 var _currentDose;
 var _currentTime = 10;
 // var newTime = 0;
-var _usedCitrate = false;
-var _usedCitrateFirst = false;
+let _usedCitrate = false;
+let _usedCitrateFirst = false;
 var _historicalDose = [];
 var _historicalOverload = [];
 var _caseOver = false;
@@ -75,7 +75,7 @@ var _caseOver = false;
 //   "filtrationFraction",
 //   "calciumFinalPostFilter"
 // ];
-var _staticLabs = [
+let _staticLabs = [
   "lactate",
   "albumin",
   "wbc",
@@ -135,7 +135,7 @@ var _staticLabs = [
 // var _hourlyHeaderDay = 1;
 //AEla lab-header-day-time branch end
 //ARau orders counter start
-var _ordersCounter = 0;
+// let _ordersCounter = 0;
 //ARau orders counter end
 
 // var _ordersSodium = "";
@@ -218,7 +218,8 @@ var _dynamicComponents = [
   "phosphorous",
   "magnesium"
 ];
-var _staticLabs = [
+console.log(_dynamicComponents)
+_staticLabs = [
   "lactate",
   "albumin",
   "wbc",
@@ -423,9 +424,9 @@ var _historicalVitals = {
 //   }
 // }
 
-function setPageVariables() {
+// function setPageVariables() {
   // setCRRTDisplay();
-}
+// }
 
 // // function setCRRTDisplay() {
 // //   if (_currentTime !== 0) {
@@ -649,9 +650,9 @@ export function runLabs(
   selectedCase,
   labData
 ) {
-  _ordersCounter++;
+  // _ordersCounter++;
   let newLabs = {};
-  let dialysate = {};
+  // let dialysate = {};
   // var order = getOrder(orders, time, timeBetweenOrders, selectedCase);
   let currentOrder = orders[orders.length - 1];
   currentOrder.filtrationFraction = calculateFiltrationFraction(
@@ -691,6 +692,8 @@ export function runLabs(
         newLabs["ionizedCalcium"]
       );
       break;
+    default:
+      return
   }
 
   var adjustedEffluentFlowRate = calculateAdjustedEffluentFlowRate(
@@ -812,6 +815,7 @@ export function runLabs(
   // saveLabValues(newLabs);
   // // incrementTime(); //This function needs to increment time in Redux
   // copyStaticLabsToHistorical(time, selectedCase);
+  console.log(copyStaticLabsToHistorical(time, selectedCase))
   setNewWeight(
     totalHoursOfFiltration,
     currentOrder,
@@ -821,8 +825,10 @@ export function runLabs(
     time.currentDay
   );
   // setVolumeOverload();
+  console.log(setVolumeOverload())
   // setPageVariables();
   // postLabChecks(orders, time, selectedCase);
+  console.log(postLabChecks(orders, time, selectedCase))
   // processMessages();
   return newLabs;
 }
@@ -894,7 +900,7 @@ function calculateSodium(
   var infusionValue = _currentOrders["otherFluidsInfusionValue"];
   var otherFluidsSaline = _currentOrders["otherFluidsSaline"];
   var otherFluidsD5W = _currentOrders["otherFluidsD5W"];
-  var otherFluidsSodiumPhosphate = _currentOrders["otherFluidsSodiumPhosphate"];
+  // var otherFluidsSodiumPhosphate = _currentOrders["otherFluidsSodiumPhosphate"];
   var userDialysateValue = _currentOrders.fluidDialysateValues["sodium"];
 
   // default initial sodium is the previous historical value.
@@ -996,6 +1002,8 @@ function calculateTotalHoursOfFiltration(
         didClot
       );
       // break;
+    default:
+        return
   }
 }
 
@@ -1105,6 +1113,8 @@ function calculateAdjustedEffluentFlowRate(
         order
       );
       // break;
+    default:
+      return
   }
 }
 
@@ -1225,13 +1235,13 @@ function runCitrateCalculations(
     (citrateFlowRateInLPerHr * citrateBloodConcentrationConstant) /
     ((_currentOrders["BFR"] * 60) / 1000 + citrateFlowRateInLPerHr);
   var dialysateCalcium = _currentOrders["fluidDialysateValues"]["calcium"];
-  var previousIonizedCalcium =
-    _historicalLabs["ionizedCalcium"][
-      _historicalLabs["ionizedCalcium"].length - 1
-    ];
+  // var previousIonizedCalcium =
+  //   _historicalLabs["ionizedCalcium"][
+  //     _historicalLabs["ionizedCalcium"].length - 1
+  //   ];
   var citrateInitial = citrateBloodConcentration;
   // NOTE: For now,  caCitInitial will be hard-coded.
-  var caCitInitial = 0;
+  // var caCitInitial = 0;
   var kForCaCit = 1;
   var caCitFinalPreFilter =
     (-1 * (-ionizedCalciumInitial - citrateInitial - kForCaCit) -
@@ -1362,184 +1372,6 @@ function getCitrateMetabolismFactor() {
 //   return order;
 // }
 
-// ----------------------------------------------------------------------------------------
-// export function calculateNewWeight(orders, totalHoursOfFiltration, selectedCase, time,timeBetweenOrders) {
-//   // NOTE:
-//   // new weight = old weight + difference between input and output
-//   // 1L = 1Kg
-//   // output = ultrafiltration rate = Gross fluid removal = Gross ultrafiltration
-//   console.log(
-//     "calculateNewWeight() : totalHoursOfFiltration : ",
-//     totalHoursOfFiltration
-//   );
-//   var data = {};
-
-//   var totalInputInL = 0;
-//   // var bolusValue = _currentOrders["otherFluidsBolusValue"];
-//   // var infusionValue = _currentOrders["otherFluidsInfusionValue"];
-//   // var otherFluidsSaline = _currentOrders["otherFluidsSaline"];
-//   // var otherFluidsD5W = _currentOrders["otherFluidsD5W"];
-//   // var otherFluidsSodiumPhosphate = _currentOrders["otherFluidsSodiumPhosphate"];
-//   var bolusValue = orders["otherFluidsBolusValue"];
-//   var infusionValue = orders["otherFluidsInfusionValue"];
-//   var otherFluidsSaline = orders["otherFluidsSaline"];
-//   var otherFluidsD5W = orders["otherFluidsD5W"];
-//   var otherFluidsSodiumPhosphate = orders["otherFluidsSodiumPhosphate"];
-//   // var labFluidsInPastEightHoursInLiters =
-//   //   parseFloat(
-//   //     _currentCaseStudySheet.inputOutput.elements[_currentTime + 1][
-//   //       "previousSixHourTotal"
-//   //     ]
-//   //   ) / 1000;
-//   var labFluidsInPastEightHoursInLiters =
-//     inputOutputInitial[selectedCase.id].previousSixHourTotal[time.currentTime + 1] / 1000;
-
-//   totalInputInL += labFluidsInPastEightHoursInLiters;
-//   console.log(
-//     "labFluidsInPastEightHoursInLiters :",
-//     labFluidsInPastEightHoursInLiters
-//   );
-//   console.log("totalInputInL :", totalInputInL);
-
-//   if (orders.anticoagulation === "citrate") {
-//     var citrateFlowRateInLPerHr = orders.citrateFlowRate / 1000;
-//     // parseFloat($("#citrateFlowRate").val()) / 1000;
-//     var citratePastEightHoursInLiters = citrateFlowRateInLPerHr * timeBetweenOrders;
-//     totalInputInL += citratePastEightHoursInLiters;
-
-//     console.log(
-//       "citratePastEightHoursInLiters : ",
-//       citratePastEightHoursInLiters
-//     );
-//     console.log("totalInputInL :", totalInputInL);
-
-//     var calciumClFlowRateInLPerHr = orders.caClInfusionRate / 1000;
-//     // parseFloat($("#caclInfusionRate").val()) / 1000;
-//     var calciumClPastEightHoursInLiters = calciumClFlowRateInLPerHr * timeBetweenOrders;
-//     totalInputInL += calciumClPastEightHoursInLiters;
-
-//     console.log(
-//       "calciumClPastEightHoursInLiters : ",
-//       calciumClPastEightHoursInLiters
-//     );
-//     console.log("totalInputInL :", totalInputInL);
-//   }
-
-//   if (orders.otherFluidsSodiumPhosphate) {
-//     var sodiumPhosphateInLiters = 0.1;
-//     totalInputInL += sodiumPhosphateInLiters;
-//     console.log("totalInputInL :", totalInputInL);
-//   }
-
-//   if (bolusValue) {
-//     var bolusInL = bolusValue / 1000;
-//     totalInputInL += bolusInL;
-//     console.log("bolusInL : ", bolusInL);
-//     console.log("totalInputInL :", totalInputInL);
-//   }
-
-//   if (infusionValue) {
-//     var infusionInL = infusionValue / 1000;
-//     var infusionPastEightHours = infusionInL * timeBetweenOrders;
-//     totalInputInL += infusionPastEightHours;
-//     console.log("infusionPastEightHours : ", infusionPastEightHours);
-//     console.log("totalInputInL :", totalInputInL);
-//   }
-
-//   var startingTime = time.currentTime - timeBetweenOrders;
-
-//   for (var i = 0; i < timeBetweenOrders; i++) {
-//     var input = 0;
-//     // input += parseFloat(
-//     //   _currentCaseStudySheet.inputOutput.elements[startingTime + i + 2]["total"]
-//     // );
-//     input += parseFloat(inputOutputInitial[selectedCase.id].total[startingTime + i + 2]);
-
-//     if (orders.anticoagulation === "citrate") {
-//       // var citFlowRate = parseFloat($("#citrateFlowRate").val());
-//       // var caclFlowRate = parseFloat($("#caclInfusionRate").val());
-//       var citFlowRate = orders.citrateFlowRate;
-//       var caclFlowRate = orders.caClInfusionRate;
-
-//       if (citFlowRate) {
-//         input += citFlowRate;
-//         _historicalInputOutput["citrate"].push(citFlowRate);
-//       }
-
-//       if (caclFlowRate) {
-//         input += caclFlowRate;
-//         _historicalInputOutput["cacl"].push(caclFlowRate);
-//       }
-//     }
-
-//     if (infusionValue) {
-//       input += infusionValue;
-//     }
-
-//     if (i === 0) {
-//       if (bolusValue) {
-//         input += bolusValue;
-//       }
-//       if (orders.otherFluidsSodiumPhosphate) {
-//         input += 100;
-//       }
-//     }
-
-//     _historicalInputOutput["totalInput"].push(input);
-//   }
-
-//   var startingTime = time.currentTime - timeBetweenOrders;
-//   var ultrafiltrationStartingTime = time.currentTime - totalHoursOfFiltration;
-//   var differenceBetweenStartingTimeAndHoursOfFiltration =
-//   time.currentTime - totalHoursOfFiltration;
-// console.log(ultrafiltrationStartingTime, "ultrafiltrationStartingTime")
-// console.log(totalHoursOfFiltration, "totalHoursOfFiltration")
-//   // NOTE: Make sure we set the ultrafiltration rate to 0 for the time that
-//   // the filter is clogged.
-//   for (var i = 0; i < differenceBetweenStartingTimeAndHoursOfFiltration; i++) {
-//     _historicalInputOutput["ultrafiltration"][startingTime + i] = 0;
-//     // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in the future
-//     _historicalInputOutput["totalOutput"][startingTime + i] = 0;
-//   }
-
-//   for (var i = 0; i < totalHoursOfFiltration; i++) {
-//     _historicalInputOutput["ultrafiltration"][ultrafiltrationStartingTime + i] =
-//       orders["grossUF"];
-//     // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in the future
-//     _historicalInputOutput["totalOutput"][ultrafiltrationStartingTime + i] =
-//       orders["grossUF"];
-//   }
-
-//   for (var i = 0; i < timeBetweenOrders; i++) {
-//     var input = _historicalInputOutput["totalInput"][startingTime + i];
-//     var output = _historicalInputOutput["totalOutput"][startingTime + i];
-
-//     _historicalInputOutput["netInputOutput"][startingTime + i] = input - output;
-
-//     if (startingTime + i === 0) {
-//       _historicalInputOutput["cumulativeInputOutput"][startingTime + i] =
-//         _historicalInputOutput["netInputOutput"][startingTime + i];
-//     } else {
-//       _historicalInputOutput["cumulativeInputOutput"][startingTime + i] =
-//         _historicalInputOutput["netInputOutput"][startingTime + i] +
-//         _historicalInputOutput["cumulativeInputOutput"][startingTime + i - 1];
-//     }
-//   }
-
-//   var grossFiltrationPastEightHoursInLiters =
-//     (orders["grossUF"] / 1000) * totalHoursOfFiltration;
-//   var previousWeightInKilos = parseFloat(
-//     vitalsInitial[selectedCase.id].weight[vitalsInitial[selectedCase.id].weight.length - 1]
-//   );
-
-//   var currentWeightInKilos =
-//     previousWeightInKilos +
-//     (totalInputInL - grossFiltrationPastEightHoursInLiters);
-//     console.log("HOPEFULLY INPUT OUTPUT DATA: ", _historicalInputOutput)
-//   return currentWeightInKilos;
-// }
-// ----------------------------------------------------------------------------------------
-
 function calculateNewWeight(
   order,
   totalHoursOfFiltration,
@@ -1557,14 +1389,14 @@ function calculateNewWeight(
     totalHoursOfFiltration
   );
 
-  var data = {};
+  // var data = {};
 
   var totalInputInL = 0;
   var bolusValue = order["otherFluidsBolusValue"];
   var infusionValue = order["otherFluidsInfusionValue"];
-  var otherFluidsSaline = order["otherFluidsSaline"];
-  var otherFluidsD5W = order["otherFluidsD5W"];
-  var otherFluidsSodiumPhosphate = order["otherFluidsSodiumPhosphate"];
+  // var otherFluidsSaline = order["otherFluidsSaline"];
+  // var otherFluidsD5W = order["otherFluidsD5W"];
+  // var otherFluidsSodiumPhosphate = order["otherFluidsSodiumPhosphate"];
   // var labFluidsInPastEightHoursInLiters = (parseFloat(_currentCaseStudySheet.inputOutput.elements[_currentTime+1]["previousSixHourTotal"]))/1000;
   var labFluidsInPastEightHoursInLiters =
     parseFloat(
@@ -1623,7 +1455,7 @@ function calculateNewWeight(
     console.log("totalInputInL :", totalInputInL);
   }
   var currentTimeByDay = 24 * (currentDay - 1);
-  var startingTime;
+  let startingTime;
 
   if (timeBetweenOrders <= 8) {
     startingTime = time + currentTimeByDay - timeBetweenOrders
@@ -1633,7 +1465,7 @@ function calculateNewWeight(
     startingTime = time + currentTimeByDay - (timeBetweenOrders - 16)
   }
 
-  for (var i = 0; i < timeBetweenOrders; i++) {
+  for (let i = 0; i < timeBetweenOrders; i++) {
     var input = 0;
     // input += parseFloat(_currentCaseStudySheet.inputOutput.elements[startingTime+i+2]["total"]);
     input += parseFloat(
@@ -1673,14 +1505,14 @@ function calculateNewWeight(
     _historicalInputOutput["totalInput"].push(input);
   }
 
-  var startingTime = time - timeBetweenOrders;
-  var ultrafiltrationStartingTime = time - totalHoursOfFiltration;
-  var differenceBetweenStartingTimeAndHoursOfFiltration =
-    time - totalHoursOfFiltration;
+  startingTime = time - timeBetweenOrders;
+  // var ultrafiltrationStartingTime = time - totalHoursOfFiltration;
+  // var differenceBetweenStartingTimeAndHoursOfFiltration =
+  //   time - totalHoursOfFiltration;
 
   // NOTE: Make sure we set the ultrafiltration rate to 0 for the time that
   // the filter is clogged.
-  for (var i = 0; i < timeBetweenOrders; i++) {
+  for (let i = 0; i < timeBetweenOrders; i++) {
     if (
       !_historicalInputOutput["ultrafiltration"].length ||
       _historicalInputOutput["ultrafiltration"].length < 4 ||
@@ -1706,9 +1538,9 @@ function calculateNewWeight(
     "_historicalInputOutput[totalOutput]"
   );
 
-  for (var i = 0; i < timeBetweenOrders; i++) {
-    var input;
-    var output;
+  for (let i = 0; i < timeBetweenOrders; i++) {
+    let input;
+    let output;
     if (netInputOutputCounter < 8) {
       netInputOutputCounter++;
     } else {
@@ -1812,6 +1644,8 @@ function calculateEffluentFlowRate(currentOrder) {
     case "CVVHD":
       efr = currentOrder["Qd"] + currentOrder["grossUF"] / 1000;
       break;
+    default:
+      return
   }
 
   return efr;
@@ -1845,7 +1679,7 @@ function calculateEdema(orders, selectedCase) {
 
 function getVolumeOfDistributionGenderCoefficient(selectedCase) {
   // if (_currentCaseStudy.startingData["gender"] == "male") {
-  if (selectedCase.gender == "male") {
+  if (selectedCase.gender === "male") {
     return 0.6;
   } else {
     return 0.5;
@@ -1918,6 +1752,8 @@ function postLabChecks(order, time, selectedCase) {
       checkGrossUltrafiltration();
       handleSimulationCompletion();
       break;
+    default:
+      return
   }
 }
 
@@ -1999,9 +1835,11 @@ function calculatePH(
 function checkIfUsedCitrate(order, time) {
   if (order.anticoagulation === "citrate") {
     _usedCitrate = true;
+    console.log(_usedCitrate)
 
     if (time.currentTime === 8) {
       _usedCitrateFirst = true;
+      console.log(_usedCitrateFirst)
     }
   }
 }
@@ -2197,6 +2035,8 @@ const calculateFiltrationFraction = (
           (((currentOrder["BFR"] * 60) / 1000) * (1 - hct))) *
         100;
       break;
+    default:
+      return
   }
   return excelRound(ff, 2);
 };
@@ -2614,6 +2454,7 @@ function checkFilterClottingCase2(
   );
   var initialPostFilterIonizedCalcium =
     initialCitrateResults["calciumFinalPostFilter"];
+  let d;
 
   if (_currentOrders.anticoagulation === "none") {
     var msg =
@@ -2634,7 +2475,7 @@ function checkFilterClottingCase2(
     initialPostFilterIonizedCalcium <= 0.4
   ) {
     // 10% chance of a clot
-    var d = Math.random();
+    d = Math.random();
     if (d < 0.1) {
       didClot = true;
       totalPoints = totalPoints - 50;
@@ -2646,7 +2487,7 @@ function checkFilterClottingCase2(
     initialPostFilterIonizedCalcium <= 0.5
   ) {
     // 50% chance of a clot
-    var d = Math.random();
+    d = Math.random();
     if (d < 0.5) {
       didClot = true;
       totalPoints = totalPoints - 50;
@@ -2668,7 +2509,7 @@ function checkFilterClottingCase2(
 
 function checkDose(effluentFlowRate) {
   var dose;
-  var effluentFlowRate = effluentFlowRate * 1000;
+  var newEffluentFlowRate = effluentFlowRate * 1000;
   var totalPoints;
   switch (_currentOrders["modality"]) {
     case "pre-filter-cvvh":
@@ -2676,15 +2517,17 @@ function checkDose(effluentFlowRate) {
         (((_currentOrders["BFR"] * 60) /
           1000 /
           ((_currentOrders["BFR"] * 60) / 1000 + _currentOrders["Qr"])) *
-          effluentFlowRate) /
+          newEffluentFlowRate) /
         _currentCaseStudy.startingData.usualWeight;
       break;
     case "post-filter-cvvh":
-      dose = effluentFlowRate / _currentCaseStudy.startingData.usualWeight;
+      dose = newEffluentFlowRate / _currentCaseStudy.startingData.usualWeight;
       break;
     case "cvvhd":
-      dose = effluentFlowRate / _currentCaseStudy.startingData.usualWeight;
+      dose = newEffluentFlowRate / _currentCaseStudy.startingData.usualWeight;
       break;
+    default:
+      return
   }
 
   if (dose >= 20 && dose <= 40) {
@@ -2704,6 +2547,7 @@ function checkDose(effluentFlowRate) {
   _points.doseInRange.push(totalPoints);
   // NOTE: Set dose so we have access to it in the future
   _currentDose = excelRound(dose, 1);
+  console.log(_currentDose)
   _historicalDose.push(dose);
 
   return dose;
@@ -2720,7 +2564,7 @@ function handleSimulationCompletion() {
     _historicalVitals["weight"][_historicalVitals["weight"].length - 1];
   var currentPH = _historicalLabs["pH"][_historicalLabs["pH"].length - 1];
   var resultsOverview;
-  var caseEndingTime = 90;
+  // var caseEndingTime = 90;
 
   console.log("handleSimulationCompletion : currentTime", _currentTime);
 
@@ -2753,6 +2597,7 @@ function handleSimulationCompletion() {
   if (_caseOver) {
     // console.log("case over!");
     // $("#resultsOverview").text(resultsOverview);
+    console.log(resultsOverview)
     // $("#resultsModal").modal("show");
     // $("#ordersButton").hide();
     // $("#resultsButton").show();
@@ -2996,8 +2841,8 @@ function setResultsTableVariables() {
 //   $(".citrate").hide();
 // }
 
-function processMessages() {
-  var newMessages = _newMessages;
+// function processMessages() {
+//   var newMessages = _newMessages;
   // var messageContainer = $("<ul id='testing'></ul>").addClass("card-text");
   // var time = $('<p></p>').addClass('case-time').text(currentTimeToTimestamp(false, 0));
   // var time = $("<p></p>")
@@ -3005,29 +2850,29 @@ function processMessages() {
   //   .text(`${_headerTime}:00 ${_headerTimeAmPm} - Day ${_headerDay}`);
   // messageContainer.append(time);
 
-  for (var i = 0; i < newMessages.length; i++) {
+  // for (var i = 0; i < newMessages.length; i++) {
     // var message = $("<li></li>").text(newMessages[i]);
     // messageContainer.append(message);
     // messageContainer.append("<hr>");
-  }
+  // }
 
-  if (newMessages.length === 0) {
+  // if (newMessages.length === 0) {
     // var message = $("<li></li>").text(
     //   "CRRT is running smoothly. There were no reported issues since the previous update."
     // );
     // messageContainer.append(message);
     // messageContainer.append("<hr>");
-  }
+  // }
 
-  if (newMessages.length > 0) {
-    _messages.push(newMessages);
-    _newMessages = [];
-  }
+  // if (newMessages.length > 0) {
+  //   _messages.push(newMessages);
+  //   _newMessages = [];
+  // }
 
   // messageContainer.append("<hr>");
 
   // $("#message-box").prepend(messageContainer);
-}
+// }
 
 // function currentTimeToTimestamp(showTimeElapsed, additionalOffsetInHours = 0) {
 //   var timestamp = moment(_startingTime)

@@ -87,8 +87,8 @@ export class Simulator extends Component {
       selectedCase,
       location,
       history,
-      resultsMessages,
-      orders
+      // resultsMessages,
+      // orders
     } = this.props;
     const { showOrdersModal, btnClicked } = this.state;
 
