@@ -4,10 +4,10 @@ import {
   vitalsInitial,
   productionRatesInitial,
   medicationsInitial,
-  accessPressureInitial,
+  // accessPressureInitial,
   labsCase1
 } from "./initialSpreadsheetData.js";
-import { mockOrderForMigrationFunctions } from "./mockOrders.js";
+// import { mockOrderForMigrationFunctions } from "./mockOrders.js";
 
 var _points = {
   bloodFlowRateInRange: [],
@@ -39,42 +39,42 @@ var timesNetInputOutputCounterHitEight = 0;
 // NOTE:
 // _runTestMode and _runTestLabsNum can be used for testing
 // to autofill data, automatically run labs, etc.
-var _runTestMode = true;
+// var _runTestMode = true;
 // NOTE: 16 labs is a full case for case #1
-var _runTestLabsNum = 0;
+// var _runTestLabsNum = 0;
 
 var _numFiltersUsed = 1;
-var _currentCycleClotNumber = 0;
+// var _currentCycleClotNumber = 0;
 var _messages = [];
 var _newMessages = [];
-var _caseStudies;
+// var _caseStudies;
 var _currentOrders;
 var _currentCaseStudyId;
 var _currentCaseStudy;
 var _currentCaseStudySheet = {};
 var _currentDose;
 var _currentTime = 10;
-var newTime = 0;
+// var newTime = 0;
 var _usedCitrate = false;
 var _usedCitrateFirst = false;
 var _historicalDose = [];
 var _historicalOverload = [];
 var _caseOver = false;
-var _dynamicLabs = [
-  "sodium",
-  "potassium",
-  "chloride",
-  "bicarbonate",
-  "bun",
-  "creatinine",
-  "calcium",
-  "ionizedCalcium",
-  "magnesium",
-  "phosphorous",
-  "ph",
-  "filtrationFraction",
-  "calciumFinalPostFilter"
-];
+// var _dynamicLabs = [
+//   "sodium",
+//   "potassium",
+//   "chloride",
+//   "bicarbonate",
+//   "bun",
+//   "creatinine",
+//   "calcium",
+//   "ionizedCalcium",
+//   "magnesium",
+//   "phosphorous",
+//   "ph",
+//   "filtrationFraction",
+//   "calciumFinalPostFilter"
+// ];
 var _staticLabs = [
   "lactate",
   "albumin",
@@ -88,38 +88,38 @@ var _staticLabs = [
   "bloodCulture",
   "urineCulture"
 ];
-var _allLabs = _dynamicLabs.concat(_staticLabs);
-var _labs = [
-  "sodium",
-  "potassium",
-  "chloride",
-  "bicarbonate",
-  "bun",
-  "creatinine",
-  "calcium",
-  "ionizedCalcium",
-  "magnesium",
-  "phosphorous",
-  "calciumFinalPostFilter",
-  "filtrationFraction",
-  "ph"
-];
-var _vitals = [
-  "bloodPressure",
-  "respiratoryRate",
-  "temperature",
-  "heartRate",
-  "weight"
-];
-var _physicalExam = [
-  "general",
-  "ENT",
-  "heart",
-  "lungs",
-  "abdomen",
-  "extremities",
-  "psych"
-];
+// var _allLabs = _dynamicLabs.concat(_staticLabs);
+// var _labs = [
+//   "sodium",
+//   "potassium",
+//   "chloride",
+//   "bicarbonate",
+//   "bun",
+//   "creatinine",
+//   "calcium",
+//   "ionizedCalcium",
+//   "magnesium",
+//   "phosphorous",
+//   "calciumFinalPostFilter",
+//   "filtrationFraction",
+//   "ph"
+// ];
+// var _vitals = [
+//   "bloodPressure",
+//   "respiratoryRate",
+//   "temperature",
+//   "heartRate",
+//   "weight"
+// ];
+// var _physicalExam = [
+//   "general",
+//   "ENT",
+//   "heart",
+//   "lungs",
+//   "abdomen",
+//   "extremities",
+//   "psych"
+// ];
 // NOTE: Our starting time will be 10am
 // var _startingTime = moment(0, "HH");
 // var _headerTime = 10;
@@ -138,18 +138,18 @@ var _physicalExam = [
 var _ordersCounter = 0;
 //ARau orders counter end
 
-var _ordersSodium = "";
-var _ordersPotassium = "";
-var _ordersChloride = "";
-var _ordersBicarbonate = "";
-var _ordersCalcium = "";
-var _ordersMagnesium = "";
-var _ordersPhosphorous = "";
-var _ordersGrossUltrafiltration = "";
-var _ordersBloodFlowRate = "";
-var _ordersReplacementFluidFlowRate = "";
-var _ordersCitrateFlowRate = "";
-var _ordersCaClInfusionRate = "";
+// var _ordersSodium = "";
+// var _ordersPotassium = "";
+// var _ordersChloride = "";
+// var _ordersBicarbonate = "";
+// var _ordersCalcium = "";
+// var _ordersMagnesium = "";
+// var _ordersPhosphorous = "";
+// var _ordersGrossUltrafiltration = "";
+// var _ordersBloodFlowRate = "";
+// var _ordersReplacementFluidFlowRate = "";
+// var _ordersCitrateFlowRate = "";
+// var _ordersCaClInfusionRate = "";
 
 // NOTE:
 // We are storing each of our lab values in an array. This allows
@@ -193,20 +193,20 @@ var _historicalInputOutput = {
   calciumChloride: []
 };
 
-var _dynamicLabs = [
-  "sodium",
-  "potassium",
-  "chloride",
-  "bicarbonate",
-  "bun",
-  "creatinine",
-  "calcium",
-  "ionizedCalcium",
-  "magnesium",
-  "phosphorous",
-  "ph",
-  "filtrationFraction"
-];
+// var _dynamicLabs = [
+//   "sodium",
+//   "potassium",
+//   "chloride",
+//   "bicarbonate",
+//   "bun",
+//   "creatinine",
+//   "calcium",
+//   "ionizedCalcium",
+//   "magnesium",
+//   "phosphorous",
+//   "ph",
+//   "filtrationFraction"
+// ];
 var _dynamicComponents = [
   "sodium",
   "potassium",
@@ -985,7 +985,7 @@ function calculateTotalHoursOfFiltration(
         startingWeight,
         ionizedCalcium
       );
-      break;
+      // break;
     case 2:
       return calculateTotalHoursOfFiltrationCase2(
         order,
@@ -995,7 +995,7 @@ function calculateTotalHoursOfFiltration(
         ionizedCalcium,
         didClot
       );
-      break;
+      // break;
   }
 }
 
@@ -1006,7 +1006,7 @@ function calculateTotalHoursOfFiltrationCase1(
   startingWeight,
   ionizedCalcium
 ) {
-  var initialEFR = effluentFlowRate;
+  // var initialEFR = effluentFlowRate;
   var defaultHoursOfFiltration = 6;
   var hoursOfFiltration = defaultHoursOfFiltration;
 
@@ -1050,7 +1050,7 @@ function calculateTotalHoursOfFiltrationCase2(
   ionizedCalcium,
   didClot
 ) {
-  var initialEFR = effluentFlowRate;
+  // var initialEFR = effluentFlowRate;
   var defaultHoursOfFiltration = 6;
   var hoursOfFiltration = defaultHoursOfFiltration;
 
@@ -1093,7 +1093,7 @@ function calculateAdjustedEffluentFlowRate(
         ionizedCalcium,
         order
       );
-      break;
+      // break;
     case 2:
       console.log("case 2 : calculateAdjustedEffluentFlowRateCase2()");
       return calculateAdjustedEffluentFlowRateCase2(
@@ -1104,7 +1104,7 @@ function calculateAdjustedEffluentFlowRate(
         didClot,
         order
       );
-      break;
+      // break;
   }
 }
 
@@ -1176,11 +1176,11 @@ function calculateAdjustedEffluentFlowRateCase2(
   return adjustedEFR;
 }
 
-function saveLabValues(newLabs) {
-  for (var i = 0; i < _dynamicLabs.length; i++) {
-    _historicalLabs[_dynamicLabs[i]].push(newLabs[_dynamicLabs[i]]);
-  }
-}
+// function saveLabValues(newLabs) {
+//   for (var i = 0; i < _dynamicLabs.length; i++) {
+//     _historicalLabs[_dynamicLabs[i]].push(newLabs[_dynamicLabs[i]]);
+//   }
+// }
 
 function setNewWeight(
   totalHoursOfFiltration,
@@ -2008,20 +2008,22 @@ function checkIfUsedCitrate(order, time) {
 
 function checkBloodFlowRate() {
   var totalPoints = 0;
+  var msg;
+
   if (_currentOrders["BFR"] >= 200 && _currentOrders["BFR"] <= 300) {
     console.log("checkBloodFlowRate() : within bounds ", _currentOrders["BFR"]);
     totalPoints = totalPoints + 5;
   }
 
   if (_currentOrders["BFR"] <= 150) {
-    var msg =
+    msg =
       "The patient's nurse called.  She's been having many \"Low Return Pressure Alarms\" over the past 4 hours, and the machine is not running well.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 100;
   }
 
   if (_currentOrders["BFR"] > 350) {
-    var msg =
+    msg =
       'The patient\'s nurse called to inform you of frequent "Access Pressure Extremely Low" alarms, and had to decrease BFR to 300.';
     _newMessages.push(msg);
     _currentOrders["BFR"] = 300;
@@ -2035,20 +2037,21 @@ function checkSodium() {
   var totalPoints = 0;
   var currentSodium =
     _historicalLabs["sodium"][_historicalLabs["sodium"].length - 1];
+  var msg;
   if (currentSodium >= 135 && currentSodium <= 145) {
     console.log("checkSodium() : within bounds ", currentSodium);
     totalPoints = totalPoints + 5;
   }
 
   if (currentSodium < 135) {
-    var msg =
+    msg =
       "The primary team is concerned about the patient's hyponatremia. Please modify the CRRT prescription.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 100;
   }
 
   if (currentSodium > 145) {
-    var msg =
+    msg =
       "The primary team is concerned about the patient's hypernatremia. Please modify the CRRT prescription.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 100;
@@ -2062,6 +2065,7 @@ function checkSodiumCase2() {
   var totalPoints = 0;
   var currentSodium =
     _historicalLabs["sodium"][_historicalLabs["sodium"].length - 1];
+  var msg;
 
   // Bonus 150 points if sodium is 154-156 (inclusive) after the first order
   if (_currentTime === 8 && (currentSodium >= 154 && currentSodium <= 156)) {
@@ -2074,21 +2078,21 @@ function checkSodiumCase2() {
   }
 
   if (currentSodium < 150) {
-    var msg =
+    msg =
       "The primary team is concerned about the patient's hyponatremia. Please modify the CRRT prescription.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 50;
   }
 
   if (currentSodium > 160) {
-    var msg =
+    msg =
       "The primary team is concerned about the patient's hypernatremia. Please modify the CRRT prescription.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 50;
   }
 
   if (currentSodium > 170) {
-    var msg =
+    msg =
       "The patient developed a subarachnoid hemorrhage in the hospital, and was transitioned to comfort care by the family. The sodium concentration >170 mmol/L was thought to be the main culprit. Try the scenario again, with less 3% saline";
     _caseOver = true;
     _newMessages.push(msg);
@@ -2096,7 +2100,7 @@ function checkSodiumCase2() {
   }
 
   if (currentSodium < 130) {
-    var msg =
+    msg =
       "The patient developed cerebral edema leading to brain herniation, and passed away. The sodium concentration <130 mmol/L was thought to be the etiology. Try the scenario again, without using D5W.";
     _caseOver = true;
     _newMessages.push(msg);
@@ -2132,6 +2136,7 @@ function checkPotassiumCase2(order, time, selectedCase) {
   var totalPoints = 0;
   var currentPotassium =
     _historicalLabs["potassium"][_historicalLabs["potassium"].length - 1];
+  var msg;
 
   if (currentPotassium > 3.3) {
     console.log("checkPotassium() : within bounds ", currentPotassium);
@@ -2139,7 +2144,7 @@ function checkPotassiumCase2(order, time, selectedCase) {
   }
 
   if (currentPotassium < 3.3) {
-    var msg =
+    msg =
       "The primary team is concerned about the patient’s hypokalemia.  Please modify the CRRT prescription";
     _newMessages.push(msg);
     totalPoints = totalPoints - 100;
@@ -2149,7 +2154,7 @@ function checkPotassiumCase2(order, time, selectedCase) {
     var d = Math.Random();
     if (d < 0.5) {
       _caseOver = true;
-      var msg =
+      msg =
         "The patient developed ventricular fibrillation, and resuscitation efforts were ended after 30 minutes of CPR. The patient’s extreme hypokalemia was thought to be the inciting factor. Try the case again, and make sure there is enough potassium in the replacement or dialysate fluid to maintain normal values.";
       totalPoints = totalPoints - 1000;
     }
@@ -2246,6 +2251,7 @@ function checkBicarbonateCase2() {
 function checkPH() {
   var totalPoints = 0;
   var currentPH = _historicalLabs["pH"][_historicalLabs["pH"].length - 1];
+  var msg;
 
   if (currentPH >= 7.2 && currentPH <= 7.45) {
     console.log("checkPH() : within bounds ", currentPH);
@@ -2253,27 +2259,27 @@ function checkPH() {
   }
 
   if (currentPH < 7.0) {
-    var msg = "The patient has died of overwhelming sepsis and acidosis.";
+    msg = "The patient has died of overwhelming sepsis and acidosis.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 1000;
   }
 
   if (currentPH < 7.2 && currentPH > 7.0) {
-    var msg =
+    msg =
       "The primary team called with concerns regarding the patient's ongoing acidosis.  Please modify the CRRT prescription.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 100;
   }
 
   if (currentPH > 7.45 && currentPH < 7.5) {
-    var msg =
+    msg =
       "The primary team called with concerns regarding the patient's new alkalosis.  Please modify the CRRT prescription.”";
     _newMessages.push(msg);
     totalPoints = totalPoints - 50;
   }
 
   if (currentPH > 7.5) {
-    var msg =
+    msg =
       "The ICU team is very concerned about the patient’s alkalosis.  They will be calling your attending if it is not addressed immediately.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 100;
@@ -2286,37 +2292,38 @@ function checkPH() {
 function checkPHCase2() {
   var totalPoints = 0;
   var currentPH = _historicalLabs["pH"][_historicalLabs["pH"].length - 1];
+  var msg;
 
   if (currentPH < 7.0) {
-    var msg = "The patient has died of overwhelming acidosis.";
+    msg = "The patient has died of overwhelming acidosis.";
     _newMessages.push(msg);
     _caseOver = true;
     totalPoints = totalPoints - 1000;
   }
 
   if (currentPH < 7.2 && currentPH > 7.0) {
-    var msg =
+    msg =
       "The primary team called with concerns regarding the patient's ongoing acidosis.  Please modify the CRRT prescription.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 100;
   }
 
   if (currentPH > 7.45 && currentPH < 7.55) {
-    var msg =
+    msg =
       "The primary team called with concerns regarding the patient's new alkalosis.  Please modify the CRRT prescription.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 50;
   }
 
   if (currentPH > 7.55 && currentPH < 7.65) {
-    var msg =
+    msg =
       "The ICU team is very concerned about the patient’s alkalosis.  They will be calling your attending if it is not addressed immediately.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 100;
   }
 
   if (currentPH > 7.65) {
-    var msg =
+    msg =
       "The patient developed intractable seizures, and sustained severe brain damage eventually leading to withdrawal of care. The alkalosis to > 7.65 was thought to be the inciting factor.";
     _newMessages.push(msg);
     _caseOver = true;
@@ -2333,6 +2340,7 @@ function checkCalcium() {
   var totalPoints = 0;
   var currentCalcium =
     _historicalLabs["calcium"][_historicalLabs["calcium"].length - 1];
+  var msg;
 
   if (currentCalcium >= 7.5 && currentCalcium <= 10) {
     console.log("checkCalcium() : within bounds ", currentCalcium);
@@ -2340,21 +2348,21 @@ function checkCalcium() {
   }
 
   if (currentCalcium < 7.5) {
-    var msg =
+    msg =
       "The primary team is concerned about the patient's ongoing hypocalcemia. Please modify the prescription.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 1000;
   }
 
   if (currentCalcium > 10 && currentCalcium <= 12) {
-    var msg =
+    msg =
       "The primary team is concerned about the patient's new hypercalcemia. Please modify the prescription.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 100;
   }
 
   if (currentCalcium > 12) {
-    var msg =
+    msg =
       "The ICU team is very concerned about the patient's hypercalcemia. They will be calling your attending if it is not addressed immediately.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 200;
@@ -2368,6 +2376,7 @@ function checkCalciumCase2(order) {
   var totalPoints = 0;
   var currentCalcium =
     _historicalLabs["calcium"][_historicalLabs["calcium"].length - 1];
+  var msg;
 
   if (order.anticoagulation === "citrate") {
     var currentCalciumIonized =
@@ -2398,7 +2407,7 @@ function checkCalciumCase2(order) {
   }
 
   if (currentCalcium < 6.5) {
-    var msg =
+    msg =
       "The patient developed ventricular fibrillation, and resuscitation efforts were ended after 30 minutes of CPR. The patient’s extreme hypocalcemia was thought to be the inciting factor. Try the case again, and make sure there is enough calcium in the replacement or dialysate fluid to maintain normal values.";
     _newMessages.push(msg);
     _caseOver = true;
@@ -2406,28 +2415,28 @@ function checkCalciumCase2(order) {
   }
 
   if (currentCalcium >= 6.5 && currentCalcium < 7.5) {
-    var msg =
+    msg =
       "The primary team is concerned about the patient's ongoing hypocalcemia.  Please modify the prescription.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 100;
   }
 
   if (currentCalcium > 10 && currentCalcium <= 12) {
-    var msg =
+    msg =
       "The primary team is concerned about the patient's new hypercalcemia. Please modify the prescription.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 100;
   }
 
   if (currentCalcium > 12 && currentCalcium <= 14) {
-    var msg =
+    msg =
       "The ICU team is very concerned about the patient's hypercalcemia. They will be calling your attending if it is not addressed immediately.";
     _newMessages.push(msg);
     totalPoints = totalPoints - 200;
   }
 
   if (currentCalcium > 14) {
-    var msg =
+    msg =
       "The patient developed ventricular fibrillation, and resuscitation efforts were ended after 30 minutes of CPR. The patient’s extreme hypercalcemia was thought to be the inciting factor. Try the case again. If using citrate and make sure there is enough calcium in the replacement or dialysate fluid to maintain normal values.";
     _newMessages.push(msg);
     _caseOver = true;
@@ -2463,9 +2472,10 @@ function checkMagnesiumCase2() {
   var totalPoints = 0;
   var currentMagnesium =
     _historicalLabs["magnesium"][_historicalLabs["magnesium"].length - 1];
+  var msg;
 
   if (currentMagnesium >= 1.0 && currentMagnesium < 1.4) {
-    var msg =
+    msg =
       "The primary team is concerned about the patient's hypomagnesemia, and would like you to address it";
     _newMessages.push(msg);
     totalPoints = totalPoints - 50;
@@ -2475,7 +2485,7 @@ function checkMagnesiumCase2() {
     var d = Math.Random();
     if (d < 0.2) {
       _caseOver = true;
-      var msg =
+      msg =
         "The patient developed Torsades de Pointes, and resuscitation efforts were ended after 30 minutes of CPR. The patient’s extreme hypomagnesemia was thought to be the inciting factor. Try the case again, and make sure there is enough magnesium in the replacement or dialysate fluid to maintain normal values.";
       totalPoints = totalPoints - 1000;
     }
@@ -2548,6 +2558,7 @@ function checkFilterClottingCase1() {
   var totalPoints = 0;
   var currentFiltrationFraction = parseFloat(_currentOrders.filtrationFraction);
   var didClot = false;
+  var msg;
 
   if (currentFiltrationFraction < 25) {
     console.log(
@@ -2562,7 +2573,7 @@ function checkFilterClottingCase1() {
     currentFiltrationFraction <= 30 &&
     _currentOrders.anticoagulation === "None"
   ) {
-    var msg = "The patient’s filter clotted once, and was replaced.";
+    msg = "The patient’s filter clotted once, and was replaced.";
     _numFiltersUsed = _numFiltersUsed + 1;
     _newMessages.push(msg);
     totalPoints = totalPoints - 50;
@@ -2574,7 +2585,7 @@ function checkFilterClottingCase1() {
     _currentOrders.anticoagulation === "None"
   ) {
     // TODO: effluent is divided by 3, gross UF for 4 hours will be 0 (Not sure what to do if BFR is also modifying effluent rate and UF time)
-    var msg = "The patient’s filter clotted twice, and was replaced.";
+    msg = "The patient’s filter clotted twice, and was replaced.";
     _numFiltersUsed = _numFiltersUsed + 2;
     _newMessages.push(msg);
     totalPoints = totalPoints - 100;
