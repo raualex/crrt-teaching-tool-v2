@@ -2,95 +2,50 @@ import React, { Component } from "react";
 import "./Simulator.css";
 import { connect } from "react-redux";
 import { setSelectedModal } from "../../Actions/selection-actions";
+import { 
+  calculateLabData,
+  setInputOutputData
+} from "../../Actions/calculationActions";
 import DataOutputModal from "../DataOutputModal";
 import OrdersModal from "../OrdersModal";
 import OrderResultsContainer from "../../components/OrderResultsContainer";
+import { 
+  labsInitial,
+  inputOutputInitial 
+} from "../../utils/initialSpreadsheetData.js";
 
 export class Simulator extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showOrdersModal: false,
-      btnClicked: "",
-      ordersResults: [],
-      currentTime: 0,
-      currentDay: 0,
-      amPm: "AM"
-      //each order result will be an object consisting of timestamp and array of messages
+      btnClicked: ""
     };
+  }
+
+  componentDidMount() {
+    const { 
+      selectedCase, 
+      calculateLabData,
+      setInputOutputData
+    } = this.props;
+
+    if (selectedCase.id === 1 || selectedCase.id === 2) {
+      calculateLabData(labsInitial[selectedCase.id]);
+      setInputOutputData(inputOutputInitial[selectedCase.id]);
+    } else {
+      return;
+    }
   }
 
   componentDidUpdate(prevProps) {
     const { orders } = this.props;
     // Typical usage (don't forget to compare props):
     if (orders !== prevProps.orders) {
+      /* For each order, add its results messages */
       // this.checkCurrentOrderResults()
     }
   }
-
-  // checkCurrentOrderResults = () => {
-  //   //sample orderResult
-  //   // {
-  // 	// 	timeStamp: '10:00 AM - Day 1',
-  // 	// 	messages: ['mock message','mock message']
-  //   // }
-
-  //   //checks current order's input ranges against ranges in utils/orderResultsData.js
-  //   //if there are warnings, add them to messages array
-  //   //if there are no warnings, add 'CRRT is running smoothly. There were no reported issues since the previous update.' to messages array
-
-  //   //import ordersResults from utils
-
-  //   const { orders } = this.props
-  //   let messages = [];
-  //   const currentOrder = orders[orders.length-1]
-
-  //   for(medication in currentOrder) {
-
-  //     const belowRangeMessage = checkResultsForBelowRange(currentOrder, medication)
-  //     const aboveRangeMessage = checkResultsForAboveRange(currentOrder, medication)
-
-  //     if(belowRangeMessage === aboveRangeMessage) {
-  //       messages.push(belowRangeMessage)
-  //     } else {
-  //       messages.push(belowRangeMessage)
-  //       messages.push(aboveRangeMessage)
-  //     }
-  //   }
-  //   const timeStamp = createTimeStamp()
-  //   const newOrderResults = {
-  //     timeStamp,
-  //     messages
-  //   }
-  //   const ordersResults = [...this.state.orderResults, newOrderResults]
-  //   this.setState({ ordersResults })
-  // }
-
-  // checkResultsForBelowRange = (currentOrder, medication) => {
-  //   const { concerning, urgent, lethal } = currentOrder[medication].dosageRanges.belowRange;
-  //   if(currentOrder[medication] < concerning && currentOrder[medication] > urgent) {
-  //     return ordersResults[concerning]
-  //   } else if (currentOrder[medication] < urgent && currentOrder[medication] > lethal) {
-  //     return ordersResults[urgent]
-  //   } else if (currentOrder[medication] < lethal){
-  //     return ordersResults[lethal]
-  //   } else {
-  //     return 'CRRT is running smoothly. There were no reported issues since the previous update.'
-  //   }
-  // }
-
-  // checkResultsForAboveRange = (currentOrder, medication) => {
-  //   const { concerning, urgent, lethal } = currentOrder[medication].dosageRanges.aboveRange;
-  //   if(currentOrder[medication] > concerning && currentOrder[medication] < urgent) {
-  //     return ordersResults[concerning]
-  //   } else if (currentOrder[medication] > urgent && currentOrder[medication] < lethal) {
-  //     return ordersResults[urgent]
-  //   } else if (currentOrder[medication] > lethal){
-  //     return ordersResults[lethal]
-  //   } else {
-  //     return 'CRRT is running smoothly. There were no reported issues since the previous update.'
-  //   }
-  // }
 
   handleClick = event => {
     let { name } = event.target;
@@ -109,15 +64,33 @@ export class Simulator extends Component {
   };
 
   toggleOrdersModal = event => {
-    if(event) {
+    if (event) {
       event.preventDefault();
     }
     this.setState({ showOrdersModal: !this.state.showOrdersModal });
   };
 
+  getOrderResultsMessages = () => {
+    const { resultsMessages } = this.props;
+    return resultsMessages.map(order => {
+      const { timeStamp, messages } = order;
+      return {
+        timeStamp,
+        messages
+      };
+    });
+  };
+
   render() {
-    const { selectedModal, selectedCase, location, history } = this.props;
-    const { showOrdersModal, btnClicked, ordersResults } = this.state;
+    const {
+      selectedModal,
+      selectedCase,
+      location,
+      history,
+      // resultsMessages,
+      // orders
+    } = this.props;
+    const { showOrdersModal, btnClicked } = this.state;
 
     if (!selectedCase.id) {
       location.pathname = "/select_a_case";
@@ -226,7 +199,9 @@ export class Simulator extends Component {
                   Physical Exam
                 </button>
               </div>
-              <OrderResultsContainer ordersResults={ordersResults} />
+              <OrderResultsContainer
+                orderResults={this.getOrderResultsMessages()}
+              />
             </div>
           )}
         </div>
@@ -345,14 +320,22 @@ export class Simulator extends Component {
   }
 }
 
-export const mapStateToProps = ({ selectedModal, selectedCase, orders }) => ({
+export const mapStateToProps = ({
   selectedModal,
   selectedCase,
-  orders
+  orders,
+  resultsMessages
+}) => ({
+  selectedModal,
+  selectedCase,
+  orders,
+  resultsMessages
 });
 
 export const mapDispatchToProps = dispatch => ({
-  setSelectedModal: modal => dispatch(setSelectedModal(modal))
+  setSelectedModal: modal => dispatch(setSelectedModal(modal)),
+  calculateLabData: newLabData => dispatch(calculateLabData(newLabData)),
+  setInputOutputData: newInputOutput => dispatch(setInputOutputData(newInputOutput))
 });
 
 export default connect(

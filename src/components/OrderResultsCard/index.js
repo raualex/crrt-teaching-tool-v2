@@ -13,7 +13,9 @@ const OrderResultsCard = ({ timeStamp, messages }) => {
 
   return (
     <div className="OrderResultsCard">
-      <h4 className="order-results-header">{timeStamp}</h4>
+      {timeStamp !== null && (
+        <h4 className="order-results-header">{timeStamp}</h4>
+      )}
       <ul className="order-results-message-container">{messageList}</ul>
       <hr className="order-results-break" />
     </div>

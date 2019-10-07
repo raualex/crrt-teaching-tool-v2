@@ -8,7 +8,7 @@ describe("OrderResultsContainer", () => {
   let mockState;
 
   beforeEach(() => {
-    wrapper = shallow(<OrderResultsContainer />);
+    wrapper = shallow(<OrderResultsContainer orderResults={["Test Order Results"]} />);
   });
 
   it("Should render like snapshot", () => {

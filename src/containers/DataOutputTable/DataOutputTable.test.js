@@ -1,13 +1,17 @@
 import React from "react";
 import { DataOutputTable, mapStateToProps } from "./";
 import { shallow } from "enzyme";
+import { mockLabDataForTests } from '../../utils/mockOrders.js';
 jest.mock("uuid", () => jest.fn(() => 1));
 
 describe("DataOutputTable", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<DataOutputTable selectedModal={"Laboratory Data"} />);
+    wrapper = shallow(<DataOutputTable 
+      selectedModal={"Laboratory Data"} 
+      labData={mockLabDataForTests}
+    />);
   });
 
   it("matches the snapshot", () => {

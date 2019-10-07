@@ -5,10 +5,14 @@ import {
   ordersReducer,
   timeReducer,
   timeBetweenOrdersReducer,
-  validateTimeBetweenOrdersReducer
+  validateTimeBetweenOrdersReducer,
+  addResultsMessagesToOrderReducer,
+  recordHourlyTimestampReducer
 } from "./ordersReducers";
 import { allCasesReducer, selectedCaseReducer } from "./case-reducers.js";
-import { calculateLabDataReducer } from "./calculation-reducers.js";
+import { calculateLabDataReducer, setInputOutputReducer } from "./calculation-reducers.js";
+import { medicationsReducer } from "./medications-reducer";
+import { vitalsReducer } from "./vitals-reducer";
 
 const rootReducer = combineReducers({
   isLoading: isLoadingReducer,
@@ -20,7 +24,12 @@ const rootReducer = combineReducers({
   timeBetweenOrdersIsValid: validateTimeBetweenOrdersReducer,
   allCases: allCasesReducer,
   selectedCase: selectedCaseReducer,
-  labData: calculateLabDataReducer
+  labData: calculateLabDataReducer,
+  inputOutputData: setInputOutputReducer,
+  medications: medicationsReducer,
+  vitals: vitalsReducer,
+  resultsMessages: addResultsMessagesToOrderReducer,
+  hourlyTimestamps: recordHourlyTimestampReducer
 });
 
 export default rootReducer;

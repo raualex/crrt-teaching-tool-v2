@@ -37,7 +37,38 @@ export const timeBetweenOrdersReducer = (state = 0, action) => {
 export const validateTimeBetweenOrdersReducer = (state = false, action) => {
   switch (action.type) {
     case "VALIDATE_TIME_BETWEEN_ORDERS":
-      return action.timeBetweenOrdersIsValid
+      return action.timeBetweenOrdersIsValid;
+    default:
+      return state;
+  }
+};
+
+export const addResultsMessagesToOrderReducer = (state = [], action) => {
+  switch (action.type) {
+    case "ADD_RESULTS_MESSAGES_TO_ORDER":
+      const { messages } = action;
+      const { id, timeStamp } = action.currentOrder;
+      return [
+        ...state,
+        {
+          id,
+          timeStamp,
+          messages
+        }
+      ];
+
+    default:
+      return state;
+  }
+};
+
+export const recordHourlyTimestampReducer = (
+  state = ["Pre-CRRT 1", "Pre-CRRT 2"],
+  action
+) => {
+  switch (action.type) {
+    case "RECORD_HOURLY_TIMESTAMP":
+      return [...state, ...action.timeStamps];
     default:
       return state;
   }
