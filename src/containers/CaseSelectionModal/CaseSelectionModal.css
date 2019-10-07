@@ -12,11 +12,12 @@
 }
 
 .csm-input-submit-container {
-  width: 20rem;
-  display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  display: flex;
   height: 3rem;
+  justify-content: space-evenly;
+  padding-top: 40px;
+  width: 20rem;
 }
 
 .csm-input {
@@ -54,6 +55,11 @@
   font-size: 1rem;
   outline: none;
   cursor: pointer;
+}
+
+.csm-loading-msg {
+  padding-bottom: 80px;
+  padding-top: 80px;
 }
 
 .csm-error-container {

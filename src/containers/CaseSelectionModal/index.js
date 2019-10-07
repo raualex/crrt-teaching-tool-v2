@@ -61,6 +61,24 @@ export class CaseSelectionModal extends Component {
     history.push("/simulator");
   };
 
+  printLoadingMessage = () => {
+    let { isLoading, allCases } = this.props;
+
+    if (isLoading === true) {
+      return <div className='csm-loading-msg'>
+        <strong>
+          FETCHING CASES...
+        </strong>
+      </div>
+    } else {
+      return <div className='csm-loading-msg'>
+        <strong>
+          Select a Case number between 1 and {allCases.length}
+        </strong>
+      </div>
+    }
+  }
+
   render() {
     return (
       <div className="csm-main-container">
@@ -84,6 +102,7 @@ export class CaseSelectionModal extends Component {
               Submit
             </button>
           </div>
+          {this.printLoadingMessage()}
           <div className="csm-error-container">{this.state.error}</div>
         </form>
       </div>
@@ -92,7 +111,8 @@ export class CaseSelectionModal extends Component {
 }
 
 export const mapStateToProps = state => ({
-  allCases: state.allCases
+  allCases: state.allCases,
+  isLoading: state.isLoading
 });
 
 export const mapDispatchToProps = dispatch => ({
