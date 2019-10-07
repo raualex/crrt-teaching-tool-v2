@@ -43,17 +43,42 @@ export class DataOutputTable extends Component {
     return finalLabs;
   };
 
-  createTableColumnHeaders = arrNum => {
-    let { labData } = this.props;
+  createTableColumnHeaders = (arrNum, selectedModal) => {
+    let { labData, hourlyTimestamps } = this.props;
     let finalArr = [];
-    for (var i = 0; i < arrNum; i++) {
-      finalArr.push(
-        <th key={uuidv4()} className="blank-table-head">
-          {labData.time[i]}
-        </th>
-      );
+
+    if (selectedModal === "Laboratory Data") {
+      console.log("Doesn't work: Laboratory Data")
+      for (var i = 0; i < arrNum; i++) {
+        finalArr.push(
+          <th key={uuidv4()} className="blank-table-head">
+            {labData.time[i]}
+          </th>
+        );
+      }
+      return finalArr;
+    } else if (selectedModal === "Input/Output") {
+      console.log("Works!")
+      for (var i = 0; i < hourlyTimestamps.length; i++) {
+        finalArr.push(
+          <th key={uuidv4()} className="blank-table-head">
+            {hourlyTimestamps[i]}
+          </th>
+        );
+      }
+      return finalArr;
+    } else {
+      console.log("Doesn't work: Fallthrough")
+      for (var i = 0; i < arrNum; i++) {
+        finalArr.push(
+          <th key={uuidv4()} className="blank-table-head">
+            {labData.time[i]}
+          </th>
+        );
+      }
+      return finalArr;
     }
-    return finalArr;
+    
   };
 
   createBulletPointsForNonTables = () => {
@@ -148,7 +173,7 @@ export class DataOutputTable extends Component {
           <thead>
             <tr>
               <th className="blank-table-head"></th>
-              {this.createTableColumnHeaders(rowsNumber)}
+              {this.createTableColumnHeaders(rowsNumber, selectedModal)}
             </tr>
           </thead>
           <tbody>{modalTableRowKeys}</tbody>
@@ -169,7 +194,6 @@ export class DataOutputTable extends Component {
             newKeyName = keyNoSpaces.charAt(0).toLowerCase() + keyNoSpaces.slice(1);
           }
 
-          console.log(inputOutputData, newKeyName)
           if (inputOutputData[newKeyName]) {
             acc.push(
               <tr key={uuidv4()}>
@@ -194,7 +218,7 @@ export class DataOutputTable extends Component {
           <thead>
             <tr>
               <th className="blank-table-head"></th>
-              {this.createTableColumnHeaders(rowsNumber)}
+              {this.createTableColumnHeaders(rowsNumber, selectedModal)}
             </tr>
           </thead>
           <tbody>{modalTableRowKeys}</tbody>
@@ -243,7 +267,7 @@ export class DataOutputTable extends Component {
           <thead>
             <tr>
               <th className="blank-table-head"></th>
-              {this.createTableColumnHeaders(rowsNumber)}
+              {this.createTableColumnHeaders(rowsNumber, selectedModal)}
             </tr>
           </thead>
           <tbody>{modalTableRowKeys}</tbody>

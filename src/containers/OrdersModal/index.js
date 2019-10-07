@@ -96,7 +96,7 @@ export class OrdersModal extends Component {
       this.combineInputOutputObjects(inputOutput)
 
       const resultsMessages = this.checkCurrentOrderResults();
-      console.log(newLabData);
+
       calculateLabData(
         this.addNewLabDataToPreviousLabData(labData, newLabData)
       );
@@ -143,10 +143,8 @@ export class OrdersModal extends Component {
     while (timeCounter !== timeBetweenOrders) {
       if (startTime === 0) {
         dayNumer = currentDay + 1
-        console.log("START TIME: ", startTime)
       } else {
         dayNumer = currentDay
-        console.log("OTHER START TIME: ", startTime)
       }
       
       finalTimeStampArray.push(`${startTime}:00 - Day ${dayNumer}`);
@@ -157,7 +155,7 @@ export class OrdersModal extends Component {
       }
       timeCounter++;
     }
-    console.log(finalTimeStampArray, timeCounter, timeBetweenOrders);
+
     return finalTimeStampArray;
   };
 
