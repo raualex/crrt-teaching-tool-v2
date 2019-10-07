@@ -48,7 +48,6 @@ export class DataOutputTable extends Component {
     let finalArr = [];
 
     if (selectedModal === "Laboratory Data") {
-      console.log("Doesn't work: Laboratory Data")
       for (let i = 0; i < arrNum; i++) {
         finalArr.push(
           <th key={uuidv4()} className="blank-table-head">
@@ -58,7 +57,6 @@ export class DataOutputTable extends Component {
       }
       return finalArr;
     } else if (selectedModal === "Input/Output") {
-      console.log("Works!")
       for (let i = 0; i < hourlyTimestamps.length; i++) {
         finalArr.push(
           <th key={uuidv4()} className="blank-table-head">
@@ -68,7 +66,6 @@ export class DataOutputTable extends Component {
       }
       return finalArr;
     } else {
-      console.log("Doesn't work: Fallthrough")
       for (let i = 0; i < arrNum; i++) {
         finalArr.push(
           <th key={uuidv4()} className="blank-table-head">
