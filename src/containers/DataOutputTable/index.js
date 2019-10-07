@@ -143,11 +143,16 @@ export class DataOutputTable extends Component {
 
   render() {
     let { selectedModal, labData, inputOutputData, hourlyTimestamps } = this.props;
-    let modalNameForClass = selectedModal.replace(/\s/g, "-");
+    let modalNameForClass;
     let modalNameForKeys;
     let modalTableRowKeys;
     let rowsNumber = labData.sodium.length;
     // mockReduxOrdersForModal.mockReduxOrdersForModal["Vitals"].length;
+    if (selectedModal === "Input/Output") {
+      modalNameForClass = "InputOutput";
+    } else {
+      modalNameForClass = selectedModal.replace(/\s/g, "-");
+    }
 
     if (
       selectedModal === "Vitals" ||
