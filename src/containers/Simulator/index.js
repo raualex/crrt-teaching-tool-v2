@@ -87,14 +87,22 @@ export class Simulator extends Component {
       selectedCase,
       location,
       history,
+      hourlyTimestamps
       // resultsMessages,
       // orders
     } = this.props;
     const { showOrdersModal, btnClicked } = this.state;
+    let timeForTitle;
 
     if (!selectedCase.id) {
       location.pathname = "/select_a_case";
       history.push("/select_a_case");
+    }
+
+    if (hourlyTimestamps.length === 2) {
+      timeForTitle = "10:00 - Day 1"
+    } else {
+      timeForTitle = hourlyTimestamps[hourlyTimestamps.length - 1]
     }
 
     if (selectedModal === "") {
@@ -103,6 +111,10 @@ export class Simulator extends Component {
           <header className="simulator-header">
             <h1 className="CRRT-title">CRRT SIMULATOR v.2</h1>
             <div className="form-buttons-container">
+            <div className="CRRT-subtitle-container">
+              <h2 className="CRRT-subtitle">Case Selected: {selectedCase.id}</h2>
+              <h2 className="CRRT-subtitle">Time: {timeForTitle}</h2>
+            </div>
               <button
                 className="orders-btn header-btn"
                 onClick={event => this.toggleOrdersModal(event)}
@@ -324,12 +336,14 @@ export const mapStateToProps = ({
   selectedModal,
   selectedCase,
   orders,
-  resultsMessages
+  resultsMessages,
+  hourlyTimestamps
 }) => ({
   selectedModal,
   selectedCase,
   orders,
-  resultsMessages
+  resultsMessages,
+  hourlyTimestamps
 });
 
 export const mapDispatchToProps = dispatch => ({
