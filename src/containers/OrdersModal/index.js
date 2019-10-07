@@ -138,9 +138,18 @@ export class OrdersModal extends Component {
     let finalTimeStampArray = [];
     let startTime = currentTime;
     let timeCounter = 0;
+    let dayNumer;
 
     while (timeCounter !== timeBetweenOrders) {
-      finalTimeStampArray.push(`${startTime}:00 - Day ${currentDay}`);
+      if (startTime === 0) {
+        dayNumer = currentDay + 1
+        console.log("START TIME: ", startTime)
+      } else {
+        dayNumer = currentDay
+        console.log("OTHER START TIME: ", startTime)
+      }
+      
+      finalTimeStampArray.push(`${startTime}:00 - Day ${dayNumer}`);
       if (startTime >= 24) {
         startTime -= 24;
       } else {
