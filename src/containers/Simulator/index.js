@@ -6,6 +6,16 @@ import {
   calculateLabData,
   setInputOutputData
 } from "../../Actions/calculationActions";
+import { 
+  recordHourlyTimestamp,
+  submitOrder,
+  setTime,
+  setTimeBetweenOrders,
+  validateTimeBetweenOrders,
+  addResultsMessagesToOrder
+} from '../../Actions/ordersActions';
+import { addMedications } from "../../Actions/medication-actions";
+import { addVitals } from "../../Actions/vitals-actions";
 import DataOutputModal from "../DataOutputModal";
 import OrdersModal from "../OrdersModal";
 import OrderResultsContainer from "../../components/OrderResultsContainer";
@@ -62,6 +72,17 @@ export class Simulator extends Component {
       this.setState({ btnClicked: name });
     }
   };
+
+  handleCaseReset = () => {
+    let { 
+      selectedCase, 
+      calculateLabData,
+      setInputOutputData 
+    } = this.props;
+    
+    calculateLabData(labsInitial[selectedCase.id]);
+    setInputOutputData(inputOutputInitial[selectedCase.id]);
+  }
 
   toggleOrdersModal = event => {
     if (event) {
@@ -347,6 +368,19 @@ export const mapStateToProps = ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+  submitOrder: order => dispatch(submitOrder(order)),
+  setTime: newTime => dispatch(setTime(newTime)),
+  setTimeBetweenOrders: TimeBetweenOrders =>
+    dispatch(setTimeBetweenOrders(TimeBetweenOrders)),
+  validateTimeBetweenOrders: isValid =>
+    dispatch(validateTimeBetweenOrders(isValid)),
+  addResultsMessagesToOrder: (resultsMessages, id) =>
+    dispatch(addResultsMessagesToOrder(resultsMessages, id)),
+  addMedications: timeBetweenOrders =>
+    dispatch(addMedications(timeBetweenOrders)),
+  addVitals: timeBetweenOrders => dispatch(addVitals(timeBetweenOrders)),
+  recordHourlyTimestamp: timeStamps =>
+    dispatch(recordHourlyTimestamp(timeStamps)),
   setSelectedModal: modal => dispatch(setSelectedModal(modal)),
   calculateLabData: newLabData => dispatch(calculateLabData(newLabData)),
   setInputOutputData: newInputOutput => dispatch(setInputOutputData(newInputOutput))
