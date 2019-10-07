@@ -67,7 +67,7 @@ export class CaseSelectionModal extends Component {
     if (isLoading === true) {
       return <div className='csm-loading-msg'>
         <strong>
-          FETCHING CASES...
+          PLEASE WAIT, FETCHING CASES...
         </strong>
       </div>
     } else {
