@@ -11,6 +11,7 @@ const OrderResultsContainer = ({ orderResults }) => {
 
   if (orderResults.length) {
     orderResultsCards = orderResults.map(result => {
+      console.log("result!: ", result);
       return <OrderResultsCard key={uuidv4()} {...result} />;
     });
   } else {
