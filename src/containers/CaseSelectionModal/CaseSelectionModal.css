@@ -58,6 +58,7 @@
 }
 
 .csm-loading-msg {
+  font-size: 0.95rem;
   padding-bottom: 80px;
   padding-top: 80px;
 }
