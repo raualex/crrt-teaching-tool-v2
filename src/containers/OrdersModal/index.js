@@ -9,9 +9,9 @@ import {
   addResultsMessagesToOrder,
   recordHourlyTimestamp
 } from "../../Actions/ordersActions";
-import { 
-  calculateLabData, 
-  setInputOutputData 
+import {
+  calculateLabData,
+  setInputOutputData
 } from "../../Actions/calculationActions";
 import { addMedications } from "../../Actions/medication-actions";
 import { addVitals } from "../../Actions/vitals-actions";
@@ -92,8 +92,8 @@ export class OrdersModal extends Component {
         labData
       );
 
-      const inputOutput = returnInputOutput()
-      this.combineInputOutputObjects(inputOutput)
+      const inputOutput = returnInputOutput();
+      this.combineInputOutputObjects(inputOutput);
 
       const resultsMessages = this.checkCurrentOrderResults();
 
@@ -118,20 +118,41 @@ export class OrdersModal extends Component {
     }
   }
 
-  combineInputOutputObjects = (newInputOutput) => {
-    let { inputOutputData, setInputOutputData } = this.props
-    let finalInputOutputData = inputOutputData
+  combineInputOutputObjects = newInputOutput => {
+    let { inputOutputData, setInputOutputData } = this.props;
+    let finalInputOutputData = inputOutputData;
 
-    finalInputOutputData.citrate = [...finalInputOutputData.citrate, ...newInputOutput.citrate]
-    finalInputOutputData.calciumChloride = [...finalInputOutputData.calciumChloride, ...newInputOutput.calciumChloride]
-    finalInputOutputData.totalInput = [...finalInputOutputData.totalInput, ...newInputOutput.totalInput]
-    finalInputOutputData.ultrafiltration = [...finalInputOutputData.ultrafiltration, ...newInputOutput.ultrafiltration]
-    finalInputOutputData.totalOutput = [...finalInputOutputData.totalOutput, ...newInputOutput.totalOutput]
-    finalInputOutputData.netInputOutput = [...finalInputOutputData.netInputOutput, ...newInputOutput.netInputOutput]
-    finalInputOutputData.cumulativeInputOutput = [...finalInputOutputData.cumulativeInputOutput, ...newInputOutput.cumulativeInputOutput]
+    finalInputOutputData.citrate = [
+      ...finalInputOutputData.citrate,
+      ...newInputOutput.citrate
+    ];
+    finalInputOutputData.calciumChloride = [
+      ...finalInputOutputData.calciumChloride,
+      ...newInputOutput.calciumChloride
+    ];
+    finalInputOutputData.totalInput = [
+      ...finalInputOutputData.totalInput,
+      ...newInputOutput.totalInput
+    ];
+    finalInputOutputData.ultrafiltration = [
+      ...finalInputOutputData.ultrafiltration,
+      ...newInputOutput.ultrafiltration
+    ];
+    finalInputOutputData.totalOutput = [
+      ...finalInputOutputData.totalOutput,
+      ...newInputOutput.totalOutput
+    ];
+    finalInputOutputData.netInputOutput = [
+      ...finalInputOutputData.netInputOutput,
+      ...newInputOutput.netInputOutput
+    ];
+    finalInputOutputData.cumulativeInputOutput = [
+      ...finalInputOutputData.cumulativeInputOutput,
+      ...newInputOutput.cumulativeInputOutput
+    ];
 
-    setInputOutputData(finalInputOutputData)
-  }
+    setInputOutputData(finalInputOutputData);
+  };
 
   compileHourlyTimestamps = (time, timeBetweenOrders) => {
     let { currentTime, currentDay } = time;
@@ -142,11 +163,11 @@ export class OrdersModal extends Component {
 
     while (timeCounter !== timeBetweenOrders) {
       if (startTime === 0) {
-        dayNumer = currentDay + 1
+        dayNumer = currentDay + 1;
       } else {
-        dayNumer = currentDay
+        dayNumer = currentDay;
       }
-      
+
       finalTimeStampArray.push(`${startTime}:00 - Day ${dayNumer}`);
       if (startTime >= 24) {
         startTime -= 24;
@@ -225,17 +246,17 @@ export class OrdersModal extends Component {
 
       if (
         belowRangeMessage.length &&
-        !messages.includes(belowRangeMessage) &&
-        !messages.includes(aboveRangeMessage)
+        !allMessages.includes(belowRangeMessage) &&
+        !allMessages.includes(aboveRangeMessage)
       ) {
-        messages.push(belowRangeMessage);
+        allMessages.push(belowRangeMessage);
       }
       if (
         aboveRangeMessage.length &&
-        !messages.includes(aboveRangeMessage) &&
-        !messages.includes(belowRangeMessage)
+        !allMessages.includes(aboveRangeMessage) &&
+        !allMessages.includes(belowRangeMessage)
       ) {
-        messages.push(aboveRangeMessage);
+        allMessages.push(aboveRangeMessage);
       }
       return allMessages;
     }, []);
@@ -245,6 +266,7 @@ export class OrdersModal extends Component {
     } else {
       messages.push(defaultMessage);
     }
+
     return messages;
   };
 
@@ -857,7 +879,8 @@ export const mapDispatchToProps = dispatch => ({
   validateTimeBetweenOrders: isValid =>
     dispatch(validateTimeBetweenOrders(isValid)),
   calculateLabData: newLabData => dispatch(calculateLabData(newLabData)),
-  setInputOutputData: newInputOutput => dispatch(setInputOutputData(newInputOutput)),
+  setInputOutputData: newInputOutput =>
+    dispatch(setInputOutputData(newInputOutput)),
   addResultsMessagesToOrder: (resultsMessages, id) =>
     dispatch(addResultsMessagesToOrder(resultsMessages, id)),
   addMedications: timeBetweenOrders =>

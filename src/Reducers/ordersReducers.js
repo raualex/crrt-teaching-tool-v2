@@ -48,7 +48,7 @@ export const addResultsMessagesToOrderReducer = (state = [], action) => {
     case "ADD_RESULTS_MESSAGES_TO_ORDER":
       const { messages } = action;
       const { id, timeStamp } = action.currentOrder;
-      return [
+      const newState = [
         ...state,
         {
           id,
@@ -56,6 +56,7 @@ export const addResultsMessagesToOrderReducer = (state = [], action) => {
           messages
         }
       ];
+      return newState.map(item => item).reverse();
 
     default:
       return state;
