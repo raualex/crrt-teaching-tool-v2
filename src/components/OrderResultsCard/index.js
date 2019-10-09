@@ -3,6 +3,7 @@ import "./OrderResultsCard.css";
 const uuidv4 = require("uuid/v4");
 
 const OrderResultsCard = ({ timeStamp, messages }) => {
+  console.log(timeStamp);
   const messageList = messages.map(message => {
     return (
       <li key={uuidv4()} className="order-results-message">

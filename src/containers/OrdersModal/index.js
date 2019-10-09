@@ -503,8 +503,9 @@ export class OrdersModal extends Component {
   // Creating TimeStamp Start
 
   createTimeStamp = () => {
-    const { currentTime, currentDay } = this.props.time;
-    return `${currentTime}:00 - Day ${currentDay}`;
+    const { time, timeBetweenOrders } = this.props;
+    const { currentTime, currentDay } = time;
+    return `${currentTime + timeBetweenOrders}:00 - Day ${currentDay}`;
   };
 
   handletimeBetweenOrdersChange = async event => {

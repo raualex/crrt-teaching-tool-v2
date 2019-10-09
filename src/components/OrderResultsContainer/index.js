@@ -11,16 +11,11 @@ const OrderResultsContainer = ({ orderResults }) => {
 
   if (orderResults.length) {
     orderResultsCards = orderResults.map(result => {
-      console.log("result!: ", result);
       return <OrderResultsCard key={uuidv4()} {...result} />;
     });
   } else {
     orderResultsCards = (
-      <OrderResultsCard
-        key={uuidv4()}
-        timeStamp={null}
-        messages={defaultMessage}
-      />
+      <OrderResultsCard key={uuidv4()} messages={defaultMessage} />
     );
   }
 
