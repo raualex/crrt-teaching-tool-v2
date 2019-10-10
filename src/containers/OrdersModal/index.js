@@ -17,13 +17,15 @@ import { addMedications } from "../../Actions/medication-actions";
 import { addVitals } from "../../Actions/vitals-actions";
 import orderDosages from "../../utils/orderDosages.js";
 import InputContainer from "../../components/InputContainer";
-import ordersResultsMessages from "../../utils/orderResultsData";
+// import ordersResultsMessages from "../../utils/orderResultsData";
 import {
   runLabs,
   getMedications,
   getVitals,
   returnInputOutput
 } from "../../utils/equationsMaster.js";
+import orderWarningRanges from "../../utils/resultsEquationsMaster";
+import ordersResultsMessages from "../../utils/resultsEquationsWarningMaster";
 const uuidv4 = require("uuid/v4");
 
 export class OrdersModal extends Component {
@@ -233,16 +235,23 @@ export class OrdersModal extends Component {
     //if there are no warnings, add 'CRRT is running smoothly. There were no reported issues since the previous update.' to messages array
 
     // const warningRangeKeys = Object.keys(selectedCase.warningRanges);
-    const warningRangesStringified = this.props.selectedCase.warningRanges;
-    const warningRanges = JSON.parse(warningRangesStringified);
+    // const warningRangesStringified = this.props.selectedCase.warningRanges;
+    // const warningRanges = JSON.parse(warningRangesStringified);
 
-    const warningRangeKeys = Object.keys(warningRanges);
+    const { selectedCase } = this.props;
+    const warningRangeKeys = Object.keys(orderWarningRanges[selectedCase.id]);
     const defaultMessage =
       "CRRT is running smoothly. There were no reported issues since the previous update.";
     let messages = [];
     const results = warningRangeKeys.reduce((allMessages, medication) => {
-      const belowRangeMessage = this.checkResultsForBelowRange(medication);
-      const aboveRangeMessage = this.checkResultsForAboveRange(medication);
+      const belowRangeMessage = this.checkResultsForBelowRange(
+        medication,
+        selectedCase.id
+      );
+      const aboveRangeMessage = this.checkResultsForAboveRange(
+        medication,
+        selectedCase.id
+      );
 
       if (
         belowRangeMessage.length &&
@@ -270,11 +279,13 @@ export class OrdersModal extends Component {
     return messages;
   };
 
-  checkResultsForBelowRange = medication => {
+  checkResultsForBelowRange = (medication, caseId) => {
     const { labData } = this.props;
     let message = "";
-    const warningRangesStringified = this.props.selectedCase.warningRanges;
-    const warningRanges = JSON.parse(warningRangesStringified);
+    // const warningRangesStringified = this.props.selectedCase.warningRanges;
+    // const warningRanges = JSON.parse(warningRangesStringified);
+    // const warningRangesStringified = this.props.selectedCase.warningRanges;
+    const warningRanges = orderWarningRanges[caseId];
 
     if (labData[medication]) {
       const mostRecentLabResult =
@@ -284,7 +295,8 @@ export class OrdersModal extends Component {
       for (let range in belowRange) {
         if (belowRange[range] !== null) {
           if (mostRecentLabResult < belowRange[range]) {
-            message = ordersResultsMessages[medication].belowRange[range];
+            message =
+              ordersResultsMessages[caseId][medication].belowRange[range];
           }
         }
       }
@@ -292,11 +304,13 @@ export class OrdersModal extends Component {
     return message;
   };
 
-  checkResultsForAboveRange = medication => {
+  checkResultsForAboveRange = (medication, caseId) => {
     const { labData } = this.props;
     let message = "";
-    const warningRangesStringified = this.props.selectedCase.warningRanges;
-    const warningRanges = JSON.parse(warningRangesStringified);
+    // const warningRangesStringified = this.props.selectedCase.warningRanges;
+    // const warningRanges = JSON.parse(warningRangesStringified);
+    // const warningRangesStringified = this.props.selectedCase.warningRanges;
+    const warningRanges = orderWarningRanges[caseId];
 
     if (labData[medication]) {
       const mostRecentLabResult =
@@ -306,7 +320,8 @@ export class OrdersModal extends Component {
       for (let range in aboveRange) {
         if (aboveRange[range] !== null) {
           if (mostRecentLabResult > aboveRange[range]) {
-            message = ordersResultsMessages[medication].aboveRange[range];
+            message =
+              ordersResultsMessages[caseId][medication].aboveRange[range];
           }
         }
       }

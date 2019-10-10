@@ -218,7 +218,7 @@ var _dynamicComponents = [
   "phosphorous",
   "magnesium"
 ];
-console.log(_dynamicComponents)
+console.log(_dynamicComponents);
 _staticLabs = [
   "lactate",
   "albumin",
@@ -425,7 +425,7 @@ var _historicalVitals = {
 // }
 
 // function setPageVariables() {
-  // setCRRTDisplay();
+// setCRRTDisplay();
 // }
 
 // // function setCRRTDisplay() {
@@ -693,7 +693,7 @@ export function runLabs(
       );
       break;
     default:
-      return
+      return;
   }
 
   var adjustedEffluentFlowRate = calculateAdjustedEffluentFlowRate(
@@ -815,7 +815,7 @@ export function runLabs(
   // saveLabValues(newLabs);
   // // incrementTime(); //This function needs to increment time in Redux
   // copyStaticLabsToHistorical(time, selectedCase);
-  console.log(copyStaticLabsToHistorical(time, selectedCase))
+  console.log(copyStaticLabsToHistorical(time, selectedCase));
   setNewWeight(
     totalHoursOfFiltration,
     currentOrder,
@@ -825,16 +825,16 @@ export function runLabs(
     time.currentDay
   );
   // setVolumeOverload();
-  console.log(setVolumeOverload())
+  console.log(setVolumeOverload());
   // setPageVariables();
   // postLabChecks(orders, time, selectedCase);
-  console.log(postLabChecks(orders, time, selectedCase))
+  console.log(postLabChecks(orders, time, selectedCase));
   // processMessages();
   return newLabs;
 }
 
 export function returnInputOutput() {
-  return _historicalInputOutput
+  return _historicalInputOutput;
 }
 
 function roundLabs(newLabs) {
@@ -991,7 +991,7 @@ function calculateTotalHoursOfFiltration(
         startingWeight,
         ionizedCalcium
       );
-      // break;
+    // break;
     case 2:
       return calculateTotalHoursOfFiltrationCase2(
         order,
@@ -1001,9 +1001,9 @@ function calculateTotalHoursOfFiltration(
         ionizedCalcium,
         didClot
       );
-      // break;
+    // break;
     default:
-        return
+      return;
   }
 }
 
@@ -1101,7 +1101,7 @@ function calculateAdjustedEffluentFlowRate(
         ionizedCalcium,
         order
       );
-      // break;
+    // break;
     case 2:
       console.log("case 2 : calculateAdjustedEffluentFlowRateCase2()");
       return calculateAdjustedEffluentFlowRateCase2(
@@ -1112,9 +1112,9 @@ function calculateAdjustedEffluentFlowRate(
         didClot,
         order
       );
-      // break;
+    // break;
     default:
-      return
+      return;
   }
 }
 
@@ -1458,11 +1458,11 @@ function calculateNewWeight(
   let startingTime;
 
   if (timeBetweenOrders <= 8) {
-    startingTime = time + currentTimeByDay - timeBetweenOrders
+    startingTime = time + currentTimeByDay - timeBetweenOrders;
   } else if (timeBetweenOrders > 8 && timeBetweenOrders <= 16) {
-    startingTime = time + currentTimeByDay - (timeBetweenOrders - 8)
+    startingTime = time + currentTimeByDay - (timeBetweenOrders - 8);
   } else {
-    startingTime = time + currentTimeByDay - (timeBetweenOrders - 16)
+    startingTime = time + currentTimeByDay - (timeBetweenOrders - 16);
   }
 
   for (let i = 0; i < timeBetweenOrders; i++) {
@@ -1562,14 +1562,13 @@ function calculateNewWeight(
       (netInputOutputCounter === 4 &&
         _historicalInputOutput["netInputOutput"].length >= 8)
     ) {
-
       input =
         _historicalInputOutput["totalInput"][
-          netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
+          netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
         ];
       output =
         _historicalInputOutput["totalOutput"][
-          netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
+          netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
         ];
       _historicalInputOutput["netInputOutput"].push(input - output);
     } else if (
@@ -1582,14 +1581,13 @@ function calculateNewWeight(
       (netInputOutputCounter === 8 &&
         _historicalInputOutput["netInputOutput"].length > 8)
     ) {
-
       input =
         _historicalInputOutput["totalInput"][
-          netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
+          netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
         ];
       output =
         _historicalInputOutput["totalOutput"][
-          netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
+          netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
         ];
       _historicalInputOutput["netInputOutput"].push(input - output);
     }
@@ -1645,7 +1643,7 @@ function calculateEffluentFlowRate(currentOrder) {
       efr = currentOrder["Qd"] + currentOrder["grossUF"] / 1000;
       break;
     default:
-      return
+      return;
   }
 
   return efr;
@@ -1729,7 +1727,8 @@ function preLabChecks(effluentFlowRate, orders, time, selectedCase) {
 }
 
 function postLabChecks(order, time, selectedCase) {
-  switch (_currentCaseStudyId) {
+  console.log("HEEEEEE selectedCase: ", selectedCase);
+  switch (selectedCase) {
     case 1:
       checkSodium();
       checkPotassium();
@@ -1753,7 +1752,7 @@ function postLabChecks(order, time, selectedCase) {
       handleSimulationCompletion();
       break;
     default:
-      return
+      return;
   }
 }
 
@@ -1835,11 +1834,11 @@ function calculatePH(
 function checkIfUsedCitrate(order, time) {
   if (order.anticoagulation === "citrate") {
     _usedCitrate = true;
-    console.log(_usedCitrate)
+    console.log(_usedCitrate);
 
     if (time.currentTime === 8) {
       _usedCitrateFirst = true;
-      console.log(_usedCitrateFirst)
+      console.log(_usedCitrateFirst);
     }
   }
 }
@@ -2036,7 +2035,7 @@ const calculateFiltrationFraction = (
         100;
       break;
     default:
-      return
+      return;
   }
   return excelRound(ff, 2);
 };
@@ -2527,7 +2526,7 @@ function checkDose(effluentFlowRate) {
       dose = newEffluentFlowRate / _currentCaseStudy.startingData.usualWeight;
       break;
     default:
-      return
+      return;
   }
 
   if (dose >= 20 && dose <= 40) {
@@ -2547,7 +2546,7 @@ function checkDose(effluentFlowRate) {
   _points.doseInRange.push(totalPoints);
   // NOTE: Set dose so we have access to it in the future
   _currentDose = excelRound(dose, 1);
-  console.log(_currentDose)
+  console.log(_currentDose);
   _historicalDose.push(dose);
 
   return dose;
@@ -2597,7 +2596,7 @@ function handleSimulationCompletion() {
   if (_caseOver) {
     // console.log("case over!");
     // $("#resultsOverview").text(resultsOverview);
-    console.log(resultsOverview)
+    console.log(resultsOverview);
     // $("#resultsModal").modal("show");
     // $("#ordersButton").hide();
     // $("#resultsButton").show();
@@ -2843,35 +2842,35 @@ function setResultsTableVariables() {
 
 // function processMessages() {
 //   var newMessages = _newMessages;
-  // var messageContainer = $("<ul id='testing'></ul>").addClass("card-text");
-  // var time = $('<p></p>').addClass('case-time').text(currentTimeToTimestamp(false, 0));
-  // var time = $("<p></p>")
-  //   .addClass("case-time")
-  //   .text(`${_headerTime}:00 ${_headerTimeAmPm} - Day ${_headerDay}`);
-  // messageContainer.append(time);
+// var messageContainer = $("<ul id='testing'></ul>").addClass("card-text");
+// var time = $('<p></p>').addClass('case-time').text(currentTimeToTimestamp(false, 0));
+// var time = $("<p></p>")
+//   .addClass("case-time")
+//   .text(`${_headerTime}:00 ${_headerTimeAmPm} - Day ${_headerDay}`);
+// messageContainer.append(time);
 
-  // for (var i = 0; i < newMessages.length; i++) {
-    // var message = $("<li></li>").text(newMessages[i]);
-    // messageContainer.append(message);
-    // messageContainer.append("<hr>");
-  // }
+// for (var i = 0; i < newMessages.length; i++) {
+// var message = $("<li></li>").text(newMessages[i]);
+// messageContainer.append(message);
+// messageContainer.append("<hr>");
+// }
 
-  // if (newMessages.length === 0) {
-    // var message = $("<li></li>").text(
-    //   "CRRT is running smoothly. There were no reported issues since the previous update."
-    // );
-    // messageContainer.append(message);
-    // messageContainer.append("<hr>");
-  // }
+// if (newMessages.length === 0) {
+// var message = $("<li></li>").text(
+//   "CRRT is running smoothly. There were no reported issues since the previous update."
+// );
+// messageContainer.append(message);
+// messageContainer.append("<hr>");
+// }
 
-  // if (newMessages.length > 0) {
-  //   _messages.push(newMessages);
-  //   _newMessages = [];
-  // }
+// if (newMessages.length > 0) {
+//   _messages.push(newMessages);
+//   _newMessages = [];
+// }
 
-  // messageContainer.append("<hr>");
+// messageContainer.append("<hr>");
 
-  // $("#message-box").prepend(messageContainer);
+// $("#message-box").prepend(messageContainer);
 // }
 
 // function currentTimeToTimestamp(showTimeElapsed, additionalOffsetInHours = 0) {
