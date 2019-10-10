@@ -25,7 +25,8 @@ import {
 } from "../../utils/initialSpreadsheetData.js";
 import {
   labsResetValues,
-  inputOutputResetValues
+  inputOutputResetValues,
+  timeResetValues
 } from "../../utils/resetValues.js"
 
 export class Simulator extends Component {
@@ -79,15 +80,21 @@ export class Simulator extends Component {
 
   handleCaseReset = () => {
     let { 
+      submitOrder,
       selectedCase, 
       calculateLabData,
       setInputOutputData,
-      recordHourlyTimestamp
+      recordHourlyTimestamp,
+      setTime,
+      setTimeBetweenOrders
     } = this.props;
 
     calculateLabData(labsResetValues[selectedCase.id]);
     setInputOutputData(inputOutputResetValues[selectedCase.id]);
     recordHourlyTimestamp([])
+    setTime(timeResetValues)
+    setTimeBetweenOrders(0)
+    submitOrder('reset')
   }
 
   toggleOrdersModal = event => {

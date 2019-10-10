@@ -395,3 +395,8 @@ export const inputOutputResetValues = {
     cumulativeInputOutput: [null, null]
   }
 };
+
+export const timeResetValues = {
+  currentTime: 10,
+  currentDay: 1
+}
