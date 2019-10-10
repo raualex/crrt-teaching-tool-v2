@@ -68,7 +68,11 @@ export const recordHourlyTimestampReducer = (
 ) => {
   switch (action.type) {
     case "RECORD_HOURLY_TIMESTAMP":
-      return [...state, ...action.timeStamps];
+      if (action.timeStamps.length) {
+        return [...state, ...action.timeStamps];
+      } else {
+        return ["Pre-CRRT 1", "Pre-CRRT 2"]
+      }
     default:
       return state;
   }

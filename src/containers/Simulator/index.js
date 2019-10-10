@@ -23,6 +23,10 @@ import {
   labsInitial,
   inputOutputInitial 
 } from "../../utils/initialSpreadsheetData.js";
+import {
+  labsResetValues,
+  inputOutputResetValues
+} from "../../utils/resetValues.js"
 
 export class Simulator extends Component {
   constructor(props) {
@@ -77,11 +81,13 @@ export class Simulator extends Component {
     let { 
       selectedCase, 
       calculateLabData,
-      setInputOutputData 
+      setInputOutputData,
+      recordHourlyTimestamp
     } = this.props;
-    
-    calculateLabData(labsInitial[selectedCase.id]);
-    setInputOutputData(inputOutputInitial[selectedCase.id]);
+
+    calculateLabData(labsResetValues[selectedCase.id]);
+    setInputOutputData(inputOutputResetValues[selectedCase.id]);
+    recordHourlyTimestamp([])
   }
 
   toggleOrdersModal = event => {
@@ -145,7 +151,10 @@ export class Simulator extends Component {
               <button className="crrt-display-btn header-btn">
                 CRRT Display
               </button>
-              <button className="restart-case-btn header-btn">
+              <button 
+                className="restart-case-btn header-btn"
+                onClick={this.handleCaseReset}
+              >
                 Restart Case
               </button>
             </div>
@@ -254,7 +263,10 @@ export class Simulator extends Component {
               <button className="crrt-display-btn header-btn">
                 CRRT Display
               </button>
-              <button className="restart-case-btn header-btn">
+              <button 
+                className="restart-case-btn header-btn"
+                onClick={this.handleCaseReset}
+              >
                 Restart Case
               </button>
             </div>
