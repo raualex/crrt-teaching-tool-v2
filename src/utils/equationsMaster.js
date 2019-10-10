@@ -1334,6 +1334,8 @@ function getCitrateMetabolismFactor() {
   return factor;
 }
 
+console.log(_newMessages);
+
 // function getOrder(orders, time, timeBetweenOrders, selectedCase) {
 //   var order = {
 //     fluid: $("input[name=fluid]:checked").val(),
@@ -1727,18 +1729,18 @@ function preLabChecks(effluentFlowRate, orders, time, selectedCase) {
 }
 
 function postLabChecks(order, time, selectedCase) {
-  console.log("HEEEEEE selectedCase: ", selectedCase);
-  switch (selectedCase) {
+  console.log("HEEEEEE time: ", time);
+  switch (selectedCase.id) {
     case 1:
-      checkSodium();
-      checkPotassium();
-      checkChloride();
-      checkBicarbonate();
-      checkCalcium();
-      checkMagnesium();
-      checkPhosphorous();
-      checkGrossUltrafiltration();
-      handleSimulationCompletion();
+      checkSodium(selectedCase.id);
+      checkPotassium(selectedCase.id);
+      checkChloride(selectedCase.id);
+      checkBicarbonate(selectedCase.id);
+      checkCalcium(selectedCase.id);
+      checkMagnesium(selectedCase.id);
+      checkPhosphorous(selectedCase.id);
+      checkGrossUltrafiltration(selectedCase.id, time.currentTime);
+      handleSimulationCompletion(selectedCase.id);
       break;
     case 2:
       checkSodiumCase2();
@@ -1870,10 +1872,12 @@ function checkBloodFlowRate() {
   return;
 }
 
-function checkSodium() {
+function checkSodium(caseId) {
   var totalPoints = 0;
+  // var currentSodium =
+  //   _historicalLabs["sodium"][_historicalLabs["sodium"].length - 1];
   var currentSodium =
-    _historicalLabs["sodium"][_historicalLabs["sodium"].length - 1];
+    labsInitial[caseId].sodium[labsInitial[caseId].sodium.length - 1];
   var msg;
   if (currentSodium >= 135 && currentSodium <= 145) {
     console.log("checkSodium() : within bounds ", currentSodium);
@@ -2079,17 +2083,18 @@ function checkChloride() {
   // No errors associated with Chloride in Case #1
 }
 
-function checkBicarbonate() {
-  checkPH();
+function checkBicarbonate(selectedId) {
+  checkPH(selectedId);
 }
 
 function checkBicarbonateCase2() {
   checkPHCase2();
 }
 
-function checkPH() {
+function checkPH(caseId) {
   var totalPoints = 0;
-  var currentPH = _historicalLabs["pH"][_historicalLabs["pH"].length - 1];
+  // var currentPH = _historicalLabs["pH"][_historicalLabs["pH"].length - 1];
+  var currentPH = labsInitial[caseId].ph[labsInitial[caseId].ph.length - 1];
   var msg;
 
   if (currentPH >= 7.2 && currentPH <= 7.45) {
@@ -2363,13 +2368,11 @@ function checkPhosphorous() {
   return;
 }
 
-function checkGrossUltrafiltration() {
+function checkGrossUltrafiltration(caseId, currentTime) {
   var totalPoints = 0;
   var fluidInPastEightHoursInLiters =
     parseFloat(
-      _currentCaseStudySheet.inputOutput.elements[_currentTime + 1][
-        "previousSixHourTotal"
-      ]
+      inputOutputInitial[caseId].previousSixHourTotal[currentTime + 1]
     ) / 1000;
   var totalHoursOfFiltration = 8;
   // NOTE: If BFR is <= 150, grossUF for two hours is 0, therefore, we only have 4 hours of filtration. (This *might* only be for case study #1)
@@ -2552,7 +2555,7 @@ function checkDose(effluentFlowRate) {
   return dose;
 }
 
-function handleSimulationCompletion() {
+function handleSimulationCompletion(caseId) {
   // TODO:
   // * check to see if patient has died
   // * check to see if time limit has been reached
@@ -2560,8 +2563,8 @@ function handleSimulationCompletion() {
   //   - show results
   //   - disable orders/etc.
   var currentWeight =
-    _historicalVitals["weight"][_historicalVitals["weight"].length - 1];
-  var currentPH = _historicalLabs["pH"][_historicalLabs["pH"].length - 1];
+    vitalsInitial[caseId].weight[vitalsInitial[caseId].weight.length - 1];
+  var currentPH = labsInitial[caseId].ph[labsInitial[caseId].ph.length - 1];
   var resultsOverview;
   // var caseEndingTime = 90;
 
