@@ -1729,29 +1729,30 @@ function preLabChecks(effluentFlowRate, orders, time, selectedCase) {
 }
 
 function postLabChecks(order, time, selectedCase) {
-  console.log("HEEEEEE time: ", time);
-  switch (selectedCase.id) {
+  const { id } = selectedCase;
+  const { currentTime } = time;
+  switch (id) {
     case 1:
-      checkSodium(selectedCase.id);
-      checkPotassium(selectedCase.id);
-      checkChloride(selectedCase.id);
-      checkBicarbonate(selectedCase.id);
-      checkCalcium(selectedCase.id);
-      checkMagnesium(selectedCase.id);
-      checkPhosphorous(selectedCase.id);
-      checkGrossUltrafiltration(selectedCase.id, time.currentTime);
-      handleSimulationCompletion(selectedCase.id);
+      checkSodium(id);
+      checkPotassium(id);
+      checkChloride();
+      checkBicarbonate(id);
+      checkCalcium(id);
+      checkMagnesium(id);
+      checkPhosphorous(id);
+      checkGrossUltrafiltration(id, currentTime);
+      handleSimulationCompletion(id, currentTime);
       break;
     case 2:
-      checkSodiumCase2();
-      checkPotassiumCase2(order, time, selectedCase);
+      checkSodiumCase2(id);
+      checkPotassiumCase2(id);
       checkChloride();
-      checkBicarbonateCase2();
-      checkCalciumCase2(order);
-      checkMagnesiumCase2();
-      checkPhosphorous();
-      checkGrossUltrafiltration();
-      handleSimulationCompletion();
+      checkBicarbonateCase2(id);
+      checkCalciumCase2(order, id);
+      checkMagnesiumCase2(id);
+      checkPhosphorous(id);
+      checkGrossUltrafiltration(id, currentTime);
+      handleSimulationCompletion(id, currentTime);
       break;
     default:
       return;
@@ -1902,10 +1903,10 @@ function checkSodium(caseId) {
   return;
 }
 
-function checkSodiumCase2() {
+function checkSodiumCase2(caseId) {
   var totalPoints = 0;
   var currentSodium =
-    _historicalLabs["sodium"][_historicalLabs["sodium"].length - 1];
+    labsInitial[caseId].sodium[labsInitial[caseId].sodium.length - 1];
   var msg;
 
   // Bonus 150 points if sodium is 154-156 (inclusive) after the first order
@@ -1952,10 +1953,10 @@ function checkSodiumCase2() {
   return;
 }
 
-function checkPotassium() {
+function checkPotassium(caseId) {
   var totalPoints = 0;
   var currentPotassium =
-    _historicalLabs["potassium"][_historicalLabs["potassium"].length - 1];
+    labsInitial[caseId].potassium[labsInitial[caseId].potassium.length - 1];
 
   if (currentPotassium > 3.3) {
     console.log("checkPotassium() : within bounds ", currentPotassium);
@@ -1973,10 +1974,10 @@ function checkPotassium() {
   return;
 }
 
-function checkPotassiumCase2(order, time, selectedCase) {
+function checkPotassiumCase2(caseId) {
   var totalPoints = 0;
   var currentPotassium =
-    _historicalLabs["potassium"][_historicalLabs["potassium"].length - 1];
+    labsInitial[caseId].potassium[labsInitial[caseId].potassium.length - 1];
   var msg;
 
   if (currentPotassium > 3.3) {
@@ -2083,12 +2084,12 @@ function checkChloride() {
   // No errors associated with Chloride in Case #1
 }
 
-function checkBicarbonate(selectedId) {
-  checkPH(selectedId);
+function checkBicarbonate(caseId) {
+  checkPH(caseId);
 }
 
-function checkBicarbonateCase2() {
-  checkPHCase2();
+function checkBicarbonateCase2(caseId) {
+  checkPHCase2(caseId);
 }
 
 function checkPH(caseId) {
@@ -2133,9 +2134,9 @@ function checkPH(caseId) {
   return;
 }
 
-function checkPHCase2() {
+function checkPHCase2(caseId) {
   var totalPoints = 0;
-  var currentPH = _historicalLabs["pH"][_historicalLabs["pH"].length - 1];
+  var currentPH = labsInitial[caseId].ph[labsInitial[caseId].ph.length - 1];
   var msg;
 
   if (currentPH < 7.0) {
@@ -2178,12 +2179,12 @@ function checkPHCase2() {
   return;
 }
 
-function checkCalcium() {
+function checkCalcium(caseId) {
   // TODO: Doc from Ben says "NOT when using citrate" -- do we not run these checks if we are using citrate?
   // if using citrate - divide by 8
   var totalPoints = 0;
   var currentCalcium =
-    _historicalLabs["calcium"][_historicalLabs["calcium"].length - 1];
+    labsInitial[caseId].calcium[labsInitial[caseId].calcium.length - 1];
   var msg;
 
   if (currentCalcium >= 7.5 && currentCalcium <= 10) {
@@ -2216,10 +2217,10 @@ function checkCalcium() {
   return;
 }
 
-function checkCalciumCase2(order) {
+function checkCalciumCase2(order, caseId) {
   var totalPoints = 0;
   var currentCalcium =
-    _historicalLabs["calcium"][_historicalLabs["calcium"].length - 1];
+    labsInitial[caseId].calcium[labsInitial[caseId].calcium.length - 1];
   var msg;
 
   if (order.anticoagulation === "citrate") {
@@ -2291,10 +2292,10 @@ function checkCalciumCase2(order) {
   return;
 }
 
-function checkMagnesium() {
+function checkMagnesium(caseId) {
   var totalPoints = 0;
   var currentMagnesium =
-    _historicalLabs["magnesium"][_historicalLabs["magnesium"].length - 1];
+    labsInitial[caseId].magnesium[labsInitial[caseId].magnesium.length - 1];
 
   if (currentMagnesium > 1.4) {
     console.log("checkMagnesium() : within bounds ", currentMagnesium);
@@ -2312,10 +2313,10 @@ function checkMagnesium() {
   return;
 }
 
-function checkMagnesiumCase2() {
+function checkMagnesiumCase2(caseId) {
   var totalPoints = 0;
   var currentMagnesium =
-    _historicalLabs["magnesium"][_historicalLabs["magnesium"].length - 1];
+    labsInitial[caseId].magnesium[labsInitial[caseId].magnesium.length - 1];
   var msg;
 
   if (currentMagnesium >= 1.0 && currentMagnesium < 1.4) {
@@ -2339,14 +2340,14 @@ function checkMagnesiumCase2() {
   return;
 }
 
-function checkPhosphorous() {
+function checkPhosphorous(caseId) {
   // TODO: There will be a scheduled sodium phosphorous replacement option for when the sodium goes low, TBD
   //  - Adding sodium phosphate (15 mmol/dL) will modify the phosphate “[X] Dialysate” as follows:
   //      - (465/t(which will equal 6)) (Effluent Flow Rate *10)
   //      - This should reset after each cycle, so it’s not automatically given every 6 hours
   var totalPoints = 0;
   var currentPhosphorous =
-    _historicalLabs["phosphorous"][_historicalLabs["phosphorous"].length - 1];
+    labsInitial[caseId].phosphorous[labsInitial[caseId].phosphorous.length - 1];
 
   if (currentPhosphorous > 2.0) {
     console.log(
@@ -2555,7 +2556,7 @@ function checkDose(effluentFlowRate) {
   return dose;
 }
 
-function handleSimulationCompletion(caseId) {
+function handleSimulationCompletion(caseId, currentTime) {
   // TODO:
   // * check to see if patient has died
   // * check to see if time limit has been reached
@@ -2568,26 +2569,26 @@ function handleSimulationCompletion(caseId) {
   var resultsOverview;
   // var caseEndingTime = 90;
 
-  console.log("handleSimulationCompletion : currentTime", _currentTime);
+  console.log("handleSimulationCompletion : currentTime", currentTime);
 
   if (currentPH < 7.0) {
     console.log("checkSimulationCompletion() : Patient has expired.");
     resultsOverview =
       "Your patient died of overwhelming acidosis and infection.  Mortality is high in critically ill patients who require dialysis, but your patient would have benefitted from more efficient CRRT.  Try increasing the bicarbonate concentration in the replacement or  dialysate fluid, or using more effective anticoagulation.  Restart the case and see if you can improve the outcome!";
     _caseOver = true;
-  } else if (_currentTime === 72 && currentWeight > 100) {
+  } else if (currentTime === 72 && currentWeight > 100) {
     console.log("checkSimulationCompletion() : Patient has expired.");
     resultsOverview =
       "Your patient died after developing positive blood cultures.";
     _caseOver = true;
-  } else if (_currentTime === 88) {
+  } else if (currentTime === 88) {
     console.log("checkSimulationCompletion() : You won!");
     resultsOverview =
       "Your patient survived her episode of sepsis due to pneumonia, complicated by severe AKI requiring CRRT.";
     setResultsTableVariables();
     // $("#resultsTable").show();
     _caseOver = true;
-  } else if (_currentTime === 90) {
+  } else if (currentTime === 90) {
     console.log("checkSimulationCompletion() : Patient has expired.");
     resultsOverview =
       "Your patient developed a secondary infection in the ICU, and subsequently died of overwhelming sepsis.  Mortality is high in critically ill patients who require dialysis, but your patient would have benefitted from more aggressive fluid removal.  Try the case again and see if you can improve the outcome!";

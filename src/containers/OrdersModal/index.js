@@ -297,6 +297,7 @@ export class OrdersModal extends Component {
           if (mostRecentLabResult < belowRange[range]) {
             message =
               ordersResultsMessages[caseId][medication].belowRange[range];
+            break;
           }
         }
       }
@@ -322,6 +323,7 @@ export class OrdersModal extends Component {
           if (mostRecentLabResult > aboveRange[range]) {
             message =
               ordersResultsMessages[caseId][medication].aboveRange[range];
+            break;
           }
         }
       }
