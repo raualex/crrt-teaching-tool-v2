@@ -145,10 +145,10 @@ export class Simulator extends Component {
           <header className="simulator-header">
             <h1 className="CRRT-title">CRRT SIMULATOR v.2</h1>
             <div className="form-buttons-container">
-            <div className="CRRT-subtitle-container">
-              <h2 className="CRRT-subtitle">Case Selected: {selectedCase.id}</h2>
-              <h2 className="CRRT-subtitle">Time: {timeForTitle}</h2>
-            </div>
+              <div className="CRRT-subtitle-container">
+                <h2 className="CRRT-subtitle">Case Selected: {selectedCase.id}</h2>
+                <h2 className="CRRT-subtitle">Time: {timeForTitle}</h2>
+              </div>
               <button
                 className="orders-btn header-btn"
                 onClick={event => this.toggleOrdersModal(event)}
@@ -261,6 +261,10 @@ export class Simulator extends Component {
           <header className="simulator-header">
             <h1 className="CRRT-title">CRRT SIMULATOR v.2</h1>
             <div className="form-buttons-container">
+              <div className="CRRT-subtitle-container">
+                <h2 className="CRRT-subtitle">Case Selected: {selectedCase.id}</h2>
+                <h2 className="CRRT-subtitle">Time: {timeForTitle}</h2>
+              </div>
               <button
                 className="orders-btn header-btn"
                 onClick={event => this.toggleOrdersModal(event)}
