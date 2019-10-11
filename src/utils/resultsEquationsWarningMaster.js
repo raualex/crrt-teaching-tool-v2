@@ -62,7 +62,7 @@ const ordersResultsMessages = {
       belowRange: {
         concerning:
           "The primary team is concerned about the patient’s hypomagnesemia, and would like you to address it",
-        urgent: "",
+        urgent: null,
         lethal:
           "The patient developed Torsades de Pointes, and resuscitation efforts were ended after 30 minutes of CPR. The patient’s extreme hypomagnesemia was thought to be the inciting factor. Try the case again, and make sure there is enough magnesium in the replacement or dialysate fluid to maintain normal values."
       },
@@ -100,6 +100,18 @@ const ordersResultsMessages = {
           "The patient’s pressor requirements are increasing, and the team is concerned that the high rate of ultrafiltration is causing hemodynamic instability. Please reduce your ultrafiltration rate.",
         lethal:
           "The patient developed PEA arrest and could not be resuscitated.  The extremely high ultrafiltration was thought to be the main precipitant.  Please try again, with more careful monitoring of ins and outs."
+      }
+    },
+    filtrationFraction: {
+      belowRange: {
+        concerning: null,
+        urgent: null,
+        lethal: null
+      },
+      aboveRange: {
+        concerning: "The patient’s filter clotted once, and was replaced.",
+        urgent: "The patient’s filter clotted twice, and was replaced.",
+        lethal: null
       }
     },
     bloodFlowRate: {
@@ -248,6 +260,18 @@ const ordersResultsMessages = {
           "The patient’s pressor requirements are increasing, and the team is concerned that the high rate of ultrafiltration is causing hemodynamic instability. Please reduce your ultrafiltration rate.",
         lethal:
           "The patient developed PEA arrest and could not be resuscitated.  The extremely high ultrafiltration was thought to be the main precipitant.  Please try again, with more careful monitoring of ins and outs."
+      }
+    },
+    filtrationFraction: {
+      belowRange: {
+        concerning: null,
+        urgent: null,
+        lethal: null
+      },
+      aboveRange: {
+        concerning: null,
+        urgent: null,
+        lethal: null
       }
     },
     bloodFlowRate: {
