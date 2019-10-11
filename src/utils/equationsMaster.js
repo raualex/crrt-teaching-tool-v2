@@ -1948,7 +1948,6 @@ function checkSodiumCase2(caseId) {
     _newMessages.push(msg);
     totalPoints = totalPoints - 1000;
   }
-  console.log("PENISSSSS CURRENT SODIUM: ", currentSodium)
   _points.sodiumInRange.push(totalPoints);
   return;
 }
