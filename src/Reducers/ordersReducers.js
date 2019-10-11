@@ -9,7 +9,7 @@ const defaultResultsMessagesState = [
     messages: [
       "Welcome to the CRRT education application simulator! Important information about the current case will appear in this box."
     ],
-    timeStamp: "10:00 - Day 1"
+    timeStamp: null
   }
 ];
 

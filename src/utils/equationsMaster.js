@@ -1948,7 +1948,7 @@ function checkSodiumCase2(caseId) {
     _newMessages.push(msg);
     totalPoints = totalPoints - 1000;
   }
-
+  console.log("PENISSSSS CURRENT SODIUM: ", currentSodium)
   _points.sodiumInRange.push(totalPoints);
   return;
 }
@@ -1993,7 +1993,7 @@ function checkPotassiumCase2(caseId) {
   }
 
   if (currentPotassium < 2.5) {
-    var d = Math.Random();
+    var d = Math.random();
     if (d < 0.5) {
       _caseOver = true;
       msg =
@@ -2067,7 +2067,7 @@ const calculateFiltrationFraction = (
 // }
 
 //   if (currentPotassium < 2.5) {
-//     var d = Math.Random();
+//     var d = Math.random();
 //     if (d < 0.5) {
 //       _caseOver = true;
 //       var msg =
@@ -2327,7 +2327,7 @@ function checkMagnesiumCase2(caseId) {
   }
 
   if (currentMagnesium < 1.0) {
-    var d = Math.Random();
+    var d = Math.random();
     if (d < 0.2) {
       _caseOver = true;
       msg =

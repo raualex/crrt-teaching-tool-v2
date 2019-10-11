@@ -297,7 +297,6 @@ export class OrdersModal extends Component {
           if (mostRecentLabResult < belowRange[range]) {
             message =
               ordersResultsMessages[caseId][medication].belowRange[range];
-            break;
           }
         }
       }
@@ -323,7 +322,6 @@ export class OrdersModal extends Component {
           if (mostRecentLabResult > aboveRange[range]) {
             message =
               ordersResultsMessages[caseId][medication].aboveRange[range];
-            break;
           }
         }
       }
@@ -522,7 +520,7 @@ export class OrdersModal extends Component {
   createTimeStamp = () => {
     const { time, timeBetweenOrders } = this.props;
     const { currentTime, currentDay } = time;
-    return `${currentTime + timeBetweenOrders}:00 - Day ${currentDay}`;
+    return `${currentTime}:00 - Day ${currentDay}`;
   };
 
   handletimeBetweenOrdersChange = async event => {

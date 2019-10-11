@@ -84,7 +84,7 @@ export class Simulator extends Component {
   };
 
   getOrderResultsMessages = () => {
-    const { resultsMessages } = this.props;
+    const { resultsMessages, hourlyTimestamps } = this.props;
     return resultsMessages.map(order => {
       const { timeStamp, messages } = order;
       return {
