@@ -97,9 +97,8 @@ export class OrdersModal extends Component {
 
       const resultsMessages = this.checkCurrentOrderResults();
 
-      calculateLabData(
-        this.addNewLabDataToPreviousLabData(labData, newLabData)
-      );
+      let combinedLabData = this.addNewLabDataToPreviousLabData(newLabData)
+      calculateLabData(combinedLabData)
 
       //Medications
       const medications = getMedications(timeBetweenOrders, selectedCase.id);
@@ -159,49 +158,50 @@ export class OrdersModal extends Component {
     return finalTimeStampArray;
   };
 
-  addNewLabDataToPreviousLabData = (oldLabData, newLabData) => {
-    let finalLabData = oldLabData;
+  addNewLabDataToPreviousLabData = (newLabData) => {
+    let { labData } = this.props
+    let finalLabData = labData;
 
-    finalLabData.time = [...oldLabData.time, newLabData.time];
-    finalLabData.sodium = [...oldLabData.sodium, parseFloat(newLabData.sodium)];
+    finalLabData.time = [...labData.time, newLabData.time];
+    finalLabData.sodium = [...labData.sodium, parseFloat(newLabData.sodium)];
     finalLabData.potassium = [
-      ...oldLabData.potassium,
+      ...labData.potassium,
       parseFloat(newLabData.potassium)
     ];
     finalLabData.chloride = [
-      ...oldLabData.chloride,
+      ...labData.chloride,
       parseFloat(newLabData.chloride)
     ];
     finalLabData.bicarbonate = [
-      ...oldLabData.bicarbonate,
+      ...labData.bicarbonate,
       parseFloat(newLabData.bicarbonate)
     ];
-    finalLabData.bun = [...oldLabData.bun, parseFloat(newLabData.bun)];
+    finalLabData.bun = [...labData.bun, parseFloat(newLabData.bun)];
     finalLabData.creatinine = [
-      ...oldLabData.creatinine,
+      ...labData.creatinine,
       parseFloat(newLabData.creatinine)
     ];
     finalLabData.calcium = [
-      ...oldLabData.calcium,
+      ...labData.calcium,
       parseFloat(newLabData.calcium)
     ];
     finalLabData.phosphorous = [
-      ...oldLabData.phosphorous,
+      ...labData.phosphorous,
       parseFloat(newLabData.phosphorous)
     ];
     finalLabData.filtrationFraction = [
-      ...oldLabData.filtrationFraction,
+      ...labData.filtrationFraction,
       parseFloat(newLabData.filtrationFraction)
     ];
     finalLabData.ionizedCalcium = [
-      ...oldLabData.ionizedCalcium,
+      ...labData.ionizedCalcium,
       parseFloat(newLabData.ionizedCalcium)
     ];
     finalLabData.magnesium = [
-      ...oldLabData.magnesium,
+      ...labData.magnesium,
       parseFloat(newLabData.magnesium)
     ];
-    finalLabData.ph = [...oldLabData.ph, parseFloat(newLabData.ph)];
+    finalLabData.ph = [...labData.ph, parseFloat(newLabData.ph)];
 
     return finalLabData;
   };

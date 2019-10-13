@@ -88,7 +88,8 @@ export class Simulator extends Component {
       setTime,
       setTimeBetweenOrders
     } = this.props;
-
+    console.log("LABS: ", labsResetValues[selectedCase.id])
+    console.log("I/O: ", inputOutputResetValues[selectedCase.id])
     calculateLabData(labsResetValues[selectedCase.id]);
     setInputOutputData(inputOutputResetValues[selectedCase.id]);
     recordHourlyTimestamp([])

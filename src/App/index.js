@@ -7,6 +7,7 @@ import CaseSelectionModal from "../containers/CaseSelectionModal";
 import Simulator from "../containers/Simulator";
 import Textbook from "../components/Textbook";
 import Calculator from "../components/Calculator";
+import ResultsModal from "../containers/ResultsModal";
 import { fetchCases } from "../thunks/fetchCases.js";
 // import { showInfo } from '../utils/equationsMaster.js';
 
@@ -23,7 +24,8 @@ export class App extends Component {
           <Route exact path="/select_a_case" component={CaseSelectionModal} />
           <Route exact path="/simulator" component={Simulator} />
           <Route exact path="/textbook" component={Textbook} />
-          <Route exect path="/calculator" component={Calculator} />
+          <Route exact path="/calculator" component={Calculator} />
+          <Route exact path="/results" component={ResultsModal}/>
         </Switch>
       </div>
     );
