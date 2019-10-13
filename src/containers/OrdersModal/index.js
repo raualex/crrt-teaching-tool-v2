@@ -20,6 +20,7 @@ import InputContainer from "../../components/InputContainer";
 // import ordersResultsMessages from "../../utils/orderResultsData";
 import {
   runLabs,
+  postLabChecks,
   getMedications,
   getVitals,
   returnInputOutput
@@ -87,10 +88,16 @@ export class OrdersModal extends Component {
       let inputOutput = returnInputOutput();
       this.combineInputOutputObjects(inputOutput);
 
-      let resultsMessages = this.checkCurrentOrderResults();
-
       let combinedLabData = this.addNewLabDataToPreviousLabData(newLabData);
       calculateLabData(combinedLabData);
+
+      console.log("LABDATATATATATATAL: ", combinedLabData);
+      let resultsMessages = this.checkCurrentOrderResults(
+        currentOrder,
+        time,
+        selectedCase,
+        combinedLabData
+      );
 
       //Medications
       let medications = getMedications(timeBetweenOrders, selectedCase.id);
@@ -216,7 +223,7 @@ export class OrdersModal extends Component {
     return finalLabData;
   };
 
-  checkCurrentOrderResults = () => {
+  checkCurrentOrderResults = (currentOrder, time, selectedCase, labData) => {
     //checks current order's Redux labData output against ranges each case, then prints according warning messages stored in utils/orderResultsData.js
     //if there are warnings, add them to messages array
     //if there are no warnings, add 'CRRT is running smoothly. There were no reported issues since the previous update.' to messages array
@@ -224,8 +231,7 @@ export class OrdersModal extends Component {
     // const warningRangeKeys = Object.keys(selectedCase.warningRanges);
     // const warningRangesStringified = this.props.selectedCase.warningRanges;
     // const warningRanges = JSON.parse(warningRangesStringified);
-
-    const { selectedCase } = this.props;
+    postLabChecks(currentOrder, time, selectedCase, labData);
     const warningRangeKeys = Object.keys(orderWarningRanges[selectedCase.id]);
     const defaultMessage =
       "CRRT is running smoothly. There were no reported issues since the previous update.";

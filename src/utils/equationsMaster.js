@@ -827,7 +827,7 @@ export function runLabs(
   // setVolumeOverload();
   console.log(setVolumeOverload());
   // setPageVariables();
-  postLabChecks(orders, time, selectedCase);
+  // postLabChecks(orders, time, selectedCase);
   // processMessages();
   return newLabs;
 }
@@ -1727,31 +1727,31 @@ function preLabChecks(effluentFlowRate, orders, time, selectedCase) {
   checkDose(effluentFlowRate);
 }
 
-function postLabChecks(order, time, selectedCase) {
+export function postLabChecks(order, time, selectedCase, labData) {
   const { id } = selectedCase;
   const { currentTime } = time;
   switch (id) {
     case 1:
-      checkSodium(id);
-      checkPotassium(id);
+      checkSodium(id, labData);
+      checkPotassium(id, labData);
       checkChloride();
-      checkBicarbonate(id);
-      checkCalcium(id);
-      checkMagnesium(id);
-      checkPhosphorous(id);
-      checkGrossUltrafiltration(id, currentTime);
-      handleSimulationCompletion(id, currentTime);
+      checkBicarbonate(id, labData);
+      checkCalcium(id, labData);
+      checkMagnesium(id, labData);
+      checkPhosphorous(id, labData);
+      checkGrossUltrafiltration(id, currentTime, labData);
+      handleSimulationCompletion(id, currentTime, labData);
       break;
     case 2:
-      checkSodiumCase2(id);
-      checkPotassiumCase2(id);
+      checkSodiumCase2(id, labData);
+      checkPotassiumCase2(id, labData);
       checkChloride();
-      checkBicarbonateCase2(id);
-      checkCalciumCase2(order, id);
-      checkMagnesiumCase2(id);
-      checkPhosphorous(id);
-      checkGrossUltrafiltration(id, currentTime);
-      handleSimulationCompletion(id, currentTime);
+      checkBicarbonateCase2(id, labData);
+      checkCalciumCase2(order, id, labData);
+      checkMagnesiumCase2(id, labData);
+      checkPhosphorous(id, labData);
+      checkGrossUltrafiltration(id, currentTime, labData);
+      handleSimulationCompletion(id, currentTime, labData);
       break;
     default:
       return;
@@ -1872,12 +1872,11 @@ function checkBloodFlowRate() {
   return;
 }
 
-function checkSodium(caseId) {
+function checkSodium(caseId, labData) {
   var totalPoints = 0;
   // var currentSodium =
   //   _historicalLabs["sodium"][_historicalLabs["sodium"].length - 1];
-  var currentSodium =
-    labsInitial[caseId].sodium[labsInitial[caseId].sodium.length - 1];
+  var currentSodium = labData.sodium[labData.sodium.length - 1];
   var msg;
   if (currentSodium >= 135 && currentSodium <= 145) {
     console.log("checkSodium() : within bounds ", currentSodium);
@@ -1902,10 +1901,9 @@ function checkSodium(caseId) {
   return;
 }
 
-function checkSodiumCase2(caseId) {
+function checkSodiumCase2(caseId, labData) {
   var totalPoints = 0;
-  var currentSodium =
-    labsInitial[caseId].sodium[labsInitial[caseId].sodium.length - 1];
+  var currentSodium = labData.sodium[labData.sodium.length - 1];
   var msg;
 
   // Bonus 150 points if sodium is 154-156 (inclusive) after the first order
@@ -1955,7 +1953,7 @@ function checkSodiumCase2(caseId) {
   return;
 }
 
-function checkPotassium(caseId) {
+function checkPotassium(caseId, labData) {
   var totalPoints = 0;
   var currentPotassium =
     labsInitial[caseId].potassium[labsInitial[caseId].potassium.length - 1];
@@ -1976,7 +1974,7 @@ function checkPotassium(caseId) {
   return;
 }
 
-function checkPotassiumCase2(caseId) {
+function checkPotassiumCase2(caseId, labData) {
   var totalPoints = 0;
   var currentPotassium =
     labsInitial[caseId].potassium[labsInitial[caseId].potassium.length - 1];
@@ -2086,15 +2084,15 @@ function checkChloride() {
   // No errors associated with Chloride in Case #1
 }
 
-function checkBicarbonate(caseId) {
-  checkPH(caseId);
+function checkBicarbonate(caseId, labData) {
+  checkPH(caseId, labData);
 }
 
-function checkBicarbonateCase2(caseId) {
-  checkPHCase2(caseId);
+function checkBicarbonateCase2(caseId, labData) {
+  checkPHCase2(caseId, labData);
 }
 
-function checkPH(caseId) {
+function checkPH(caseId, labData) {
   var totalPoints = 0;
   // var currentPH = _historicalLabs["pH"][_historicalLabs["pH"].length - 1];
   var currentPH = labsInitial[caseId].ph[labsInitial[caseId].ph.length - 1];
@@ -2136,7 +2134,7 @@ function checkPH(caseId) {
   return;
 }
 
-function checkPHCase2(caseId) {
+function checkPHCase2(caseId, labData) {
   var totalPoints = 0;
   var currentPH = labsInitial[caseId].ph[labsInitial[caseId].ph.length - 1];
   var msg;
@@ -2181,7 +2179,7 @@ function checkPHCase2(caseId) {
   return;
 }
 
-function checkCalcium(caseId) {
+function checkCalcium(caseId, labData) {
   // TODO: Doc from Ben says "NOT when using citrate" -- do we not run these checks if we are using citrate?
   // if using citrate - divide by 8
   var totalPoints = 0;
@@ -2219,7 +2217,7 @@ function checkCalcium(caseId) {
   return;
 }
 
-function checkCalciumCase2(order, caseId) {
+function checkCalciumCase2(order, caseId, labData) {
   var totalPoints = 0;
   var currentCalcium =
     labsInitial[caseId].calcium[labsInitial[caseId].calcium.length - 1];
@@ -2294,7 +2292,7 @@ function checkCalciumCase2(order, caseId) {
   return;
 }
 
-function checkMagnesium(caseId) {
+function checkMagnesium(caseId, labData) {
   var totalPoints = 0;
   var currentMagnesium =
     labsInitial[caseId].magnesium[labsInitial[caseId].magnesium.length - 1];
@@ -2315,7 +2313,7 @@ function checkMagnesium(caseId) {
   return;
 }
 
-function checkMagnesiumCase2(caseId) {
+function checkMagnesiumCase2(caseId, labData) {
   var totalPoints = 0;
   var currentMagnesium =
     labsInitial[caseId].magnesium[labsInitial[caseId].magnesium.length - 1];
@@ -2342,7 +2340,7 @@ function checkMagnesiumCase2(caseId) {
   return;
 }
 
-function checkPhosphorous(caseId) {
+function checkPhosphorous(caseId, labData) {
   // TODO: There will be a scheduled sodium phosphorous replacement option for when the sodium goes low, TBD
   //  - Adding sodium phosphate (15 mmol/dL) will modify the phosphate “[X] Dialysate” as follows:
   //      - (465/t(which will equal 6)) (Effluent Flow Rate *10)
@@ -2371,7 +2369,7 @@ function checkPhosphorous(caseId) {
   return;
 }
 
-function checkGrossUltrafiltration(caseId, currentTime) {
+function checkGrossUltrafiltration(caseId, currentTime, labData) {
   var totalPoints = 0;
   var fluidInPastEightHoursInLiters =
     parseFloat(
