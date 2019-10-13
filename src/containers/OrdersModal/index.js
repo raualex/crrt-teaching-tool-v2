@@ -31,29 +31,29 @@ export class OrdersModal extends Component {
     super(props);
     this.state = {
       modality: "Pre-filter CVVH",
-      sodium: 0,
-      potassium: 0,
-      chloride: 0,
-      bicarbonate: 0,
-      calcium: 0,
-      magnesium: 0,
-      phosphorous: 0,
-      grossUltraFiltration: 0,
-      bloodFlowRate: 0,
-      replacementFluidFlowRate: 0,
+      sodium: "",
+      potassium: "",
+      chloride: "",
+      bicarbonate: "",
+      calcium: "",
+      magnesium: "",
+      phosphorous: "",
+      grossUltraFiltration: "",
+      bloodFlowRate: "",
+      replacementFluidFlowRate: "",
       saline3Percent: false,
       d5W: false,
       sodiumPhosphate15mmol100ml: false,
       anticoagulation: "None",
-      otherFluidsBolusValue: 0,
-      otherFluidsInfusionValue: 0,
-      citrateFlowRate: 0,
-      caClInfusionRate: 0,
+      otherFluidsBolusValue: "",
+      otherFluidsInfusionValue: "",
+      citrateFlowRate: "",
+      caClInfusionRate: "",
       readyForSubmission: false,
       dosageErrors: [],
       currentTime: 10,
-      currentDay: 1,
-      timeBetweenOrders: 8
+      currentDay: 1
+      // timeBetweenOrders: 8
     };
   }
 
@@ -447,23 +447,6 @@ export class OrdersModal extends Component {
       citrateFlowRate,
       caClInfusionRate
     };
-    // dosages: {
-    //   modality,
-    //   sodium,
-    //   potassium,
-    //   chloride,
-    //   bicarbonate,
-    //   calcium,
-    //   magnesium,
-    //   phosphorous,
-    //   grossUltraFiltration,
-    //   bloodFlowRate,
-    //   replacementFluidFlowRate,
-    //   saline3Percent,
-    //   d5W,
-    //   sodiumPhosphate15mmol100ml,
-    //   anticoagulation
-    // }
 
     return order;
   };
@@ -543,23 +526,23 @@ export class OrdersModal extends Component {
     event.preventDefault();
     this.setState({
       modality: "Pre-filter CVVH",
-      sodium: 0,
-      potassium: 0,
-      chloride: 0,
-      bicarbonate: 0,
-      calcium: 0,
-      magnesium: 0,
-      phosphorous: 0,
-      grossUltraFiltration: 0,
-      bloodFlowRate: 0,
-      replacementFluidFlowRate: 0,
+      sodium: "",
+      potassium: "",
+      chloride: "",
+      bicarbonate: "",
+      calcium: "",
+      magnesium: "",
+      phosphorous: "",
+      grossUltraFiltration: "",
+      bloodFlowRate: "",
+      replacementFluidFlowRate: "",
       saline3Percent: false,
       d5W: false,
       sodiumPhosphate15mmol100ml: false,
       anticoagulation: "None",
       readyForSubmission: false,
-      dosageErrors: [],
-      timeBetweenOrders: 8
+      dosageErrors: []
+      // timeBetweenOrders: 8
     });
   };
 
