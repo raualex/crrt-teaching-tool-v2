@@ -163,6 +163,7 @@ export class Simulator extends Component {
               <button 
                 className="restart-case-btn header-btn"
                 onClick={this.handleCaseReset}
+                disabled={showOrdersModal === true}
               >
                 Restart Case
               </button>
@@ -279,6 +280,7 @@ export class Simulator extends Component {
               <button 
                 className="restart-case-btn header-btn"
                 onClick={this.handleCaseReset}
+                disabled={showOrdersModal === true}
               >
                 Restart Case
               </button>
