@@ -91,4 +91,8 @@ export class ResultsModal extends Component {
   }
 }
 
-export default connect(null, null)(ResultsModal);
+export const mapStateToProps = (state) => ({
+  hourlyTimestamps: state.hourlyTimestamps
+});
+
+export default connect(mapStateToProps, null)(ResultsModal);
