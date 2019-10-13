@@ -660,6 +660,8 @@ export class OrdersModal extends Component {
               <a
                 href="https://github.com/raualex/crrt-teaching-tool-v2"
                 className="textbook-link"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <i className="far fa-question-circle"></i>
               </a>
@@ -682,6 +684,8 @@ export class OrdersModal extends Component {
               <a
                 href="https://github.com/raualex/crrt-teaching-tool-v2"
                 className="textbook-link"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <i className="far fa-question-circle"></i>
               </a>
@@ -713,6 +717,8 @@ export class OrdersModal extends Component {
                 <a
                   href="https://github.com/raualex/crrt-teaching-tool-v2"
                   className="textbook-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <i className="far fa-question-circle"></i>
                 </a>
@@ -732,6 +738,8 @@ export class OrdersModal extends Component {
                 <a
                   href="https://github.com/raualex/crrt-teaching-tool-v2"
                   className="textbook-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <i className="far fa-question-circle"></i>
                 </a>
@@ -751,6 +759,8 @@ export class OrdersModal extends Component {
                 <a
                   href="https://github.com/raualex/crrt-teaching-tool-v2"
                   className="textbook-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <i className="far fa-question-circle"></i>
                 </a>
