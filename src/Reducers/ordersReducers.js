@@ -16,7 +16,11 @@ const defaultResultsMessagesState = [
 export const ordersReducer = (state = [], action) => {
   switch (action.type) {
     case "SUBMIT_ORDER":
-      return [...state, action.order];
+      if (action.order !== 'reset') {
+        return [...state, action.order];
+      } else {
+        return []
+      }
     default:
       return state;
   }
@@ -81,7 +85,11 @@ export const recordHourlyTimestampReducer = (
 ) => {
   switch (action.type) {
     case "RECORD_HOURLY_TIMESTAMP":
-      return [...state, ...action.timeStamps];
+      if (action.timeStamps.length) {
+        return [...state, ...action.timeStamps];
+      } else {
+        return ["Pre-CRRT 1", "Pre-CRRT 2"]
+      }
     default:
       return state;
   }

@@ -4,7 +4,8 @@ import "./Textbook.css";
 function Textbook() {
   return (
     <div>
-      <h1>CRRT Textbook!</h1>
+      <h1>CRRT Textbook</h1>
+      <h3>-- Currently Under Construction --</h3>
     </div>
   );
 }

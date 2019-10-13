@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Simulator.css";
 import { connect } from "react-redux";
+import { setCaseOver } from "../../Actions/index.js";
 import { setSelectedModal } from "../../Actions/selection-actions";
 import {
   calculateLabData,
@@ -23,6 +24,11 @@ import {
   labsInitial,
   inputOutputInitial
 } from "../../utils/initialSpreadsheetData.js";
+import {
+  labsResetValues,
+  inputOutputResetValues,
+  timeResetValues
+} from "../../utils/resetValues.js";
 
 export class Simulator extends Component {
   constructor(props) {
@@ -70,10 +76,23 @@ export class Simulator extends Component {
   };
 
   handleCaseReset = () => {
-    let { selectedCase, calculateLabData, setInputOutputData } = this.props;
-
-    calculateLabData(labsInitial[selectedCase.id]);
-    setInputOutputData(inputOutputInitial[selectedCase.id]);
+    let {
+      submitOrder,
+      selectedCase,
+      calculateLabData,
+      setInputOutputData,
+      recordHourlyTimestamp,
+      setTime,
+      setTimeBetweenOrders
+    } = this.props;
+    console.log("LABS: ", labsResetValues[selectedCase.id]);
+    console.log("I/O: ", inputOutputResetValues[selectedCase.id]);
+    calculateLabData(labsResetValues[selectedCase.id]);
+    setInputOutputData(inputOutputResetValues[selectedCase.id]);
+    recordHourlyTimestamp([]);
+    setTime(timeResetValues);
+    setTimeBetweenOrders(0);
+    submitOrder("reset");
   };
 
   toggleOrdersModal = event => {
@@ -139,7 +158,10 @@ export class Simulator extends Component {
               <button className="crrt-display-btn header-btn">
                 CRRT Display
               </button>
-              <button className="restart-case-btn header-btn">
+              <button
+                className="restart-case-btn header-btn"
+                onClick={this.handleCaseReset}
+              >
                 Restart Case
               </button>
             </div>
@@ -239,6 +261,12 @@ export class Simulator extends Component {
           <header className="simulator-header">
             <h1 className="CRRT-title">CRRT SIMULATOR v.2</h1>
             <div className="form-buttons-container">
+              <div className="CRRT-subtitle-container">
+                <h2 className="CRRT-subtitle">
+                  Case Selected: {selectedCase.id}
+                </h2>
+                <h2 className="CRRT-subtitle">Time: {timeForTitle}</h2>
+              </div>
               <button
                 className="orders-btn header-btn"
                 onClick={event => this.toggleOrdersModal(event)}
@@ -248,7 +276,10 @@ export class Simulator extends Component {
               <button className="crrt-display-btn header-btn">
                 CRRT Display
               </button>
-              <button className="restart-case-btn header-btn">
+              <button
+                className="restart-case-btn header-btn"
+                onClick={this.handleCaseReset}
+              >
                 Restart Case
               </button>
             </div>
@@ -362,6 +393,7 @@ export const mapStateToProps = ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+  setCaseOver: bool => dispatch(setCaseOver(bool)),
   submitOrder: order => dispatch(submitOrder(order)),
   setTime: newTime => dispatch(setTime(newTime)),
   setTimeBetweenOrders: TimeBetweenOrders =>

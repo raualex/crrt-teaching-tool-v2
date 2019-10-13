@@ -82,7 +82,9 @@ export class CaseSelectionModal extends Component {
   render() {
     return (
       <div className="csm-main-container">
-        <h1>Select a Case ID for the Simulator</h1>
+        <div className="csm-title-container">
+          <h1 className="csm-title">Select a Case ID for the Simulator</h1>
+        </div>
         <form>
           <div className="csm-input-submit-container">
             <input

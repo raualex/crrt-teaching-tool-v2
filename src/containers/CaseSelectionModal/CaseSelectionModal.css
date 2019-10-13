@@ -4,39 +4,63 @@
   border: solid 1px #f2f2f2;
   display: flex;
   flex-direction: column;
-  height: 60vh;
   justify-content: flex-start;
   margin: auto;
-  padding: 15% 10% 10% 10%;
-  width: 60vw;
+  padding: 10% 10% 10% 10%;
+}
+
+.csm-title-container {
+  background-color: #c8e9ff;
+  border: solid 1px #3b8ed6;
+  border-radius: 5px 5px 0px 0px;
+  box-shadow: 3px 3px #d0d6d3;
+  width: 41rem;
+}
+
+.csm-title {
+  color: #3b8ed6;
+  height: 38px;
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  padding: 21px;
 }
 
 .csm-input-submit-container {
   align-items: center;
+  background-color: #fff;
+  border: solid 1px #000;
+  border-radius: 0px 0px 5px 5px;
+  box-shadow: 3px 3px #d0d6d3;
   display: flex;
-  height: 3rem;
+  flex-direction: column;
+  height: 4rem;
   justify-content: space-evenly;
+  margin: 0;
+  padding-bottom: 40px;
   padding-top: 40px;
-  width: 20rem;
+  width: 41rem;
 }
 
 .csm-input {
-  width: 50%;
-  height: 1.25rem;
-  border-radius: 5px;
   border: 1px solid #a09e9e;
+  border-radius: 5px;
+  height: 2rem;
+  padding: 4px;
+  width: 50%;
 }
 
 .csm-submit-btn {
-  color: #bababa;
-  font-weight: 700;
-  width: 8rem;
-  border: none;
+  border: solid 2px rgba(0,0,0,0);
   border-radius: 10px;
-  height: 2rem;
-  font-size: 1rem;
-  outline: none;
+  color: #bababa;
   cursor: not-allowed;
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  margin-top: 25px;
+  outline: none;
+  width: 8rem;
 }
 
 .csm-submit-btn:hover {
@@ -44,17 +68,24 @@
   background-color: #4c4646;
 }
 
+.csm-submit-btn-active:active {
+  background-color: #3b8ed6;
+  border: solid 2px #3b8ed6;
+  color: #fff;
+}
+
 .csm-submit-btn-active {
-  background-color: #fff;
   border: solid 2px #4c4646;
-  color: #4c4646;
-  font-weight: 700;
-  width: 8rem;
+  background-color: #fff;
   border-radius: 10px;
-  height: 2rem;
-  font-size: 1rem;
-  outline: none;
+  color: #4c4646;
   cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  margin-top: 25px;
+  outline: none;
+  width: 8rem;
 }
 
 .csm-loading-msg {
@@ -64,11 +95,12 @@
 }
 
 .csm-error-container {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
   color: #f00;
+  display: flex;
   height: 4rem;
+  justify-content: center;
+  margin: auto;
+  text-align: center;
   width: 20rem;
 }

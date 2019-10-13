@@ -1,5 +1,6 @@
-import { isLoading, hasErrored, submitOrder } from './';
+import { isLoading, hasErrored } from './';
 import { setSelectedModal } from './selection-actions.js';
+import { submitOrder } from './ordersActions.js';
 
 describe('isLoading action', () => {
   it('should return an object with a type of IS_LOADING', () => {

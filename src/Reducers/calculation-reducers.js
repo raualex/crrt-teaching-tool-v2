@@ -33,8 +33,9 @@ export const calculateLabDataReducer = (
     case "CALCULATE_LAB_DATA":
       if (action.newLabData) {
         return action.newLabData;
+      } else {
+        return state;
       }
-      return state;
     default:
       return state;
   }
