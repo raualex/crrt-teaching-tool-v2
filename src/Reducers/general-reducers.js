@@ -15,3 +15,12 @@ export const hasErroredReducer = (state = false, action) => {
       return state;
   }
 };
+
+export const setCaseOverReducer = (state = false, action) => {
+  switch (action.type) {
+    case "SET_CASE_OVER":
+      return action.caseOver
+    default:
+      return state;
+  }
+};

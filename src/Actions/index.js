@@ -8,7 +8,12 @@ export const hasErrored = (bool) => ({
   hasErrored: bool
 })
 
-export const submitOrder = (order) => ({
-	type: 'SUBMIT_ORDER',
-	order: order
+// export const submitOrder = (order) => ({
+// 	type: 'SUBMIT_ORDER',
+// 	order: order
+// })
+
+export const setCaseOver = (bool) => ({
+  type: 'SET_CASE_OVER',
+  caseOver: bool
 })

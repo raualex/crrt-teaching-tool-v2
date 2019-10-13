@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Simulator.css";
 import { connect } from "react-redux";
+import { setCaseOver } from "../../Actions/index.js"
 import { setSelectedModal } from "../../Actions/selection-actions";
 import { 
   calculateLabData,
@@ -392,6 +393,7 @@ export const mapStateToProps = ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+  setCaseOver: bool => dispatch(setCaseOver(bool)),
   submitOrder: order => dispatch(submitOrder(order)),
   setTime: newTime => dispatch(setTime(newTime)),
   setTimeBetweenOrders: TimeBetweenOrders =>
