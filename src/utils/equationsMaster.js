@@ -1915,11 +1915,12 @@ function checkSodiumCase2(caseId) {
   }
 
   if (currentSodium >= 150 && currentSodium <= 160) {
-    console.log("checkSodium() : within bounds ", currentSodium);
+    console.log("checkSodium() : within bounds: ", currentSodium);
     totalPoints = totalPoints + 5;
   }
 
   if (currentSodium < 150) {
+    console.log("checkSodium() : concerned below: ", currentSodium);
     msg =
       "The primary team is concerned about the patient's hyponatremia. Please modify the CRRT prescription.";
     _newMessages.push(msg);
@@ -1927,6 +1928,7 @@ function checkSodiumCase2(caseId) {
   }
 
   if (currentSodium > 160) {
+    console.log("checkSodium() : concerned above: ", currentSodium);
     msg =
       "The primary team is concerned about the patient's hypernatremia. Please modify the CRRT prescription.";
     _newMessages.push(msg);
@@ -1934,6 +1936,7 @@ function checkSodiumCase2(caseId) {
   }
 
   if (currentSodium > 170) {
+    console.log("checkSodium() : urgent above: ", currentSodium);
     msg =
       "The patient developed a subarachnoid hemorrhage in the hospital, and was transitioned to comfort care by the family. The sodium concentration >170 mmol/L was thought to be the main culprit. Try the scenario again, with less 3% saline";
     _caseOver = true;
@@ -1942,6 +1945,7 @@ function checkSodiumCase2(caseId) {
   }
 
   if (currentSodium < 130) {
+    console.log("checkSodium() : lethal below: ", currentSodium);
     msg =
       "The patient developed cerebral edema leading to brain herniation, and passed away. The sodium concentration <130 mmol/L was thought to be the etiology. Try the scenario again, without using D5W.";
     _caseOver = true;
