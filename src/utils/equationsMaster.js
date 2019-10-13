@@ -674,7 +674,7 @@ export function runLabs(
       labsInitial[selectedCase.id]["calcium"].length - 1
     ] / timeBetweenOrders;
   newLabs["filtrationFraction"] = currentOrder.filtrationFraction;
-  // debugger;
+
   let initialEffluentFlowRate = calculateEffluentFlowRate(currentOrder);
   console.log("initialEffluentFlowRate :", initialEffluentFlowRate);
 
@@ -827,8 +827,7 @@ export function runLabs(
   // setVolumeOverload();
   console.log(setVolumeOverload());
   // setPageVariables();
-  // postLabChecks(orders, time, selectedCase);
-  console.log(postLabChecks(orders, time, selectedCase));
+  postLabChecks(orders, time, selectedCase);
   // processMessages();
   return newLabs;
 }
