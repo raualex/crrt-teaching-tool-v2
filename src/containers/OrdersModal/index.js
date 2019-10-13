@@ -74,17 +74,7 @@ export class OrdersModal extends Component {
 
     if (this.props.orders !== prevProps.orders) {
       let currentOrder = orders[orders.length - 1];
-      // const newLabData = compileLabData(
-      //   labData,
-      //   timeBetweenOrders,
-      //   selectedCase.usualWeight,
-      //   currentOrder
-      // );
-
-      // await calculateLabData(newLabData);
-
-      //LabData
-      const newLabData = runLabs(
+      let newLabData = runLabs(
         orders,
         time,
         timeBetweenOrders,
@@ -92,20 +82,20 @@ export class OrdersModal extends Component {
         labData
       );
 
-      const inputOutput = returnInputOutput()
+      let inputOutput = returnInputOutput()
       this.combineInputOutputObjects(inputOutput)
 
-      const resultsMessages = this.checkCurrentOrderResults();
+      let resultsMessages = this.checkCurrentOrderResults();
 
       let combinedLabData = this.addNewLabDataToPreviousLabData(newLabData)
       calculateLabData(combinedLabData)
 
       //Medications
-      const medications = getMedications(timeBetweenOrders, selectedCase.id);
+      let medications = getMedications(timeBetweenOrders, selectedCase.id);
       addMedications(medications);
 
       //Vitals
-      const vitals = getVitals(timeBetweenOrders, selectedCase.id);
+      let vitals = getVitals(timeBetweenOrders, selectedCase.id);
       addVitals(vitals);
 
       addResultsMessagesToOrder(resultsMessages, currentOrder);
@@ -119,7 +109,7 @@ export class OrdersModal extends Component {
 
   combineInputOutputObjects = (newInputOutput) => {
     let { inputOutputData, setInputOutputData } = this.props
-    let finalInputOutputData = inputOutputData
+    let finalInputOutputData = Object.assign({}, inputOutputData)
 
     finalInputOutputData.citrate = [...finalInputOutputData.citrate, ...newInputOutput.citrate]
     finalInputOutputData.calciumChloride = [...finalInputOutputData.calciumChloride, ...newInputOutput.calciumChloride]
@@ -160,7 +150,7 @@ export class OrdersModal extends Component {
 
   addNewLabDataToPreviousLabData = (newLabData) => {
     let { labData } = this.props
-    let finalLabData = labData;
+    let finalLabData = Object.assign({}, labData);
 
     finalLabData.time = [...labData.time, newLabData.time];
     finalLabData.sodium = [...labData.sodium, parseFloat(newLabData.sodium)];
