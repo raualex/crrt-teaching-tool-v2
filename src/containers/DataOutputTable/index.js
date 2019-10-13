@@ -43,17 +43,39 @@ export class DataOutputTable extends Component {
     return finalLabs;
   };
 
-  createTableColumnHeaders = arrNum => {
-    let { labData } = this.props;
+  createTableColumnHeaders = (arrNum, selectedModal) => {
+    let { labData, hourlyTimestamps } = this.props;
     let finalArr = [];
-    for (var i = 0; i < arrNum; i++) {
-      finalArr.push(
-        <th key={uuidv4()} className="blank-table-head">
-          {labData.time[i]}
-        </th>
-      );
+
+    if (selectedModal === "Laboratory Data") {
+      for (let i = 0; i < arrNum; i++) {
+        finalArr.push(
+          <th key={uuidv4()} className="blank-table-head">
+            {labData.time[i]}
+          </th>
+        );
+      }
+      return finalArr;
+    } else if (selectedModal === "Input/Output") {
+      for (let i = 0; i < hourlyTimestamps.length; i++) {
+        finalArr.push(
+          <th key={uuidv4()} className="blank-table-head">
+            {hourlyTimestamps[i]}
+          </th>
+        );
+      }
+      return finalArr;
+    } else {
+      for (let i = 0; i < arrNum; i++) {
+        finalArr.push(
+          <th key={uuidv4()} className="blank-table-head">
+            {labData.time[i]}
+          </th>
+        );
+      }
+      return finalArr;
     }
-    return finalArr;
+    
   };
 
   createBulletPointsForNonTables = () => {
@@ -117,15 +139,19 @@ export class DataOutputTable extends Component {
   };
 
   render() {
-    let { selectedModal, labData } = this.props;
-    let modalNameForClass = selectedModal.replace(/\s/g, "-");
+    let { selectedModal, labData, inputOutputData, hourlyTimestamps } = this.props;
+    let modalNameForClass;
     let modalNameForKeys;
     let modalTableRowKeys;
     let rowsNumber = labData.sodium.length;
     // mockReduxOrdersForModal.mockReduxOrdersForModal["Vitals"].length;
+    if (selectedModal === "Input/Output") {
+      modalNameForClass = "InputOutput";
+    } else {
+      modalNameForClass = selectedModal.replace(/\s/g, "-");
+    }
 
     if (
-      selectedModal === "Input/Output" ||
       selectedModal === "Vitals" ||
       selectedModal === "Medications"
     ) {
@@ -149,7 +175,52 @@ export class DataOutputTable extends Component {
           <thead>
             <tr>
               <th className="blank-table-head"></th>
-              {this.createTableColumnHeaders(rowsNumber)}
+              {this.createTableColumnHeaders(rowsNumber, selectedModal)}
+            </tr>
+          </thead>
+          <tbody>{modalTableRowKeys}</tbody>
+        </table>
+      );
+    } else if (selectedModal === "Input/Output") {
+      modalNameForKeys = selectedModal.replace(/\s/g, "");
+      modalTableRowKeys = modalKeys[modalNameForKeys].reduce(
+        (acc, keyName, index) => {
+          let keyNoSpaces = keyName.replace(/\s/g, "");
+          let newKeyName;
+
+          if (keyNoSpaces === "NetInput/Output") {
+            newKeyName = "netInputOutput";
+          } else if (keyNoSpaces === "CumulativeInput/Output") {
+            newKeyName = "cumulativeInputOutput";
+          } else {
+            newKeyName = keyNoSpaces.charAt(0).toLowerCase() + keyNoSpaces.slice(1);
+          }
+
+          if (inputOutputData[newKeyName]) {
+            acc.push(
+              <tr key={uuidv4()}>
+                <td key={uuidv4()} className={"table-key index" + index}>
+                  {keyName}
+                </td>
+                {this.mapArrayValuesForTables(
+                  inputOutputData[newKeyName],
+                  hourlyTimestamps.length
+                  // mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys]
+                )}
+              </tr>
+            );
+          }
+          return acc;
+        },
+        []
+      );
+
+      return (
+        <table className={"dataot-" + modalNameForClass}>
+          <thead>
+            <tr>
+              <th className="blank-table-head"></th>
+              {this.createTableColumnHeaders(rowsNumber, selectedModal)}
             </tr>
           </thead>
           <tbody>{modalTableRowKeys}</tbody>
@@ -198,7 +269,7 @@ export class DataOutputTable extends Component {
           <thead>
             <tr>
               <th className="blank-table-head"></th>
-              {this.createTableColumnHeaders(rowsNumber)}
+              {this.createTableColumnHeaders(rowsNumber, selectedModal)}
             </tr>
           </thead>
           <tbody>{modalTableRowKeys}</tbody>
@@ -217,7 +288,9 @@ export class DataOutputTable extends Component {
 export const mapStateToProps = state => ({
   selectedModal: state.selectedModal,
   selectedCase: state.selectedCase,
-  labData: state.labData
+  labData: state.labData,
+  inputOutputData: state.inputOutputData,
+  hourlyTimestamps: state.hourlyTimestamps
 });
 
 export default connect(mapStateToProps)(DataOutputTable);

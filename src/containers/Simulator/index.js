@@ -1,11 +1,22 @@
 import React, { Component } from "react";
 import "./Simulator.css";
 import { connect } from "react-redux";
+import { setCaseOver } from "../../Actions/index.js"
 import { setSelectedModal } from "../../Actions/selection-actions";
 import { 
   calculateLabData,
   setInputOutputData
 } from "../../Actions/calculationActions";
+import { 
+  recordHourlyTimestamp,
+  submitOrder,
+  setTime,
+  setTimeBetweenOrders,
+  validateTimeBetweenOrders,
+  addResultsMessagesToOrder
+} from '../../Actions/ordersActions';
+import { addMedications } from "../../Actions/medication-actions";
+import { addVitals } from "../../Actions/vitals-actions";
 import DataOutputModal from "../DataOutputModal";
 import OrdersModal from "../OrdersModal";
 import OrderResultsContainer from "../../components/OrderResultsContainer";
@@ -13,6 +24,11 @@ import {
   labsInitial,
   inputOutputInitial 
 } from "../../utils/initialSpreadsheetData.js";
+import {
+  labsResetValues,
+  inputOutputResetValues,
+  timeResetValues
+} from "../../utils/resetValues.js"
 
 export class Simulator extends Component {
   constructor(props) {
@@ -63,6 +79,26 @@ export class Simulator extends Component {
     }
   };
 
+  handleCaseReset = () => {
+    let { 
+      submitOrder,
+      selectedCase, 
+      calculateLabData,
+      setInputOutputData,
+      recordHourlyTimestamp,
+      setTime,
+      setTimeBetweenOrders
+    } = this.props;
+    console.log("LABS: ", labsResetValues[selectedCase.id])
+    console.log("I/O: ", inputOutputResetValues[selectedCase.id])
+    calculateLabData(labsResetValues[selectedCase.id]);
+    setInputOutputData(inputOutputResetValues[selectedCase.id]);
+    recordHourlyTimestamp([])
+    setTime(timeResetValues)
+    setTimeBetweenOrders(0)
+    submitOrder('reset')
+  }
+
   toggleOrdersModal = event => {
     if (event) {
       event.preventDefault();
@@ -87,14 +123,22 @@ export class Simulator extends Component {
       selectedCase,
       location,
       history,
+      hourlyTimestamps
       // resultsMessages,
       // orders
     } = this.props;
     const { showOrdersModal, btnClicked } = this.state;
+    let timeForTitle;
 
     if (!selectedCase.id) {
       location.pathname = "/select_a_case";
       history.push("/select_a_case");
+    }
+
+    if (hourlyTimestamps.length === 2) {
+      timeForTitle = "10:00 - Day 1"
+    } else {
+      timeForTitle = hourlyTimestamps[hourlyTimestamps.length - 1]
     }
 
     if (selectedModal === "") {
@@ -103,6 +147,10 @@ export class Simulator extends Component {
           <header className="simulator-header">
             <h1 className="CRRT-title">CRRT SIMULATOR v.2</h1>
             <div className="form-buttons-container">
+              <div className="CRRT-subtitle-container">
+                <h2 className="CRRT-subtitle">Case Selected: {selectedCase.id}</h2>
+                <h2 className="CRRT-subtitle">Time: {timeForTitle}</h2>
+              </div>
               <button
                 className="orders-btn header-btn"
                 onClick={event => this.toggleOrdersModal(event)}
@@ -112,7 +160,11 @@ export class Simulator extends Component {
               <button className="crrt-display-btn header-btn">
                 CRRT Display
               </button>
-              <button className="restart-case-btn header-btn">
+              <button 
+                className="restart-case-btn header-btn"
+                onClick={this.handleCaseReset}
+                disabled={showOrdersModal === true}
+              >
                 Restart Case
               </button>
             </div>
@@ -212,6 +264,10 @@ export class Simulator extends Component {
           <header className="simulator-header">
             <h1 className="CRRT-title">CRRT SIMULATOR v.2</h1>
             <div className="form-buttons-container">
+              <div className="CRRT-subtitle-container">
+                <h2 className="CRRT-subtitle">Case Selected: {selectedCase.id}</h2>
+                <h2 className="CRRT-subtitle">Time: {timeForTitle}</h2>
+              </div>
               <button
                 className="orders-btn header-btn"
                 onClick={event => this.toggleOrdersModal(event)}
@@ -221,7 +277,11 @@ export class Simulator extends Component {
               <button className="crrt-display-btn header-btn">
                 CRRT Display
               </button>
-              <button className="restart-case-btn header-btn">
+              <button 
+                className="restart-case-btn header-btn"
+                onClick={this.handleCaseReset}
+                disabled={showOrdersModal === true}
+              >
                 Restart Case
               </button>
             </div>
@@ -324,15 +384,31 @@ export const mapStateToProps = ({
   selectedModal,
   selectedCase,
   orders,
-  resultsMessages
+  resultsMessages,
+  hourlyTimestamps
 }) => ({
   selectedModal,
   selectedCase,
   orders,
-  resultsMessages
+  resultsMessages,
+  hourlyTimestamps
 });
 
 export const mapDispatchToProps = dispatch => ({
+  setCaseOver: bool => dispatch(setCaseOver(bool)),
+  submitOrder: order => dispatch(submitOrder(order)),
+  setTime: newTime => dispatch(setTime(newTime)),
+  setTimeBetweenOrders: TimeBetweenOrders =>
+    dispatch(setTimeBetweenOrders(TimeBetweenOrders)),
+  validateTimeBetweenOrders: isValid =>
+    dispatch(validateTimeBetweenOrders(isValid)),
+  addResultsMessagesToOrder: (resultsMessages, id) =>
+    dispatch(addResultsMessagesToOrder(resultsMessages, id)),
+  addMedications: timeBetweenOrders =>
+    dispatch(addMedications(timeBetweenOrders)),
+  addVitals: timeBetweenOrders => dispatch(addVitals(timeBetweenOrders)),
+  recordHourlyTimestamp: timeStamps =>
+    dispatch(recordHourlyTimestamp(timeStamps)),
   setSelectedModal: modal => dispatch(setSelectedModal(modal)),
   calculateLabData: newLabData => dispatch(calculateLabData(newLabData)),
   setInputOutputData: newInputOutput => dispatch(setInputOutputData(newInputOutput))

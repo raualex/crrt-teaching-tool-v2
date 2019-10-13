@@ -27,6 +27,18 @@ const modalKeys = {
     "Urine Culture"
   ],
   "Input/Output": [
+    "Acetylcysteine",
+    "Fentanyl",
+    "Vasopressin",
+    "Cisatracurium",
+    "Midazolam",
+    "Norepinephrine",
+    "Normal Saline Bolus",
+    "Normal Saline Carrier",
+    "Meropenem",
+    "Levofloxacin",
+    "Citrate",
+    "Calcium Chloride",
     "Calcium Gluconate",
     "Albumin",
     "Vancomycin",

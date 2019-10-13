@@ -6,7 +6,7 @@ describe("CaseSelectionModal", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<CaseSelectionModal />);
+    wrapper = shallow(<CaseSelectionModal allCases={[1, 2]} />);
   });
 
   it("matches the snapshot", () => {

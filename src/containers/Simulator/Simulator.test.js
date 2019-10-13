@@ -5,9 +5,13 @@ import { shallow } from "enzyme";
 describe("Simulator", () => {
   let wrapper;
   let mockCase = { id: 3 };
+  let mockHourlyTimestamps = ["10:00", "11:00"]
 
   beforeEach(() => {
-    wrapper = shallow(<Simulator selectedCase={mockCase} />);
+    wrapper = shallow(<Simulator 
+      selectedCase={mockCase} 
+      hourlyTimestamps={mockHourlyTimestamps}
+    />);
   });
 
   it("matches the snapshot", () => {
@@ -16,7 +20,11 @@ describe("Simulator", () => {
 
   it("matches the snapshot with a selectedModal", () => {
     wrapper = shallow(
-      <Simulator selectedModal={"Imaging"} selectedCase={mockCase} />
+      <Simulator 
+        selectedModal={"Imaging"} 
+        selectedCase={mockCase} 
+        hourlyTimestamps={mockHourlyTimestamps}
+      />
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -25,9 +33,13 @@ describe("Simulator", () => {
 describe("toggleOrdersModal", () => {
   let wrapper;
   let mockCase = { id: 3 };
+  let mockHourlyTimestamps = ["10:00", "11:00"]
 
   beforeEach(() => {
-    wrapper = shallow(<Simulator selectedCase={mockCase} />);
+    wrapper = shallow(<Simulator 
+      selectedCase={mockCase} 
+      hourlyTimestamps={mockHourlyTimestamps}
+    />);
   });
 
   const mockEvent = {

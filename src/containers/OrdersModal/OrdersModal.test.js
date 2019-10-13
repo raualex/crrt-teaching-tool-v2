@@ -65,7 +65,7 @@ describe("OrdersModal", () => {
     };
 
     it("should set state for properties with number types", () => {
-      expect(wrapper.state().sodium).toEqual(0);
+      expect(wrapper.state().sodium).toEqual("");
       wrapper.instance().handleNumberChange(mockEvent);
       expect(wrapper.state().sodium).toEqual(4);
     });
@@ -192,7 +192,7 @@ describe("OrdersModal", () => {
       expect(wrapper.state().anticoagulation).toEqual("Citrate");
       expect(wrapper.state().dosageErrors).toEqual(["sodium"]);
       wrapper.instance().clearInputs(mockEvent);
-      expect(wrapper.state().sodium).toEqual(0);
+      expect(wrapper.state().sodium).toEqual("");
       expect(wrapper.state().anticoagulation).toEqual("None");
       expect(wrapper.state().dosageErrors).toEqual([]);
     });
@@ -203,8 +203,8 @@ describe("OrdersModal", () => {
     };
 
     it("should set state with sample data", () => {
-      expect(wrapper.state().sodium).toEqual(0);
-      expect(wrapper.state().magnesium).toEqual(0);
+      expect(wrapper.state().sodium).toEqual("");
+      expect(wrapper.state().magnesium).toEqual("");
       expect(wrapper.state().saline3Percent).toEqual(false);
       expect(wrapper.state().dosageErrors).toEqual([]);
       wrapper.setState({

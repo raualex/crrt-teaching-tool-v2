@@ -31,29 +31,29 @@ export class OrdersModal extends Component {
     super(props);
     this.state = {
       modality: "Pre-filter CVVH",
-      sodium: 0,
-      potassium: 0,
-      chloride: 0,
-      bicarbonate: 0,
-      calcium: 0,
-      magnesium: 0,
-      phosphorous: 0,
-      grossUltraFiltration: 0,
-      bloodFlowRate: 0,
-      replacementFluidFlowRate: 0,
+      sodium: "",
+      potassium: "",
+      chloride: "",
+      bicarbonate: "",
+      calcium: "",
+      magnesium: "",
+      phosphorous: "",
+      grossUltraFiltration: "",
+      bloodFlowRate: "",
+      replacementFluidFlowRate: "",
       saline3Percent: false,
       d5W: false,
       sodiumPhosphate15mmol100ml: false,
       anticoagulation: "None",
-      otherFluidsBolusValue: 0,
-      otherFluidsInfusionValue: 0,
-      citrateFlowRate: 0,
-      caClInfusionRate: 0,
+      otherFluidsBolusValue: "",
+      otherFluidsInfusionValue: "",
+      citrateFlowRate: "",
+      caClInfusionRate: "",
       readyForSubmission: false,
       dosageErrors: [],
       currentTime: 10,
-      currentDay: 1,
-      timeBetweenOrders: 8
+      currentDay: 1
+      // timeBetweenOrders: 8
     };
   }
 
@@ -74,17 +74,7 @@ export class OrdersModal extends Component {
 
     if (this.props.orders !== prevProps.orders) {
       let currentOrder = orders[orders.length - 1];
-      // const newLabData = compileLabData(
-      //   labData,
-      //   timeBetweenOrders,
-      //   selectedCase.usualWeight,
-      //   currentOrder
-      // );
-
-      // await calculateLabData(newLabData);
-
-      //LabData
-      const newLabData = runLabs(
+      let newLabData = runLabs(
         orders,
         time,
         timeBetweenOrders,
@@ -92,21 +82,20 @@ export class OrdersModal extends Component {
         labData
       );
 
-      const inputOutput = returnInputOutput()
+      let inputOutput = returnInputOutput()
       this.combineInputOutputObjects(inputOutput)
 
-      const resultsMessages = this.checkCurrentOrderResults();
-      console.log(newLabData);
-      calculateLabData(
-        this.addNewLabDataToPreviousLabData(labData, newLabData)
-      );
+      let resultsMessages = this.checkCurrentOrderResults();
+
+      let combinedLabData = this.addNewLabDataToPreviousLabData(newLabData)
+      calculateLabData(combinedLabData)
 
       //Medications
-      const medications = getMedications(timeBetweenOrders, selectedCase.id);
+      let medications = getMedications(timeBetweenOrders, selectedCase.id);
       addMedications(medications);
 
       //Vitals
-      const vitals = getVitals(timeBetweenOrders, selectedCase.id);
+      let vitals = getVitals(timeBetweenOrders, selectedCase.id);
       addVitals(vitals);
 
       addResultsMessagesToOrder(resultsMessages, currentOrder);
@@ -120,7 +109,7 @@ export class OrdersModal extends Component {
 
   combineInputOutputObjects = (newInputOutput) => {
     let { inputOutputData, setInputOutputData } = this.props
-    let finalInputOutputData = inputOutputData
+    let finalInputOutputData = Object.assign({}, inputOutputData)
 
     finalInputOutputData.citrate = [...finalInputOutputData.citrate, ...newInputOutput.citrate]
     finalInputOutputData.calciumChloride = [...finalInputOutputData.calciumChloride, ...newInputOutput.calciumChloride]
@@ -143,10 +132,8 @@ export class OrdersModal extends Component {
     while (timeCounter !== timeBetweenOrders) {
       if (startTime === 0) {
         dayNumer = currentDay + 1
-        console.log("START TIME: ", startTime)
       } else {
         dayNumer = currentDay
-        console.log("OTHER START TIME: ", startTime)
       }
       
       finalTimeStampArray.push(`${startTime}:00 - Day ${dayNumer}`);
@@ -157,53 +144,54 @@ export class OrdersModal extends Component {
       }
       timeCounter++;
     }
-    console.log(finalTimeStampArray, timeCounter, timeBetweenOrders);
+
     return finalTimeStampArray;
   };
 
-  addNewLabDataToPreviousLabData = (oldLabData, newLabData) => {
-    let finalLabData = oldLabData;
+  addNewLabDataToPreviousLabData = (newLabData) => {
+    let { labData } = this.props
+    let finalLabData = Object.assign({}, labData);
 
-    finalLabData.time = [...oldLabData.time, newLabData.time];
-    finalLabData.sodium = [...oldLabData.sodium, parseFloat(newLabData.sodium)];
+    finalLabData.time = [...labData.time, newLabData.time];
+    finalLabData.sodium = [...labData.sodium, parseFloat(newLabData.sodium)];
     finalLabData.potassium = [
-      ...oldLabData.potassium,
+      ...labData.potassium,
       parseFloat(newLabData.potassium)
     ];
     finalLabData.chloride = [
-      ...oldLabData.chloride,
+      ...labData.chloride,
       parseFloat(newLabData.chloride)
     ];
     finalLabData.bicarbonate = [
-      ...oldLabData.bicarbonate,
+      ...labData.bicarbonate,
       parseFloat(newLabData.bicarbonate)
     ];
-    finalLabData.bun = [...oldLabData.bun, parseFloat(newLabData.bun)];
+    finalLabData.bun = [...labData.bun, parseFloat(newLabData.bun)];
     finalLabData.creatinine = [
-      ...oldLabData.creatinine,
+      ...labData.creatinine,
       parseFloat(newLabData.creatinine)
     ];
     finalLabData.calcium = [
-      ...oldLabData.calcium,
+      ...labData.calcium,
       parseFloat(newLabData.calcium)
     ];
     finalLabData.phosphorous = [
-      ...oldLabData.phosphorous,
+      ...labData.phosphorous,
       parseFloat(newLabData.phosphorous)
     ];
     finalLabData.filtrationFraction = [
-      ...oldLabData.filtrationFraction,
+      ...labData.filtrationFraction,
       parseFloat(newLabData.filtrationFraction)
     ];
     finalLabData.ionizedCalcium = [
-      ...oldLabData.ionizedCalcium,
+      ...labData.ionizedCalcium,
       parseFloat(newLabData.ionizedCalcium)
     ];
     finalLabData.magnesium = [
-      ...oldLabData.magnesium,
+      ...labData.magnesium,
       parseFloat(newLabData.magnesium)
     ];
-    finalLabData.ph = [...oldLabData.ph, parseFloat(newLabData.ph)];
+    finalLabData.ph = [...labData.ph, parseFloat(newLabData.ph)];
 
     return finalLabData;
   };
@@ -459,23 +447,6 @@ export class OrdersModal extends Component {
       citrateFlowRate,
       caClInfusionRate
     };
-    // dosages: {
-    //   modality,
-    //   sodium,
-    //   potassium,
-    //   chloride,
-    //   bicarbonate,
-    //   calcium,
-    //   magnesium,
-    //   phosphorous,
-    //   grossUltraFiltration,
-    //   bloodFlowRate,
-    //   replacementFluidFlowRate,
-    //   saline3Percent,
-    //   d5W,
-    //   sodiumPhosphate15mmol100ml,
-    //   anticoagulation
-    // }
 
     return order;
   };
@@ -555,23 +526,23 @@ export class OrdersModal extends Component {
     event.preventDefault();
     this.setState({
       modality: "Pre-filter CVVH",
-      sodium: 0,
-      potassium: 0,
-      chloride: 0,
-      bicarbonate: 0,
-      calcium: 0,
-      magnesium: 0,
-      phosphorous: 0,
-      grossUltraFiltration: 0,
-      bloodFlowRate: 0,
-      replacementFluidFlowRate: 0,
+      sodium: "",
+      potassium: "",
+      chloride: "",
+      bicarbonate: "",
+      calcium: "",
+      magnesium: "",
+      phosphorous: "",
+      grossUltraFiltration: "",
+      bloodFlowRate: "",
+      replacementFluidFlowRate: "",
       saline3Percent: false,
       d5W: false,
       sodiumPhosphate15mmol100ml: false,
       anticoagulation: "None",
       readyForSubmission: false,
-      dosageErrors: [],
-      timeBetweenOrders: 8
+      dosageErrors: []
+      // timeBetweenOrders: 8
     });
   };
 
@@ -662,6 +633,8 @@ export class OrdersModal extends Component {
               <a
                 href="https://github.com/raualex/crrt-teaching-tool-v2"
                 className="textbook-link"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <i className="far fa-question-circle"></i>
               </a>
@@ -684,6 +657,8 @@ export class OrdersModal extends Component {
               <a
                 href="https://github.com/raualex/crrt-teaching-tool-v2"
                 className="textbook-link"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <i className="far fa-question-circle"></i>
               </a>
@@ -715,6 +690,8 @@ export class OrdersModal extends Component {
                 <a
                   href="https://github.com/raualex/crrt-teaching-tool-v2"
                   className="textbook-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <i className="far fa-question-circle"></i>
                 </a>
@@ -734,6 +711,8 @@ export class OrdersModal extends Component {
                 <a
                   href="https://github.com/raualex/crrt-teaching-tool-v2"
                   className="textbook-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <i className="far fa-question-circle"></i>
                 </a>
@@ -753,6 +732,8 @@ export class OrdersModal extends Component {
                 <a
                   href="https://github.com/raualex/crrt-teaching-tool-v2"
                   className="textbook-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <i className="far fa-question-circle"></i>
                 </a>
