@@ -5,15 +5,27 @@ import { finalResultsMessages/*, vitalsInitial*/ } from '../../utils/initialSpre
 // import { setResultsTableVariables } from '../../utils/equationsMaster.js';
 
 export class ResultsModal extends Component {
-  // constructor(props) {
-  //   super(props)
-  // }
 
   printFailureMessage = () => {
     // let { selectedCase } = this.props;
     // let currentWeight = vitalsInitial[selectedCase.id].weight[vitalsInitial[selectedCase.id].weight.length - 1];
     // let currentPH = labData.ph[labData.ph.length - 1];
     // let resultsOverview;
+  }
+
+  printMaxPoints = (pointsCategory) => {
+    let { orders, totalPoints } = this.props;
+    if (pointsCategory === 'electrolytes') {
+      let totalSodium = orders.length * totalPoints.maxPointsPerCycle['sodiumInRange']
+      let totalPotassium = orders.length * totalPoints.maxPointsPerCycle['potassiumInRange']
+      let totalCalcium = orders.length * totalPoints.maxPointsPerCycle['calciumInRange']
+      let totalMagnesium = orders.length * totalPoints.maxPointsPerCycle['magnesiumInRange']
+      let totalPhosphorous = orders.length * totalPoints.maxPointsPerCycle['phosphorousInRange']
+
+      return totalSodium + totalPotassium + totalCalcium + totalMagnesium + totalPhosphorous
+    } else {
+      return orders.length * totalPoints.maxPointsPerCycle[pointsCategory]
+    }
   }
 
   render() {
@@ -38,7 +50,7 @@ export class ResultsModal extends Component {
             <i className="far fa-question-circle"></i>
             </a>
           </h3>
-          <p className='rm-body-msg'># earned out of a possible #</p>
+          <p className='rm-body-msg'># earned out of a possible {this.printMaxPoints('doseInRange')}</p>
           <p className='rm-body-msg'>The average dose delivered was: #</p>
           <p className='rm-body-msg'>Kidney Disease: Improving Global Outcomes/KDIGO recommends an average dose of 20 – 25 mL/kg/hr. Other experts recommend maintaining a "dosing window" of 20-40 mL/kg/hr. See the Dosing section in the written material for more information.</p>
           <h3 className='rm-body-section-title'>
@@ -52,7 +64,7 @@ export class ResultsModal extends Component {
             <i className="far fa-question-circle"></i>
             </a>
           </h3>
-          <p className='rm-body-msg'># earned out of a possible #</p>
+          <p className='rm-body-msg'># earned out of a possible {this.printMaxPoints('filtrationFractionInRange')}</p>
           <p className='rm-body-msg'>You used # over the course of the simulation. The average filter life was # hours</p>
           <p className='rm-body-msg'>Your average filtration fraction was #</p>
           <p className='rm-body-msg'>Filtration Fraction measures how much the plasma entering the filter is concentrated by ultrafiltration. It should be kept below 25% to reduce clotting. See the Non-pharmacologic approach to clotting for more information.</p>
@@ -67,7 +79,7 @@ export class ResultsModal extends Component {
             <i className="far fa-question-circle"></i>
             </a>
           </h3>
-          <p className='rm-body-msg'># earned out of a possible #</p>
+          <p className='rm-body-msg'># earned out of a possible {this.printMaxPoints('electrolytes')}</p>
           <p className='rm-body-msg'>Final sodium score was #</p>
           <p className='rm-body-msg'>Final potassium score was #</p>
           <p className='rm-body-msg'>Final calcium score was #</p>
@@ -85,7 +97,7 @@ export class ResultsModal extends Component {
             <i className="far fa-question-circle"></i>
             </a>
           </h3>
-          <p className='rm-body-msg'># earned out of a possible #</p>
+          <p className='rm-body-msg'># earned out of a possible {this.printMaxPoints('pHInRange')}</p>
           <p className='rm-body-msg'>Final pH was #</p>
           <p className='rm-body-msg'>Lowest pH was #</p>
           <p className='rm-body-msg'>Highest pH was #</p>
@@ -101,7 +113,7 @@ export class ResultsModal extends Component {
             <i className="far fa-question-circle"></i>
             </a>
           </h3>
-          <p className='rm-body-msg'># earned out of a possible #</p>
+          <p className='rm-body-msg'># earned out of a possible 200</p>
           <p className='rm-body-msg'>The patient's cumulative change in volume was # -- Initial weight: #, Final weight: #</p>
           <p className='rm-body-msg'>The patient started the case at #% overload</p>
           <p className='rm-body-msg'>At 48 hours, the patient was #% overloaded</p>
@@ -114,7 +126,10 @@ export class ResultsModal extends Component {
 
 export const mapStateToProps = (state) => ({
   selectedCase: state.selectedCase,
-  hourlyTimestamps: state.hourlyTimestamps
+  orders: state.orders,
+  timeBetweenOrders: state.timeBetweenOrders,
+  hourlyTimestamps: state.hourlyTimestamps,
+  totalPoints: state.totalPoints
 });
 
 export default connect(mapStateToProps, null)(ResultsModal);

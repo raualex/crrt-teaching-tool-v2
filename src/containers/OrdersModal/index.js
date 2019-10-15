@@ -105,7 +105,7 @@ export class OrdersModal extends Component {
       addMedications(medications);
 
       //Vitals
-      let vitals = getVitals(timeBetweenOrders, selectedCase.id);
+      let vitals = getVitals(selectedCase.id);
       addVitals(vitals);
 
       addResultsMessagesToOrder(resultsMessages, currentOrder);
