@@ -9,21 +9,24 @@ import {
   addResultsMessagesToOrder,
   recordHourlyTimestamp
 } from "../../Actions/ordersActions";
-import { 
-  calculateLabData, 
-  setInputOutputData 
+import {
+  calculateLabData,
+  setInputOutputData
 } from "../../Actions/calculationActions";
 import { addMedications } from "../../Actions/medication-actions";
 import { addVitals } from "../../Actions/vitals-actions";
 import orderDosages from "../../utils/orderDosages.js";
 import InputContainer from "../../components/InputContainer";
-import ordersResultsMessages from "../../utils/orderResultsData";
+// import ordersResultsMessages from "../../utils/orderResultsData";
 import {
   runLabs,
+  postLabChecks,
   getMedications,
   getVitals,
   returnInputOutput
 } from "../../utils/equationsMaster.js";
+import orderWarningRanges from "../../utils/resultsEquationsMaster.js";
+import ordersResultsMessages from "../../utils/resultsEquationsWarningMaster.js";
 const uuidv4 = require("uuid/v4");
 
 export class OrdersModal extends Component {
@@ -82,13 +85,19 @@ export class OrdersModal extends Component {
         labData
       );
 
-      let inputOutput = returnInputOutput()
-      this.combineInputOutputObjects(inputOutput)
+      let inputOutput = returnInputOutput();
+      this.combineInputOutputObjects(inputOutput);
 
-      let resultsMessages = this.checkCurrentOrderResults();
+      let combinedLabData = this.addNewLabDataToPreviousLabData(newLabData);
+      calculateLabData(combinedLabData);
 
-      let combinedLabData = this.addNewLabDataToPreviousLabData(newLabData)
-      calculateLabData(combinedLabData)
+      console.log("LABDATATATATATATAL: ", combinedLabData);
+      let resultsMessages = this.checkCurrentOrderResults(
+        currentOrder,
+        time,
+        selectedCase,
+        combinedLabData
+      );
 
       //Medications
       let medications = getMedications(timeBetweenOrders, selectedCase.id);
@@ -107,20 +116,41 @@ export class OrdersModal extends Component {
     }
   }
 
-  combineInputOutputObjects = (newInputOutput) => {
-    let { inputOutputData, setInputOutputData } = this.props
-    let finalInputOutputData = Object.assign({}, inputOutputData)
+  combineInputOutputObjects = newInputOutput => {
+    let { inputOutputData, setInputOutputData } = this.props;
+    let finalInputOutputData = Object.assign({}, inputOutputData);
 
-    finalInputOutputData.citrate = [...finalInputOutputData.citrate, ...newInputOutput.citrate]
-    finalInputOutputData.calciumChloride = [...finalInputOutputData.calciumChloride, ...newInputOutput.calciumChloride]
-    finalInputOutputData.totalInput = [...finalInputOutputData.totalInput, ...newInputOutput.totalInput]
-    finalInputOutputData.ultrafiltration = [...finalInputOutputData.ultrafiltration, ...newInputOutput.ultrafiltration]
-    finalInputOutputData.totalOutput = [...finalInputOutputData.totalOutput, ...newInputOutput.totalOutput]
-    finalInputOutputData.netInputOutput = [...finalInputOutputData.netInputOutput, ...newInputOutput.netInputOutput]
-    finalInputOutputData.cumulativeInputOutput = [...finalInputOutputData.cumulativeInputOutput, ...newInputOutput.cumulativeInputOutput]
+    finalInputOutputData.citrate = [
+      ...finalInputOutputData.citrate,
+      ...newInputOutput.citrate
+    ];
+    finalInputOutputData.calciumChloride = [
+      ...finalInputOutputData.calciumChloride,
+      ...newInputOutput.calciumChloride
+    ];
+    finalInputOutputData.totalInput = [
+      ...finalInputOutputData.totalInput,
+      ...newInputOutput.totalInput
+    ];
+    finalInputOutputData.ultrafiltration = [
+      ...finalInputOutputData.ultrafiltration,
+      ...newInputOutput.ultrafiltration
+    ];
+    finalInputOutputData.totalOutput = [
+      ...finalInputOutputData.totalOutput,
+      ...newInputOutput.totalOutput
+    ];
+    finalInputOutputData.netInputOutput = [
+      ...finalInputOutputData.netInputOutput,
+      ...newInputOutput.netInputOutput
+    ];
+    finalInputOutputData.cumulativeInputOutput = [
+      ...finalInputOutputData.cumulativeInputOutput,
+      ...newInputOutput.cumulativeInputOutput
+    ];
 
-    setInputOutputData(finalInputOutputData)
-  }
+    setInputOutputData(finalInputOutputData);
+  };
 
   compileHourlyTimestamps = (time, timeBetweenOrders) => {
     let { currentTime, currentDay } = time;
@@ -131,11 +161,11 @@ export class OrdersModal extends Component {
 
     while (timeCounter !== timeBetweenOrders) {
       if (startTime === 0) {
-        dayNumer = currentDay + 1
+        dayNumer = currentDay + 1;
       } else {
-        dayNumer = currentDay
+        dayNumer = currentDay;
       }
-      
+
       finalTimeStampArray.push(`${startTime}:00 - Day ${dayNumer}`);
       if (startTime >= 24) {
         startTime -= 24;
@@ -148,8 +178,8 @@ export class OrdersModal extends Component {
     return finalTimeStampArray;
   };
 
-  addNewLabDataToPreviousLabData = (newLabData) => {
-    let { labData } = this.props
+  addNewLabDataToPreviousLabData = newLabData => {
+    let { labData } = this.props;
     let finalLabData = Object.assign({}, labData);
 
     finalLabData.time = [...labData.time, newLabData.time];
@@ -171,10 +201,7 @@ export class OrdersModal extends Component {
       ...labData.creatinine,
       parseFloat(newLabData.creatinine)
     ];
-    finalLabData.calcium = [
-      ...labData.calcium,
-      parseFloat(newLabData.calcium)
-    ];
+    finalLabData.calcium = [...labData.calcium, parseFloat(newLabData.calcium)];
     finalLabData.phosphorous = [
       ...labData.phosphorous,
       parseFloat(newLabData.phosphorous)
@@ -196,36 +223,44 @@ export class OrdersModal extends Component {
     return finalLabData;
   };
 
-  checkCurrentOrderResults = () => {
+  checkCurrentOrderResults = (currentOrder, time, selectedCase, labData) => {
     //checks current order's Redux labData output against ranges each case, then prints according warning messages stored in utils/orderResultsData.js
     //if there are warnings, add them to messages array
     //if there are no warnings, add 'CRRT is running smoothly. There were no reported issues since the previous update.' to messages array
 
     // const warningRangeKeys = Object.keys(selectedCase.warningRanges);
-    const warningRangesStringified = this.props.selectedCase.warningRanges;
-    const warningRanges = JSON.parse(warningRangesStringified);
-
-    const warningRangeKeys = Object.keys(warningRanges);
+    // const warningRangesStringified = this.props.selectedCase.warningRanges;
+    // const warningRanges = JSON.parse(warningRangesStringified);
+    postLabChecks(currentOrder, time, selectedCase, labData);
+    const warningRangeKeys = Object.keys(orderWarningRanges[selectedCase.id]);
     const defaultMessage =
       "CRRT is running smoothly. There were no reported issues since the previous update.";
     let messages = [];
     const results = warningRangeKeys.reduce((allMessages, medication) => {
-      const belowRangeMessage = this.checkResultsForBelowRange(medication);
-      const aboveRangeMessage = this.checkResultsForAboveRange(medication);
+      const belowRangeMessage = this.checkResultsForBelowRange(
+        medication,
+        selectedCase.id,
+        labData
+      );
+      const aboveRangeMessage = this.checkResultsForAboveRange(
+        medication,
+        selectedCase.id,
+        labData
+      );
 
       if (
         belowRangeMessage.length &&
-        !messages.includes(belowRangeMessage) &&
-        !messages.includes(aboveRangeMessage)
+        !allMessages.includes(belowRangeMessage) &&
+        !allMessages.includes(aboveRangeMessage)
       ) {
-        messages.push(belowRangeMessage);
+        allMessages.push(belowRangeMessage);
       }
       if (
         aboveRangeMessage.length &&
-        !messages.includes(aboveRangeMessage) &&
-        !messages.includes(belowRangeMessage)
+        !allMessages.includes(aboveRangeMessage) &&
+        !allMessages.includes(belowRangeMessage)
       ) {
-        messages.push(aboveRangeMessage);
+        allMessages.push(aboveRangeMessage);
       }
       return allMessages;
     }, []);
@@ -235,14 +270,16 @@ export class OrdersModal extends Component {
     } else {
       messages.push(defaultMessage);
     }
+
     return messages;
   };
 
-  checkResultsForBelowRange = medication => {
-    const { labData } = this.props;
+  checkResultsForBelowRange = (medication, caseId, labData) => {
     let message = "";
-    const warningRangesStringified = this.props.selectedCase.warningRanges;
-    const warningRanges = JSON.parse(warningRangesStringified);
+    // const warningRangesStringified = this.props.selectedCase.warningRanges;
+    // const warningRanges = JSON.parse(warningRangesStringified);
+    // const warningRangesStringified = this.props.selectedCase.warningRanges;
+    const warningRanges = orderWarningRanges[caseId];
 
     if (labData[medication]) {
       const mostRecentLabResult =
@@ -251,8 +288,11 @@ export class OrdersModal extends Component {
 
       for (let range in belowRange) {
         if (belowRange[range] !== null) {
+          console.log(`MOST RECENT ${medication}: `, mostRecentLabResult);
+          console.log("BELOWRANGE[range]: ", belowRange[range]);
           if (mostRecentLabResult < belowRange[range]) {
-            message = ordersResultsMessages[medication].belowRange[range];
+            message =
+              ordersResultsMessages[caseId][medication].belowRange[range];
           }
         }
       }
@@ -260,11 +300,12 @@ export class OrdersModal extends Component {
     return message;
   };
 
-  checkResultsForAboveRange = medication => {
-    const { labData } = this.props;
+  checkResultsForAboveRange = (medication, caseId, labData) => {
     let message = "";
-    const warningRangesStringified = this.props.selectedCase.warningRanges;
-    const warningRanges = JSON.parse(warningRangesStringified);
+    // const warningRangesStringified = this.props.selectedCase.warningRanges;
+    // const warningRanges = JSON.parse(warningRangesStringified);
+    // const warningRangesStringified = this.props.selectedCase.warningRanges;
+    const warningRanges = orderWarningRanges[caseId];
 
     if (labData[medication]) {
       const mostRecentLabResult =
@@ -274,7 +315,8 @@ export class OrdersModal extends Component {
       for (let range in aboveRange) {
         if (aboveRange[range] !== null) {
           if (mostRecentLabResult > aboveRange[range]) {
-            message = ordersResultsMessages[medication].aboveRange[range];
+            message =
+              ordersResultsMessages[caseId][medication].aboveRange[range];
           }
         }
       }
@@ -454,7 +496,8 @@ export class OrdersModal extends Component {
   // Creating TimeStamp Start
 
   createTimeStamp = () => {
-    const { currentTime, currentDay } = this.props.time;
+    const { time } = this.props;
+    const { currentTime, currentDay } = time;
     return `${currentTime}:00 - Day ${currentDay}`;
   };
 
@@ -551,16 +594,16 @@ export class OrdersModal extends Component {
     this.setState(
       {
         modality: "Pre-filter CVVH",
-        sodium: 135,
-        potassium: 2,
+        sodium: 140,
+        potassium: 3.6,
         chloride: 100,
-        bicarbonate: 30,
+        bicarbonate: 24,
         calcium: 2,
-        magnesium: 1,
-        phosphorous: 1,
-        grossUltraFiltration: 1000,
-        bloodFlowRate: 300,
-        replacementFluidFlowRate: 7
+        magnesium: 1.7,
+        phosphorous: 0.5,
+        grossUltraFiltration: 500,
+        bloodFlowRate: 200,
+        replacementFluidFlowRate: 2
       },
       () => this.validateOrder()
     );
@@ -840,7 +883,8 @@ export const mapDispatchToProps = dispatch => ({
   validateTimeBetweenOrders: isValid =>
     dispatch(validateTimeBetweenOrders(isValid)),
   calculateLabData: newLabData => dispatch(calculateLabData(newLabData)),
-  setInputOutputData: newInputOutput => dispatch(setInputOutputData(newInputOutput)),
+  setInputOutputData: newInputOutput =>
+    dispatch(setInputOutputData(newInputOutput)),
   addResultsMessagesToOrder: (resultsMessages, id) =>
     dispatch(addResultsMessagesToOrder(resultsMessages, id)),
   addMedications: timeBetweenOrders =>

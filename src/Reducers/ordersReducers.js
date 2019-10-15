@@ -3,6 +3,16 @@ const defaultTimeState = {
   currentDay: 1
 };
 
+const defaultResultsMessagesState = [
+  {
+    id: "default",
+    messages: [
+      "Welcome to the CRRT education application simulator! Important information about the current case will appear in this box."
+    ],
+    timeStamp: null
+  }
+];
+
 export const ordersReducer = (state = [], action) => {
   switch (action.type) {
     case "SUBMIT_ORDER":
@@ -47,7 +57,10 @@ export const validateTimeBetweenOrdersReducer = (state = false, action) => {
   }
 };
 
-export const addResultsMessagesToOrderReducer = (state = [], action) => {
+export const addResultsMessagesToOrderReducer = (
+  state = defaultResultsMessagesState,
+  action
+) => {
   switch (action.type) {
     case "ADD_RESULTS_MESSAGES_TO_ORDER":
       const { messages } = action;

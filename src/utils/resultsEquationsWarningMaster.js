@@ -21,21 +21,6 @@ const ordersResultsMessages = {
         concerning:
           "The primary team is concerned about the patient’s hypokalemia.",
         urgent: null,
-        lethal:
-          "The patient developed ventricular fibrillation, and resuscitation efforts were ended after 30 minutes of CPR. The patient’s extreme hypokalemia was thought to be the inciting factor. Try the case again, and make sure there is enough potassium in the replacement or dialysate fluid to maintain normal values."
-      },
-      aboveRange: {
-        concerning:
-          "The primary team is concerned about the patient’s hyperkalemia.",
-        urgent: null,
-        lethal:
-          "The patient went into PEA arrest, and could not be resuscitated.  Their potassium >7.0 was thought to be the cause.  Try the scenario again, with careful potassium monitoring"
-      }
-    },
-    chloride: {
-      belowRange: {
-        concerning: null,
-        urgent: null,
         lethal: null
       },
       aboveRange: {
@@ -63,23 +48,21 @@ const ordersResultsMessages = {
         concerning:
           "The primary team is concerned about the patient’s ongoing hypocalcemia.",
         urgent: null,
-        lethal:
-          "The patient developed ventricular fibrillation, and resuscitation efforts were ended after 30 minutes of CPR. The patient’s extreme hypocalcemia was thought to be the inciting factor. Try the case again, and make sure there is enough calcium in the replacement or dialysate fluid to maintain normal values."
+        lethal: null
       },
       aboveRange: {
         concerning:
           "The primary team is concerned about the patient’s new hypercalcemia.",
         urgent:
           "The ICU team is very concerned about the patient’s hypercalcemia. They will be calling your attending if it is not addressed immediately.",
-        lethal:
-          "The patient developed ventricular fibrillation, and resuscitation efforts were ended after 30 minutes of CPR. The patient’s extreme hypercalcemia was thought to be the inciting factor. Try the case again. If using citrate and make sure there is enough calcium in the replacement or dialysate fluid to maintain normal values."
+        lethal: null
       }
     },
     magnesium: {
       belowRange: {
         concerning:
           "The primary team is concerned about the patient’s hypomagnesemia, and would like you to address it",
-        urgent: "",
+        urgent: null,
         lethal:
           "The patient developed Torsades de Pointes, and resuscitation efforts were ended after 30 minutes of CPR. The patient’s extreme hypomagnesemia was thought to be the inciting factor. Try the case again, and make sure there is enough magnesium in the replacement or dialysate fluid to maintain normal values."
       },
@@ -94,8 +77,7 @@ const ordersResultsMessages = {
         concerning:
           "The primary team is concerned about the patient’s hypophosphatemia, and would like you to address the problem",
         urgent: null,
-        lethal:
-          "The patient developed PEA arrest, and could not be resuscitated.  The patient’s phosphorous <1.0 was thought to be the main reason for cardiac arrest.  Please try again, with careful monitoring of phosphorous values"
+        lethal: null
       },
       aboveRange: {
         concerning: null,
@@ -118,6 +100,18 @@ const ordersResultsMessages = {
           "The patient’s pressor requirements are increasing, and the team is concerned that the high rate of ultrafiltration is causing hemodynamic instability. Please reduce your ultrafiltration rate.",
         lethal:
           "The patient developed PEA arrest and could not be resuscitated.  The extremely high ultrafiltration was thought to be the main precipitant.  Please try again, with more careful monitoring of ins and outs."
+      }
+    },
+    filtrationFraction: {
+      belowRange: {
+        concerning: null,
+        urgent: null,
+        lethal: null
+      },
+      aboveRange: {
+        concerning: "The patient’s filter clotted once, and was replaced.",
+        urgent: "The patient’s filter clotted twice, and was replaced.",
+        lethal: null
       }
     },
     bloodFlowRate: {
@@ -145,18 +139,16 @@ const ordersResultsMessages = {
         lethal: null
       }
     },
-    pH: {
+    ph: {
       belowRange: {
-        concerning:
-          "The primary team is concerned about the patient’s acidosis.",
+        concerning: null,
         urgent:
           "The primary team has been urgently paging about the patient’s acidosis, which requires immediate attention ",
         lethal:
           "The patient went into PEA arrest, and could not be resuscitated.  The patient’s severe acidosis was thought to be a primary contributor."
       },
       aboveRange: {
-        concerning:
-          "The primary team is concerned about the patient’s alkalosis.",
+        concerning: null,
         urgent:
           "The primary team has been urgently paging about the patient’s alkalosis, which requires immediate attention ",
         lethal:
@@ -190,20 +182,6 @@ const ordersResultsMessages = {
           "The patient developed ventricular fibrillation, and resuscitation efforts were ended after 30 minutes of CPR. The patient’s extreme hypokalemia was thought to be the inciting factor. Try the case again, and make sure there is enough potassium in the replacement or dialysate fluid to maintain normal values."
       },
       aboveRange: {
-        concerning:
-          "The primary team is concerned about the patient’s hyperkalemia.",
-        urgent: null,
-        lethal:
-          "The patient went into PEA arrest, and could not be resuscitated.  Their potassium >7.0 was thought to be the cause.  Try the scenario again, with careful potassium monitoring"
-      }
-    },
-    chloride: {
-      belowRange: {
-        concerning: null,
-        urgent: null,
-        lethal: null
-      },
-      aboveRange: {
         concerning: null,
         urgent: null,
         lethal: null
@@ -244,7 +222,7 @@ const ordersResultsMessages = {
       belowRange: {
         concerning:
           "The primary team is concerned about the patient’s hypomagnesemia, and would like you to address it",
-        urgent: "",
+        urgent: null,
         lethal:
           "The patient developed Torsades de Pointes, and resuscitation efforts were ended after 30 minutes of CPR. The patient’s extreme hypomagnesemia was thought to be the inciting factor. Try the case again, and make sure there is enough magnesium in the replacement or dialysate fluid to maintain normal values."
       },
@@ -259,8 +237,7 @@ const ordersResultsMessages = {
         concerning:
           "The primary team is concerned about the patient’s hypophosphatemia, and would like you to address the problem",
         urgent: null,
-        lethal:
-          "The patient developed PEA arrest, and could not be resuscitated.  The patient’s phosphorous <1.0 was thought to be the main reason for cardiac arrest.  Please try again, with careful monitoring of phosphorous values"
+        lethal: null
       },
       aboveRange: {
         concerning: null,
@@ -283,6 +260,18 @@ const ordersResultsMessages = {
           "The patient’s pressor requirements are increasing, and the team is concerned that the high rate of ultrafiltration is causing hemodynamic instability. Please reduce your ultrafiltration rate.",
         lethal:
           "The patient developed PEA arrest and could not be resuscitated.  The extremely high ultrafiltration was thought to be the main precipitant.  Please try again, with more careful monitoring of ins and outs."
+      }
+    },
+    filtrationFraction: {
+      belowRange: {
+        concerning: null,
+        urgent: null,
+        lethal: null
+      },
+      aboveRange: {
+        concerning: null,
+        urgent: null,
+        lethal: null
       }
     },
     bloodFlowRate: {
@@ -310,10 +299,9 @@ const ordersResultsMessages = {
         lethal: null
       }
     },
-    pH: {
+    ph: {
       belowRange: {
-        concerning:
-          "The primary team is concerned about the patient’s acidosis.",
+        concerning: null,
         urgent:
           "The primary team has been urgently paging about the patient’s acidosis, which requires immediate attention ",
         lethal:

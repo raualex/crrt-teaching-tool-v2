@@ -15,11 +15,7 @@ const OrderResultsContainer = ({ orderResults }) => {
     });
   } else {
     orderResultsCards = (
-      <OrderResultsCard
-        key={uuidv4()}
-        timeStamp={null}
-        messages={defaultMessage}
-      />
+      <OrderResultsCard key={uuidv4()} messages={defaultMessage} />
     );
   }
 

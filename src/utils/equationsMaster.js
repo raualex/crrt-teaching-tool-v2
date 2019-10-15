@@ -1,5 +1,4 @@
 import {
-  labsInitial,
   inputOutputInitial,
   vitalsInitial,
   productionRatesInitial,
@@ -218,7 +217,7 @@ var _dynamicComponents = [
   "phosphorous",
   "magnesium"
 ];
-console.log(_dynamicComponents)
+console.log(_dynamicComponents);
 _staticLabs = [
   "lactate",
   "albumin",
@@ -425,7 +424,7 @@ var _historicalVitals = {
 // }
 
 // function setPageVariables() {
-  // setCRRTDisplay();
+// setCRRTDisplay();
 // }
 
 // // function setCRRTDisplay() {
@@ -623,7 +622,13 @@ export function showInfo(data) {
 //   return excelRound(pH, 2);
 // }
 
-const getCurrentLab = (lab, caseId, currentTime, timeBetweenOrders) => {
+const getCurrentLab = (
+  lab,
+  caseId,
+  currentTime,
+  timeBetweenOrders,
+  labData
+) => {
   var currentLabSetIndex;
   if (currentTime === 0) {
     currentLabSetIndex = 1;
@@ -631,7 +636,7 @@ const getCurrentLab = (lab, caseId, currentTime, timeBetweenOrders) => {
     currentLabSetIndex = Math.floor(currentTime / timeBetweenOrders) + 1;
   }
 
-  return parseFloat(labsInitial[caseId][lab][currentLabSetIndex]);
+  return parseFloat(labData[lab][currentLabSetIndex]);
 };
 
 // function getCurrentAccessPressure(pressure) {
@@ -654,12 +659,14 @@ export function runLabs(
   let newLabs = {};
   // let dialysate = {};
   // var order = getOrder(orders, time, timeBetweenOrders, selectedCase);
+
   let currentOrder = orders[orders.length - 1];
   currentOrder.filtrationFraction = calculateFiltrationFraction(
     currentOrder,
     selectedCase.id,
     time.currentTime,
-    timeBetweenOrders
+    timeBetweenOrders,
+    labData
   );
   console.log("CURRENT ORDER: ", currentOrder);
 
@@ -670,11 +677,9 @@ export function runLabs(
       vitalsInitial[selectedCase.id]["weight"].length - 1
     ];
   newLabs["ionizedCalcium"] =
-    labsInitial[selectedCase.id]["calcium"][
-      labsInitial[selectedCase.id]["calcium"].length - 1
-    ] / timeBetweenOrders;
+    labData["calcium"][labData["calcium"].length - 1] / timeBetweenOrders;
   newLabs["filtrationFraction"] = currentOrder.filtrationFraction;
-  // debugger;
+
   let initialEffluentFlowRate = calculateEffluentFlowRate(currentOrder);
   console.log("initialEffluentFlowRate :", initialEffluentFlowRate);
 
@@ -693,7 +698,7 @@ export function runLabs(
       );
       break;
     default:
-      return
+      return;
   }
 
   var adjustedEffluentFlowRate = calculateAdjustedEffluentFlowRate(
@@ -737,9 +742,7 @@ export function runLabs(
     );
     console.log(
       "calculateLab(): initialValue: ",
-      labsInitial[selectedCase.id][prodRateKeys[i]][
-        labsInitial[selectedCase.id][prodRateKeys[i]].length - 1
-      ]
+      labData[prodRateKeys[i]][labData[prodRateKeys[i]].length - 1]
     );
     console.log(
       "calculateLab(): dialysate: ",
@@ -757,11 +760,7 @@ export function runLabs(
     // NOTE: Params for calculateLab(): initialValue, dialysate, effluentFlowRate, time, weight, volumeOfDistribution, productionRate
 
     newLabs[prodRateKeys[i]] = calculateLab(
-      parseFloat(
-        labsInitial[selectedCase.id][prodRateKeys[i]][
-          labsInitial[selectedCase.id][prodRateKeys[i]].length - 1
-        ]
-      ),
+      parseFloat(labData[prodRateKeys[i]][labData[prodRateKeys[i]].length - 1]),
       parseFloat(currentOrder.fluidDialysateValues[prodRateKeys[i]]),
       parseFloat(effluentFlowRate),
       parseFloat(currentOrder["timeToNextLabs"]),
@@ -778,7 +777,8 @@ export function runLabs(
     volumeOfDistribution,
     effluentFlowRate,
     selectedCase,
-    startingWeight
+    startingWeight,
+    labData
   );
   // NOTE: If we're using sodium phosphate, we need to recalculate the phosphorous results
   if (currentOrder.otherFluidsSodiumPhosphate) {
@@ -796,6 +796,7 @@ export function runLabs(
       effluentFlowRate,
       newLabs["ionizedCalcium"]
     );
+
     newLabs["bicarbonate"] = citrateResults["bicarbonate"];
     newLabs["calcium"] = citrateResults["calcium"];
     newLabs["ionizedCalcium"] = citrateResults["ionizedCalcium"];
@@ -806,16 +807,16 @@ export function runLabs(
     newLabs["bicarbonate"],
     selectedCase,
     time.currentTime,
-    timeBetweenOrders
+    timeBetweenOrders,
+    labData
   );
   newLabs["time"] = orders[orders.length - 1].timeStamp;
-
   newLabs = roundLabs(newLabs);
 
   // saveLabValues(newLabs);
   // // incrementTime(); //This function needs to increment time in Redux
   // copyStaticLabsToHistorical(time, selectedCase);
-  console.log(copyStaticLabsToHistorical(time, selectedCase))
+  copyStaticLabsToHistorical(time, selectedCase, labData);
   setNewWeight(
     totalHoursOfFiltration,
     currentOrder,
@@ -825,16 +826,15 @@ export function runLabs(
     time.currentDay
   );
   // setVolumeOverload();
-  console.log(setVolumeOverload())
+  console.log(setVolumeOverload());
   // setPageVariables();
   // postLabChecks(orders, time, selectedCase);
-  console.log(postLabChecks(orders, time, selectedCase))
   // processMessages();
   return newLabs;
 }
 
 export function returnInputOutput() {
-  return _historicalInputOutput
+  return _historicalInputOutput;
 }
 
 function roundLabs(newLabs) {
@@ -853,7 +853,7 @@ function roundLabs(newLabs) {
   return newLabs;
 }
 
-function copyStaticLabsToHistorical(time, selectedCase) {
+function copyStaticLabsToHistorical(time, selectedCase, labData) {
   // var currentLabSet = _currentTime / 8 + 1;
 
   // for (var i = 0; i < _staticLabs.length; i++) {
@@ -865,10 +865,8 @@ function copyStaticLabsToHistorical(time, selectedCase) {
   // }
 
   for (var i = 0; i < _staticLabs.length; i++) {
-    if (labsInitial[selectedCase.id][_staticLabs[i]]) {
-      _historicalLabs[_staticLabs[i]].push(
-        labsInitial[selectedCase.id][_staticLabs[i]]
-      );
+    if (labData[_staticLabs[i]]) {
+      _historicalLabs[_staticLabs[i]].push(labData[_staticLabs[i]]);
     }
   }
 }
@@ -888,7 +886,8 @@ function calculateSodium(
   volumeOfDistribution,
   effluentFlowRate,
   selectedCase,
-  startingWeight
+  startingWeight,
+  labData
 ) {
   console.log(
     "calculateSodium params: " + volumeOfDistribution,
@@ -905,9 +904,7 @@ function calculateSodium(
 
   // default initial sodium is the previous historical value.
   var initialSodium = parseFloat(
-    labsInitial[selectedCase.id]["sodium"][
-      labsInitial[selectedCase.id]["sodium"].length - 1
-    ]
+    labData["sodium"][labData["sodium"].length - 1]
   );
 
   var threePercentSalineConcentration;
@@ -991,7 +988,7 @@ function calculateTotalHoursOfFiltration(
         startingWeight,
         ionizedCalcium
       );
-      // break;
+    // break;
     case 2:
       return calculateTotalHoursOfFiltrationCase2(
         order,
@@ -1001,9 +998,9 @@ function calculateTotalHoursOfFiltration(
         ionizedCalcium,
         didClot
       );
-      // break;
+    // break;
     default:
-        return
+      return;
   }
 }
 
@@ -1101,7 +1098,7 @@ function calculateAdjustedEffluentFlowRate(
         ionizedCalcium,
         order
       );
-      // break;
+    // break;
     case 2:
       console.log("case 2 : calculateAdjustedEffluentFlowRateCase2()");
       return calculateAdjustedEffluentFlowRateCase2(
@@ -1112,9 +1109,9 @@ function calculateAdjustedEffluentFlowRate(
         didClot,
         order
       );
-      // break;
+    // break;
     default:
-      return
+      return;
   }
 }
 
@@ -1334,6 +1331,8 @@ function getCitrateMetabolismFactor() {
   return factor;
 }
 
+console.log(_newMessages);
+
 // function getOrder(orders, time, timeBetweenOrders, selectedCase) {
 //   var order = {
 //     fluid: $("input[name=fluid]:checked").val(),
@@ -1458,11 +1457,11 @@ function calculateNewWeight(
   let startingTime;
 
   if (timeBetweenOrders <= 8) {
-    startingTime = time + currentTimeByDay - timeBetweenOrders
+    startingTime = time + currentTimeByDay - timeBetweenOrders;
   } else if (timeBetweenOrders > 8 && timeBetweenOrders <= 16) {
-    startingTime = time + currentTimeByDay - (timeBetweenOrders - 8)
+    startingTime = time + currentTimeByDay - (timeBetweenOrders - 8);
   } else {
-    startingTime = time + currentTimeByDay - (timeBetweenOrders - 16)
+    startingTime = time + currentTimeByDay - (timeBetweenOrders - 16);
   }
 
   for (let i = 0; i < timeBetweenOrders; i++) {
@@ -1562,14 +1561,13 @@ function calculateNewWeight(
       (netInputOutputCounter === 4 &&
         _historicalInputOutput["netInputOutput"].length >= 8)
     ) {
-
       input =
         _historicalInputOutput["totalInput"][
-          netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
+          netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
         ];
       output =
         _historicalInputOutput["totalOutput"][
-          netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
+          netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
         ];
       _historicalInputOutput["netInputOutput"].push(input - output);
     } else if (
@@ -1582,14 +1580,13 @@ function calculateNewWeight(
       (netInputOutputCounter === 8 &&
         _historicalInputOutput["netInputOutput"].length > 8)
     ) {
-
       input =
         _historicalInputOutput["totalInput"][
-          netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
+          netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
         ];
       output =
         _historicalInputOutput["totalOutput"][
-          netInputOutputCounter + (timesNetInputOutputCounterHitEight * 8) - 1
+          netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
         ];
       _historicalInputOutput["netInputOutput"].push(input - output);
     }
@@ -1645,7 +1642,7 @@ function calculateEffluentFlowRate(currentOrder) {
       efr = currentOrder["Qd"] + currentOrder["grossUF"] / 1000;
       break;
     default:
-      return
+      return;
   }
 
   return efr;
@@ -1728,32 +1725,34 @@ function preLabChecks(effluentFlowRate, orders, time, selectedCase) {
   checkDose(effluentFlowRate);
 }
 
-function postLabChecks(order, time, selectedCase) {
-  switch (_currentCaseStudyId) {
+export function postLabChecks(order, time, selectedCase, labData) {
+  const { id } = selectedCase;
+  const { currentTime } = time;
+  switch (id) {
     case 1:
-      checkSodium();
-      checkPotassium();
+      checkSodium(id, labData);
+      checkPotassium(id, labData);
       checkChloride();
-      checkBicarbonate();
-      checkCalcium();
-      checkMagnesium();
-      checkPhosphorous();
-      checkGrossUltrafiltration();
-      handleSimulationCompletion();
+      checkBicarbonate(id, labData);
+      checkCalcium(id, labData);
+      checkMagnesium(id, labData);
+      checkPhosphorous(id, labData);
+      checkGrossUltrafiltration(id, currentTime, labData);
+      handleSimulationCompletion(id, currentTime, labData);
       break;
     case 2:
-      checkSodiumCase2();
-      checkPotassiumCase2(order, time, selectedCase);
+      checkSodiumCase2(id, labData);
+      checkPotassiumCase2(id, labData);
       checkChloride();
-      checkBicarbonateCase2();
-      checkCalciumCase2(order);
-      checkMagnesiumCase2();
-      checkPhosphorous();
-      checkGrossUltrafiltration();
-      handleSimulationCompletion();
+      checkBicarbonateCase2(id, labData);
+      checkCalciumCase2(order, id, labData);
+      checkMagnesiumCase2(id, labData);
+      checkPhosphorous(id, labData);
+      checkGrossUltrafiltration(id, currentTime, labData);
+      handleSimulationCompletion(id, currentTime, labData);
       break;
     default:
-      return
+      return;
   }
 }
 
@@ -1805,13 +1804,15 @@ function calculatePH(
   bicarbonate,
   selectedCase,
   currentTime,
-  timeBetweenOrders
+  timeBetweenOrders,
+  labData
 ) {
   var PCO2 = getCurrentLab(
     "pc02",
     selectedCase.id,
     currentTime,
-    timeBetweenOrders
+    timeBetweenOrders,
+    labData
   );
   var pH = 6.1 + Math.log(bicarbonate / (0.03 * PCO2)) / Math.log(10);
   return excelRound(pH, 2);
@@ -1835,11 +1836,11 @@ function calculatePH(
 function checkIfUsedCitrate(order, time) {
   if (order.anticoagulation === "citrate") {
     _usedCitrate = true;
-    console.log(_usedCitrate)
+    console.log(_usedCitrate);
 
     if (time.currentTime === 8) {
       _usedCitrateFirst = true;
-      console.log(_usedCitrateFirst)
+      console.log(_usedCitrateFirst);
     }
   }
 }
@@ -1871,10 +1872,11 @@ function checkBloodFlowRate() {
   return;
 }
 
-function checkSodium() {
+function checkSodium(caseId, labData) {
   var totalPoints = 0;
-  var currentSodium =
-    _historicalLabs["sodium"][_historicalLabs["sodium"].length - 1];
+  // var currentSodium =
+  //   _historicalLabs["sodium"][_historicalLabs["sodium"].length - 1];
+  var currentSodium = labData.sodium[labData.sodium.length - 1];
   var msg;
   if (currentSodium >= 135 && currentSodium <= 145) {
     console.log("checkSodium() : within bounds ", currentSodium);
@@ -1899,10 +1901,9 @@ function checkSodium() {
   return;
 }
 
-function checkSodiumCase2() {
+function checkSodiumCase2(caseId, labData) {
   var totalPoints = 0;
-  var currentSodium =
-    _historicalLabs["sodium"][_historicalLabs["sodium"].length - 1];
+  var currentSodium = labData.sodium[labData.sodium.length - 1];
   var msg;
 
   // Bonus 150 points if sodium is 154-156 (inclusive) after the first order
@@ -1911,11 +1912,12 @@ function checkSodiumCase2() {
   }
 
   if (currentSodium >= 150 && currentSodium <= 160) {
-    console.log("checkSodium() : within bounds ", currentSodium);
+    console.log("checkSodium() : within bounds: ", currentSodium);
     totalPoints = totalPoints + 5;
   }
 
   if (currentSodium < 150) {
+    console.log("checkSodium() : concerned below: ", currentSodium);
     msg =
       "The primary team is concerned about the patient's hyponatremia. Please modify the CRRT prescription.";
     _newMessages.push(msg);
@@ -1923,6 +1925,7 @@ function checkSodiumCase2() {
   }
 
   if (currentSodium > 160) {
+    console.log("checkSodium() : concerned above: ", currentSodium);
     msg =
       "The primary team is concerned about the patient's hypernatremia. Please modify the CRRT prescription.";
     _newMessages.push(msg);
@@ -1930,6 +1933,7 @@ function checkSodiumCase2() {
   }
 
   if (currentSodium > 170) {
+    console.log("checkSodium() : urgent above: ", currentSodium);
     msg =
       "The patient developed a subarachnoid hemorrhage in the hospital, and was transitioned to comfort care by the family. The sodium concentration >170 mmol/L was thought to be the main culprit. Try the scenario again, with less 3% saline";
     _caseOver = true;
@@ -1938,21 +1942,20 @@ function checkSodiumCase2() {
   }
 
   if (currentSodium < 130) {
+    console.log("checkSodium() : lethal below: ", currentSodium);
     msg =
       "The patient developed cerebral edema leading to brain herniation, and passed away. The sodium concentration <130 mmol/L was thought to be the etiology. Try the scenario again, without using D5W.";
     _caseOver = true;
     _newMessages.push(msg);
     totalPoints = totalPoints - 1000;
   }
-
   _points.sodiumInRange.push(totalPoints);
   return;
 }
 
-function checkPotassium() {
+function checkPotassium(caseId, labData) {
   var totalPoints = 0;
-  var currentPotassium =
-    _historicalLabs["potassium"][_historicalLabs["potassium"].length - 1];
+  var currentPotassium = labData.potassium[labData.potassium.length - 1];
 
   if (currentPotassium > 3.3) {
     console.log("checkPotassium() : within bounds ", currentPotassium);
@@ -1970,10 +1973,9 @@ function checkPotassium() {
   return;
 }
 
-function checkPotassiumCase2(order, time, selectedCase) {
+function checkPotassiumCase2(caseId, labData) {
   var totalPoints = 0;
-  var currentPotassium =
-    _historicalLabs["potassium"][_historicalLabs["potassium"].length - 1];
+  var currentPotassium = labData.potassium[labData.potassium.length - 1];
   var msg;
 
   if (currentPotassium > 3.3) {
@@ -1989,7 +1991,7 @@ function checkPotassiumCase2(order, time, selectedCase) {
   }
 
   if (currentPotassium < 2.5) {
-    var d = Math.Random();
+    var d = Math.random();
     if (d < 0.5) {
       _caseOver = true;
       msg =
@@ -2006,11 +2008,18 @@ const calculateFiltrationFraction = (
   currentOrder,
   caseId,
   currentTime,
-  timeBetweenOrders
+  timeBetweenOrders,
+  labData
 ) => {
   var ff;
   var hct =
-    getCurrentLab("hematocrit", caseId, currentTime, timeBetweenOrders) / 100;
+    getCurrentLab(
+      "hematocrit",
+      caseId,
+      currentTime,
+      timeBetweenOrders,
+      labData
+    ) / 100;
   console.log("calculateFiltrationFraction : hematocrit ", hct);
   console.log("order order ORDER: ", currentOrder);
 
@@ -2036,7 +2045,7 @@ const calculateFiltrationFraction = (
         100;
       break;
     default:
-      return
+      return;
   }
   return excelRound(ff, 2);
 };
@@ -2063,7 +2072,7 @@ const calculateFiltrationFraction = (
 // }
 
 //   if (currentPotassium < 2.5) {
-//     var d = Math.Random();
+//     var d = Math.random();
 //     if (d < 0.5) {
 //       _caseOver = true;
 //       var msg =
@@ -2080,17 +2089,18 @@ function checkChloride() {
   // No errors associated with Chloride in Case #1
 }
 
-function checkBicarbonate() {
-  checkPH();
+function checkBicarbonate(caseId, labData) {
+  checkPH(caseId, labData);
 }
 
-function checkBicarbonateCase2() {
-  checkPHCase2();
+function checkBicarbonateCase2(caseId, labData) {
+  checkPHCase2(caseId, labData);
 }
 
-function checkPH() {
+function checkPH(caseId, labData) {
   var totalPoints = 0;
-  var currentPH = _historicalLabs["pH"][_historicalLabs["pH"].length - 1];
+  // var currentPH = _historicalLabs["pH"][_historicalLabs["pH"].length - 1];
+  var currentPH = labData.ph[labData.ph.length - 1];
   var msg;
 
   if (currentPH >= 7.2 && currentPH <= 7.45) {
@@ -2129,9 +2139,9 @@ function checkPH() {
   return;
 }
 
-function checkPHCase2() {
+function checkPHCase2(caseId, labData) {
   var totalPoints = 0;
-  var currentPH = _historicalLabs["pH"][_historicalLabs["pH"].length - 1];
+  var currentPH = labData.ph[labData.ph.length - 1];
   var msg;
 
   if (currentPH < 7.0) {
@@ -2174,12 +2184,11 @@ function checkPHCase2() {
   return;
 }
 
-function checkCalcium() {
+function checkCalcium(caseId, labData) {
   // TODO: Doc from Ben says "NOT when using citrate" -- do we not run these checks if we are using citrate?
   // if using citrate - divide by 8
   var totalPoints = 0;
-  var currentCalcium =
-    _historicalLabs["calcium"][_historicalLabs["calcium"].length - 1];
+  var currentCalcium = labData.calcium[labData.calcium.length - 1];
   var msg;
 
   if (currentCalcium >= 7.5 && currentCalcium <= 10) {
@@ -2212,10 +2221,9 @@ function checkCalcium() {
   return;
 }
 
-function checkCalciumCase2(order) {
+function checkCalciumCase2(order, caseId, labData) {
   var totalPoints = 0;
-  var currentCalcium =
-    _historicalLabs["calcium"][_historicalLabs["calcium"].length - 1];
+  var currentCalcium = labData.calcium[labData.calcium.length - 1];
   var msg;
 
   if (order.anticoagulation === "citrate") {
@@ -2287,10 +2295,9 @@ function checkCalciumCase2(order) {
   return;
 }
 
-function checkMagnesium() {
+function checkMagnesium(caseId, labData) {
   var totalPoints = 0;
-  var currentMagnesium =
-    _historicalLabs["magnesium"][_historicalLabs["magnesium"].length - 1];
+  var currentMagnesium = labData.magnesium[labData.magnesium.length - 1];
 
   if (currentMagnesium > 1.4) {
     console.log("checkMagnesium() : within bounds ", currentMagnesium);
@@ -2308,10 +2315,9 @@ function checkMagnesium() {
   return;
 }
 
-function checkMagnesiumCase2() {
+function checkMagnesiumCase2(caseId, labData) {
   var totalPoints = 0;
-  var currentMagnesium =
-    _historicalLabs["magnesium"][_historicalLabs["magnesium"].length - 1];
+  var currentMagnesium = labData.magnesium[labData.magnesium.length - 1];
   var msg;
 
   if (currentMagnesium >= 1.0 && currentMagnesium < 1.4) {
@@ -2322,7 +2328,7 @@ function checkMagnesiumCase2() {
   }
 
   if (currentMagnesium < 1.0) {
-    var d = Math.Random();
+    var d = Math.random();
     if (d < 0.2) {
       _caseOver = true;
       msg =
@@ -2335,14 +2341,13 @@ function checkMagnesiumCase2() {
   return;
 }
 
-function checkPhosphorous() {
+function checkPhosphorous(caseId, labData) {
   // TODO: There will be a scheduled sodium phosphorous replacement option for when the sodium goes low, TBD
   //  - Adding sodium phosphate (15 mmol/dL) will modify the phosphate “[X] Dialysate” as follows:
   //      - (465/t(which will equal 6)) (Effluent Flow Rate *10)
   //      - This should reset after each cycle, so it’s not automatically given every 6 hours
   var totalPoints = 0;
-  var currentPhosphorous =
-    _historicalLabs["phosphorous"][_historicalLabs["phosphorous"].length - 1];
+  var currentPhosphorous = labData.phosphorous[labData.phosphorous.length - 1];
 
   if (currentPhosphorous > 2.0) {
     console.log(
@@ -2364,13 +2369,11 @@ function checkPhosphorous() {
   return;
 }
 
-function checkGrossUltrafiltration() {
+function checkGrossUltrafiltration(caseId, currentTime, labData) {
   var totalPoints = 0;
   var fluidInPastEightHoursInLiters =
     parseFloat(
-      _currentCaseStudySheet.inputOutput.elements[_currentTime + 1][
-        "previousSixHourTotal"
-      ]
+      inputOutputInitial[caseId].previousSixHourTotal[currentTime + 1]
     ) / 1000;
   var totalHoursOfFiltration = 8;
   // NOTE: If BFR is <= 150, grossUF for two hours is 0, therefore, we only have 4 hours of filtration. (This *might* only be for case study #1)
@@ -2527,7 +2530,7 @@ function checkDose(effluentFlowRate) {
       dose = newEffluentFlowRate / _currentCaseStudy.startingData.usualWeight;
       break;
     default:
-      return
+      return;
   }
 
   if (dose >= 20 && dose <= 40) {
@@ -2547,13 +2550,13 @@ function checkDose(effluentFlowRate) {
   _points.doseInRange.push(totalPoints);
   // NOTE: Set dose so we have access to it in the future
   _currentDose = excelRound(dose, 1);
-  console.log(_currentDose)
+  console.log(_currentDose);
   _historicalDose.push(dose);
 
   return dose;
 }
 
-function handleSimulationCompletion() {
+function handleSimulationCompletion(caseId, currentTime, labData) {
   // TODO:
   // * check to see if patient has died
   // * check to see if time limit has been reached
@@ -2561,31 +2564,31 @@ function handleSimulationCompletion() {
   //   - show results
   //   - disable orders/etc.
   var currentWeight =
-    _historicalVitals["weight"][_historicalVitals["weight"].length - 1];
-  var currentPH = _historicalLabs["pH"][_historicalLabs["pH"].length - 1];
+    vitalsInitial[caseId].weight[vitalsInitial[caseId].weight.length - 1];
+  var currentPH = labData.ph[labData.ph.length - 1];
   var resultsOverview;
   // var caseEndingTime = 90;
 
-  console.log("handleSimulationCompletion : currentTime", _currentTime);
+  console.log("handleSimulationCompletion : currentTime", currentTime);
 
   if (currentPH < 7.0) {
     console.log("checkSimulationCompletion() : Patient has expired.");
     resultsOverview =
       "Your patient died of overwhelming acidosis and infection.  Mortality is high in critically ill patients who require dialysis, but your patient would have benefitted from more efficient CRRT.  Try increasing the bicarbonate concentration in the replacement or  dialysate fluid, or using more effective anticoagulation.  Restart the case and see if you can improve the outcome!";
     _caseOver = true;
-  } else if (_currentTime === 72 && currentWeight > 100) {
+  } else if (currentTime === 72 && currentWeight > 100) {
     console.log("checkSimulationCompletion() : Patient has expired.");
     resultsOverview =
       "Your patient died after developing positive blood cultures.";
     _caseOver = true;
-  } else if (_currentTime === 88) {
+  } else if (currentTime === 88) {
     console.log("checkSimulationCompletion() : You won!");
     resultsOverview =
       "Your patient survived her episode of sepsis due to pneumonia, complicated by severe AKI requiring CRRT.";
     setResultsTableVariables();
     // $("#resultsTable").show();
     _caseOver = true;
-  } else if (_currentTime === 90) {
+  } else if (currentTime === 90) {
     console.log("checkSimulationCompletion() : Patient has expired.");
     resultsOverview =
       "Your patient developed a secondary infection in the ICU, and subsequently died of overwhelming sepsis.  Mortality is high in critically ill patients who require dialysis, but your patient would have benefitted from more aggressive fluid removal.  Try the case again and see if you can improve the outcome!";
@@ -2597,7 +2600,7 @@ function handleSimulationCompletion() {
   if (_caseOver) {
     // console.log("case over!");
     // $("#resultsOverview").text(resultsOverview);
-    console.log(resultsOverview)
+    console.log(resultsOverview);
     // $("#resultsModal").modal("show");
     // $("#ordersButton").hide();
     // $("#resultsButton").show();
@@ -2843,35 +2846,35 @@ function setResultsTableVariables() {
 
 // function processMessages() {
 //   var newMessages = _newMessages;
-  // var messageContainer = $("<ul id='testing'></ul>").addClass("card-text");
-  // var time = $('<p></p>').addClass('case-time').text(currentTimeToTimestamp(false, 0));
-  // var time = $("<p></p>")
-  //   .addClass("case-time")
-  //   .text(`${_headerTime}:00 ${_headerTimeAmPm} - Day ${_headerDay}`);
-  // messageContainer.append(time);
+// var messageContainer = $("<ul id='testing'></ul>").addClass("card-text");
+// var time = $('<p></p>').addClass('case-time').text(currentTimeToTimestamp(false, 0));
+// var time = $("<p></p>")
+//   .addClass("case-time")
+//   .text(`${_headerTime}:00 ${_headerTimeAmPm} - Day ${_headerDay}`);
+// messageContainer.append(time);
 
-  // for (var i = 0; i < newMessages.length; i++) {
-    // var message = $("<li></li>").text(newMessages[i]);
-    // messageContainer.append(message);
-    // messageContainer.append("<hr>");
-  // }
+// for (var i = 0; i < newMessages.length; i++) {
+// var message = $("<li></li>").text(newMessages[i]);
+// messageContainer.append(message);
+// messageContainer.append("<hr>");
+// }
 
-  // if (newMessages.length === 0) {
-    // var message = $("<li></li>").text(
-    //   "CRRT is running smoothly. There were no reported issues since the previous update."
-    // );
-    // messageContainer.append(message);
-    // messageContainer.append("<hr>");
-  // }
+// if (newMessages.length === 0) {
+// var message = $("<li></li>").text(
+//   "CRRT is running smoothly. There were no reported issues since the previous update."
+// );
+// messageContainer.append(message);
+// messageContainer.append("<hr>");
+// }
 
-  // if (newMessages.length > 0) {
-  //   _messages.push(newMessages);
-  //   _newMessages = [];
-  // }
+// if (newMessages.length > 0) {
+//   _messages.push(newMessages);
+//   _newMessages = [];
+// }
 
-  // messageContainer.append("<hr>");
+// messageContainer.append("<hr>");
 
-  // $("#message-box").prepend(messageContainer);
+// $("#message-box").prepend(messageContainer);
 // }
 
 // function currentTimeToTimestamp(showTimeElapsed, additionalOffsetInHours = 0) {
