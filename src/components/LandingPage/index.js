@@ -6,7 +6,9 @@ function LandingPage() {
   return (
     <div className="landing-page">
       <div className="lp-main-container">
-        <h1 className="lp-main-title">CRRT Teaching Tool v.2</h1>
+        <div className="lp-title-container">
+          <h1 className="lp-main-title">CRRT Teaching Tool v.2</h1>
+        </div>
         <div className="lp-link-button-container">
           <NavLink className="lp-link-buttons" to="/select_a_case">
             CRRT Simulator
