@@ -1739,7 +1739,7 @@ export function postLabChecks(order, time, selectedCase, labData) {
       checkPhosphorous(id, labData);
       checkGrossUltrafiltration(id, currentTime, labData);
       handleSimulationCompletion(id, currentTime, labData);
-      break;
+      return _points
     case 2:
       checkSodiumCase2(id, labData);
       checkPotassiumCase2(id, labData);
@@ -1750,7 +1750,7 @@ export function postLabChecks(order, time, selectedCase, labData) {
       checkPhosphorous(id, labData);
       checkGrossUltrafiltration(id, currentTime, labData);
       handleSimulationCompletion(id, currentTime, labData);
-      break;
+      return _points
     default:
       return;
   }

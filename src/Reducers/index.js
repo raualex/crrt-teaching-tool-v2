@@ -7,7 +7,8 @@ import {
   timeBetweenOrdersReducer,
   validateTimeBetweenOrdersReducer,
   addResultsMessagesToOrderReducer,
-  recordHourlyTimestampReducer
+  recordHourlyTimestampReducer,
+  setCurrentPointsReducer
 } from "./ordersReducers";
 import { allCasesReducer, selectedCaseReducer } from "./case-reducers.js";
 import { calculateLabDataReducer, setInputOutputReducer } from "./calculation-reducers.js";
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   medications: medicationsReducer,
   vitals: vitalsReducer,
   resultsMessages: addResultsMessagesToOrderReducer,
+  totalPoints: setCurrentPointsReducer,
   hourlyTimestamps: recordHourlyTimestampReducer
 });
 
