@@ -1284,3 +1284,18 @@ export const finalResultsMessages = {
   failureMsgWeight: "Your patient died after developing positive blood cultures.",
   failureMsgTime: "Your patient developed a secondary infection in the ICU, and subsequently died of overwhelming sepsis.  Mortality is high in critically ill patients who require dialysis, but your patient would have benefitted from more aggressive fluid removal.  Try the case again and see if you can improve the outcome!"
 }
+
+export const mockTotalPoints = {
+  maxPointsPerCycle: {
+    bloodFlowRateInRange: 5,
+    sodiumInRange: 5,
+    potassiumInRange: 5,
+    pHInRange: 10,
+    calciumInRange: 5,
+    magnesiumInRange: 5,
+    phosphorousInRange: 10,
+    grossUltrafiltrationInRange: 0,
+    filtrationFractionInRange: 5,
+    doseInRange: 20
+  }
+}
