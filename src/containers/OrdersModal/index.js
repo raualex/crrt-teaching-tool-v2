@@ -25,8 +25,8 @@ import {
   getVitals,
   returnInputOutput
 } from "../../utils/equationsMaster.js";
-import orderWarningRanges from "../../utils/resultsEquationsMaster";
-import ordersResultsMessages from "../../utils/resultsEquationsWarningMaster";
+import orderWarningRanges from "../../utils/resultsEquationsMaster.js";
+import ordersResultsMessages from "../../utils/resultsEquationsWarningMaster.js";
 const uuidv4 = require("uuid/v4");
 
 export class OrdersModal extends Component {
@@ -239,11 +239,13 @@ export class OrdersModal extends Component {
     const results = warningRangeKeys.reduce((allMessages, medication) => {
       const belowRangeMessage = this.checkResultsForBelowRange(
         medication,
-        selectedCase.id
+        selectedCase.id,
+        labData
       );
       const aboveRangeMessage = this.checkResultsForAboveRange(
         medication,
-        selectedCase.id
+        selectedCase.id,
+        labData
       );
 
       if (
@@ -272,8 +274,7 @@ export class OrdersModal extends Component {
     return messages;
   };
 
-  checkResultsForBelowRange = (medication, caseId) => {
-    const { labData } = this.props;
+  checkResultsForBelowRange = (medication, caseId, labData) => {
     let message = "";
     // const warningRangesStringified = this.props.selectedCase.warningRanges;
     // const warningRanges = JSON.parse(warningRangesStringified);
@@ -287,6 +288,8 @@ export class OrdersModal extends Component {
 
       for (let range in belowRange) {
         if (belowRange[range] !== null) {
+          console.log(`MOST RECENT ${medication}: `, mostRecentLabResult);
+          console.log("BELOWRANGE[range]: ", belowRange[range]);
           if (mostRecentLabResult < belowRange[range]) {
             message =
               ordersResultsMessages[caseId][medication].belowRange[range];
@@ -297,8 +300,7 @@ export class OrdersModal extends Component {
     return message;
   };
 
-  checkResultsForAboveRange = (medication, caseId) => {
-    const { labData } = this.props;
+  checkResultsForAboveRange = (medication, caseId, labData) => {
     let message = "";
     // const warningRangesStringified = this.props.selectedCase.warningRanges;
     // const warningRanges = JSON.parse(warningRangesStringified);
@@ -592,16 +594,16 @@ export class OrdersModal extends Component {
     this.setState(
       {
         modality: "Pre-filter CVVH",
-        sodium: 135,
-        potassium: 2,
+        sodium: 140,
+        potassium: 3.6,
         chloride: 100,
-        bicarbonate: 30,
+        bicarbonate: 24,
         calcium: 2,
-        magnesium: 1,
-        phosphorous: 1,
-        grossUltraFiltration: 1000,
-        bloodFlowRate: 300,
-        replacementFluidFlowRate: 7
+        magnesium: 1.7,
+        phosphorous: 0.5,
+        grossUltraFiltration: 500,
+        bloodFlowRate: 200,
+        replacementFluidFlowRate: 2
       },
       () => this.validateOrder()
     );

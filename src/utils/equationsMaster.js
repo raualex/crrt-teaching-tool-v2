@@ -623,7 +623,13 @@ export function showInfo(data) {
 //   return excelRound(pH, 2);
 // }
 
-const getCurrentLab = (lab, caseId, currentTime, timeBetweenOrders) => {
+const getCurrentLab = (
+  lab,
+  caseId,
+  currentTime,
+  timeBetweenOrders,
+  labData
+) => {
   var currentLabSetIndex;
   if (currentTime === 0) {
     currentLabSetIndex = 1;
@@ -631,7 +637,7 @@ const getCurrentLab = (lab, caseId, currentTime, timeBetweenOrders) => {
     currentLabSetIndex = Math.floor(currentTime / timeBetweenOrders) + 1;
   }
 
-  return parseFloat(labsInitial[caseId][lab][currentLabSetIndex]);
+  return parseFloat(labData[lab][currentLabSetIndex]);
 };
 
 // function getCurrentAccessPressure(pressure) {
@@ -654,12 +660,14 @@ export function runLabs(
   let newLabs = {};
   // let dialysate = {};
   // var order = getOrder(orders, time, timeBetweenOrders, selectedCase);
+
   let currentOrder = orders[orders.length - 1];
   currentOrder.filtrationFraction = calculateFiltrationFraction(
     currentOrder,
     selectedCase.id,
     time.currentTime,
-    timeBetweenOrders
+    timeBetweenOrders,
+    labData
   );
   console.log("CURRENT ORDER: ", currentOrder);
 
@@ -670,9 +678,7 @@ export function runLabs(
       vitalsInitial[selectedCase.id]["weight"].length - 1
     ];
   newLabs["ionizedCalcium"] =
-    labsInitial[selectedCase.id]["calcium"][
-      labsInitial[selectedCase.id]["calcium"].length - 1
-    ] / timeBetweenOrders;
+    labData["calcium"][labData["calcium"].length - 1] / timeBetweenOrders;
   newLabs["filtrationFraction"] = currentOrder.filtrationFraction;
 
   let initialEffluentFlowRate = calculateEffluentFlowRate(currentOrder);
@@ -737,9 +743,7 @@ export function runLabs(
     );
     console.log(
       "calculateLab(): initialValue: ",
-      labsInitial[selectedCase.id][prodRateKeys[i]][
-        labsInitial[selectedCase.id][prodRateKeys[i]].length - 1
-      ]
+      labData[prodRateKeys[i]][labData[prodRateKeys[i]].length - 1]
     );
     console.log(
       "calculateLab(): dialysate: ",
@@ -757,11 +761,7 @@ export function runLabs(
     // NOTE: Params for calculateLab(): initialValue, dialysate, effluentFlowRate, time, weight, volumeOfDistribution, productionRate
 
     newLabs[prodRateKeys[i]] = calculateLab(
-      parseFloat(
-        labsInitial[selectedCase.id][prodRateKeys[i]][
-          labsInitial[selectedCase.id][prodRateKeys[i]].length - 1
-        ]
-      ),
+      parseFloat(labData[prodRateKeys[i]][labData[prodRateKeys[i]].length - 1]),
       parseFloat(currentOrder.fluidDialysateValues[prodRateKeys[i]]),
       parseFloat(effluentFlowRate),
       parseFloat(currentOrder["timeToNextLabs"]),
@@ -778,7 +778,8 @@ export function runLabs(
     volumeOfDistribution,
     effluentFlowRate,
     selectedCase,
-    startingWeight
+    startingWeight,
+    labData
   );
   // NOTE: If we're using sodium phosphate, we need to recalculate the phosphorous results
   if (currentOrder.otherFluidsSodiumPhosphate) {
@@ -796,6 +797,7 @@ export function runLabs(
       effluentFlowRate,
       newLabs["ionizedCalcium"]
     );
+
     newLabs["bicarbonate"] = citrateResults["bicarbonate"];
     newLabs["calcium"] = citrateResults["calcium"];
     newLabs["ionizedCalcium"] = citrateResults["ionizedCalcium"];
@@ -806,16 +808,16 @@ export function runLabs(
     newLabs["bicarbonate"],
     selectedCase,
     time.currentTime,
-    timeBetweenOrders
+    timeBetweenOrders,
+    labData
   );
   newLabs["time"] = orders[orders.length - 1].timeStamp;
-
   newLabs = roundLabs(newLabs);
 
   // saveLabValues(newLabs);
   // // incrementTime(); //This function needs to increment time in Redux
   // copyStaticLabsToHistorical(time, selectedCase);
-  console.log(copyStaticLabsToHistorical(time, selectedCase));
+  copyStaticLabsToHistorical(time, selectedCase, labData);
   setNewWeight(
     totalHoursOfFiltration,
     currentOrder,
@@ -852,7 +854,7 @@ function roundLabs(newLabs) {
   return newLabs;
 }
 
-function copyStaticLabsToHistorical(time, selectedCase) {
+function copyStaticLabsToHistorical(time, selectedCase, labData) {
   // var currentLabSet = _currentTime / 8 + 1;
 
   // for (var i = 0; i < _staticLabs.length; i++) {
@@ -864,10 +866,8 @@ function copyStaticLabsToHistorical(time, selectedCase) {
   // }
 
   for (var i = 0; i < _staticLabs.length; i++) {
-    if (labsInitial[selectedCase.id][_staticLabs[i]]) {
-      _historicalLabs[_staticLabs[i]].push(
-        labsInitial[selectedCase.id][_staticLabs[i]]
-      );
+    if (labData[_staticLabs[i]]) {
+      _historicalLabs[_staticLabs[i]].push(labData[_staticLabs[i]]);
     }
   }
 }
@@ -887,7 +887,8 @@ function calculateSodium(
   volumeOfDistribution,
   effluentFlowRate,
   selectedCase,
-  startingWeight
+  startingWeight,
+  labData
 ) {
   console.log(
     "calculateSodium params: " + volumeOfDistribution,
@@ -904,9 +905,7 @@ function calculateSodium(
 
   // default initial sodium is the previous historical value.
   var initialSodium = parseFloat(
-    labsInitial[selectedCase.id]["sodium"][
-      labsInitial[selectedCase.id]["sodium"].length - 1
-    ]
+    labData["sodium"][labData["sodium"].length - 1]
   );
 
   var threePercentSalineConcentration;
@@ -1806,13 +1805,15 @@ function calculatePH(
   bicarbonate,
   selectedCase,
   currentTime,
-  timeBetweenOrders
+  timeBetweenOrders,
+  labData
 ) {
   var PCO2 = getCurrentLab(
     "pc02",
     selectedCase.id,
     currentTime,
-    timeBetweenOrders
+    timeBetweenOrders,
+    labData
   );
   var pH = 6.1 + Math.log(bicarbonate / (0.03 * PCO2)) / Math.log(10);
   return excelRound(pH, 2);
@@ -1955,8 +1956,7 @@ function checkSodiumCase2(caseId, labData) {
 
 function checkPotassium(caseId, labData) {
   var totalPoints = 0;
-  var currentPotassium =
-    labsInitial[caseId].potassium[labsInitial[caseId].potassium.length - 1];
+  var currentPotassium = labData.potassium[labData.potassium.length - 1];
 
   if (currentPotassium > 3.3) {
     console.log("checkPotassium() : within bounds ", currentPotassium);
@@ -1976,8 +1976,7 @@ function checkPotassium(caseId, labData) {
 
 function checkPotassiumCase2(caseId, labData) {
   var totalPoints = 0;
-  var currentPotassium =
-    labsInitial[caseId].potassium[labsInitial[caseId].potassium.length - 1];
+  var currentPotassium = labData.potassium[labData.potassium.length - 1];
   var msg;
 
   if (currentPotassium > 3.3) {
@@ -2010,11 +2009,18 @@ const calculateFiltrationFraction = (
   currentOrder,
   caseId,
   currentTime,
-  timeBetweenOrders
+  timeBetweenOrders,
+  labData
 ) => {
   var ff;
   var hct =
-    getCurrentLab("hematocrit", caseId, currentTime, timeBetweenOrders) / 100;
+    getCurrentLab(
+      "hematocrit",
+      caseId,
+      currentTime,
+      timeBetweenOrders,
+      labData
+    ) / 100;
   console.log("calculateFiltrationFraction : hematocrit ", hct);
   console.log("order order ORDER: ", currentOrder);
 
@@ -2095,7 +2101,7 @@ function checkBicarbonateCase2(caseId, labData) {
 function checkPH(caseId, labData) {
   var totalPoints = 0;
   // var currentPH = _historicalLabs["pH"][_historicalLabs["pH"].length - 1];
-  var currentPH = labsInitial[caseId].ph[labsInitial[caseId].ph.length - 1];
+  var currentPH = labData.ph[labData.ph.length - 1];
   var msg;
 
   if (currentPH >= 7.2 && currentPH <= 7.45) {
@@ -2136,7 +2142,7 @@ function checkPH(caseId, labData) {
 
 function checkPHCase2(caseId, labData) {
   var totalPoints = 0;
-  var currentPH = labsInitial[caseId].ph[labsInitial[caseId].ph.length - 1];
+  var currentPH = labData.ph[labData.ph.length - 1];
   var msg;
 
   if (currentPH < 7.0) {
@@ -2183,8 +2189,7 @@ function checkCalcium(caseId, labData) {
   // TODO: Doc from Ben says "NOT when using citrate" -- do we not run these checks if we are using citrate?
   // if using citrate - divide by 8
   var totalPoints = 0;
-  var currentCalcium =
-    labsInitial[caseId].calcium[labsInitial[caseId].calcium.length - 1];
+  var currentCalcium = labData.calcium[labData.calcium.length - 1];
   var msg;
 
   if (currentCalcium >= 7.5 && currentCalcium <= 10) {
@@ -2219,8 +2224,7 @@ function checkCalcium(caseId, labData) {
 
 function checkCalciumCase2(order, caseId, labData) {
   var totalPoints = 0;
-  var currentCalcium =
-    labsInitial[caseId].calcium[labsInitial[caseId].calcium.length - 1];
+  var currentCalcium = labData.calcium[labData.calcium.length - 1];
   var msg;
 
   if (order.anticoagulation === "citrate") {
@@ -2294,8 +2298,7 @@ function checkCalciumCase2(order, caseId, labData) {
 
 function checkMagnesium(caseId, labData) {
   var totalPoints = 0;
-  var currentMagnesium =
-    labsInitial[caseId].magnesium[labsInitial[caseId].magnesium.length - 1];
+  var currentMagnesium = labData.magnesium[labData.magnesium.length - 1];
 
   if (currentMagnesium > 1.4) {
     console.log("checkMagnesium() : within bounds ", currentMagnesium);
@@ -2315,8 +2318,7 @@ function checkMagnesium(caseId, labData) {
 
 function checkMagnesiumCase2(caseId, labData) {
   var totalPoints = 0;
-  var currentMagnesium =
-    labsInitial[caseId].magnesium[labsInitial[caseId].magnesium.length - 1];
+  var currentMagnesium = labData.magnesium[labData.magnesium.length - 1];
   var msg;
 
   if (currentMagnesium >= 1.0 && currentMagnesium < 1.4) {
@@ -2346,8 +2348,7 @@ function checkPhosphorous(caseId, labData) {
   //      - (465/t(which will equal 6)) (Effluent Flow Rate *10)
   //      - This should reset after each cycle, so it’s not automatically given every 6 hours
   var totalPoints = 0;
-  var currentPhosphorous =
-    labsInitial[caseId].phosphorous[labsInitial[caseId].phosphorous.length - 1];
+  var currentPhosphorous = labData.phosphorous[labData.phosphorous.length - 1];
 
   if (currentPhosphorous > 2.0) {
     console.log(
@@ -2556,7 +2557,7 @@ function checkDose(effluentFlowRate) {
   return dose;
 }
 
-function handleSimulationCompletion(caseId, currentTime) {
+function handleSimulationCompletion(caseId, currentTime, labData) {
   // TODO:
   // * check to see if patient has died
   // * check to see if time limit has been reached
@@ -2565,7 +2566,7 @@ function handleSimulationCompletion(caseId, currentTime) {
   //   - disable orders/etc.
   var currentWeight =
     vitalsInitial[caseId].weight[vitalsInitial[caseId].weight.length - 1];
-  var currentPH = labsInitial[caseId].ph[labsInitial[caseId].ph.length - 1];
+  var currentPH = labData.ph[labData.ph.length - 1];
   var resultsOverview;
   // var caseEndingTime = 90;
 
