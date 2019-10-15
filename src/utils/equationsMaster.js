@@ -1,5 +1,4 @@
 import {
-  labsInitial,
   inputOutputInitial,
   vitalsInitial,
   productionRatesInitial,
