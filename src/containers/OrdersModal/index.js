@@ -24,7 +24,8 @@ import {
   postLabChecks,
   getMedications,
   getVitals,
-  returnInputOutput
+  returnInputOutput,
+  returnHistoricalWeight
 } from "../../utils/equationsMaster.js";
 import orderWarningRanges from "../../utils/resultsEquationsMaster.js";
 import ordersResultsMessages from "../../utils/resultsEquationsWarningMaster.js";
@@ -88,7 +89,7 @@ export class OrdersModal extends Component {
 
       let inputOutput = returnInputOutput();
       this.combineInputOutputObjects(inputOutput);
-
+        console.log("THE THING WE HOPEFULLY NEED: ", returnHistoricalWeight())
       let combinedLabData = this.addNewLabDataToPreviousLabData(newLabData);
       calculateLabData(combinedLabData);
 

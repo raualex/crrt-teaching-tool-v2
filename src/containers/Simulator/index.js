@@ -40,9 +40,10 @@ export class Simulator extends Component {
   }
 
   componentDidMount() {
-    const { selectedCase, calculateLabData, setInputOutputData } = this.props;
+    const { selectedCase, calculateLabData, setInputOutputData, setCaseOver } = this.props;
 
     if (selectedCase.id === 1 || selectedCase.id === 2) {
+      setCaseOver(false)
       calculateLabData(labsInitial[selectedCase.id]);
       setInputOutputData(inputOutputInitial[selectedCase.id]);
     } else {
@@ -51,11 +52,20 @@ export class Simulator extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { orders } = this.props;
+    const { hourlyTimestamps } = this.props;
     // Typical usage (don't forget to compare props):
-    if (orders !== prevProps.orders) {
-      /* For each order, add its results messages */
-      // this.checkCurrentOrderResults()
+    if (hourlyTimestamps.length !== prevProps.hourlyTimestamps.length) {
+      this.checkForCaseOver()
+    }
+  }
+
+  checkForCaseOver = () => {
+    let { hourlyTimestamps, setCaseOver } = this.props
+
+    if (hourlyTimestamps.length >= 92) {
+      setCaseOver(true)
+    } else {
+      return
     }
   }
 
@@ -119,7 +129,8 @@ export class Simulator extends Component {
       selectedCase,
       location,
       history,
-      hourlyTimestamps
+      hourlyTimestamps,
+      caseOver
       // resultsMessages,
       // orders
     } = this.props;
@@ -135,6 +146,11 @@ export class Simulator extends Component {
       timeForTitle = "10:00 - Day 1";
     } else {
       timeForTitle = hourlyTimestamps[hourlyTimestamps.length - 1];
+    }
+
+    if (caseOver === true) {
+      location.pathname = "/results";
+      history.push("/results");
     }
 
     if (selectedModal === "") {
@@ -385,13 +401,15 @@ export const mapStateToProps = ({
   selectedCase,
   orders,
   resultsMessages,
-  hourlyTimestamps
+  hourlyTimestamps,
+  caseOver
 }) => ({
   selectedModal,
   selectedCase,
   orders,
   resultsMessages,
-  hourlyTimestamps
+  hourlyTimestamps,
+  caseOver
 });
 
 export const mapDispatchToProps = dispatch => ({

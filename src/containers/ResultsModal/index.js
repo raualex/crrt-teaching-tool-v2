@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
 import './ResultsModal.css';
 import { connect } from 'react-redux';
+import { finalResultsMessages/*, vitalsInitial*/ } from '../../utils/initialSpreadsheetData.js';
+// import { setResultsTableVariables } from '../../utils/equationsMaster.js';
 
 export class ResultsModal extends Component {
   // constructor(props) {
   //   super(props)
   // }
 
+  printFailureMessage = () => {
+    // let { selectedCase } = this.props;
+    // let currentWeight = vitalsInitial[selectedCase.id].weight[vitalsInitial[selectedCase.id].weight.length - 1];
+    // let currentPH = labData.ph[labData.ph.length - 1];
+    // let resultsOverview;
+  }
+
   render() {
+    let { hourlyTimestamps } = this.props;
+
     return (
       <div>
         <div className='rm-title-container'>
@@ -15,7 +26,7 @@ export class ResultsModal extends Component {
         </div>
         <div className='rm-body-container'>
           <h3 className='rm-body-section-title'>Overall Result</h3>
-          <p className='rm-body-msg'>Your patient has...</p>
+          <p className='rm-body-msg'>{hourlyTimestamps.length >= 90 ? finalResultsMessages.successMsg : 'Failure Message'}</p>
           <h3 className='rm-body-section-title'>
             Dose
             <a
@@ -102,6 +113,7 @@ export class ResultsModal extends Component {
 }
 
 export const mapStateToProps = (state) => ({
+  selectedCase: state.selectedCase,
   hourlyTimestamps: state.hourlyTimestamps
 });
 

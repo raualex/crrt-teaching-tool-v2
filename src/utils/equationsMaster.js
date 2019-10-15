@@ -837,6 +837,10 @@ export function returnInputOutput() {
   return _historicalInputOutput;
 }
 
+export function returnHistoricalWeight() {
+  return _historicalVitals.weight
+}
+
 function roundLabs(newLabs) {
   newLabs["sodium"] = Number.parseFloat(newLabs["sodium"]).toFixed(0);
   newLabs["potassium"] = Number.parseFloat(newLabs["potassium"]).toFixed(1);
@@ -2607,7 +2611,7 @@ function handleSimulationCompletion(caseId, currentTime, labData) {
   }
 }
 
-function setResultsTableVariables() {
+export function setResultsTableVariables() {
   // console.log("setResultsTableVariables()");
   // var numRounds = _currentTime / 8;
   // console.log("numRounds :", numRounds);

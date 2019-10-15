@@ -7,7 +7,10 @@ describe("ResultsModal", () => {
   let mockTimestampArr = ["Hour 1", "Hour 2", "Hour 3"]
 
   beforeEach(() => {
-    wrapper = shallow(<ResultsModal />);
+    wrapper = shallow(<ResultsModal 
+      hourlyTimestamps={mockTimestampArr} 
+      caseOver={true} 
+    />);
   });
 
   it("matches the snapshot", () => {

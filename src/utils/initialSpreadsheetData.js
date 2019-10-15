@@ -1277,3 +1277,10 @@ export const labsCase1 = {
   imaging:["1500: Chest X-ray","The chest x-ray shows a left lower lobe consolidation consistent with infection. The remainder of the lungs are clear."],
   physicalExam:{"general":"Appears acutely ill","ENT":"Intubated","heart":"Tachycardic, no murmurs, rubs, or gallops","lungs":"Decreased breath sounds in the left lower lobe","abdomen":"Non-distended","extremities":"No edema","psych":"Intubated and sedated"}
 }
+
+export const finalResultsMessages = {
+  successMsg: "Your patient survived their episode of sepsis due to pneumonia, complicated by severe AKI requiring CRRT.",
+  failureMsgPh: "Your patient died of overwhelming acidosis and infection.  Mortality is high in critically ill patients who require dialysis, but your patient would have benefitted from more efficient CRRT.  Try increasing the bicarbonate concentration in the replacement or  dialysate fluid, or using more effective anticoagulation.  Restart the case and see if you can improve the outcome!",
+  failureMsgWeight: "Your patient died after developing positive blood cultures.",
+  failureMsgTime: "Your patient developed a secondary infection in the ICU, and subsequently died of overwhelming sepsis.  Mortality is high in critically ill patients who require dialysis, but your patient would have benefitted from more aggressive fluid removal.  Try the case again and see if you can improve the outcome!"
+}
