@@ -87,7 +87,6 @@ export class DataOutputTable extends Component {
       }
       return finalArr;
     }
-    
   };
 
   createBulletPointsForNonTables = () => {
@@ -186,7 +185,7 @@ export class DataOutputTable extends Component {
       });
 
       return (
-        <table className={"dataot-" + modalNameForClass}>
+        <table className={`dataot-table dataot-${modalNameForClass}`}>
           <thead>
             <tr>
               <th className="blank-table-head"></th>
@@ -244,7 +243,8 @@ export class DataOutputTable extends Component {
           } else if (keyNoSpaces === "CumulativeInput/Output") {
             newKeyName = "cumulativeInputOutput";
           } else {
-            newKeyName = keyNoSpaces.charAt(0).toLowerCase() + keyNoSpaces.slice(1);
+            newKeyName =
+              keyNoSpaces.charAt(0).toLowerCase() + keyNoSpaces.slice(1);
           }
 
           if (inputOutputData[newKeyName]) {
@@ -266,7 +266,7 @@ export class DataOutputTable extends Component {
       );
 
       return (
-        <table className={"dataot-" + modalNameForClass}>
+        <table className={`dataot-table dataot-${modalNameForClass}`}>
           <thead>
             <tr>
               <th className="blank-table-head"></th>
@@ -314,7 +314,7 @@ export class DataOutputTable extends Component {
       );
 
       return (
-        <table className={"dataot-" + modalNameForClass}>
+        <table className={`dataot-table dataot-${modalNameForClass}`}>
           <thead>
             <tr>
               <th className="blank-table-head"></th>
@@ -326,7 +326,7 @@ export class DataOutputTable extends Component {
       );
     } else {
       return (
-        <div className={"dataot-" + modalNameForClass}>
+        <div className={`dataot-table dataot-${modalNameForClass}`}>
           <ul>{this.createBulletPointsForNonTables()}</ul>
         </div>
       );
