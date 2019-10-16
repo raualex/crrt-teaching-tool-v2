@@ -5,26 +5,13 @@
   text-align: left;
 }
 
-.dataot-table {
-  /* display: block;
-  overflow-x: auto;
-  white-space: nowrap; */
+.dataot-table, .dataot-Laboratory-Data {
   display: inline-block;
   overflow-x: auto;
   white-space: nowrap;
   max-width: 100%;
   border: 0;
 }
-
-/* thead {
-  width: 50%;
-  overflow-x: scroll;
-}
-
-tr {
-  width: 50%;
-  overflow-x: scroll;
-} */
 
 .dataot-line-item {
   list-style-position: inside;
