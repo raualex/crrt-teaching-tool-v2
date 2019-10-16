@@ -285,13 +285,16 @@ export class Simulator extends Component {
         <div className="Simulator">
           <header className="simulator-header">
             <h1 className="CRRT-title">CRRT SIMULATOR v.2</h1>
+            <div className="CRRT-subtitle-container">
+              <h2 className="CRRT-subtitle">
+                <span className="CRRT-subtitle-span">Case Selected: </span>
+                {selectedCase.id}
+              </h2>
+              <h2 className="CRRT-subtitle">
+                <span className="CRRT-subtitle-span">Time:</span> {timeForTitle}
+              </h2>
+            </div>
             <div className="form-buttons-container">
-              <div className="CRRT-subtitle-container">
-                <h2 className="CRRT-subtitle">
-                  Case Selected: {selectedCase.id}
-                </h2>
-                <h2 className="CRRT-subtitle">Time: {timeForTitle}</h2>
-              </div>
               <button
                 className="orders-btn header-btn"
                 onClick={event => this.toggleOrdersModal(event)}
@@ -393,9 +396,9 @@ export class Simulator extends Component {
                   Physical Exam
                 </button>
               </div>
-              <div className="modal-container">
-                <DataOutputModal handleClick={this.handleClick} />
-              </div>
+              {/* <div className="modal-container"> */}
+              <DataOutputModal handleClick={this.handleClick} />
+              {/* </div> */}
             </div>
           )}
         </div>

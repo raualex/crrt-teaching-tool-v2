@@ -5,6 +5,27 @@
   text-align: left;
 }
 
+.dataot-table {
+  /* display: block;
+  overflow-x: auto;
+  white-space: nowrap; */
+  display: inline-block;
+  overflow-x: auto;
+  white-space: nowrap;
+  max-width: 100%;
+  border: 0;
+}
+
+/* thead {
+  width: 50%;
+  overflow-x: scroll;
+}
+
+tr {
+  width: 50%;
+  overflow-x: scroll;
+} */
+
 .dataot-line-item {
   list-style-position: inside;
   list-style-type: none;
@@ -18,6 +39,7 @@
   border-right: solid 1px #000;
   height: 38px;
   width: 200px;
+  padding: 0 1rem;
 }
 
 .table-key {
