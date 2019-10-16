@@ -1029,7 +1029,7 @@ export const productionRatesInitial = {
 
 export const medicationsInitial = {
   1: {
-    scheduledMedication: [
+    scheduled: [
       [
         "Atorvastatin 40 mg Daily",
         "Cefepime 2000 mg q8hr",
@@ -1321,7 +1321,7 @@ export const medicationsInitial = {
     ]
   },
   2: {
-    scheduledMedication: [
+    scheduled: [
       [
         "Atorvastatin 40 mg Daily",
         "Cefepime 2000 mg q8hr",

@@ -17,7 +17,7 @@ import {
 } from "../../Actions/ordersActions";
 import { addMedications } from "../../Actions/medication-actions.js";
 import { addVitals } from "../../Actions/vitals-actions.js";
-import { getVitals } from "../../utils/equationsMaster.js";
+import { getVitals, getMedications } from "../../utils/equationsMaster.js";
 import DataOutputModal from "../DataOutputModal";
 import OrdersModal from "../OrdersModal";
 import OrderResultsContainer from "../../components/OrderResultsContainer";
@@ -46,16 +46,19 @@ export class Simulator extends Component {
       calculateLabData, 
       setInputOutputData,
       addVitals, 
+      addMedications,
       setCaseOver 
     } = this.props;
 
     if (selectedCase.id === 1 || selectedCase.id === 2) {
       let vitals = getVitals(selectedCase.id);
+      let medications = getMedications(selectedCase.id);
 
       setCaseOver(false)
       calculateLabData(labsInitial[selectedCase.id]);
       setInputOutputData(inputOutputInitial[selectedCase.id]);
       addVitals(vitals);
+      addMedications(medications);
     } else {
       return;
     }
@@ -438,8 +441,8 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(validateTimeBetweenOrders(isValid)),
   addResultsMessagesToOrder: (resultsMessages, id) =>
     dispatch(addResultsMessagesToOrder(resultsMessages, id)),
-  addMedications: timeBetweenOrders =>
-    dispatch(addMedications(timeBetweenOrders)),
+  addMedications: medications =>
+    dispatch(addMedications(medications)),
   addVitals: vitals => dispatch(addVitals(vitals)),
   recordHourlyTimestamp: timeStamps =>
     dispatch(recordHourlyTimestamp(timeStamps)),

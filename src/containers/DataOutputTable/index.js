@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./DataOutputTable.css";
 import { connect } from "react-redux";
 import modalKeys from "../../utils/dataOutputTableKeys.js";
-import { mockReduxOrdersForModal } from "../../utils/mockOrders.js";
 const uuidv4 = require("uuid/v4");
 
 export class DataOutputTable extends Component {
@@ -43,6 +42,38 @@ export class DataOutputTable extends Component {
     return finalLabs;
   };
 
+  mapMedicationArrayValuesForTables = (medDataArr, lengthNum) => {
+    console.log("MEDICATIONS LENGTH: ", lengthNum)
+    let finalMedicationLists = medDataArr.reduce((acc, outputNum, index) => {
+      if (index < lengthNum) {
+        acc.push(
+          <td className="table-key" key={uuidv4()}>
+            <ul key={uuidv4()}>
+              {this.mapListsForMedications(outputNum)}
+            </ul>
+          </td>
+        );
+      }
+
+      return acc;
+    }, []);
+
+    while (finalMedicationLists.length < lengthNum) {
+      finalMedicationLists.push(
+        <td className="table-key" key={uuidv4()}>
+          {" "}
+        </td>
+      );
+    }
+    return finalMedicationLists;
+  };
+
+  mapListsForMedications = (valuesArr) => {
+    return valuesArr.map((valueStr) => {
+      return <li key={uuidv4()}>{valueStr}</li>
+    })
+  }
+
   createTableColumnHeaders = (arrNum, selectedModal) => {
     let { labData, hourlyTimestamps } = this.props;
     let finalArr = [];
@@ -69,6 +100,16 @@ export class DataOutputTable extends Component {
       return finalArr;
     } else if (selectedModal === "Vitals") {
       let newTimeStamps = hourlyTimestamps.filter((timeStamp) => timeStamp !== 'Pre-CRRT 2')
+      for (let i = 0; i < newTimeStamps.length; i++) {
+        finalArr.push(
+          <th key={uuidv4()} className="blank-table-head">
+            {newTimeStamps[i]}
+          </th>
+        );
+      }
+      return finalArr;
+    } else if (selectedModal === "Medications") {
+      let newTimeStamps = labData.time.filter((timeStamp) => timeStamp !== 'Pre-CRRT 2')
       for (let i = 0; i < newTimeStamps.length; i++) {
         finalArr.push(
           <th key={uuidv4()} className="blank-table-head">
@@ -155,7 +196,8 @@ export class DataOutputTable extends Component {
       labData, 
       inputOutputData, 
       hourlyTimestamps,
-      vitals
+      vitals,
+      medications
     } = this.props;
     let modalNameForClass;
     let modalNameForKeys;
@@ -170,22 +212,29 @@ export class DataOutputTable extends Component {
 
     if (selectedModal === "Medications") {
       modalNameForKeys = selectedModal.replace(/\s/g, "");
-      modalTableRowKeys = modalKeys[modalNameForKeys].map((keyName, index) => {
-        return (
-          <tr key={uuidv4()}>
-            <td key={uuidv4()} className={"table-key index" + index}>
-              {keyName}
-            </td>
-            {this.mapArrayValuesForTables(
-              mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys],
-              labData.sodium.length
-            )}
-          </tr>
-        );
-      });
+      modalTableRowKeys = modalKeys[modalNameForKeys].reduce(
+        (acc, keyName, index) => {
+          let keyNoSpaces = keyName.replace(/\s/g, "");
+          let newKeyName = keyNoSpaces.charAt(0).toLowerCase() + keyNoSpaces.slice(1);
+
+            acc.push(
+              <tr key={uuidv4()}>
+                <td key={uuidv4()} className={"table-key index" + index}>
+                  {keyName}
+                </td>
+                {this.mapMedicationArrayValuesForTables(
+                  medications[newKeyName],
+                  labData.time.length - 1
+                )}
+              </tr>
+            );
+          return acc;
+        },
+        []
+      );
 
       return (
-        <table className={`dataot-table dataot-${modalNameForClass}`}>
+        <table className={"dataot-" + modalNameForClass}>
           <thead>
             <tr>
               <th className="blank-table-head"></th>
@@ -340,7 +389,8 @@ export const mapStateToProps = state => ({
   labData: state.labData,
   inputOutputData: state.inputOutputData,
   hourlyTimestamps: state.hourlyTimestamps,
-  vitals: state.vitals
+  vitals: state.vitals,
+  medications: state.medications
 });
 
 export default connect(mapStateToProps)(DataOutputTable);
