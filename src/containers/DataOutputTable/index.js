@@ -68,11 +68,7 @@ export class DataOutputTable extends Component {
       }
       return finalArr;
     } else if (selectedModal === "Vitals") {
-      let newTimeStamps = hourlyTimestamps.filter((timeStamp) => {
-        if (timeStamp !== 'Pre-CRRT 2') {
-          return timeStamp
-        }
-      })
+      let newTimeStamps = hourlyTimestamps.filter((timeStamp) => timeStamp !== 'Pre-CRRT 2')
       for (let i = 0; i < newTimeStamps.length; i++) {
         finalArr.push(
           <th key={uuidv4()} className="blank-table-head">
