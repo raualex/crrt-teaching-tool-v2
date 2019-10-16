@@ -56,11 +56,27 @@ export class DataOutputTable extends Component {
         );
       }
       return finalArr;
-    } else if (selectedModal === "Input/Output") {
+    } else if (
+      selectedModal === "Input/Output"
+    ) {
       for (let i = 0; i < hourlyTimestamps.length; i++) {
         finalArr.push(
           <th key={uuidv4()} className="blank-table-head">
             {hourlyTimestamps[i]}
+          </th>
+        );
+      }
+      return finalArr;
+    } else if (selectedModal === "Vitals") {
+      let newTimeStamps = hourlyTimestamps.filter((timeStamp) => {
+        if (timeStamp !== 'Pre-CRRT 2') {
+          return timeStamp
+        }
+      })
+      for (let i = 0; i < newTimeStamps.length; i++) {
+        finalArr.push(
+          <th key={uuidv4()} className="blank-table-head">
+            {newTimeStamps[i]}
           </th>
         );
       }
@@ -139,22 +155,25 @@ export class DataOutputTable extends Component {
   };
 
   render() {
-    let { selectedModal, labData, inputOutputData, hourlyTimestamps } = this.props;
+    let { 
+      selectedModal, 
+      labData, 
+      inputOutputData, 
+      hourlyTimestamps,
+      vitals
+    } = this.props;
     let modalNameForClass;
     let modalNameForKeys;
     let modalTableRowKeys;
     let rowsNumber = labData.sodium.length;
-    // mockReduxOrdersForModal.mockReduxOrdersForModal["Vitals"].length;
+
     if (selectedModal === "Input/Output") {
       modalNameForClass = "InputOutput";
     } else {
       modalNameForClass = selectedModal.replace(/\s/g, "-");
     }
 
-    if (
-      selectedModal === "Vitals" ||
-      selectedModal === "Medications"
-    ) {
+    if (selectedModal === "Medications") {
       modalNameForKeys = selectedModal.replace(/\s/g, "");
       modalTableRowKeys = modalKeys[modalNameForKeys].map((keyName, index) => {
         return (
@@ -169,6 +188,42 @@ export class DataOutputTable extends Component {
           </tr>
         );
       });
+
+      return (
+        <table className={"dataot-" + modalNameForClass}>
+          <thead>
+            <tr>
+              <th className="blank-table-head"></th>
+              {this.createTableColumnHeaders(rowsNumber, selectedModal)}
+            </tr>
+          </thead>
+          <tbody>{modalTableRowKeys}</tbody>
+        </table>
+      );
+    } else if (selectedModal === "Vitals") {
+      modalNameForKeys = selectedModal.replace(/\s/g, "");
+      modalTableRowKeys = modalKeys[modalNameForKeys].reduce(
+        (acc, keyName, index) => {
+          let keyNoSpaces = keyName.replace(/\s/g, "");
+          let newKeyName = keyNoSpaces.charAt(0).toLowerCase() + keyNoSpaces.slice(1);
+
+          if (vitals[newKeyName]) {
+            acc.push(
+              <tr key={uuidv4()}>
+                <td key={uuidv4()} className={"table-key index" + index}>
+                  {keyName}
+                </td>
+                {this.mapArrayValuesForTables(
+                  vitals[newKeyName],
+                  hourlyTimestamps.length - 1
+                )}
+              </tr>
+            );
+          }
+          return acc;
+        },
+        []
+      );
 
       return (
         <table className={"dataot-" + modalNameForClass}>
@@ -205,7 +260,6 @@ export class DataOutputTable extends Component {
                 {this.mapArrayValuesForTables(
                   inputOutputData[newKeyName],
                   hourlyTimestamps.length
-                  // mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys]
                 )}
               </tr>
             );
@@ -254,7 +308,6 @@ export class DataOutputTable extends Component {
                 {this.mapArrayValuesForTables(
                   labData[newKeyName],
                   labData.sodium.length
-                  // mockReduxOrdersForModal.mockReduxOrdersForModal[modalNameForKeys]
                 )}
               </tr>
             );
@@ -290,7 +343,8 @@ export const mapStateToProps = state => ({
   selectedCase: state.selectedCase,
   labData: state.labData,
   inputOutputData: state.inputOutputData,
-  hourlyTimestamps: state.hourlyTimestamps
+  hourlyTimestamps: state.hourlyTimestamps,
+  vitals: state.vitals
 });
 
 export default connect(mapStateToProps)(DataOutputTable);

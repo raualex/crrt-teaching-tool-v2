@@ -1216,7 +1216,7 @@ export const medicationsInitial = {
 "thyroid (ARMOUR) 120 mg Daily",
 "Vancomycin 1250 mg IV BID"]
   ],
-infusions: [
+    infusions: [
   "Cisatracurium (2 mg/mL)",
   "Fentanyl (50 mcg/mL)",
   "Midazolam (1 mg/mL)",
