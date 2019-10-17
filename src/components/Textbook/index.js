@@ -2,17 +2,12 @@ import React from "react";
 import "./Textbook.css";
 import { NavLink } from 'react-router-dom';
 
-const Textbook = ({ location, history }) => {
-  // const goBackToLanding = () => {
-  //   location.pathname = "/";
-  //   history.push("/");
-  // };
-
+const Textbook = () => {
   return (
     <div className="Textbook">
       <nav className="Textbook-navbar">
       <NavLink className='Textbook-NavLink' exact to='/' >
-        <a className="Textbook-navbar-link" >
+        <a className="Textbook-navbar-link" href='/'>
           CRRT Education App
         </a>
       </NavLink>
@@ -29,7 +24,7 @@ const Textbook = ({ location, history }) => {
         <p>Indications for CRRT, similar to indications for hemodialysis, include intractable acidosis, hyperkalemia, intoxications, intractable volume overload, and uremia.&nbsp; CRRT has not been demonstrated to improve survival compared to intermittent hemodialysis, but has been shown to decrease the rates of hemodynamic instability.&nbsp; CRRT is usually chosen, then, in patients with pressor requirements, or in whom hemodynamic instability is anticipated.&nbsp;</p>
         <p>Preferred access for CRRT is a non-tunneled short-term hemodialysis catheter, such as a Mahurkar catheter.&nbsp; These can be placed in the right or left internal jugular veins, or in the femoral veins.&nbsp; RIJ placement is preferred if possible because of the straight path to the cavoatrial junction.&nbsp;</p>
         <p>The prescription for CRRT consists of the modality, the blood flow rate, the composition of the replacement or dialysate fluid used, the replacement or dialysate fluid flow rate, and the amount of ultrafiltration.&nbsp;</p>
-        <h2 className="Textbook-h2" id="Textbook-modality"><p><strong>Modality</strong></p></h2>
+        <h2 className="Textbook-h2" id="modality"><p><strong>Modality</strong></p></h2>
         <hr/>
         <h3><p><strong>At a Glance:</strong></p></h3>
         <p><strong>CVVHF (Continuous venovenous hemofiltration)</strong></p>
@@ -61,22 +56,22 @@ const Textbook = ({ location, history }) => {
         <p><strong>Continuous Veno-Venous Hemofiltration (CVVH)</strong> uses convection, whereas <strong>Continuous Veno-Venous Hemodialysis (CVVHD)</strong> uses mainly diffusion.&nbsp; <strong>Continuous Veno-Venous HemoDiafiltration (CVVHDF) </strong>is a combination of the two.&nbsp; The terminology is also slightly different, as CVVH uses replacement fluid, CVVHD uses dialysate, and CVVHDF uses both replacement fluid and dialysate.&nbsp;</p>
         <p>The biggest difference is that convection more effectively removes middle and large molecules, although in clinical practice a clear benefit to removing larger molecules has not been demonstrated.&nbsp; Other differences include decreased filtration fraction with CVVHD (see &ldquo;filtration fraction&rdquo; section), and less fluid needed to achieve the same dose as in pre-filter CVVH (see &ldquo;dose&rdquo; section below).&nbsp;</p>
         <p><strong>Diffusion&nbsp; </strong></p>
-        <img src="/images/diffusion.png"/>
+        <img src="/images/diffusion.png" href="/images/diffusion.png" alt="diffusion diagram"/>
         <p><strong>Figure 1:&nbsp; The yellow molecules, representing urea, move from the blood, which has a high concentration of urea, into the dialysate, which initially has no urea.&nbsp; Middle molecules, represented by the green ovals, do not easily move across the membrane.&nbsp; </strong></p>
         <p>In diffusive clearance, solutes move from areas of high concentration (usually the blood) to areas of low concentration (the dialysate).&nbsp; CRRT membranes typically have pore sizes up to 50,000 Daltons.&nbsp; Small molecules, such as urea, are able to easily move across the membrane, and thus equilibrate rapidly.&nbsp; Larger molecules have a harder time getting through the pores, and given the short amount of time in takes blood to pass through the filter, these molecules are not cleared as effectively.&nbsp;</p>
         <p><strong>CVVHD </strong>is the modality that predominantly uses diffusion.&nbsp; In this modality, blood runs through the filter, through thousands of semi-permeable microtubules.&nbsp; Dialysate is run into the filter at the opposite end of the filter, and bathes the outside of the microtubules and establishing a &ldquo;counter current&rdquo; flow.&nbsp; Solutes can diffuse into the dialysate, or into the blood, depending on the concentration gradients.&nbsp; Urea, which has a higher concentration in the blood, moves into the dialysate, whereas bicarbonate, which often has a higher concentration in the dialysate, can move into the blood.&nbsp; There is no direct contact between the blood and the dialysate, as they are separated at all times.&nbsp; The combination of dialysate fluid and ultrafiltration removed from the blood is called the effluent.&nbsp;</p>
-        <img src="/images/crrt.png"/>
+        <img src="/images/crrt.png" href="/images/crrt.png" alt="crrt diagram"/>
         <p><strong>Figure is taken from Dr. Jorge Cerd&aacute;&rsquo;s lecture delivered at CRRT Academy on 8/13/16.&nbsp; In the final version, author permission will be obtained, or an original figure created.&nbsp; &nbsp;</strong></p>
         <p><strong>&nbsp;</strong></p>
         <p><strong>&nbsp;</strong></p>
         <p><strong>&nbsp;</strong></p>
         <p><strong>Convection:</strong></p>
-        <img src="/images/convection.png"/>
+        <img src="/images/convection.png" href="/images/convection.png" alt="convection diagram"/>
         <p><strong>Figure 1:&nbsp; Fluid is forced across the membrane into the &ldquo;effluent&rdquo; space by hydrostatic pressure applied to the blood.&nbsp; Middle molecule clearance is increased because of the hydrostatic force.&nbsp; </strong></p>
         <p>In convective clearance, a hydrostatic pressure is applied to force water across the membrane, and solutes follow due to &ldquo;solvent drag.&rdquo;&nbsp; Because there is a force &ldquo;pushing&rdquo; solutes across the membrane, larger molecules move more quickly across the membrane in convection than in diffusion.&nbsp;</p>
         <p>Rates of convection are typically in the range of 2 liters per hour.&nbsp; If 2 liters were removed from the plasma volume without being replaced, the patient would quickly become hypovolemic.&nbsp; To prevent that from happening, fluid is infused back into the patient.&nbsp; The replacement fluid can be given before the blood enters the filter (pre-filter CVVH), after the blood leaves the filter (post-filter CVVH) or a combination of the two.&nbsp;</p>
         <p>Pre-filter CVVH has a lower filtration fraction at any given flow rate than post-filter CVVH, and thus is less likely to have filter clotting (see &ldquo;filtration fraction&rdquo; below).&nbsp; However, there is a dilutional effect in pre-filter CVVH that makes it slightly less efficient than post-filter CVVH or CVVHD.&nbsp;</p>
-        <img src="/images/fluids.png"/>
+        <img src="/images/fluids.png" href="/images/fluids.png" alt="fluids diagram"/>
         <p><strong>Figure is taken from Dr. Jorge Cerd&aacute;&rsquo;s lecture delivered at CRRT Academy on 8/13/16. &nbsp;In the final version, author permission will be obtained, or an original figure created.&nbsp;&nbsp; </strong></p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>
@@ -241,19 +236,7 @@ const Textbook = ({ location, history }) => {
             </tr>
           </tbody>
         </table>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p><strong><u>&nbsp;</u></strong></p>
-        <p><strong><u>&nbsp;</u></strong></p>
+
         <p className="Textbook-paragraph" id="sodium"><strong><u>Sodium</u>:</strong> &nbsp;The goal in patients with normal sodium levels is to avoid hyponatremia (&lt;135 mmol/L) or hypernatremia (&gt;145 mmol/L).&nbsp; Both of these have been associated with increased mortality in critically ill patients.&nbsp; Sodium solutions used in CRRT, then, should generally be 140 mmol/L (See the D5W or 3% normal saline sections regarding cases where higher or lower sodium values are desired).&nbsp;</p>
         <p className="Textbook-paragraph" id="potassium"><strong><u>Potassium</u>:&nbsp; </strong>The goal in CRRT is to normalize potassium around 3.8 - 4.6.&nbsp; Solutions can be made with concentrations from 0 -4 mmol/L, but concentrations less than 2 mmol/L should be used with caution.&nbsp; In cases of life-threatening hyperkalemia or in cases where potassium generation is high (tissue breakdown, rhabdomyolysis) the dialysis dose (see dose section below) will need to be increased, or if possible the patient should be converted to intermittent hemodialysis.&nbsp;</p>
         <p className="Textbook-paragraph" id="chloride"><strong><u>Chloride</u>:&nbsp; </strong>Normal chloride ranges from 100 -105 mmol/L.&nbsp; In pre-made solutions, the concentrations are often higher to balance the cations and maintain charge neutrality.&nbsp;</p>
@@ -292,7 +275,7 @@ const Textbook = ({ location, history }) => {
         <p><strong>In-depth (in progress):&nbsp; </strong></p>
         <p>To be completed.&nbsp;</p>
         <p><strong>&nbsp;</strong></p>
-        <h2 className="Textbook-h2" id="blood-flow-rate"><p><strong>Blood Flow Rate</strong></p></h2>
+        <h2 className="Textbook-h2" id="bloodFlowRate"><p><strong>Blood Flow Rate</strong></p></h2>
         <hr/>
         <p><strong>At a Glance:</strong></p>
         <p>Typical blood flow rates (BFR) range from 150 &ndash; 300 ml/min, depending on the institution.&nbsp; When regional citrate anticoagulation is used, slower blood flow rates are used to minimize the amount of citrate required for anticoagulation (see &ldquo;citrate&rdquo; section for further information).&nbsp; Higher blood flow rates are utilized if possible when RCA is not being used, but can be limited by dialysis access quality.&nbsp;</p>
@@ -305,7 +288,7 @@ const Textbook = ({ location, history }) => {
         <h2 className="Textbook-h2" id="dosing"><p><strong>Dosing</strong></p></h2>
         <hr/>
         <p><strong>At a Glance </strong></p>
-        <p className="Textbook-paragraph" id="replacement-fluid-flow-rate"><strong>Replacement Fluid/Dialysate Fluid Flow Rate:</strong>&nbsp; Dialysis &ldquo;dose&rdquo; in CRRT is determined primarily by your replacement fluid/dialysate fluid flow rate (rate of ultrafiltration is the other factor, but is a much lower flow rate).&nbsp;</p>
+        <p className="Textbook-paragraph" id="replacementFluidFlowRate"><strong>Replacement Fluid/Dialysate Fluid Flow Rate:</strong>&nbsp; Dialysis &ldquo;dose&rdquo; in CRRT is determined primarily by your replacement fluid/dialysate fluid flow rate (rate of ultrafiltration is the other factor, but is a much lower flow rate).&nbsp;</p>
         <p>Dose is calculated by dividing the hourly effluent flow rate (replacement/dialysate fluid + ultrafiltration) by the patient&rsquo;s weight in kilograms.&nbsp;</p>
         <p>The recommended dose is 20-25 mL/kg/hr according to KDIGO, but studies have shown that doses from 20 &ndash; 40 have equivalent outcomes.&nbsp;&nbsp;&nbsp;&nbsp;</p>
         <p>&nbsp;</p>
@@ -318,7 +301,7 @@ const Textbook = ({ location, history }) => {
         <p>In the case of pre-filter CVVH, the following correction factor is used to account for dilution:</p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>
-        <p className="Textbook-paragraph" id="ultrafiltration"><strong>Volume Control / Ultrafiltration</strong></p>
+        <p className="Textbook-paragraph" id="grossUltraFiltration"><strong>Volume Control / Ultrafiltration</strong></p>
         <p><strong>At a Glance:&nbsp; </strong>Volume repletion is important in the initial resuscitation of most critically ill patients, such as those with sepsis.&nbsp; However, after the initial 24-48 hours, excess volume has been shown to be detrimental.&nbsp; The goal for most patients on CRRT is to remove fluid.&nbsp; The gross ultrafiltration rate is entered in the CRRT orders, and ideally is higher than the patient&rsquo;s inputs, which can be estimated based on the patient&rsquo;s previous hourly inputs.&nbsp;</p>
         <p>&nbsp;</p>
         <p><strong>In-depth (in progress)</strong></p>
@@ -436,7 +419,7 @@ const Textbook = ({ location, history }) => {
           </li>
         </ul>
         <p><strong>&nbsp;</strong></p>
-        <h2 className="Textbook-h2" id="citrate-anticoagulation"><p><strong>Regional Citrate Anticoagulation</strong></p></h2>
+        <h2 className="Textbook-h2" id="Citrate"><p><strong>Regional Citrate Anticoagulation</strong></p></h2>
         <hr/>
         <p><strong>At a Glance:</strong></p>
         <p>Citrate anticoagulation works by chelating (or binding) free calcium in the extracorporeal circuit.&nbsp; In order for the clotting cascade to activate, calcium is required, so binding free calcium disrupts the clotting cascade and inhibits clotting.&nbsp; It requires a pre-filter citrate infusion, as well as a post-filter calcium infusion to avoid hypocalcemia.&nbsp;</p>
