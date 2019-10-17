@@ -4,26 +4,39 @@
 
 .Textbook-navbar {
   background-color: #f7f7f7;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 1rem;
 }
 
-.Textbook-navbar-link {
-
+.Textbook-navbar-link, .Textbook-NavLink {
+  text-decoration: none;
+  font-size: 20px;
+  color: #000000e6;
+  font-weight: 500;
 }
 
 .Textbook-container { 
-  margin-top: 3rem; 
+  padding: 2rem 6rem;
   text-align: left;
 }
 
 .Textbook-h2 {
   font-size: 20px;
+  color: #000000e6;
 }
 
 .Textbook-h3 {
   font-size: 18px;
+  color: #000000e6;
 }
 
-
+hr {
+  border: 0;
+  border-top: 1px solid #0000001a;
+  width: 100%;
+}
 
 .table {
   overflow-y: scroll;

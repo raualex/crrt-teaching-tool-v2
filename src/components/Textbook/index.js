@@ -11,7 +11,7 @@ const Textbook = ({ location, history }) => {
   return (
     <div className="Textbook">
       <nav className="Textbook-navbar">
-      <NavLink className='account-text' exact to='/' >
+      <NavLink className='Textbook-NavLink' exact to='/' >
         <a className="Textbook-navbar-link" >
           CRRT Education App
         </a>
@@ -61,22 +61,22 @@ const Textbook = ({ location, history }) => {
         <p><strong>Continuous Veno-Venous Hemofiltration (CVVH)</strong> uses convection, whereas <strong>Continuous Veno-Venous Hemodialysis (CVVHD)</strong> uses mainly diffusion.&nbsp; <strong>Continuous Veno-Venous HemoDiafiltration (CVVHDF) </strong>is a combination of the two.&nbsp; The terminology is also slightly different, as CVVH uses replacement fluid, CVVHD uses dialysate, and CVVHDF uses both replacement fluid and dialysate.&nbsp;</p>
         <p>The biggest difference is that convection more effectively removes middle and large molecules, although in clinical practice a clear benefit to removing larger molecules has not been demonstrated.&nbsp; Other differences include decreased filtration fraction with CVVHD (see &ldquo;filtration fraction&rdquo; section), and less fluid needed to achieve the same dose as in pre-filter CVVH (see &ldquo;dose&rdquo; section below).&nbsp;</p>
         <p><strong>Diffusion&nbsp; </strong></p>
-        <img src="./images/diffusion.png"/>
+        <img src="/images/diffusion.png"/>
         <p><strong>Figure 1:&nbsp; The yellow molecules, representing urea, move from the blood, which has a high concentration of urea, into the dialysate, which initially has no urea.&nbsp; Middle molecules, represented by the green ovals, do not easily move across the membrane.&nbsp; </strong></p>
         <p>In diffusive clearance, solutes move from areas of high concentration (usually the blood) to areas of low concentration (the dialysate).&nbsp; CRRT membranes typically have pore sizes up to 50,000 Daltons.&nbsp; Small molecules, such as urea, are able to easily move across the membrane, and thus equilibrate rapidly.&nbsp; Larger molecules have a harder time getting through the pores, and given the short amount of time in takes blood to pass through the filter, these molecules are not cleared as effectively.&nbsp;</p>
         <p><strong>CVVHD </strong>is the modality that predominantly uses diffusion.&nbsp; In this modality, blood runs through the filter, through thousands of semi-permeable microtubules.&nbsp; Dialysate is run into the filter at the opposite end of the filter, and bathes the outside of the microtubules and establishing a &ldquo;counter current&rdquo; flow.&nbsp; Solutes can diffuse into the dialysate, or into the blood, depending on the concentration gradients.&nbsp; Urea, which has a higher concentration in the blood, moves into the dialysate, whereas bicarbonate, which often has a higher concentration in the dialysate, can move into the blood.&nbsp; There is no direct contact between the blood and the dialysate, as they are separated at all times.&nbsp; The combination of dialysate fluid and ultrafiltration removed from the blood is called the effluent.&nbsp;</p>
-        <img src="./images/crrt.png"/>
+        <img src="/images/crrt.png"/>
         <p><strong>Figure is taken from Dr. Jorge Cerd&aacute;&rsquo;s lecture delivered at CRRT Academy on 8/13/16.&nbsp; In the final version, author permission will be obtained, or an original figure created.&nbsp; &nbsp;</strong></p>
         <p><strong>&nbsp;</strong></p>
         <p><strong>&nbsp;</strong></p>
         <p><strong>&nbsp;</strong></p>
         <p><strong>Convection:</strong></p>
-        <img src="./images/convection.png"/>
+        <img src="/images/convection.png"/>
         <p><strong>Figure 1:&nbsp; Fluid is forced across the membrane into the &ldquo;effluent&rdquo; space by hydrostatic pressure applied to the blood.&nbsp; Middle molecule clearance is increased because of the hydrostatic force.&nbsp; </strong></p>
         <p>In convective clearance, a hydrostatic pressure is applied to force water across the membrane, and solutes follow due to &ldquo;solvent drag.&rdquo;&nbsp; Because there is a force &ldquo;pushing&rdquo; solutes across the membrane, larger molecules move more quickly across the membrane in convection than in diffusion.&nbsp;</p>
         <p>Rates of convection are typically in the range of 2 liters per hour.&nbsp; If 2 liters were removed from the plasma volume without being replaced, the patient would quickly become hypovolemic.&nbsp; To prevent that from happening, fluid is infused back into the patient.&nbsp; The replacement fluid can be given before the blood enters the filter (pre-filter CVVH), after the blood leaves the filter (post-filter CVVH) or a combination of the two.&nbsp;</p>
         <p>Pre-filter CVVH has a lower filtration fraction at any given flow rate than post-filter CVVH, and thus is less likely to have filter clotting (see &ldquo;filtration fraction&rdquo; below).&nbsp; However, there is a dilutional effect in pre-filter CVVH that makes it slightly less efficient than post-filter CVVH or CVVHD.&nbsp;</p>
-        <img src="./images/fluids.png"/>
+        <img src="/images/fluids.png"/>
         <p><strong>Figure is taken from Dr. Jorge Cerd&aacute;&rsquo;s lecture delivered at CRRT Academy on 8/13/16. &nbsp;In the final version, author permission will be obtained, or an original figure created.&nbsp;&nbsp; </strong></p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>
