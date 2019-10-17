@@ -837,6 +837,10 @@ export function returnInputOutput() {
   return _historicalInputOutput;
 }
 
+export function returnHistoricalWeight() {
+  return _historicalVitals.weight
+}
+
 function roundLabs(newLabs) {
   newLabs["sodium"] = Number.parseFloat(newLabs["sodium"]).toFixed(0);
   newLabs["potassium"] = Number.parseFloat(newLabs["potassium"]).toFixed(1);
@@ -1739,7 +1743,7 @@ export function postLabChecks(order, time, selectedCase, labData) {
       checkPhosphorous(id, labData);
       checkGrossUltrafiltration(id, currentTime, labData);
       handleSimulationCompletion(id, currentTime, labData);
-      break;
+      return _points
     case 2:
       checkSodiumCase2(id, labData);
       checkPotassiumCase2(id, labData);
@@ -1750,7 +1754,7 @@ export function postLabChecks(order, time, selectedCase, labData) {
       checkPhosphorous(id, labData);
       checkGrossUltrafiltration(id, currentTime, labData);
       handleSimulationCompletion(id, currentTime, labData);
-      break;
+      return _points
     default:
       return;
   }
@@ -1770,24 +1774,9 @@ export const getMedications = (timeBetweenOrders, selectedCaseId) => {
   return medications;
 };
 
-export const getVitals = (timeBetweenOrders, selectedCaseId) => {
-  let vitals = {
-    temperature: [],
-    heartRate: [],
-    respiratoryRate: [],
-    bloodPressure: [],
-    weight: []
-  };
-  for (let i = 0; i < timeBetweenOrders; i++) {
-    vitals.temperature.push(vitalsInitial[selectedCaseId].temperature[i]);
-    vitals.heartRate.push(vitalsInitial[selectedCaseId].heartRate[i]);
-    vitals.respiratoryRate.push(
-      vitalsInitial[selectedCaseId].respiratoryRate[i]
-    );
-    vitals.bloodPressure.push(vitalsInitial[selectedCaseId].bloodPressure[i]);
-    vitals.weight.push(vitalsInitial[selectedCaseId].weight[i]);
-  }
-  return vitals;
+export const getVitals = (selectedCaseId) => {
+
+  return vitalsInitial[selectedCaseId];
 };
 
 //_currentCaseStudySheet.vitals = _currentCaseStudySheet.vitalsCase1;
@@ -2607,7 +2596,7 @@ function handleSimulationCompletion(caseId, currentTime, labData) {
   }
 }
 
-function setResultsTableVariables() {
+export function setResultsTableVariables() {
   // console.log("setResultsTableVariables()");
   // var numRounds = _currentTime / 8;
   // console.log("numRounds :", numRounds);

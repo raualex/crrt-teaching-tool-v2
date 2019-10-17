@@ -1,13 +1,20 @@
 import React from "react";
 import { ResultsModal, mapStateToProps } from "./";
 import { shallow } from "enzyme";
+import { mockTotalPoints } from "../../utils/initialSpreadsheetData.js";
 
 describe("ResultsModal", () => {
   let wrapper;
   let mockTimestampArr = ["Hour 1", "Hour 2", "Hour 3"]
+  let mockOrders = ["Order1", "Order2"]
 
   beforeEach(() => {
-    wrapper = shallow(<ResultsModal />);
+    wrapper = shallow(<ResultsModal 
+      hourlyTimestamps={mockTimestampArr} 
+      caseOver={true} 
+      orders={mockOrders}
+      totalPoints={mockTotalPoints}
+    />);
   });
 
   it("matches the snapshot", () => {

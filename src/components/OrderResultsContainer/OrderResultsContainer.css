@@ -2,8 +2,9 @@
   background-color: #fff;
   border: 2px solid #efefef;
   border-radius: 10px;
-  height: 70%;
+  height: auto;
   margin: 2rem auto;
+  max-height: 90%;
   overflow: scroll;
   width: 50%;
   display: grid;

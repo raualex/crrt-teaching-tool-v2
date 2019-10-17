@@ -40,9 +40,15 @@ export class Simulator extends Component {
   }
 
   componentDidMount() {
-    const { selectedCase, calculateLabData, setInputOutputData } = this.props;
+    const {
+      selectedCase,
+      calculateLabData,
+      setInputOutputData,
+      setCaseOver
+    } = this.props;
 
     if (selectedCase.id === 1 || selectedCase.id === 2) {
+      setCaseOver(false);
       calculateLabData(labsInitial[selectedCase.id]);
       setInputOutputData(inputOutputInitial[selectedCase.id]);
     } else {
@@ -51,13 +57,22 @@ export class Simulator extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { orders } = this.props;
+    const { hourlyTimestamps } = this.props;
     // Typical usage (don't forget to compare props):
-    if (orders !== prevProps.orders) {
-      /* For each order, add its results messages */
-      // this.checkCurrentOrderResults()
+    if (hourlyTimestamps.length !== prevProps.hourlyTimestamps.length) {
+      this.checkForCaseOver();
     }
   }
+
+  checkForCaseOver = () => {
+    let { hourlyTimestamps, setCaseOver } = this.props;
+
+    if (hourlyTimestamps.length >= 92) {
+      setCaseOver(true);
+    } else {
+      return;
+    }
+  };
 
   handleClick = event => {
     let { name } = event.target;
@@ -119,7 +134,8 @@ export class Simulator extends Component {
       selectedCase,
       location,
       history,
-      hourlyTimestamps
+      hourlyTimestamps,
+      caseOver
       // resultsMessages,
       // orders
     } = this.props;
@@ -137,18 +153,26 @@ export class Simulator extends Component {
       timeForTitle = hourlyTimestamps[hourlyTimestamps.length - 1];
     }
 
+    if (caseOver === true) {
+      location.pathname = "/results";
+      history.push("/results");
+    }
+
     if (selectedModal === "") {
       return (
         <div className="Simulator">
           <header className="simulator-header">
             <h1 className="CRRT-title">CRRT SIMULATOR v.2</h1>
+            <div className="CRRT-subtitle-container">
+              <h2 className="CRRT-subtitle">
+                <span className="CRRT-subtitle-span">Case Selected: </span>
+                {selectedCase.id}
+              </h2>
+              <h2 className="CRRT-subtitle">
+                <span className="CRRT-subtitle-span">Time:</span> {timeForTitle}
+              </h2>
+            </div>
             <div className="form-buttons-container">
-              <div className="CRRT-subtitle-container">
-                <h2 className="CRRT-subtitle">
-                  Case Selected: {selectedCase.id}
-                </h2>
-                <h2 className="CRRT-subtitle">Time: {timeForTitle}</h2>
-              </div>
               <button
                 className="orders-btn header-btn"
                 onClick={event => this.toggleOrdersModal(event)}
@@ -261,13 +285,16 @@ export class Simulator extends Component {
         <div className="Simulator">
           <header className="simulator-header">
             <h1 className="CRRT-title">CRRT SIMULATOR v.2</h1>
+            <div className="CRRT-subtitle-container">
+              <h2 className="CRRT-subtitle">
+                <span className="CRRT-subtitle-span">Case Selected: </span>
+                {selectedCase.id}
+              </h2>
+              <h2 className="CRRT-subtitle">
+                <span className="CRRT-subtitle-span">Time:</span> {timeForTitle}
+              </h2>
+            </div>
             <div className="form-buttons-container">
-              <div className="CRRT-subtitle-container">
-                <h2 className="CRRT-subtitle">
-                  Case Selected: {selectedCase.id}
-                </h2>
-                <h2 className="CRRT-subtitle">Time: {timeForTitle}</h2>
-              </div>
               <button
                 className="orders-btn header-btn"
                 onClick={event => this.toggleOrdersModal(event)}
@@ -369,9 +396,9 @@ export class Simulator extends Component {
                   Physical Exam
                 </button>
               </div>
-              <div className="modal-container">
-                <DataOutputModal handleClick={this.handleClick} />
-              </div>
+              {/* <div className="modal-container"> */}
+              <DataOutputModal handleClick={this.handleClick} />
+              {/* </div> */}
             </div>
           )}
         </div>
@@ -385,13 +412,15 @@ export const mapStateToProps = ({
   selectedCase,
   orders,
   resultsMessages,
-  hourlyTimestamps
+  hourlyTimestamps,
+  caseOver
 }) => ({
   selectedModal,
   selectedCase,
   orders,
   resultsMessages,
-  hourlyTimestamps
+  hourlyTimestamps,
+  caseOver
 });
 
 export const mapDispatchToProps = dispatch => ({

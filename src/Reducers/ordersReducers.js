@@ -13,6 +13,31 @@ const defaultResultsMessagesState = [
   }
 ];
 
+const defaultPointsState = {
+  bloodFlowRateInRange: [],
+  sodiumInRange: [],
+  potassiumInRange: [],
+  pHInRange: [],
+  calciumInRange: [],
+  magnesiumInRange: [],
+  phosphorousInRange: [],
+  grossUltrafiltrationInRange: [],
+  filtrationFractionInRange: [],
+  doseInRange: [],
+  maxPointsPerCycle: {
+    bloodFlowRateInRange: 5,
+    sodiumInRange: 5,
+    potassiumInRange: 5,
+    pHInRange: 10,
+    calciumInRange: 5,
+    magnesiumInRange: 5,
+    phosphorousInRange: 10,
+    grossUltrafiltrationInRange: 0,
+    filtrationFractionInRange: 5,
+    doseInRange: 20
+  }
+};
+
 export const ordersReducer = (state = [], action) => {
   switch (action.type) {
     case "SUBMIT_ORDER":
@@ -92,5 +117,17 @@ export const recordHourlyTimestampReducer = (
       }
     default:
       return state;
+  }
+};
+
+export const setCurrentPointsReducer = (
+  state = defaultPointsState, 
+  action
+) => {
+  switch (action.type) {
+    case "SET_CURRENT_POINTS":
+      return action.points
+    default:
+      return state
   }
 };

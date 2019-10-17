@@ -1,13 +1,11 @@
 .data-output-modal {
-  align-items: flex-start;
   background-color: #fff;
-  display: flex;
-  flex-direction: column;
   height: 37rem;
-  justify-content: center;
-  /* overflow-x: scroll;
-  overflow-y: scroll; */
-  width: 100%;
+  display: inline-block;
+  overflow-x: auto;
+  white-space: nowrap;
+  max-width: 100%;
+  border: 0;
 }
 
 .dataom-title-container {
@@ -33,5 +31,8 @@
 
 .dataom-table-container {
   height: 85%;
-  width: 100%;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

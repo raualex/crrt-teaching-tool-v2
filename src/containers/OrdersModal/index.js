@@ -7,7 +7,8 @@ import {
   setTimeBetweenOrders,
   validateTimeBetweenOrders,
   addResultsMessagesToOrder,
-  recordHourlyTimestamp
+  recordHourlyTimestamp,
+  setCurrentPoints
 } from "../../Actions/ordersActions";
 import {
   calculateLabData,
@@ -23,7 +24,8 @@ import {
   postLabChecks,
   getMedications,
   getVitals,
-  returnInputOutput
+  returnInputOutput,
+  returnHistoricalWeight
 } from "../../utils/equationsMaster.js";
 import orderWarningRanges from "../../utils/resultsEquationsMaster.js";
 import ordersResultsMessages from "../../utils/resultsEquationsWarningMaster.js";
@@ -87,11 +89,10 @@ export class OrdersModal extends Component {
 
       let inputOutput = returnInputOutput();
       this.combineInputOutputObjects(inputOutput);
-
+        console.log("THE THING WE HOPEFULLY NEED: ", returnHistoricalWeight())
       let combinedLabData = this.addNewLabDataToPreviousLabData(newLabData);
       calculateLabData(combinedLabData);
 
-      console.log("LABDATATATATATATAL: ", combinedLabData);
       let resultsMessages = this.checkCurrentOrderResults(
         currentOrder,
         time,
@@ -104,7 +105,7 @@ export class OrdersModal extends Component {
       addMedications(medications);
 
       //Vitals
-      let vitals = getVitals(timeBetweenOrders, selectedCase.id);
+      let vitals = getVitals(selectedCase.id);
       addVitals(vitals);
 
       addResultsMessagesToOrder(resultsMessages, currentOrder);
@@ -231,7 +232,11 @@ export class OrdersModal extends Component {
     // const warningRangeKeys = Object.keys(selectedCase.warningRanges);
     // const warningRangesStringified = this.props.selectedCase.warningRanges;
     // const warningRanges = JSON.parse(warningRangesStringified);
-    postLabChecks(currentOrder, time, selectedCase, labData);
+    let { setCurrentPoints } = this.props
+
+    let totalPoints = postLabChecks(currentOrder, time, selectedCase, labData);
+    setCurrentPoints(totalPoints)
+    
     const warningRangeKeys = Object.keys(orderWarningRanges[selectedCase.id]);
     const defaultMessage =
       "CRRT is running smoothly. There were no reported issues since the previous update.";
@@ -890,6 +895,7 @@ export const mapDispatchToProps = dispatch => ({
   addMedications: timeBetweenOrders =>
     dispatch(addMedications(timeBetweenOrders)),
   addVitals: timeBetweenOrders => dispatch(addVitals(timeBetweenOrders)),
+  setCurrentPoints: newPoints => dispatch(setCurrentPoints(newPoints)),
   recordHourlyTimestamp: timeStamps =>
     dispatch(recordHourlyTimestamp(timeStamps))
 });
