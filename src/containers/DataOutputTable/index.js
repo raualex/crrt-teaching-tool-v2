@@ -43,14 +43,12 @@ export class DataOutputTable extends Component {
   };
 
   mapMedicationArrayValuesForTables = (medDataArr, lengthNum) => {
-    console.log("MEDICATIONS LENGTH: ", lengthNum)
+    console.log("MEDICATIONS LENGTH: ", lengthNum);
     let finalMedicationLists = medDataArr.reduce((acc, outputNum, index) => {
       if (index < lengthNum) {
         acc.push(
           <td className="table-key" key={uuidv4()}>
-            <ul key={uuidv4()}>
-              {this.mapListsForMedications(outputNum)}
-            </ul>
+            <ul key={uuidv4()}>{this.mapListsForMedications(outputNum)}</ul>
           </td>
         );
       }
@@ -68,11 +66,11 @@ export class DataOutputTable extends Component {
     return finalMedicationLists;
   };
 
-  mapListsForMedications = (valuesArr) => {
-    return valuesArr.map((valueStr) => {
-      return <li key={uuidv4()}>{valueStr}</li>
-    })
-  }
+  mapListsForMedications = valuesArr => {
+    return valuesArr.map(valueStr => {
+      return <li key={uuidv4()}>{valueStr}</li>;
+    });
+  };
 
   createTableColumnHeaders = (arrNum, selectedModal) => {
     let { labData, hourlyTimestamps } = this.props;
@@ -87,9 +85,7 @@ export class DataOutputTable extends Component {
         );
       }
       return finalArr;
-    } else if (
-      selectedModal === "Input/Output"
-    ) {
+    } else if (selectedModal === "Input/Output") {
       for (let i = 0; i < hourlyTimestamps.length; i++) {
         finalArr.push(
           <th key={uuidv4()} className="blank-table-head">
@@ -99,7 +95,9 @@ export class DataOutputTable extends Component {
       }
       return finalArr;
     } else if (selectedModal === "Vitals") {
-      let newTimeStamps = hourlyTimestamps.filter((timeStamp) => timeStamp !== 'Pre-CRRT 2')
+      let newTimeStamps = hourlyTimestamps.filter(
+        timeStamp => timeStamp !== "Pre-CRRT 2"
+      );
       for (let i = 0; i < newTimeStamps.length; i++) {
         finalArr.push(
           <th key={uuidv4()} className="blank-table-head">
@@ -109,7 +107,9 @@ export class DataOutputTable extends Component {
       }
       return finalArr;
     } else if (selectedModal === "Medications") {
-      let newTimeStamps = labData.time.filter((timeStamp) => timeStamp !== 'Pre-CRRT 2')
+      let newTimeStamps = labData.time.filter(
+        timeStamp => timeStamp !== "Pre-CRRT 2"
+      );
       for (let i = 0; i < newTimeStamps.length; i++) {
         finalArr.push(
           <th key={uuidv4()} className="blank-table-head">
@@ -191,10 +191,10 @@ export class DataOutputTable extends Component {
   };
 
   render() {
-    let { 
-      selectedModal, 
-      labData, 
-      inputOutputData, 
+    let {
+      selectedModal,
+      labData,
+      inputOutputData,
       hourlyTimestamps,
       vitals,
       medications
@@ -215,26 +215,27 @@ export class DataOutputTable extends Component {
       modalTableRowKeys = modalKeys[modalNameForKeys].reduce(
         (acc, keyName, index) => {
           let keyNoSpaces = keyName.replace(/\s/g, "");
-          let newKeyName = keyNoSpaces.charAt(0).toLowerCase() + keyNoSpaces.slice(1);
+          let newKeyName =
+            keyNoSpaces.charAt(0).toLowerCase() + keyNoSpaces.slice(1);
 
-            acc.push(
-              <tr key={uuidv4()}>
-                <td key={uuidv4()} className={"table-key index" + index}>
-                  {keyName}
-                </td>
-                {this.mapMedicationArrayValuesForTables(
-                  medications[newKeyName],
-                  labData.time.length - 1
-                )}
-              </tr>
-            );
+          acc.push(
+            <tr key={uuidv4()}>
+              <td key={uuidv4()} className={"table-key index" + index}>
+                {keyName}
+              </td>
+              {this.mapMedicationArrayValuesForTables(
+                medications[newKeyName],
+                labData.time.length - 1
+              )}
+            </tr>
+          );
           return acc;
         },
         []
       );
 
       return (
-        <table className={"dataot-" + modalNameForClass}>
+        <table className={`dataot-table dataot-${modalNameForClass}`}>
           <thead>
             <tr>
               <th className="blank-table-head"></th>
@@ -249,7 +250,8 @@ export class DataOutputTable extends Component {
       modalTableRowKeys = modalKeys[modalNameForKeys].reduce(
         (acc, keyName, index) => {
           let keyNoSpaces = keyName.replace(/\s/g, "");
-          let newKeyName = keyNoSpaces.charAt(0).toLowerCase() + keyNoSpaces.slice(1);
+          let newKeyName =
+            keyNoSpaces.charAt(0).toLowerCase() + keyNoSpaces.slice(1);
 
           if (vitals[newKeyName]) {
             acc.push(
@@ -270,7 +272,7 @@ export class DataOutputTable extends Component {
       );
 
       return (
-        <table className={"dataot-" + modalNameForClass}>
+        <table className={`dataot-table dataot-${modalNameForClass}`}>
           <thead>
             <tr>
               <th className="blank-table-head"></th>
