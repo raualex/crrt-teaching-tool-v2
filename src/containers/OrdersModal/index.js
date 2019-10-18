@@ -89,7 +89,7 @@ export class OrdersModal extends Component {
 
       let inputOutput = returnInputOutput();
       this.combineInputOutputObjects(inputOutput);
-        console.log("THE THING WE HOPEFULLY NEED: ", returnHistoricalWeight())
+      console.log("THE THING WE HOPEFULLY NEED: ", returnHistoricalWeight());
       let combinedLabData = this.addNewLabDataToPreviousLabData(newLabData);
       calculateLabData(combinedLabData);
 
@@ -232,11 +232,11 @@ export class OrdersModal extends Component {
     // const warningRangeKeys = Object.keys(selectedCase.warningRanges);
     // const warningRangesStringified = this.props.selectedCase.warningRanges;
     // const warningRanges = JSON.parse(warningRangesStringified);
-    let { setCurrentPoints } = this.props
+    let { setCurrentPoints } = this.props;
 
     let totalPoints = postLabChecks(currentOrder, time, selectedCase, labData);
-    setCurrentPoints(totalPoints)
-    
+    setCurrentPoints(totalPoints);
+
     const warningRangeKeys = Object.keys(orderWarningRanges[selectedCase.id]);
     const defaultMessage =
       "CRRT is running smoothly. There were no reported issues since the previous update.";
@@ -679,7 +679,7 @@ export class OrdersModal extends Component {
             <div className="header-info-container">
               <h3 className="orders-modal-section-header">Modality</h3>
               <a
-                href="https://github.com/raualex/crrt-teaching-tool-v2"
+                href="/textbook#modality"
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -703,7 +703,7 @@ export class OrdersModal extends Component {
                 {modality === "CVVHD" ? "Dialysate Fluid" : "Replacement Fluid"}
               </h3>
               <a
-                href="https://github.com/raualex/crrt-teaching-tool-v2"
+                href="/textbook#replacement-fluid"
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -736,7 +736,7 @@ export class OrdersModal extends Component {
                 />
                 Saline 3%
                 <a
-                  href="https://github.com/raualex/crrt-teaching-tool-v2"
+                  href="/textbook#hypertonic-saline"
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -757,7 +757,7 @@ export class OrdersModal extends Component {
                 />
                 D5W
                 <a
-                  href="https://github.com/raualex/crrt-teaching-tool-v2"
+                  href="/textbook#D5W"
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -777,14 +777,6 @@ export class OrdersModal extends Component {
                   onChange={event => this.toggleCheckBoxes(event)}
                 />
                 Sodium Phosphate (15mmol and 100mL)
-                <a
-                  href="https://github.com/raualex/crrt-teaching-tool-v2"
-                  className="textbook-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i className="far fa-question-circle"></i>
-                </a>
               </label>
             </div>
             {saline3Percent && (
