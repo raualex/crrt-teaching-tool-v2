@@ -46,6 +46,17 @@
   padding: 8px;
 }
 
+.rm-back-to-simulator-btn:hover {
+  background-color: #5ea0f8;
+  color: #fff;
+}
+
+.rm-back-to-simulator-btn:active {
+  background-color: #fff;
+  border: solid 2px #5ea0f8;
+  color: #5ea0f8;
+}
+
 .rm-body-section-title {
   border-bottom: solid 1px #000;
   border-top: solid 1px #000;
