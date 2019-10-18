@@ -72,7 +72,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Dose
             <a
-              href="https://github.com/raualex/crrt-teaching-tool-v2"
+              href="/textbook#dosing"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -93,7 +93,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Filter Life
             <a
-              href="https://github.com/raualex/crrt-teaching-tool-v2"
+              href="/textbook#non-pharmacologic-approach-to-clotting"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -119,7 +119,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Electrolytes
             <a
-              href="https://github.com/raualex/crrt-teaching-tool-v2"
+              href="/textbook#electrolytes"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -143,7 +143,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Acid/Base
             <a
-              href="https://github.com/raualex/crrt-teaching-tool-v2"
+              href="/textbook#acid-base"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -162,17 +162,7 @@ export class ResultsModal extends Component {
             patient within a normal pH range. See Acid-Base for more
             information.
           </p>
-          <h3 className="rm-body-section-title">
-            Volume
-            <a
-              href="https://github.com/raualex/crrt-teaching-tool-v2"
-              className="textbook-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i className="far fa-question-circle"></i>
-            </a>
-          </h3>
+          <h3 className="rm-body-section-title">Volume</h3>
           <p className="rm-body-msg"># earned out of a possible 200</p>
           <p className="rm-body-msg">
             The patient's cumulative change in volume was # -- Initial weight:
