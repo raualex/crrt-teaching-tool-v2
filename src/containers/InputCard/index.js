@@ -26,7 +26,7 @@ class InputCard extends Component {
       dosageErrors,
       radioButtonCategory
     } = this.props;
-    const { errorMessages/*, dosageNames*/ } = orderDosages;
+    const { errorMessages /*, dosageNames*/ } = orderDosages;
 
     return (
       <article className={`input-container-${type} input-container-${dosage}`}>
@@ -37,7 +37,7 @@ class InputCard extends Component {
                 {this.getInputHeader()}
               </h4>
               <a
-                href="https://github.com/raualex/crrt-teaching-tool-v2"
+                href={`/textbook#${dosage}`}
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -82,9 +82,9 @@ class InputCard extends Component {
               />
               {dosage}
 
-              {dosage !== "None" && (
+              {dosage === "Citrate" && (
                 <a
-                  href="https://github.com/raualex/crrt-teaching-tool-v2"
+                  href={`/textbook#${dosage}`}
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"
