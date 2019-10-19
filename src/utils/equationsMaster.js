@@ -49,7 +49,7 @@ var _newMessages = [];
 // var _caseStudies;
 var _currentOrders;
 var _currentCaseStudyId;
-var _currentCaseStudy;
+// var _currentCaseStudy;
 var _currentCaseStudySheet = {};
 var _currentDose;
 var _currentTime = 10;
@@ -1726,7 +1726,7 @@ function preLabChecks(effluentFlowRate, orders, time, selectedCase) {
   console.log("preLabChecks()");
   checkIfUsedCitrate(orders, time);
   checkBloodFlowRate();
-  checkDose(effluentFlowRate);
+  checkDose(effluentFlowRate, orders[orders.length - 1], selectedCase);
 }
 
 export function postLabChecks(order, time, selectedCase, labData) {
@@ -2490,24 +2490,24 @@ function checkFilterClottingCase2(
   return didClot;
 }
 
-function checkDose(effluentFlowRate) {
+function checkDose(effluentFlowRate, orders, selectedCase) {
   var dose;
   var newEffluentFlowRate = effluentFlowRate * 1000;
   var totalPoints;
-  switch (_currentOrders["modality"]) {
-    case "pre-filter-cvvh":
+  switch (orders["modality"]) {
+    case "Pre-filter CVVH":
       dose =
-        (((_currentOrders["BFR"] * 60) /
+        (((orders["BFR"] * 60) /
           1000 /
-          ((_currentOrders["BFR"] * 60) / 1000 + _currentOrders["Qr"])) *
+          ((orders["BFR"] * 60) / 1000 + orders["Qr"])) *
           newEffluentFlowRate) /
-        _currentCaseStudy.startingData.usualWeight;
+        vitalsInitial[selectedCase.id].weight;
       break;
-    case "post-filter-cvvh":
-      dose = newEffluentFlowRate / _currentCaseStudy.startingData.usualWeight;
+    case "Post-filter CVVH":
+      dose = newEffluentFlowRate / vitalsInitial[selectedCase.id].weight;
       break;
-    case "cvvhd":
-      dose = newEffluentFlowRate / _currentCaseStudy.startingData.usualWeight;
+    case "CVVHD":
+      dose = newEffluentFlowRate / vitalsInitial[selectedCase.id].weight;
       break;
     default:
       return;
