@@ -1654,6 +1654,14 @@ export const finalResultsMessages = {
 }
 
 export const mockTotalPoints = {
+  doseInRange: [11, 12],
+  filtrationFractionInRange: [13, 14],
+  pHInRange: [15, 16],
+  sodiumInRange: [1, 2],
+  potassiumInRange: [3, 4],
+  calciumInRange: [5, 6],
+  magnesiumInRange: [7, 8],
+  phosphorousInRange: [9, 10],
   maxPointsPerCycle: {
     bloodFlowRateInRange: 5,
     sodiumInRange: 5,

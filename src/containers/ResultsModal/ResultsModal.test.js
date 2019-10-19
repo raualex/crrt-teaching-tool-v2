@@ -7,6 +7,8 @@ describe("ResultsModal", () => {
   let wrapper;
   let mockTimestampArr = ["Hour 1", "Hour 2", "Hour 3"]
   let mockOrders = ["Order1", "Order2"]
+  let mockLabData = { ph: [1, 2], filtrationFraction: [3, 4] }
+  let mockSelectedCase = { id: 2 }
 
   beforeEach(() => {
     wrapper = shallow(<ResultsModal 
@@ -14,6 +16,8 @@ describe("ResultsModal", () => {
       caseOver={true} 
       orders={mockOrders}
       totalPoints={mockTotalPoints}
+      labData={mockLabData}
+      selectedCase={mockSelectedCase}
     />);
   });
 
