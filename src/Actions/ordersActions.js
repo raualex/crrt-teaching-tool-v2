@@ -34,3 +34,9 @@ export const setCurrentPoints = points => ({
   type: "SET_CURRENT_POINTS",
   points
 });
+
+export const setNewOrdersActiveStatus = (modal, bool) => ({
+  type: "SET_NEW_ORDERS_ACTIVE_STATUS",
+  modal,
+  bool
+});
