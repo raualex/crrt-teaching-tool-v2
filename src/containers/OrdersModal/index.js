@@ -14,16 +14,11 @@ import {
   calculateLabData,
   setInputOutputData
 } from "../../Actions/calculationActions";
-import { addMedications } from "../../Actions/medication-actions";
-import { addVitals } from "../../Actions/vitals-actions";
 import orderDosages from "../../utils/orderDosages.js";
 import InputContainer from "../../components/InputContainer";
-// import ordersResultsMessages from "../../utils/orderResultsData";
 import {
   runLabs,
   postLabChecks,
-  getMedications,
-  getVitals,
   returnInputOutput,
   returnHistoricalWeight
 } from "../../utils/equationsMaster.js";
@@ -72,8 +67,6 @@ export class OrdersModal extends Component {
       labData,
       addResultsMessagesToOrder,
       time,
-      addMedications,
-      addVitals,
       recordHourlyTimestamp
     } = this.props;
 
@@ -99,14 +92,6 @@ export class OrdersModal extends Component {
         selectedCase,
         combinedLabData
       );
-
-      //Medications
-      let medications = getMedications(timeBetweenOrders, selectedCase.id);
-      addMedications(medications);
-
-      //Vitals
-      let vitals = getVitals(selectedCase.id);
-      addVitals(vitals);
 
       addResultsMessagesToOrder(resultsMessages, currentOrder);
       this.incrementTimeBetweenOrders();
@@ -884,9 +869,6 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(setInputOutputData(newInputOutput)),
   addResultsMessagesToOrder: (resultsMessages, id) =>
     dispatch(addResultsMessagesToOrder(resultsMessages, id)),
-  addMedications: timeBetweenOrders =>
-    dispatch(addMedications(timeBetweenOrders)),
-  addVitals: timeBetweenOrders => dispatch(addVitals(timeBetweenOrders)),
   setCurrentPoints: newPoints => dispatch(setCurrentPoints(newPoints)),
   recordHourlyTimestamp: timeStamps =>
     dispatch(recordHourlyTimestamp(timeStamps))

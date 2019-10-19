@@ -1,15 +1,12 @@
 const defaultMedicationState = {
-  scheduledMedication: [],
+  scheduled: [],
   infusions: []
 };
 
 export const medicationsReducer = (state = defaultMedicationState, action) => {
   switch (action.type) {
     case "ADD_MEDICATIONS":
-      if (action.medications) {
-        return action.medications;
-      }
-      return state;
+      return action.medications;
     default:
       return state;
   }

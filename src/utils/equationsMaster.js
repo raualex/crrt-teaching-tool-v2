@@ -1760,18 +1760,9 @@ export function postLabChecks(order, time, selectedCase, labData) {
   }
 }
 
-export const getMedications = (timeBetweenOrders, selectedCaseId) => {
-  let medications = {
-    scheduledMedication: [],
-    infusions: []
-  };
-  for (let i = 0; i < timeBetweenOrders; i++) {
-    medications.scheduledMedication.push(
-      medicationsInitial[selectedCaseId].scheduledMedication[i]
-    );
-    medications.infusions.push(medicationsInitial[selectedCaseId].infusions[i]);
-  }
-  return medications;
+export const getMedications = (selectedCaseId) => {
+
+  return medicationsInitial[selectedCaseId];
 };
 
 export const getVitals = (selectedCaseId) => {
