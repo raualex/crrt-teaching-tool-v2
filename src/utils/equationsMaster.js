@@ -845,6 +845,10 @@ export function returnHistoricalDose() {
   return _historicalDose
 }
 
+export function returnNumFiltersUsed() {
+  return _numFiltersUsed
+}
+
 function roundLabs(newLabs) {
   newLabs["sodium"] = Number.parseFloat(newLabs["sodium"]).toFixed(0);
   newLabs["potassium"] = Number.parseFloat(newLabs["potassium"]).toFixed(1);

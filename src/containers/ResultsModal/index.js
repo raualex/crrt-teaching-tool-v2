@@ -5,7 +5,10 @@ import {
   finalResultsMessages /*, vitalsInitial*/
 } from "../../utils/initialSpreadsheetData.js";
 // import { setResultsTableVariables } from '../../utils/equationsMaster.js';
-import { returnHistoricalDose } from "../../utils/equationsMaster.js";
+import { 
+  returnHistoricalDose,
+  returnNumFiltersUsed
+} from "../../utils/equationsMaster.js";
 const uuidv4 = require("uuid/v4");
 
 export class ResultsModal extends Component {
@@ -82,6 +85,16 @@ export class ResultsModal extends Component {
     return <span>{Math.round((doseSum/historicalDose.length) * 100)/100}</span>
   }
 
+  printAvgFiltrationFraction = () => {
+    let { labData } = this.props
+    let historicalFiltrationFraction = labData.filtrationFraction.reduce((acc, fractionNum) => {
+      acc += fractionNum
+      return acc
+    },0)
+
+    return <span>{Math.round((historicalFiltrationFraction/labData.filtrationFraction.length) * 100)/100}</span>
+  }
+
   goBackToSimulator = () => {
     const { location, history } = this.props;
     location.pathname = "/simulator";
@@ -150,10 +163,10 @@ export class ResultsModal extends Component {
             {this.printTotalPoints("filtrationFractionInRange")} earned out of a possible {this.printMaxPoints("filtrationFractionInRange")}
           </p>
           <p className="rm-body-msg">
-            You used # over the course of the simulation. The average filter
-            life was # hours
+            You used {returnNumFiltersUsed()} over the course of the simulation. The average filter
+            life was {(hourlyTimestamps.length - 2)/returnNumFiltersUsed()} hours
           </p>
-          <p className="rm-body-msg">Your average filtration fraction was #</p>
+          <p className="rm-body-msg">Your average filtration fraction was {this.printAvgFiltrationFraction()}</p>
           <p className="rm-body-msg">
             Filtration Fraction measures how much the plasma entering the filter
             is concentrated by ultrafiltration. It should be kept below 25% to
