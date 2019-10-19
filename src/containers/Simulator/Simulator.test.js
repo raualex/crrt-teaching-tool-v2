@@ -1,17 +1,20 @@
 import React from "react";
 import { Simulator, mapStateToProps, mapDispatchToProps } from "./";
 import { shallow } from "enzyme";
+import { mockOrders } from "../../utils/mockOrders";
 
 describe("Simulator", () => {
   let wrapper;
   let mockCase = { id: 3 };
-  let mockHourlyTimestamps = ["10:00", "11:00"]
+  let mockHourlyTimestamps = ["10:00", "11:00"];
 
   beforeEach(() => {
-    wrapper = shallow(<Simulator 
-      selectedCase={mockCase} 
-      hourlyTimestamps={mockHourlyTimestamps}
-    />);
+    wrapper = shallow(
+      <Simulator
+        selectedCase={mockCase}
+        hourlyTimestamps={mockHourlyTimestamps}
+      />
+    );
   });
 
   it("matches the snapshot", () => {
@@ -20,9 +23,9 @@ describe("Simulator", () => {
 
   it("matches the snapshot with a selectedModal", () => {
     wrapper = shallow(
-      <Simulator 
-        selectedModal={"Imaging"} 
-        selectedCase={mockCase} 
+      <Simulator
+        selectedModal={"Imaging"}
+        selectedCase={mockCase}
         hourlyTimestamps={mockHourlyTimestamps}
       />
     );
@@ -33,13 +36,16 @@ describe("Simulator", () => {
 describe("toggleOrdersModal", () => {
   let wrapper;
   let mockCase = { id: 3 };
-  let mockHourlyTimestamps = ["10:00", "11:00"]
+  let mockHourlyTimestamps = ["10:00", "11:00"];
 
   beforeEach(() => {
-    wrapper = shallow(<Simulator 
-      selectedCase={mockCase} 
-      hourlyTimestamps={mockHourlyTimestamps}
-    />);
+    wrapper = shallow(
+      <Simulator
+        selectedCase={mockCase}
+        hourlyTimestamps={mockHourlyTimestamps}
+        orders={mockOrders}
+      />
+    );
   });
 
   const mockEvent = {
