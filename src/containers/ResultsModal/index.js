@@ -6,10 +6,10 @@ import {
   vitalsInitial
 } from "../../utils/initialSpreadsheetData.js";
 // import { setResultsTableVariables } from '../../utils/equationsMaster.js';
-import { 
+import {
   returnHistoricalDose,
   returnNumFiltersUsed,
-  // returnHistoricalOverload,
+  returnHistoricalOverload,
   returnHistoricalWeight
 } from "../../utils/equationsMaster.js";
 const uuidv4 = require("uuid/v4");
@@ -22,29 +22,72 @@ export class ResultsModal extends Component {
     // let resultsOverview;
   };
 
+  printVolumePercentages = overloadHours => {
+    const { timeBetweenOrders } = this.props;
+    let overloadArr = returnHistoricalOverload();
+
+    if (overloadHours === "initial") {
+      return overloadArr[0];
+    } else if (overloadHours === "48") {
+      return overloadArr[Math.round(48 / timeBetweenOrders)];
+    } else if (overloadHours === "72") {
+      return overloadArr[Math.round(72 / timeBetweenOrders)];
+    } else {
+      return 0;
+    }
+  };
+
+  printVolumeCumulChange = () => {
+    const { selectedCase } = this.props;
+    let initialWeight = vitalsInitial[selectedCase.id].weight;
+    let weightArr = returnHistoricalWeight();
+    let finalWeight = weightArr[weightArr.length - 1];
+    return Math.round(Math.abs(initialWeight - finalWeight) * 100) / 100;
+  };
+
+  printVolumePointsEarned = () => {
+    const { timeBetweenOrders } = this.props;
+    let overloadArr = returnHistoricalOverload();
+    let volumePointsEarned = 0;
+    let volumeOverload48Hours = overloadArr[Math.round(48 / timeBetweenOrders)];
+    let volumeOverload72Hours = overloadArr[Math.round(72 / timeBetweenOrders)];
+
+    if (volumeOverload48Hours < 15) {
+      volumePointsEarned += 100;
+    }
+
+    if (volumeOverload72Hours < 10) {
+      volumePointsEarned += 100;
+    } else {
+      volumePointsEarned -= 1000;
+    }
+    return volumePointsEarned;
+  };
+
   printTotalPoints = pointsCategory => {
     let { totalPoints } = this.props;
 
     if (pointsCategory === "electrolytes") {
-      let total = this.sumTotalPoints(totalPoints.sodiumInRange) +
+      let total =
+        this.sumTotalPoints(totalPoints.sodiumInRange) +
         this.sumTotalPoints(totalPoints.potassiumInRange) +
         this.sumTotalPoints(totalPoints.calciumInRange) +
         this.sumTotalPoints(totalPoints.magnesiumInRange) +
-        this.sumTotalPoints(totalPoints.phosphorousInRange)
+        this.sumTotalPoints(totalPoints.phosphorousInRange);
 
-        return <span>{total}</span>
+      return <span>{total}</span>;
     } else {
-      let total = this.sumTotalPoints(totalPoints[pointsCategory])
-      return <span>{!isNaN(total) ? total : 0}</span>
+      let total = this.sumTotalPoints(totalPoints[pointsCategory]);
+      return <span>{!isNaN(total) ? total : 0}</span>;
     }
-  }
+  };
 
-  sumTotalPoints = (pointsArr) => {
+  sumTotalPoints = pointsArr => {
     return pointsArr.reduce((acc, num) => {
-      acc += num
-      return acc
-    },0)
-  }
+      acc += num;
+      return acc;
+    }, 0);
+  };
 
   printMaxPoints = pointsCategory => {
     let { orders, totalPoints } = this.props;
@@ -63,47 +106,62 @@ export class ResultsModal extends Component {
       return (
         <span key={uuidv4()}>
           {totalSodium +
-          totalPotassium +
-          totalCalcium +
-          totalMagnesium +
-          totalPhosphorous}
+            totalPotassium +
+            totalCalcium +
+            totalMagnesium +
+            totalPhosphorous}
         </span>
       );
     } else {
-      return <span key={uuidv4()}>{orders.length * totalPoints.maxPointsPerCycle[pointsCategory]}</span>;
+      return (
+        <span key={uuidv4()}>
+          {orders.length * totalPoints.maxPointsPerCycle[pointsCategory]}
+        </span>
+      );
     }
   };
 
   printAvgDose = () => {
-    let historicalDose = returnHistoricalDose()
+    let historicalDose = returnHistoricalDose();
     let doseSum = historicalDose.reduce((acc, dose) => {
-      acc += dose
-      return acc
-    },0)
+      acc += dose;
+      return acc;
+    }, 0);
 
-    return <span>{Math.round((doseSum/historicalDose.length) * 100)/100}</span>
-  }
+    return (
+      <span>{Math.round((doseSum / historicalDose.length) * 100) / 100}</span>
+    );
+  };
 
   printAvgFiltrationFraction = () => {
-    let { labData } = this.props
-    let historicalFiltrationFraction = labData.filtrationFraction.reduce((acc, fractionNum) => {
-      acc += fractionNum
-      return acc
-    },0)
+    let { labData } = this.props;
+    let historicalFiltrationFraction = labData.filtrationFraction.reduce(
+      (acc, fractionNum) => {
+        acc += fractionNum;
+        return acc;
+      },
+      0
+    );
 
-    return <span>{Math.round((historicalFiltrationFraction/labData.filtrationFraction.length) * 100)/100}</span>
-  }
+    return (
+      <span>
+        {Math.round(
+          (historicalFiltrationFraction / labData.filtrationFraction.length) *
+            100
+        ) / 100}
+      </span>
+    );
+  };
 
   printFinalWeight = () => {
-    let weightArr = returnHistoricalWeight()
+    let weightArr = returnHistoricalWeight();
 
     if (weightArr) {
-      return <span>{weightArr[weightArr.length - 1]}</span>
+      return <span>{weightArr[weightArr.length - 1]}</span>;
     } else {
-      return <span>0</span>
+      return <span>0</span>;
     }
-    
-  }
+  };
 
   goBackToSimulator = () => {
     const { location, history } = this.props;
@@ -112,11 +170,7 @@ export class ResultsModal extends Component {
   };
 
   render() {
-    let { 
-      hourlyTimestamps,
-      labData,
-      selectedCase
-    } = this.props;
+    let { hourlyTimestamps, labData, selectedCase } = this.props;
 
     return (
       <div>
@@ -150,9 +204,12 @@ export class ResultsModal extends Component {
             </a>
           </h3>
           <p className="rm-body-msg">
-            {this.printTotalPoints("doseInRange")} earned out of a possible {this.printMaxPoints("doseInRange")}
+            {this.printTotalPoints("doseInRange")} earned out of a possible{" "}
+            {this.printMaxPoints("doseInRange")}
           </p>
-          <p className="rm-body-msg">The average dose delivered was: {this.printAvgDose()}</p>
+          <p className="rm-body-msg">
+            The average dose delivered was: {this.printAvgDose()}
+          </p>
           <p className="rm-body-msg">
             Kidney Disease: Improving Global Outcomes/KDIGO recommends an
             average dose of 20 – 25 mL/kg/hr. Other experts recommend
@@ -171,13 +228,18 @@ export class ResultsModal extends Component {
             </a>
           </h3>
           <p className="rm-body-msg">
-            {this.printTotalPoints("filtrationFractionInRange")} earned out of a possible {this.printMaxPoints("filtrationFractionInRange")}
+            {this.printTotalPoints("filtrationFractionInRange")} earned out of a
+            possible {this.printMaxPoints("filtrationFractionInRange")}
           </p>
           <p className="rm-body-msg">
-            You used {returnNumFiltersUsed()} over the course of the simulation. The average filter
-            life was {(hourlyTimestamps.length - 2)/returnNumFiltersUsed()} hours
+            You used {returnNumFiltersUsed()} over the course of the simulation.
+            The average filter life was{" "}
+            {(hourlyTimestamps.length - 2) / returnNumFiltersUsed()} hours
           </p>
-          <p className="rm-body-msg">Your average filtration fraction was {this.printAvgFiltrationFraction()}</p>
+          <p className="rm-body-msg">
+            Your average filtration fraction was{" "}
+            {this.printAvgFiltrationFraction()}
+          </p>
           <p className="rm-body-msg">
             Filtration Fraction measures how much the plasma entering the filter
             is concentrated by ultrafiltration. It should be kept below 25% to
@@ -196,13 +258,27 @@ export class ResultsModal extends Component {
             </a>
           </h3>
           <p className="rm-body-msg">
-          {this.printTotalPoints("electrolytes")} earned out of a possible {this.printMaxPoints("electrolytes")}
+            {this.printTotalPoints("electrolytes")} earned out of a possible{" "}
+            {this.printMaxPoints("electrolytes")}
           </p>
-          <p className="rm-body-msg">Final sodium score was {this.printTotalPoints("sodiumInRange")}</p>
-          <p className="rm-body-msg">Final potassium score was {this.printTotalPoints("potassiumInRange")}</p>
-          <p className="rm-body-msg">Final calcium score was {this.printTotalPoints("calciumInRange")}</p>
-          <p className="rm-body-msg">Final magnesium score was {this.printTotalPoints("magnesiumInRange")}</p>
-          <p className="rm-body-msg">Final phosphorous score was {this.printTotalPoints("phosphorousInRange")}</p>
+          <p className="rm-body-msg">
+            Final sodium score was {this.printTotalPoints("sodiumInRange")}
+          </p>
+          <p className="rm-body-msg">
+            Final potassium score was{" "}
+            {this.printTotalPoints("potassiumInRange")}
+          </p>
+          <p className="rm-body-msg">
+            Final calcium score was {this.printTotalPoints("calciumInRange")}
+          </p>
+          <p className="rm-body-msg">
+            Final magnesium score was{" "}
+            {this.printTotalPoints("magnesiumInRange")}
+          </p>
+          <p className="rm-body-msg">
+            Final phosphorous score was{" "}
+            {this.printTotalPoints("phosphorousInRange")}
+          </p>
           <p className="rm-body-msg">
             One of the goals of CRRT is to normalize electrolyte values. See
             Electrolytes for an in-depth discussion about how to do this in
@@ -220,30 +296,42 @@ export class ResultsModal extends Component {
             </a>
           </h3>
           <p className="rm-body-msg">
-          {this.printTotalPoints("pHInRange")} earned out of a possible {this.printMaxPoints("pHInRange")}
+            {this.printTotalPoints("pHInRange")} earned out of a possible{" "}
+            {this.printMaxPoints("pHInRange")}
           </p>
-          <p className="rm-body-msg">Final pH was {labData.ph[labData.ph.length - 1]}</p>
+          <p className="rm-body-msg">
+            Final pH was {labData.ph[labData.ph.length - 1]}
+          </p>
           <p className="rm-body-msg">Lowest pH was {Math.min(...labData.ph)}</p>
-          <p className="rm-body-msg">Highest pH was {Math.max(...labData.ph)}</p>
+          <p className="rm-body-msg">
+            Highest pH was {Math.max(...labData.ph)}
+          </p>
           <p className="rm-body-msg">
             The goal in CRRT is to correct acidosis, and then to maintain the
             patient within a normal pH range. See Acid-Base for more
             information.
           </p>
           <h3 className="rm-body-section-title">Volume</h3>
-          <p className="rm-body-msg"># earned out of a possible 200</p>
           <p className="rm-body-msg">
-            The patient's cumulative change in volume was # -- Initial weight:
-            {selectedCase.id ? vitalsInitial[selectedCase.id].weight : 0}, Final weight: {this.printFinalWeight()}
+            {this.printVolumePointsEarned()} earned out of a possible 200
           </p>
           <p className="rm-body-msg">
-            The patient started the case at #% overload
+            The patient's cumulative change in volume was{" "}
+            {this.printVolumeCumulChange()} -- Initial weight:
+            {selectedCase.id ? vitalsInitial[selectedCase.id].weight : 0}, Final
+            weight: {this.printFinalWeight()}
           </p>
           <p className="rm-body-msg">
-            At 48 hours, the patient was #% overloaded
+            The patient started the case at{" "}
+            {this.printVolumePercentages("initial")}% overload
           </p>
           <p className="rm-body-msg">
-            At 72 hours, the patient was #% overloaded
+            At 48 hours, the patient was {this.printVolumePercentages("48")}%
+            overloaded
+          </p>
+          <p className="rm-body-msg">
+            At 72 hours, the patient was {this.printVolumePercentages("72")}%
+            overloaded
           </p>
         </div>
       </div>
