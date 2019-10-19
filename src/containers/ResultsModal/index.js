@@ -5,6 +5,7 @@ import {
   finalResultsMessages /*, vitalsInitial*/
 } from "../../utils/initialSpreadsheetData.js";
 // import { setResultsTableVariables } from '../../utils/equationsMaster.js';
+const uuidv4 = require("uuid/v4");
 
 export class ResultsModal extends Component {
   printFailureMessage = () => {
@@ -29,14 +30,16 @@ export class ResultsModal extends Component {
         orders.length * totalPoints.maxPointsPerCycle["phosphorousInRange"];
 
       return (
-        totalSodium +
-        totalPotassium +
-        totalCalcium +
-        totalMagnesium +
-        totalPhosphorous
+        <span key={uuidv4()}>
+          {totalSodium +
+          totalPotassium +
+          totalCalcium +
+          totalMagnesium +
+          totalPhosphorous}
+        </span>
       );
     } else {
-      return orders.length * totalPoints.maxPointsPerCycle[pointsCategory];
+      return <span key={uuidv4()}>{orders.length * totalPoints.maxPointsPerCycle[pointsCategory]}</span>;
     }
   };
 
@@ -58,7 +61,7 @@ export class ResultsModal extends Component {
           <div className="rm-back-btn-container">
             <button
               className="rm-back-to-simulator-btn"
-              onClick={() => this.goBackToSimulator()}
+              onClick={this.goBackToSimulator}
             >
               Back to Simulator
             </button>

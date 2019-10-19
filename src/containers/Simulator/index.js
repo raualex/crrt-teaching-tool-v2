@@ -73,10 +73,16 @@ export class Simulator extends Component {
   }
 
   checkForCaseOver = () => {
-    let { hourlyTimestamps, setCaseOver } = this.props;
+    let { hourlyTimestamps, 
+      setCaseOver, 
+      location,
+      history 
+    } = this.props;
 
     if (hourlyTimestamps.length >= 92) {
       setCaseOver(true);
+      location.pathname = "/results";
+      history.push("/results");
     } else {
       return;
     }
