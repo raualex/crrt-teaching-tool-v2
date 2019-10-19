@@ -2,12 +2,15 @@ import React, { Component } from "react";
 import "./ResultsModal.css";
 import { connect } from "react-redux";
 import {
-  finalResultsMessages /*, vitalsInitial*/
+  finalResultsMessages,
+  vitalsInitial
 } from "../../utils/initialSpreadsheetData.js";
 // import { setResultsTableVariables } from '../../utils/equationsMaster.js';
 import { 
   returnHistoricalDose,
-  returnNumFiltersUsed
+  returnNumFiltersUsed,
+  returnHistoricalOverload,
+  returnHistoricalWeight
 } from "../../utils/equationsMaster.js";
 const uuidv4 = require("uuid/v4");
 
@@ -31,12 +34,8 @@ export class ResultsModal extends Component {
 
         return <span>{total}</span>
     } else {
-      if (totalPoints[pointsCategory]) {
-        let total = this.sumTotalPoints(totalPoints[pointsCategory])
-        return <span>{total}</span>
-      } else {
-        return <span>0</span>
-      }
+      let total = this.sumTotalPoints(totalPoints[pointsCategory])
+      return <span>{!isNaN(total) ? total : 0}</span>
     }
   }
 
@@ -95,16 +94,28 @@ export class ResultsModal extends Component {
     return <span>{Math.round((historicalFiltrationFraction/labData.filtrationFraction.length) * 100)/100}</span>
   }
 
+  printFinalWeight = () => {
+    let weightArr = returnHistoricalWeight()
+
+    if (weightArr) {
+      return <span>{weightArr[weightArr.length - 1]}</span>
+    } else {
+      return <span>0</span>
+    }
+    
+  }
+
   goBackToSimulator = () => {
     const { location, history } = this.props;
-    location.pathname = "/simulator";
-    history.push("/simulator");
+    location.pathname = "/select_a_case";
+    history.push("/select_a_case");
   };
 
   render() {
     let { 
       hourlyTimestamps,
-      labData
+      labData,
+      selectedCase
     } = this.props;
 
     return (
@@ -223,7 +234,7 @@ export class ResultsModal extends Component {
           <p className="rm-body-msg"># earned out of a possible 200</p>
           <p className="rm-body-msg">
             The patient's cumulative change in volume was # -- Initial weight:
-            #, Final weight: #
+            {selectedCase.id ? vitalsInitial[selectedCase.id].weight : 0}, Final weight: {this.printFinalWeight()}
           </p>
           <p className="rm-body-msg">
             The patient started the case at #% overload
