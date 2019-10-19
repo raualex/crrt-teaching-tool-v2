@@ -5,6 +5,7 @@ import {
   finalResultsMessages /*, vitalsInitial*/
 } from "../../utils/initialSpreadsheetData.js";
 // import { setResultsTableVariables } from '../../utils/equationsMaster.js';
+import { returnHistoricalDose } from "../../utils/equationsMaster.js";
 const uuidv4 = require("uuid/v4");
 
 export class ResultsModal extends Component {
@@ -14,6 +15,34 @@ export class ResultsModal extends Component {
     // let currentPH = labData.ph[labData.ph.length - 1];
     // let resultsOverview;
   };
+
+  printTotalPoints = pointsCategory => {
+    let { totalPoints } = this.props;
+
+    if (pointsCategory === "electrolytes") {
+      let total = this.sumTotalPoints(totalPoints.sodiumInRange) +
+        this.sumTotalPoints(totalPoints.potassiumInRange) +
+        this.sumTotalPoints(totalPoints.calciumInRange) +
+        this.sumTotalPoints(totalPoints.magnesiumInRange) +
+        this.sumTotalPoints(totalPoints.phosphorousInRange)
+
+        return <span>{total}</span>
+    } else {
+      if (totalPoints[pointsCategory]) {
+        let total = this.sumTotalPoints(totalPoints[pointsCategory])
+        return <span>{total}</span>
+      } else {
+        return <span>0</span>
+      }
+    }
+  }
+
+  sumTotalPoints = (pointsArr) => {
+    return pointsArr.reduce((acc, num) => {
+      acc += num
+      return acc
+    },0)
+  }
 
   printMaxPoints = pointsCategory => {
     let { orders, totalPoints } = this.props;
@@ -43,6 +72,16 @@ export class ResultsModal extends Component {
     }
   };
 
+  printAvgDose = () => {
+    let historicalDose = returnHistoricalDose()
+    let doseSum = historicalDose.reduce((acc, dose) => {
+      acc += dose
+      return acc
+    },0)
+
+    return <span>{Math.round((doseSum/historicalDose.length) * 100)/100}</span>
+  }
+
   goBackToSimulator = () => {
     const { location, history } = this.props;
     location.pathname = "/simulator";
@@ -50,7 +89,10 @@ export class ResultsModal extends Component {
   };
 
   render() {
-    let { hourlyTimestamps } = this.props;
+    let { 
+      hourlyTimestamps,
+      labData
+    } = this.props;
 
     return (
       <div>
@@ -84,9 +126,9 @@ export class ResultsModal extends Component {
             </a>
           </h3>
           <p className="rm-body-msg">
-            # earned out of a possible {this.printMaxPoints("doseInRange")}
+            {this.printTotalPoints("doseInRange")} earned out of a possible {this.printMaxPoints("doseInRange")}
           </p>
-          <p className="rm-body-msg">The average dose delivered was: #</p>
+          <p className="rm-body-msg">The average dose delivered was: {this.printAvgDose()}</p>
           <p className="rm-body-msg">
             Kidney Disease: Improving Global Outcomes/KDIGO recommends an
             average dose of 20 – 25 mL/kg/hr. Other experts recommend
@@ -105,8 +147,7 @@ export class ResultsModal extends Component {
             </a>
           </h3>
           <p className="rm-body-msg">
-            # earned out of a possible{" "}
-            {this.printMaxPoints("filtrationFractionInRange")}
+            {this.printTotalPoints("filtrationFractionInRange")} earned out of a possible {this.printMaxPoints("filtrationFractionInRange")}
           </p>
           <p className="rm-body-msg">
             You used # over the course of the simulation. The average filter
@@ -131,13 +172,13 @@ export class ResultsModal extends Component {
             </a>
           </h3>
           <p className="rm-body-msg">
-            # earned out of a possible {this.printMaxPoints("electrolytes")}
+          {this.printTotalPoints("electrolytes")} earned out of a possible {this.printMaxPoints("electrolytes")}
           </p>
-          <p className="rm-body-msg">Final sodium score was #</p>
-          <p className="rm-body-msg">Final potassium score was #</p>
-          <p className="rm-body-msg">Final calcium score was #</p>
-          <p className="rm-body-msg">Final magnesium score was #</p>
-          <p className="rm-body-msg">Final phosphorous score was #</p>
+          <p className="rm-body-msg">Final sodium score was {this.printTotalPoints("sodiumInRange")}</p>
+          <p className="rm-body-msg">Final potassium score was {this.printTotalPoints("potassiumInRange")}</p>
+          <p className="rm-body-msg">Final calcium score was {this.printTotalPoints("calciumInRange")}</p>
+          <p className="rm-body-msg">Final magnesium score was {this.printTotalPoints("magnesiumInRange")}</p>
+          <p className="rm-body-msg">Final phosphorous score was {this.printTotalPoints("phosphorousInRange")}</p>
           <p className="rm-body-msg">
             One of the goals of CRRT is to normalize electrolyte values. See
             Electrolytes for an in-depth discussion about how to do this in
@@ -155,11 +196,11 @@ export class ResultsModal extends Component {
             </a>
           </h3>
           <p className="rm-body-msg">
-            # earned out of a possible {this.printMaxPoints("pHInRange")}
+          {this.printTotalPoints("pHInRange")} earned out of a possible {this.printMaxPoints("pHInRange")}
           </p>
-          <p className="rm-body-msg">Final pH was #</p>
-          <p className="rm-body-msg">Lowest pH was #</p>
-          <p className="rm-body-msg">Highest pH was #</p>
+          <p className="rm-body-msg">Final pH was {labData.ph[labData.ph.length - 1]}</p>
+          <p className="rm-body-msg">Lowest pH was {Math.min(...labData.ph)}</p>
+          <p className="rm-body-msg">Highest pH was {Math.max(...labData.ph)}</p>
           <p className="rm-body-msg">
             The goal in CRRT is to correct acidosis, and then to maintain the
             patient within a normal pH range. See Acid-Base for more
@@ -189,6 +230,7 @@ export class ResultsModal extends Component {
 export const mapStateToProps = state => ({
   selectedCase: state.selectedCase,
   orders: state.orders,
+  labData: state.labData,
   timeBetweenOrders: state.timeBetweenOrders,
   hourlyTimestamps: state.hourlyTimestamps,
   totalPoints: state.totalPoints

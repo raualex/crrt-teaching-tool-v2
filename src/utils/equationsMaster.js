@@ -841,6 +841,10 @@ export function returnHistoricalWeight() {
   return _historicalVitals.weight
 }
 
+export function returnHistoricalDose() {
+  return _historicalDose
+}
+
 function roundLabs(newLabs) {
   newLabs["sodium"] = Number.parseFloat(newLabs["sodium"]).toFixed(0);
   newLabs["potassium"] = Number.parseFloat(newLabs["potassium"]).toFixed(1);
