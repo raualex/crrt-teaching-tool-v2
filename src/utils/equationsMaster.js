@@ -2,7 +2,7 @@ import {
   inputOutputInitial,
   vitalsInitial,
   productionRatesInitial,
-  medicationsInitial,
+  medicationsInitial
   // accessPressureInitial,
   // labsCase1
 } from "./initialSpreadsheetData.js";
@@ -740,10 +740,7 @@ export function runLabs(
   let prodRateKeys = Object.keys(productionRates);
 
   for (var i = 0; i < prodRateKeys.length; i++) {
-    console.log(
-      "calculateLab(): component: ",
-      prodRateKeys[i]
-    );
+    console.log("calculateLab(): component: ", prodRateKeys[i]);
     console.log(
       "calculateLab(): initialValue: ",
       labData[prodRateKeys[i]][labData[prodRateKeys[i]].length - 1]
@@ -1659,7 +1656,7 @@ function calculateNewWeight(
   //   ]
   // );
 
-  var previousWeightInKilos = parseFloat(findPreviousWeight(selectedCase.id))
+  var previousWeightInKilos = parseFloat(findPreviousWeight(selectedCase.id));
 
   var currentWeightInKilos =
     previousWeightInKilos +
@@ -1671,11 +1668,11 @@ function calculateNewWeight(
 
 function findPreviousWeight(caseId) {
   if (_historicalVitals.weight.length !== 0) {
-    return _historicalVitals.weight[_historicalVitals.weight.length - 1]
+    return _historicalVitals.weight[_historicalVitals.weight.length - 1];
   } else {
     return vitalsInitial[caseId].weight[
       vitalsInitial[caseId].weight.length - 1
-    ]
+    ];
   }
 }
 
