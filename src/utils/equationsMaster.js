@@ -1653,11 +1653,13 @@ function calculateNewWeight(
   var grossFiltrationPastEightHoursInLiters =
     (order["grossUF"] / 1000) * totalHoursOfFiltration;
   // var previousWeightInKilos = parseFloat(_historicalVitals['weight'][_historicalVitals['weight'].length-1]);
-  var previousWeightInKilos = parseFloat(
-    vitalsInitial[selectedCase.id].weight[
-      vitalsInitial[selectedCase.id].weight.length - 1
-    ]
-  );
+  // var previousWeightInKilos = parseFloat(
+  //   vitalsInitial[selectedCase.id].weight[
+  //     vitalsInitial[selectedCase.id].weight.length - 1
+  //   ]
+  // );
+
+  var previousWeightInKilos = parseFloat(findPreviousWeight(selectedCase.id))
 
   var currentWeightInKilos =
     previousWeightInKilos +
@@ -1665,6 +1667,16 @@ function calculateNewWeight(
 
   console.log("HOPEFULLY INPUT OUTPUT DATA: ", _historicalInputOutput);
   return currentWeightInKilos;
+}
+
+function findPreviousWeight(caseId) {
+  if (_historicalVitals.weight.length !== 0) {
+    return _historicalVitals.weight[_historicalVitals.weight.length - 1]
+  } else {
+    return vitalsInitial[caseId].weight[
+      vitalsInitial[caseId].weight.length - 1
+    ]
+  }
 }
 
 function calculateEffluentFlowRate(currentOrder) {
