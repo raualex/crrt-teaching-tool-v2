@@ -835,7 +835,7 @@ export function runLabs(
     time.currentDay
   );
   // setVolumeOverload();
-  console.log(setVolumeOverload(selectedCase.id));
+  console.log(setVolumeOverload(selectedCase));
   // setPageVariables();
   // postLabChecks(orders, time, selectedCase);
   // processMessages();
@@ -896,8 +896,8 @@ function copyStaticLabsToHistorical(time, selectedCase, labData) {
   }
 }
 
-function setVolumeOverload(caseId) {
-  var usualWeight = vitalsInitial[caseId].weight;
+function setVolumeOverload(selectedCase) {
+  var usualWeight = parseFloat(selectedCase.usualWeight);
   var currentWeight =
     _historicalVitals["weight"][_historicalVitals["weight"].length - 1];
   var overload = excelRound(
@@ -2963,7 +2963,7 @@ function excelRound(val, num) {
   // var coef = Math.pow(10, num);
   // return (Math.round(val * coef))/coef;
 
-  return Number.parseFloat(val).toFixed(2);
+  return Number.parseFloat(val).toFixed(num);
 }
 
 // // String.prototype.capitalize = function() {
