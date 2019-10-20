@@ -325,6 +325,7 @@ export class OrdersModal extends Component {
 
   handleNumberChange = event => {
     const { name, value } = event.target;
+    
     this.setState(
       {
         [name]: value.trim()
@@ -428,13 +429,12 @@ export class OrdersModal extends Component {
 
   compileOrder = () => {
     const { timeBetweenOrders } = this.props;
-    const {
+    let {
       modality,
       sodium,
       potassium,
       chloride,
       bicarbonate,
-      calcium,
       magnesium,
       phosphorous,
       grossUltraFiltration,
@@ -449,6 +449,8 @@ export class OrdersModal extends Component {
       citrateFlowRate,
       caClInfusionRate
     } = this.state;
+
+    let calcium = this.state.calcium * 4
 
     const order = {
       id: uuidv4(),
@@ -604,15 +606,17 @@ export class OrdersModal extends Component {
         caClInfusionRate
       } = currentOrder;
 
-      const {
+      let {
         sodium,
         potassium,
         chloride,
         bicarbonate,
-        calcium,
         magnesium,
         phosphorous
       } = currentOrder.fluidDialysateValues;
+
+      let calcium = currentOrder.fluidDialysateValues.calcium/4
+
       this.setState(
         {
           modality,

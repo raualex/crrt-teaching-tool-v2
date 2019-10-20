@@ -161,7 +161,7 @@ export class ResultsModal extends Component {
 
   printFinalWeight = () => {
     let weightArr = returnHistoricalWeight();
-
+console.log(weightArr)
     if (weightArr) {
       return <span>{weightArr[weightArr.length - 1]}</span>;
     } else {
