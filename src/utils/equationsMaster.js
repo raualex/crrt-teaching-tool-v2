@@ -742,7 +742,7 @@ export function runLabs(
   for (var i = 0; i < prodRateKeys.length; i++) {
     console.log(
       "calculateLab(): component: ",
-      productionRates[prodRateKeys[i]]
+      prodRateKeys[i]
     );
     console.log(
       "calculateLab(): initialValue: ",
@@ -762,11 +762,9 @@ export function runLabs(
     );
 
     // NOTE: Params for calculateLab(): initialValue, dialysate, effluentFlowRate, time, weight, volumeOfDistribution, productionRate
-
-    // if (prodRateKeys[i] === "calcium") {
-    //   debugger;
-    // }
-
+      // if (prodRateKeys[i] === "calcium") {
+      //   debugger
+      // }
     newLabs[prodRateKeys[i]] = calculateLab(
       parseFloat(labData[prodRateKeys[i]][labData[prodRateKeys[i]].length - 1]),
       parseFloat(currentOrder.fluidDialysateValues[prodRateKeys[i]]),
@@ -839,7 +837,7 @@ export function runLabs(
     time.currentDay
   );
   // setVolumeOverload();
-  console.log(setVolumeOverload());
+  console.log(setVolumeOverload(selectedCase.id));
   // setPageVariables();
   // postLabChecks(orders, time, selectedCase);
   // processMessages();
@@ -900,8 +898,8 @@ function copyStaticLabsToHistorical(time, selectedCase, labData) {
   }
 }
 
-function setVolumeOverload() {
-  var usualWeight = labsCase1.usualWeight;
+function setVolumeOverload(caseId) {
+  var usualWeight = vitalsInitial[caseId].weight;
   var currentWeight =
     _historicalVitals["weight"][_historicalVitals["weight"].length - 1];
   var overload = excelRound(
