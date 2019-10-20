@@ -38,11 +38,17 @@ export class ResultsModal extends Component {
   };
 
   printVolumeCumulChange = () => {
-    const { selectedCase } = this.props;
-    let initialWeight = vitalsInitial[selectedCase.id].weight;
-    let weightArr = returnHistoricalWeight();
-    let finalWeight = weightArr[weightArr.length - 1];
-    return Math.round(Math.abs(initialWeight - finalWeight) * 100) / 100;
+    const { selectedCase, location, history } = this.props;
+    if (vitalsInitial[selectedCase.id] !== undefined) {
+      let initialWeight = vitalsInitial[selectedCase.id].weight;
+      let weightArr = returnHistoricalWeight();
+      let finalWeight = weightArr[weightArr.length - 1];
+      return Math.round(Math.abs(initialWeight - finalWeight) * 100) / 100;
+    } else {
+      location.pathname = "/simulator";
+      history.push("/simulator");
+      return;
+    }
   };
 
   printVolumePointsEarned = () => {
