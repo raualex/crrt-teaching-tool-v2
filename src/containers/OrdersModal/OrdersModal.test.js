@@ -66,7 +66,7 @@ describe("OrdersModal", () => {
     it("should set state for properties with number types", () => {
       expect(wrapper.state().sodium).toEqual("");
       wrapper.instance().handleNumberChange(mockEvent);
-      expect(wrapper.state().sodium).toEqual(4);
+      expect(wrapper.state().sodium).toEqual("4");
     });
   });
 

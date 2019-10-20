@@ -659,7 +659,7 @@ export function runLabs(
   let newLabs = {};
   // let dialysate = {};
   // var order = getOrder(orders, time, timeBetweenOrders, selectedCase);
-
+  // debugger;
   let currentOrder = orders[orders.length - 1];
   currentOrder.filtrationFraction = calculateFiltrationFraction(
     currentOrder,
@@ -668,6 +668,7 @@ export function runLabs(
     timeBetweenOrders,
     labData
   );
+
   console.log("CURRENT ORDER: ", currentOrder);
 
   let didClot = false;
@@ -838,19 +839,19 @@ export function returnInputOutput() {
 }
 
 export function returnHistoricalWeight() {
-  return _historicalVitals.weight
+  return _historicalVitals.weight;
 }
 
 export function returnHistoricalDose() {
-  return _historicalDose
+  return _historicalDose;
 }
 
 export function returnNumFiltersUsed() {
-  return _numFiltersUsed
+  return _numFiltersUsed;
 }
 
 export function returnHistoricalOverload() {
-  return _historicalOverload
+  return _historicalOverload;
 }
 
 function roundLabs(newLabs) {
@@ -1755,7 +1756,7 @@ export function postLabChecks(order, time, selectedCase, labData) {
       checkPhosphorous(id, labData);
       checkGrossUltrafiltration(id, currentTime, labData);
       handleSimulationCompletion(id, currentTime, labData);
-      return _points
+      return _points;
     case 2:
       checkSodiumCase2(id, labData);
       checkPotassiumCase2(id, labData);
@@ -1766,19 +1767,17 @@ export function postLabChecks(order, time, selectedCase, labData) {
       checkPhosphorous(id, labData);
       checkGrossUltrafiltration(id, currentTime, labData);
       handleSimulationCompletion(id, currentTime, labData);
-      return _points
+      return _points;
     default:
       return;
   }
 }
 
-export const getMedications = (selectedCaseId) => {
-
+export const getMedications = selectedCaseId => {
   return medicationsInitial[selectedCaseId];
 };
 
-export const getVitals = (selectedCaseId) => {
-
+export const getVitals = selectedCaseId => {
   return vitalsInitial[selectedCaseId];
 };
 

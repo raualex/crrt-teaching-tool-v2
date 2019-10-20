@@ -324,11 +324,9 @@ export class OrdersModal extends Component {
 
   handleNumberChange = event => {
     const { name, value } = event.target;
-    const parsedValue = parseFloat(value.trim());
-
     this.setState(
       {
-        [name]: parsedValue
+        [name]: value.trim()
       },
       () => this.checkForInvalidInputs(name)
     );
@@ -455,23 +453,23 @@ export class OrdersModal extends Component {
       id: uuidv4(),
       timeStamp: this.createTimeStamp(),
       fluidDialysateValues: {
-        sodium,
-        potassium,
-        chloride,
-        bicarbonate,
-        calcium,
-        magnesium,
-        phosphorous,
+        sodium: parseFloat(sodium),
+        potassium: parseFloat(potassium),
+        chloride: parseFloat(chloride),
+        bicarbonate: parseFloat(bicarbonate),
+        calcium: parseFloat(calcium),
+        magnesium: parseFloat(magnesium),
+        phosphorous: parseFloat(phosphorous),
         bun: 0,
         creatinine: 0
       },
       modality,
       anticoagulation,
-      BFR: bloodFlowRate,
-      Qr: replacementFluidFlowRate,
-      Qd: replacementFluidFlowRate,
-      grossUF: grossUltraFiltration,
-      timeToNextLabs: timeBetweenOrders,
+      BFR: parseFloat(bloodFlowRate),
+      Qr: parseFloat(replacementFluidFlowRate),
+      Qd: parseFloat(replacementFluidFlowRate),
+      grossUF: parseFloat(grossUltraFiltration),
+      timeToNextLabs: parseFloat(timeBetweenOrders),
       otherFluidsSaline: saline3Percent,
       otherFluidsD5W: d5W,
       otherFluidsSodiumPhosphate: sodiumPhosphate15mmol100ml,
@@ -590,6 +588,7 @@ export class OrdersModal extends Component {
       let currentOrder = orders[orders.length - 1];
 
       const {
+        modality,
         grossUF,
         BFR,
         Qr,
@@ -604,7 +603,6 @@ export class OrdersModal extends Component {
       } = currentOrder;
 
       const {
-        modality,
         sodium,
         potassium,
         chloride,
