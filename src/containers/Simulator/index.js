@@ -157,6 +157,16 @@ export class Simulator extends Component {
     });
   };
 
+  checkForCaseId = () => {
+    let { selectedCase } = this.props
+
+    if (selectedCase.id === 1 || selectedCase.id === 2) {
+      return false
+    } else {
+      return true
+    }
+  }
+
   render() {
     const {
       selectedModal,
@@ -206,6 +216,7 @@ export class Simulator extends Component {
               <button
                 className="orders-btn header-btn"
                 onClick={event => this.toggleOrdersModal(event)}
+                disabled={this.checkForCaseId()}
               >
                 Orders
               </button>
@@ -348,6 +359,7 @@ export class Simulator extends Component {
               <button
                 className="orders-btn header-btn"
                 onClick={event => this.toggleOrdersModal(event)}
+                disabled={this.checkForCaseId()}
               >
                 Orders
               </button>

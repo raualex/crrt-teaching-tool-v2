@@ -150,6 +150,13 @@
   color: #3b8ed6;
 }
 
+.orders-btn:disabled {
+  background-color: #e5e5e5;
+  border: solid 2px #e5e5e5;
+  color: #fff;
+  cursor: not-allowed;
+}
+
 .crrt-display-btn,
 .restart-case-btn {
   color: #4c4646;
