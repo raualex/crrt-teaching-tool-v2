@@ -7,12 +7,19 @@ describe("Simulator", () => {
   let wrapper;
   let mockCase = { id: 3 };
   let mockHourlyTimestamps = ["10:00", "11:00"];
+  let mockUnviewedModalsObj = {
+    "Vitals": false,
+    "Medications": true,
+    "Input/Output": true,
+    "Laboratory Data": false
+  }
 
   beforeEach(() => {
     wrapper = shallow(
       <Simulator
         selectedCase={mockCase}
         hourlyTimestamps={mockHourlyTimestamps}
+        newOrdersUnviewed={mockUnviewedModalsObj}
       />
     );
   });
@@ -27,6 +34,7 @@ describe("Simulator", () => {
         selectedModal={"Imaging"}
         selectedCase={mockCase}
         hourlyTimestamps={mockHourlyTimestamps}
+        newOrdersUnviewed={mockUnviewedModalsObj}
       />
     );
     expect(wrapper).toMatchSnapshot();
@@ -37,6 +45,12 @@ describe("toggleOrdersModal", () => {
   let wrapper;
   let mockCase = { id: 3 };
   let mockHourlyTimestamps = ["10:00", "11:00"];
+  let mockUnviewedModalsObj = {
+    "Vitals": false,
+    "Medications": true,
+    "Input/Output": true,
+    "Laboratory Data": false
+  }
 
   beforeEach(() => {
     wrapper = shallow(
@@ -44,6 +58,7 @@ describe("toggleOrdersModal", () => {
         selectedCase={mockCase}
         hourlyTimestamps={mockHourlyTimestamps}
         orders={mockOrders}
+        newOrdersUnviewed={mockUnviewedModalsObj}
       />
     );
   });
