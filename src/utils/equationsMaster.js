@@ -4,7 +4,7 @@ import {
   productionRatesInitial,
   medicationsInitial,
   // accessPressureInitial,
-  labsCase1
+  // labsCase1
 } from "./initialSpreadsheetData.js";
 // import { mockOrderForMigrationFunctions } from "./mockOrders.js";
 
@@ -762,9 +762,7 @@ export function runLabs(
     );
 
     // NOTE: Params for calculateLab(): initialValue, dialysate, effluentFlowRate, time, weight, volumeOfDistribution, productionRate
-      // if (prodRateKeys[i] === "calcium") {
-      //   debugger
-      // }
+
     newLabs[prodRateKeys[i]] = calculateLab(
       parseFloat(labData[prodRateKeys[i]][labData[prodRateKeys[i]].length - 1]),
       parseFloat(currentOrder.fluidDialysateValues[prodRateKeys[i]]),
