@@ -2554,13 +2554,13 @@ function checkDose(effluentFlowRate, orders, selectedCase) {
           1000 /
           ((orders["BFR"] * 60) / 1000 + orders["Qr"])) *
           newEffluentFlowRate) /
-        vitalsInitial[selectedCase.id].weight;
+        selectedCase.usualWeight;
       break;
     case "Post-filter CVVH":
-      dose = newEffluentFlowRate / vitalsInitial[selectedCase.id].weight;
+      dose = newEffluentFlowRate / selectedCase.usualWeight;
       break;
     case "CVVHD":
-      dose = newEffluentFlowRate / vitalsInitial[selectedCase.id].weight;
+      dose = newEffluentFlowRate / selectedCase.usualWeight;
       break;
     default:
       return;
