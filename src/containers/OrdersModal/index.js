@@ -98,6 +98,7 @@ export class OrdersModal extends Component {
       recordHourlyTimestamp(
         this.compileHourlyTimestamps(time, timeBetweenOrders)
       );
+
       closeOrdersModal();
     }
   }
@@ -579,7 +580,67 @@ export class OrdersModal extends Component {
     });
   };
 
-  fillForm = event => {
+  fillFormWithUpdatedValues = e => {
+    e.preventDefault();
+    const { orders } = this.props;
+    if (!orders.length) {
+      this.fillFormWithDefaultValues(e);
+      return;
+    } else {
+      let currentOrder = orders[orders.length - 1];
+
+      const {
+        grossUF,
+        BFR,
+        Qr,
+        otherFluidsSaline,
+        otherFluidsD5W,
+        otherFluidsSodiumPhosphate,
+        anticoagulation,
+        otherFluidsBolusValue,
+        otherFluidsInfusionValue,
+        citrateFlowRate,
+        caClInfusionRate
+      } = currentOrder;
+
+      const {
+        modality,
+        sodium,
+        potassium,
+        chloride,
+        bicarbonate,
+        calcium,
+        magnesium,
+        phosphorous
+      } = currentOrder.fluidDialysateValues;
+      this.setState(
+        {
+          modality,
+          sodium,
+          potassium,
+          chloride,
+          bicarbonate,
+          calcium,
+          magnesium,
+          phosphorous,
+          grossUltraFiltration: grossUF,
+          bloodFlowRate: BFR,
+          replacementFluidFlowRate: Qr,
+          saline3Percent: otherFluidsSaline,
+          d5W: otherFluidsD5W,
+          sodiumPhosphate15mmol100ml: otherFluidsSodiumPhosphate,
+          anticoagulation: anticoagulation,
+          otherFluidsBolusValue,
+          otherFluidsInfusionValue,
+          citrateFlowRate,
+          caClInfusionRate
+        },
+        () => this.validateOrder()
+      );
+    }
+  };
+
+  fillFormWithDefaultValues = event => {
     event.preventDefault();
     this.setState(
       {
@@ -634,9 +695,9 @@ export class OrdersModal extends Component {
             <div className="orders-modal-header-button-container">
               <button
                 className="prov-values-btn"
-                onClick={event => this.fillForm(event)}
+                onClick={event => this.fillFormWithUpdatedValues(event)}
               >
-                Add sample values
+                Add previous values
               </button>
               <button
                 className="orders-modal-close-btn-top"
