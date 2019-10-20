@@ -695,7 +695,8 @@ export function runLabs(
         currentOrder,
         startingWeight,
         initialEffluentFlowRate,
-        newLabs["ionizedCalcium"]
+        newLabs["ionizedCalcium"],
+        timeBetweenOrders
       );
       break;
     default:
@@ -761,6 +762,10 @@ export function runLabs(
     );
 
     // NOTE: Params for calculateLab(): initialValue, dialysate, effluentFlowRate, time, weight, volumeOfDistribution, productionRate
+
+    // if (prodRateKeys[i] === "calcium") {
+    //   debugger;
+    // }
 
     newLabs[prodRateKeys[i]] = calculateLab(
       parseFloat(labData[prodRateKeys[i]][labData[prodRateKeys[i]].length - 1]),
@@ -971,7 +976,13 @@ function calculateSodium(
   return finalSodium;
 }
 
-function calculatePhosphourous(volumeOfDistribution, effluentFlowRate, timeBetweenOrders, currentOrder, labData) {
+function calculatePhosphourous(
+  volumeOfDistribution,
+  effluentFlowRate,
+  timeBetweenOrders,
+  currentOrder,
+  labData
+) {
   var finalPhosphorous;
   var initialPhosphorous = parseFloat(
     labData["phosphorous"][labData["phosphorous"].length - 1]
@@ -981,8 +992,7 @@ function calculatePhosphourous(volumeOfDistribution, effluentFlowRate, timeBetwe
   );
   var initialDialysate = currentOrder.fluidDialysateValues["phosphorous"];
   var newDialysate =
-    initialDialysate +
-    465 / timeBetweenOrders / (effluentFlowRate * 10);
+    initialDialysate + 465 / timeBetweenOrders / (effluentFlowRate * 10);
   finalPhosphorous = calculateLab(
     initialPhosphorous,
     newDialysate,
@@ -1177,6 +1187,7 @@ function calculateAdjustedEffluentFlowRateCase1(
   }
   if (order.anticoagulation === "citrate") {
     var initialCitrateResults = runCitrateCalculations(
+      order,
       startingWeight,
       effluentFlowRate,
       ionizedCalcium,
@@ -1295,11 +1306,9 @@ function runCitrateCalculations(
       (effluentFlowRate / ((order.BFR * 60) / 1000)) *
         ((caFinalPreFilter - dialysateCalcium / 2) / caFinalPreFilter));
   var citratFinalPostFilter =
-    citratFinalPreFilter *
-    (1 - effluentFlowRate / ((order.BFR * 60) / 1000));
+    citratFinalPreFilter * (1 - effluentFlowRate / ((order.BFR * 60) / 1000));
   var caCitFinalPostFilter =
-    caCitFinalPreFilter *
-    (1 - effluentFlowRate / ((order.BFR * 60) / 1000));
+    caCitFinalPreFilter * (1 - effluentFlowRate / ((order.BFR * 60) / 1000));
   var citrateMetabolismFactor = getCitrateMetabolismFactor();
 
   var calciumClInMmolPerL = 54;
@@ -2200,6 +2209,7 @@ function checkPHCase2(caseId, labData) {
 function checkCalcium(caseId, labData) {
   // TODO: Doc from Ben says "NOT when using citrate" -- do we not run these checks if we are using citrate?
   // if using citrate - divide by 8
+
   var totalPoints = 0;
   var currentCalcium = labData.calcium[labData.calcium.length - 1];
   var msg;
@@ -2455,7 +2465,8 @@ function checkFilterClottingCase2(
   currentOrder,
   startingWeight,
   effluentFlowRate,
-  ionizedCalcium
+  ionizedCalcium,
+  timeBetweenOrders
 ) {
   console.log("effluentFlowRate :", effluentFlowRate);
   var totalPoints = 0;
@@ -2466,7 +2477,8 @@ function checkFilterClottingCase2(
     currentOrder,
     startingWeight,
     effluentFlowRate,
-    ionizedCalcium
+    ionizedCalcium,
+    timeBetweenOrders
   );
   var initialPostFilterIonizedCalcium =
     initialCitrateResults["calciumFinalPostFilter"];
