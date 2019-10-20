@@ -386,42 +386,62 @@ export class Simulator extends Component {
                 <button
                   name="Input/Output"
                   onClick={event => this.handleClick(event)}
-                  className={
-                    btnClicked === "Input/Output"
-                      ? "btn-active"
-                      : "data-output-btn"
-                  }
+                  className={`
+                    ${
+                      btnClicked === "Input/Output"
+                        ? "btn-active"
+                        : "data-output-btn"
+                    } ${
+                    newOrdersUnviewed["Input/Output"] === true
+                      ? "new-orders-btn-active"
+                      : ""
+                  }`}
                 >
                   Input/Output
                 </button>
                 <button
                   name="Vitals"
                   onClick={event => this.handleClick(event)}
-                  className={
-                    btnClicked === "Vitals" ? "btn-active" : "data-output-btn"
-                  }
+                  className={`
+                    ${
+                      btnClicked === "Vitals" ? "btn-active" : "data-output-btn"
+                    } ${
+                    newOrdersUnviewed.Vitals === true
+                      ? "new-orders-btn-active"
+                      : ""
+                  }`}
                 >
                   Vitals
                 </button>
                 <button
                   name="Laboratory Data"
                   onClick={event => this.handleClick(event)}
-                  className={
-                    btnClicked === "Laboratory Data"
-                      ? "btn-active"
-                      : "data-output-btn"
-                  }
+                  className={`
+                    ${
+                      btnClicked === "Laboratory Data"
+                        ? "btn-active"
+                        : "data-output-btn"
+                    } ${
+                    newOrdersUnviewed["Laboratory Data"] === true
+                      ? "new-orders-btn-active"
+                      : ""
+                  }`}
                 >
                   Laboratory Data
                 </button>
                 <button
                   name="Medications"
                   onClick={event => this.handleClick(event)}
-                  className={
+                  className={`
+                  ${
                     btnClicked === "Medications"
                       ? "btn-active"
                       : "data-output-btn"
-                  }
+                  } ${
+                    newOrdersUnviewed.Medications === true
+                      ? "new-orders-btn-active"
+                      : ""
+                  }`}
                 >
                   Medications
                 </button>
