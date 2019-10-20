@@ -4,9 +4,10 @@ import { shallow } from "enzyme";
 
 describe("DataOutputModal", () => {
   let wrapper;
+  let mockCase = { id: 1 }
 
   beforeEach(() => {
-    wrapper = shallow(<DataOutputModal />);
+    wrapper = shallow(<DataOutputModal selectedCase={mockCase} />);
   });
 
   it("matches the snapshot", () => {
