@@ -659,7 +659,7 @@ export function runLabs(
   let newLabs = {};
   // let dialysate = {};
   // var order = getOrder(orders, time, timeBetweenOrders, selectedCase);
-  // debugger;
+
   let currentOrder = orders[orders.length - 1];
   currentOrder.filtrationFraction = calculateFiltrationFraction(
     currentOrder,
@@ -709,7 +709,8 @@ export function runLabs(
     startingWeight,
     newLabs["ionizedCalcium"],
     didClot,
-    currentOrder
+    currentOrder,
+    timeBetweenOrders
   );
   var totalHoursOfFiltration = calculateTotalHoursOfFiltration(
     selectedCase.id,
@@ -718,7 +719,8 @@ export function runLabs(
     newLabs["filtrationFraction"],
     startingWeight,
     newLabs["ionizedCalcium"],
-    didClot
+    didClot,
+    timeBetweenOrders
   );
 
   console.log("adjustedEffluentFlowRate :", adjustedEffluentFlowRate);
@@ -764,7 +766,7 @@ export function runLabs(
       parseFloat(labData[prodRateKeys[i]][labData[prodRateKeys[i]].length - 1]),
       parseFloat(currentOrder.fluidDialysateValues[prodRateKeys[i]]),
       parseFloat(effluentFlowRate),
-      parseFloat(currentOrder["timeToNextLabs"]),
+      parseFloat(timeBetweenOrders),
       parseFloat(startingWeight),
       parseFloat(volumeOfDistribution),
       parseFloat(productionRatesInitial[selectedCase.id][prodRateKeys[i]][0])
@@ -779,14 +781,18 @@ export function runLabs(
     effluentFlowRate,
     selectedCase,
     startingWeight,
-    labData
+    labData,
+    timeBetweenOrders
   );
   // NOTE: If we're using sodium phosphate, we need to recalculate the phosphorous results
   if (currentOrder.otherFluidsSodiumPhosphate) {
     console.log("runLabs : using sodium phosphate");
     newLabs["phosphorous"] = calculatePhosphourous(
       volumeOfDistribution,
-      effluentFlowRate
+      effluentFlowRate,
+      timeBetweenOrders,
+      currentOrder,
+      labData
     );
   }
 
@@ -795,7 +801,8 @@ export function runLabs(
       currentOrder,
       startingWeight,
       effluentFlowRate,
-      newLabs["ionizedCalcium"]
+      newLabs["ionizedCalcium"],
+      timeBetweenOrders
     );
 
     newLabs["bicarbonate"] = citrateResults["bicarbonate"];
@@ -904,7 +911,8 @@ function calculateSodium(
   effluentFlowRate,
   selectedCase,
   startingWeight,
-  labData
+  labData,
+  timeBetweenOrders
 ) {
   console.log(
     "calculateSodium params: " + volumeOfDistribution,
@@ -954,7 +962,7 @@ function calculateSodium(
     initialSodium,
     newDialysate,
     effluentFlowRate,
-    _currentOrders["timeToNextLabs"],
+    timeBetweenOrders,
     startingWeight,
     volumeOfDistribution,
     0
@@ -963,23 +971,23 @@ function calculateSodium(
   return finalSodium;
 }
 
-function calculatePhosphourous(volumeOfDistribution, effluentFlowRate) {
+function calculatePhosphourous(volumeOfDistribution, effluentFlowRate, timeBetweenOrders, currentOrder, labData) {
   var finalPhosphorous;
   var initialPhosphorous = parseFloat(
-    _historicalLabs["phosphorous"][_historicalLabs["phosphorous"].length - 1]
+    labData["phosphorous"][labData["phosphorous"].length - 1]
   );
   var startingWeight = parseFloat(
     _historicalVitals["weight"][_historicalVitals["weight"].length - 1]
   );
-  var initialDialysate = _currentOrders["fluidDialysateValues"]["phosphorous"];
+  var initialDialysate = currentOrder.fluidDialysateValues["phosphorous"];
   var newDialysate =
     initialDialysate +
-    465 / _currentOrders["timeToNextLabs"] / (effluentFlowRate * 10);
+    465 / timeBetweenOrders / (effluentFlowRate * 10);
   finalPhosphorous = calculateLab(
     initialPhosphorous,
     newDialysate,
     effluentFlowRate,
-    _currentOrders["timeToNextLabs"],
+    timeBetweenOrders,
     startingWeight,
     volumeOfDistribution,
     0
@@ -994,7 +1002,8 @@ function calculateTotalHoursOfFiltration(
   currentFiltrationFraction,
   startingWeight,
   ionizedCalcium,
-  didClot
+  didClot,
+  timeBetweenOrders
 ) {
   switch (currentCaseId) {
     case 1:
@@ -1003,7 +1012,8 @@ function calculateTotalHoursOfFiltration(
         effluentFlowRate,
         currentFiltrationFraction,
         startingWeight,
-        ionizedCalcium
+        ionizedCalcium,
+        timeBetweenOrders
       );
     // break;
     case 2:
@@ -1013,7 +1023,8 @@ function calculateTotalHoursOfFiltration(
         currentFiltrationFraction,
         startingWeight,
         ionizedCalcium,
-        didClot
+        didClot,
+        timeBetweenOrders
       );
     // break;
     default:
@@ -1026,7 +1037,8 @@ function calculateTotalHoursOfFiltrationCase1(
   effluentFlowRate,
   currentFiltrationFraction,
   startingWeight,
-  ionizedCalcium
+  ionizedCalcium,
+  timeBetweenOrders
 ) {
   // var initialEFR = effluentFlowRate;
   var defaultHoursOfFiltration = 6;
@@ -1049,7 +1061,8 @@ function calculateTotalHoursOfFiltrationCase1(
       order,
       startingWeight,
       effluentFlowRate,
-      ionizedCalcium
+      ionizedCalcium,
+      timeBetweenOrders
     );
     var initialPostFilterIonizedCalcium =
       initialCitrateResults["calciumFinalPostFilter"];
@@ -1070,7 +1083,8 @@ function calculateTotalHoursOfFiltrationCase2(
   currentFiltrationFraction,
   startingWeight,
   ionizedCalcium,
-  didClot
+  didClot,
+  timeBetweenOrders
 ) {
   // var initialEFR = effluentFlowRate;
   var defaultHoursOfFiltration = 6;
@@ -1094,7 +1108,8 @@ function calculateAdjustedEffluentFlowRate(
   startingWeight,
   ionizedCalcium,
   didClot,
-  order
+  order,
+  timeBetweenOrders
 ) {
   switch (currentCaseId) {
     case 1:
@@ -1105,7 +1120,8 @@ function calculateAdjustedEffluentFlowRate(
           currentFiltrationFraction,
           startingWeight,
           ionizedCalcium,
-          order
+          order,
+          timeBetweenOrders
         )
       );
       return calculateAdjustedEffluentFlowRateCase1(
@@ -1113,7 +1129,8 @@ function calculateAdjustedEffluentFlowRate(
         currentFiltrationFraction,
         startingWeight,
         ionizedCalcium,
-        order
+        order,
+        timeBetweenOrders
       );
     // break;
     case 2:
@@ -1124,7 +1141,8 @@ function calculateAdjustedEffluentFlowRate(
         startingWeight,
         ionizedCalcium,
         didClot,
-        order
+        order,
+        timeBetweenOrders
       );
     // break;
     default:
@@ -1137,7 +1155,8 @@ function calculateAdjustedEffluentFlowRateCase1(
   currentFiltrationFraction,
   startingWeight,
   ionizedCalcium,
-  order
+  order,
+  timeBetweenOrders
 ) {
   var initialEFR = effluentFlowRate;
   var adjustedEFR;
@@ -1160,7 +1179,8 @@ function calculateAdjustedEffluentFlowRateCase1(
     var initialCitrateResults = runCitrateCalculations(
       startingWeight,
       effluentFlowRate,
-      ionizedCalcium
+      ionizedCalcium,
+      timeBetweenOrders
     );
     var initialPostFilterIonizedCalcium =
       initialCitrateResults["calciumFinalPostFilter"];
@@ -1182,7 +1202,8 @@ function calculateAdjustedEffluentFlowRateCase2(
   startingWeight,
   ionizedCalcium,
   didClot,
-  order
+  order,
+  timeBetweenOrders
 ) {
   var initialEFR = effluentFlowRate;
   var adjustedEFR;
@@ -1237,7 +1258,8 @@ function runCitrateCalculations(
   order,
   startingWeight,
   effluentFlowRate,
-  ionizedCalciumInitial
+  ionizedCalciumInitial,
+  timeBetweenOrders
 ) {
   var results = {};
 
@@ -1247,8 +1269,8 @@ function runCitrateCalculations(
   var citrateBloodConcentrationConstant = 112.9;
   var citrateBloodConcentration =
     (citrateFlowRateInLPerHr * citrateBloodConcentrationConstant) /
-    ((_currentOrders["BFR"] * 60) / 1000 + citrateFlowRateInLPerHr);
-  var dialysateCalcium = _currentOrders["fluidDialysateValues"]["calcium"];
+    ((order["BFR"] * 60) / 1000 + citrateFlowRateInLPerHr);
+  var dialysateCalcium = order["fluidDialysateValues"]["calcium"];
   // var previousIonizedCalcium =
   //   _historicalLabs["ionizedCalcium"][
   //     _historicalLabs["ionizedCalcium"].length - 1
@@ -1270,14 +1292,14 @@ function runCitrateCalculations(
   var caFinalPostFilter =
     caFinalPreFilter *
     (1 -
-      (effluentFlowRate / ((_currentOrders.BFR * 60) / 1000)) *
+      (effluentFlowRate / ((order.BFR * 60) / 1000)) *
         ((caFinalPreFilter - dialysateCalcium / 2) / caFinalPreFilter));
   var citratFinalPostFilter =
     citratFinalPreFilter *
-    (1 - effluentFlowRate / ((_currentOrders.BFR * 60) / 1000));
+    (1 - effluentFlowRate / ((order.BFR * 60) / 1000));
   var caCitFinalPostFilter =
     caCitFinalPreFilter *
-    (1 - effluentFlowRate / ((_currentOrders.BFR * 60) / 1000));
+    (1 - effluentFlowRate / ((order.BFR * 60) / 1000));
   var citrateMetabolismFactor = getCitrateMetabolismFactor();
 
   var calciumClInMmolPerL = 54;
@@ -1285,16 +1307,16 @@ function runCitrateCalculations(
   var calciumClFlowRateInMlPerHr = order.caClInfusionRate;
   var calciumClFlowRateInLPerHr = calciumClFlowRateInMlPerHr / 1000;
   var ionizedCalciumTotal =
-    (caFinalPostFilter * ((_currentOrders.BFR * 60) / 1000) +
+    (caFinalPostFilter * ((order.BFR * 60) / 1000) +
       calciumClInMmolPerL * calciumClFlowRateInLPerHr) /
-      ((_currentOrders.BFR * 60) / 1000 + calciumClFlowRateInLPerHr) +
+      ((order.BFR * 60) / 1000 + calciumClFlowRateInLPerHr) +
     (caCitFinalPostFilter / 2) * citrateMetabolismFactor;
 
   var ionizedCalciumFinal = calculateLab(
     ionizedCalciumInitial,
     ionizedCalciumTotal,
     effluentFlowRate,
-    _currentOrders["timeToNextLabs"],
+    timeBetweenOrders,
     startingWeight,
     startingWeight * 0.6,
     0
@@ -1308,15 +1330,15 @@ function runCitrateCalculations(
     bicarbonateWithCitrateInitial,
     bicarbonateWithCitrateDialysate,
     effluentFlowRate,
-    _currentOrders["timeToNextLabs"],
+    timeBetweenOrders,
     startingWeight,
     startingWeight * 0.6,
     -10
   );
   var calciumTotal =
-    ((caFinalPostFilter * ((_currentOrders.BFR * 60) / 1000) +
+    ((caFinalPostFilter * ((order.BFR * 60) / 1000) +
       calciumClInMmolPerL * calciumClFlowRateInLPerHr) /
-      ((_currentOrders.BFR * 60) / 1000 + calciumClFlowRateInLPerHr)) *
+      ((order.BFR * 60) / 1000 + calciumClFlowRateInLPerHr)) *
       8 +
     caCitFinalPostFilter * 4;
 
