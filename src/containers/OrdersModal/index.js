@@ -10,6 +10,7 @@ import {
   recordHourlyTimestamp,
   setCurrentPoints
 } from "../../Actions/ordersActions";
+import { setSelectedModal } from "../../Actions/selection-actions";
 import {
   calculateLabData,
   setInputOutputData
@@ -540,6 +541,7 @@ export class OrdersModal extends Component {
     event.preventDefault();
     const newOrder = this.compileOrder();
     this.props.submitOrder(newOrder);
+    this.props.setSelectedModal("")
     // this.props.closeOrdersModal()
   };
 
@@ -929,6 +931,7 @@ export const mapDispatchToProps = dispatch => ({
   addResultsMessagesToOrder: (resultsMessages, id) =>
     dispatch(addResultsMessagesToOrder(resultsMessages, id)),
   setCurrentPoints: newPoints => dispatch(setCurrentPoints(newPoints)),
+  setSelectedModal: modal => dispatch(setSelectedModal(modal)),
   recordHourlyTimestamp: timeStamps =>
     dispatch(recordHourlyTimestamp(timeStamps))
 });

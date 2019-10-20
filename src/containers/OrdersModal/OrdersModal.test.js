@@ -23,6 +23,7 @@ describe("OrdersModal", () => {
         orders={mockOrders}
         submitOrder={jest.fn()}
         validateTimeBetweenOrders={jest.fn()}
+        setSelectedModal={jest.fn()}
         hasErrored={false}
         isLoading={false}
         time={{
