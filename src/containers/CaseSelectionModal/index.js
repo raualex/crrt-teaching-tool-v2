@@ -3,6 +3,7 @@ import "./CaseSelectionModal.css";
 import { connect } from "react-redux";
 import { selectActiveCase } from "../../Actions/case-actions";
 import { setSelectedModal } from "../../Actions/selection-actions";
+import { setCaseOver } from "../../Actions/index.js";
 import {
   calculateLabData,
   setInputOutputData
@@ -46,9 +47,11 @@ export class CaseSelectionModal extends Component {
       addVitals,
       setCurrentPoints,
       setNewOrdersActiveStatus,
-      addResultsMessagesToOrder
+      addResultsMessagesToOrder,
+      setCaseOver
     } = this.props;
     
+    setCaseOver(false)
     addResultsMessagesToOrder([], undefined)
     setCurrentPoints({});
     setSelectedModal("");
@@ -189,7 +192,8 @@ export const mapDispatchToProps = dispatch => ({
   setNewOrdersActiveStatus: (modal, bool) =>
     dispatch(setNewOrdersActiveStatus(modal, bool)),
   addResultsMessagesToOrder: (resultsMessages, id) =>
-    dispatch(addResultsMessagesToOrder(resultsMessages, id))
+    dispatch(addResultsMessagesToOrder(resultsMessages, id)),
+  setCaseOver: bool => dispatch(setCaseOver(bool))
 });
 
 export default connect(

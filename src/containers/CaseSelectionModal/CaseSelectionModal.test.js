@@ -24,6 +24,7 @@ describe("CaseSelectionModal", () => {
       setNewOrdersActiveStatus={jest.fn()}
       setNewOrdersActiveStatus={jest.fn()}
       submitOrder={jest.fn()}
+      setCaseOver={jest.fn()}
     />);
   });
 
