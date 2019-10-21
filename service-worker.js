@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/crrt-teaching-tool-v2/precache-manifest.1eb8d72ede43d8bb5a05cc01350a1f3e.js"
+  "/crrt-teaching-tool-v2/precache-manifest.f5c54449400d455a4454c03bc05e4c36.js"
 );
 
 self.addEventListener('message', (event) => {
