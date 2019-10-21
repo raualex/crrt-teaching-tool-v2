@@ -9,6 +9,30 @@
   padding: 10% 10% 10% 10%;
 }
 
+.csm-back-btn {
+  background-color: #c8e9ff;
+  border: solid 1px #3b8ed6;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 3px 3px #d0d6d3;
+  color: #3b8ed6;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin: 0 0 2rem;
+  padding: 8px;
+}
+
+.csm-back-btn:hover {
+  background-color: #5ea0f8;
+  color: #fff;
+}
+
+.csm-back-btn:active {
+  background-color: #fff;
+  border: solid 1px #5ea0f8;
+  color: #5ea0f8;
+}
+
 .csm-title-container {
   background-color: #c8e9ff;
   border: solid 1px #3b8ed6;

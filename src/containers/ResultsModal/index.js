@@ -205,7 +205,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Dose
             <a
-              href="/textbook#dosing"
+              href="https://raualex.github.io/textbook#dosing"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -229,7 +229,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Filter Life
             <a
-              href="/textbook#non-pharmacologic-approach-to-clotting"
+              href="https://raualex.github.io/textbook#non-pharmacologic-approach-to-clotting"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -259,7 +259,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Electrolytes
             <a
-              href="/textbook#electrolytes"
+              href="https://raualex.github.io/textbook#electrolytes"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -297,7 +297,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Acid/Base
             <a
-              href="/textbook#acid-base"
+              href="https://raualex.github.io/textbook#acid-base"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
