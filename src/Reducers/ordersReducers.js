@@ -105,7 +105,8 @@ export const addResultsMessagesToOrderReducer = (
           messages
         }
       ];
-
+    case "RESET_RESULTS_MESSAGES_TO_ORDER":
+      return [state[0]]
     default:
       return state;
   }

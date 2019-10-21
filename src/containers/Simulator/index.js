@@ -127,7 +127,8 @@ export class Simulator extends Component {
       setInputOutputData,
       recordHourlyTimestamp,
       setTime,
-      setTimeBetweenOrders
+      setTimeBetweenOrders,
+      addResultsMessagesToOrder
     } = this.props;
     console.log("LABS: ", labsResetValues[selectedCase.id]);
     console.log("I/O: ", inputOutputResetValues[selectedCase.id]);
@@ -137,6 +138,7 @@ export class Simulator extends Component {
     setTime(timeResetValues);
     setTimeBetweenOrders(0);
     submitOrder("reset");
+    addResultsMessagesToOrder([], undefined)
   };
 
   toggleOrdersModal = event => {

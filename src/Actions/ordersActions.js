@@ -19,11 +19,22 @@ export const validateTimeBetweenOrders = isValid => ({
   timeBetweenOrdersIsValid: isValid
 });
 
-export const addResultsMessagesToOrder = (messages, currentOrder) => ({
-  type: "ADD_RESULTS_MESSAGES_TO_ORDER",
-  messages,
-  currentOrder
-});
+export const addResultsMessagesToOrder = (messages, currentOrder) => {
+
+  if (currentOrder) {
+    return {
+      type: "ADD_RESULTS_MESSAGES_TO_ORDER",
+      messages,
+      currentOrder
+    }
+  } else {
+    return {
+      type: "RESET_RESULTS_MESSAGES_TO_ORDER",
+      messages,
+      currentOrder
+    }
+  }
+};
 
 export const recordHourlyTimestamp = timeStamps => ({
   type: "RECORD_HOURLY_TIMESTAMP",
