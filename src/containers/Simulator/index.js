@@ -18,7 +18,7 @@ import {
 } from "../../Actions/ordersActions";
 import { addMedications } from "../../Actions/medication-actions.js";
 import { addVitals } from "../../Actions/vitals-actions.js";
-import { getVitals, getMedications } from "../../utils/equationsMaster.js";
+import { getVitals, getMedications, returnHistoricalWeight } from "../../utils/equationsMaster.js";
 import DataOutputModal from "../DataOutputModal";
 import OrdersModal from "../OrdersModal";
 import OrderResultsContainer from "../../components/OrderResultsContainer";
@@ -81,9 +81,24 @@ export class Simulator extends Component {
   }
 
   checkForCaseOver = () => {
-    let { hourlyTimestamps, setCaseOver, location, history } = this.props;
+    let { 
+      labData,
+      hourlyTimestamps, 
+      setCaseOver, 
+      location, 
+      history 
+    } = this.props;
+    let currentWeightArr = returnHistoricalWeight()
 
-    if (hourlyTimestamps.length >= 92) {
+    if (labData.ph[labData.ph.length - 1] < 7.0) {
+      setCaseOver(true);
+      location.pathname = "/results";
+      history.push("/results");
+    } else if (hourlyTimestamps.length === 74 && currentWeightArr[currentWeightArr.length - 1] > 100) {
+      setCaseOver(true);
+      location.pathname = "/results";
+      history.push("/results");
+    } else if (hourlyTimestamps.length >= 92) {
       setCaseOver(true);
       location.pathname = "/results";
       history.push("/results");
@@ -498,7 +513,8 @@ export const mapStateToProps = ({
   resultsMessages,
   hourlyTimestamps,
   caseOver,
-  newOrdersUnviewed
+  newOrdersUnviewed,
+  labData
 }) => ({
   selectedModal,
   selectedCase,
@@ -506,7 +522,8 @@ export const mapStateToProps = ({
   resultsMessages,
   hourlyTimestamps,
   caseOver,
-  newOrdersUnviewed
+  newOrdersUnviewed,
+  labData
 });
 
 export const mapDispatchToProps = dispatch => ({

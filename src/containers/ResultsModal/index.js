@@ -16,10 +16,14 @@ const uuidv4 = require("uuid/v4");
 
 export class ResultsModal extends Component {
   printFailureMessage = () => {
-    // let { selectedCase } = this.props;
-    // let currentWeight = vitalsInitial[selectedCase.id].weight[vitalsInitial[selectedCase.id].weight.length - 1];
-    // let currentPH = labData.ph[labData.ph.length - 1];
-    // let resultsOverview;
+    let { labData } =  this.props;
+    let currentPH = labData.ph[labData.ph.length - 1];
+    
+    if (currentPH < 7.0) {
+      return finalResultsMessages.failureMsgPh
+    } else {
+      return finalResultsMessages.failureMsgWeight
+    }
   };
 
   printVolumePercentages = overloadHours => {
@@ -196,7 +200,7 @@ export class ResultsModal extends Component {
           <p className="rm-body-msg">
             {hourlyTimestamps.length >= 90
               ? finalResultsMessages.successMsg
-              : "Failure Message"}
+              : this.printFailureMessage()}
           </p>
           <h3 className="rm-body-section-title">
             Dose
@@ -240,7 +244,7 @@ export class ResultsModal extends Component {
           <p className="rm-body-msg">
             You used {returnNumFiltersUsed()} over the course of the simulation.
             The average filter life was{" "}
-            {(hourlyTimestamps.length - 2) / returnNumFiltersUsed()} hours
+            {((hourlyTimestamps.length - 2) / returnNumFiltersUsed()).toFixed(2)} hours
           </p>
           <p className="rm-body-msg">
             Your average filtration fraction was{" "}
