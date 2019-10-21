@@ -92,16 +92,16 @@ export class Simulator extends Component {
 
     if (labData.ph[labData.ph.length - 1] < 7.0) {
       setCaseOver(true);
-      location.pathname = "/results";
-      history.push("/results");
+      location.pathname = "/crrt-teaching-tool-v2/results";
+      history.push("/crrt-teaching-tool-v2/results");
     } else if (hourlyTimestamps.length === 74 && currentWeightArr[currentWeightArr.length - 1] > 100) {
       setCaseOver(true);
-      location.pathname = "/results";
-      history.push("/results");
+      location.pathname = "/crrt-teaching-tool-v2/results";
+      history.push("/crrt-teaching-tool-v2/results");
     } else if (hourlyTimestamps.length >= 92) {
       setCaseOver(true);
-      location.pathname = "/results";
-      history.push("/results");
+      location.pathname = "/crrt-teaching-tool-v2/results";
+      history.push("/crrt-teaching-tool-v2/results");
     } else {
       return;
     }
@@ -200,8 +200,8 @@ export class Simulator extends Component {
     let timeForTitle;
 
     if (!selectedCase.id) {
-      location.pathname = "/select_a_case";
-      history.push("/select_a_case");
+      location.pathname = "/crrt-teaching-tool-v2/select_a_case";
+      history.push("/crrt-teaching-tool-v2/select_a_case");
     }
 
     if (hourlyTimestamps.length === 2) {
@@ -211,8 +211,8 @@ export class Simulator extends Component {
     }
 
     if (caseOver === true) {
-      location.pathname = "/results";
-      history.push("/results");
+      location.pathname = "/crrt-teaching-tool-v2/results";
+      history.push("/crrt-teaching-tool-v2/results");
     }
 
     if (selectedModal === "") {

@@ -114,8 +114,8 @@ export class CaseSelectionModal extends Component {
       return acc;
     }, {});
     selectActiveCase(selectedCase);
-    location.pathname = "/simulator";
-    history.push("/simulator");
+    location.pathname = "/crrt-teaching-tool-v2/simulator";
+    history.push("/crrt-teaching-tool-v2/simulator");
   };
 
   printLoadingMessage = () => {
