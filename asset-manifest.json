@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/crrt-teaching-tool-v2/static/css/main.863cbb81.chunk.css",
-    "main.js": "/crrt-teaching-tool-v2/static/js/main.738a03d1.chunk.js",
-    "main.js.map": "/crrt-teaching-tool-v2/static/js/main.738a03d1.chunk.js.map",
+    "main.js": "/crrt-teaching-tool-v2/static/js/main.63001a48.chunk.js",
+    "main.js.map": "/crrt-teaching-tool-v2/static/js/main.63001a48.chunk.js.map",
     "runtime~main.js": "/crrt-teaching-tool-v2/static/js/runtime~main.f3c9453c.js",
     "runtime~main.js.map": "/crrt-teaching-tool-v2/static/js/runtime~main.f3c9453c.js.map",
     "static/js/2.777cfda1.chunk.js": "/crrt-teaching-tool-v2/static/js/2.777cfda1.chunk.js",
     "static/js/2.777cfda1.chunk.js.map": "/crrt-teaching-tool-v2/static/js/2.777cfda1.chunk.js.map",
     "index.html": "/crrt-teaching-tool-v2/index.html",
-    "precache-manifest.57fd0a79fe8e2e0ca73113f387770ae9.js": "/crrt-teaching-tool-v2/precache-manifest.57fd0a79fe8e2e0ca73113f387770ae9.js",
+    "precache-manifest.1eb8d72ede43d8bb5a05cc01350a1f3e.js": "/crrt-teaching-tool-v2/precache-manifest.1eb8d72ede43d8bb5a05cc01350a1f3e.js",
     "service-worker.js": "/crrt-teaching-tool-v2/service-worker.js",
     "static/css/main.863cbb81.chunk.css.map": "/crrt-teaching-tool-v2/static/css/main.863cbb81.chunk.css.map"
   }

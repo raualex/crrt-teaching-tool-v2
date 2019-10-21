@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "caca7db7e743bfc57198eaf65df7fdc5",
+    "revision": "5d95c5580b4c87b5b12173efc8e1b391",
     "url": "/crrt-teaching-tool-v2/index.html"
   },
   {
-    "revision": "d69f5f34ecd5a32f696a",
+    "revision": "5a6594fa86a5b56c96e8",
     "url": "/crrt-teaching-tool-v2/static/css/main.863cbb81.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/crrt-teaching-tool-v2/static/js/2.777cfda1.chunk.js"
   },
   {
-    "revision": "d69f5f34ecd5a32f696a",
-    "url": "/crrt-teaching-tool-v2/static/js/main.738a03d1.chunk.js"
+    "revision": "5a6594fa86a5b56c96e8",
+    "url": "/crrt-teaching-tool-v2/static/js/main.63001a48.chunk.js"
   },
   {
     "revision": "b8fbdf112bf6d91da756",
