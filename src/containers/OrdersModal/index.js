@@ -729,7 +729,7 @@ export class OrdersModal extends Component {
             <div className="header-info-container">
               <h3 className="orders-modal-section-header">Modality</h3>
               <a
-                href="/crrt-teaching-tool-v2/textbook#modality"
+                href="/textbook#modality"
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -753,7 +753,7 @@ export class OrdersModal extends Component {
                 {modality === "CVVHD" ? "Dialysate Fluid" : "Replacement Fluid"}
               </h3>
               <a
-                href="/crrt-teaching-tool-v2/textbook#replacement-fluid"
+                href="/textbook#replacement-fluid"
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -786,7 +786,7 @@ export class OrdersModal extends Component {
                 />
                 Saline 3%
                 <a
-                  href="/crrt-teaching-tool-v2/textbook#hypertonic-saline"
+                  href="/textbook#hypertonic-saline"
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -807,7 +807,7 @@ export class OrdersModal extends Component {
                 />
                 D5W
                 <a
-                  href="/crrt-teaching-tool-v2/textbook#D5W"
+                  href="/textbook#D5W"
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"

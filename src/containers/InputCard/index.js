@@ -37,7 +37,7 @@ class InputCard extends Component {
                 {this.getInputHeader()}
               </h4>
               <a
-                href={`/crrt-teaching-tool-v2/textbook#${dosage}`}
+                href={`/textbook#${dosage}`}
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -84,7 +84,7 @@ class InputCard extends Component {
 
               {dosage === "Citrate" && (
                 <a
-                  href={`/crrt-teaching-tool-v2/textbook#${dosage}`}
+                  href={`/textbook#${dosage}`}
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"

@@ -49,8 +49,8 @@ export class ResultsModal extends Component {
       let finalWeight = weightArr[weightArr.length - 1];
       return Math.round(Math.abs(initialWeight - finalWeight) * 100) / 100;
     } else {
-      location.pathname = "/crrt-teaching-tool-v2/simulator";
-      history.push("/crrt-teaching-tool-v2/simulator");
+      location.pathname = "/simulator";
+      history.push("/simulator");
       return;
     }
   };
@@ -175,8 +175,8 @@ export class ResultsModal extends Component {
 
   goBackToSimulator = () => {
     const { location, history } = this.props;
-    location.pathname = "/crrt-teaching-tool-v2/select_a_case";
-    history.push("/crrt-teaching-tool-v2/select_a_case");
+    location.pathname = "/select_a_case";
+    history.push("/select_a_case");
   };
 
   render() {
@@ -205,7 +205,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Dose
             <a
-              href="/crrt-teaching-tool-v2/textbook#dosing"
+              href="/textbook#dosing"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -229,7 +229,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Filter Life
             <a
-              href="/crrt-teaching-tool-v2/textbook#non-pharmacologic-approach-to-clotting"
+              href="/textbook#non-pharmacologic-approach-to-clotting"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -259,7 +259,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Electrolytes
             <a
-              href="/crrt-teaching-tool-v2/textbook#electrolytes"
+              href="/textbook#electrolytes"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -297,7 +297,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Acid/Base
             <a
-              href="/crrt-teaching-tool-v2/textbook#acid-base"
+              href="/textbook#acid-base"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
