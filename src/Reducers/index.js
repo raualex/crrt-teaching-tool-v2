@@ -1,5 +1,9 @@
 import { combineReducers } from "redux";
-import { isLoadingReducer, hasErroredReducer, setCaseOverReducer } from "./general-reducers";
+import {
+  isLoadingReducer,
+  hasErroredReducer,
+  setCaseOverReducer
+} from "./general-reducers";
 import { selectedModalReducer } from "./selection-reducers";
 import {
   ordersReducer,
@@ -8,10 +12,14 @@ import {
   validateTimeBetweenOrdersReducer,
   addResultsMessagesToOrderReducer,
   recordHourlyTimestampReducer,
-  setCurrentPointsReducer
+  setCurrentPointsReducer,
+  setNewOrdersActiveStatusReducer
 } from "./ordersReducers";
 import { allCasesReducer, selectedCaseReducer } from "./case-reducers.js";
-import { calculateLabDataReducer, setInputOutputReducer } from "./calculation-reducers.js";
+import {
+  calculateLabDataReducer,
+  setInputOutputReducer
+} from "./calculation-reducers.js";
 import { medicationsReducer } from "./medications-reducer";
 import { vitalsReducer } from "./vitals-reducer";
 
@@ -26,6 +34,7 @@ const rootReducer = combineReducers({
   timeBetweenOrdersIsValid: validateTimeBetweenOrdersReducer,
   allCases: allCasesReducer,
   selectedCase: selectedCaseReducer,
+  newOrdersUnviewed: setNewOrdersActiveStatusReducer,
   labData: calculateLabDataReducer,
   inputOutputData: setInputOutputReducer,
   medications: medicationsReducer,

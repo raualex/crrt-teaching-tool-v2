@@ -10,6 +10,7 @@ import {
   recordHourlyTimestamp,
   setCurrentPoints
 } from "../../Actions/ordersActions";
+import { setSelectedModal } from "../../Actions/selection-actions";
 import {
   calculateLabData,
   setInputOutputData
@@ -98,6 +99,7 @@ export class OrdersModal extends Component {
       recordHourlyTimestamp(
         this.compileHourlyTimestamps(time, timeBetweenOrders)
       );
+
       closeOrdersModal();
     }
   }
@@ -323,11 +325,10 @@ export class OrdersModal extends Component {
 
   handleNumberChange = event => {
     const { name, value } = event.target;
-    const parsedValue = parseFloat(value.trim());
-
+    
     this.setState(
       {
-        [name]: parsedValue
+        [name]: value.trim()
       },
       () => this.checkForInvalidInputs(name)
     );
@@ -428,13 +429,12 @@ export class OrdersModal extends Component {
 
   compileOrder = () => {
     const { timeBetweenOrders } = this.props;
-    const {
+    let {
       modality,
       sodium,
       potassium,
       chloride,
       bicarbonate,
-      calcium,
       magnesium,
       phosphorous,
       grossUltraFiltration,
@@ -450,27 +450,29 @@ export class OrdersModal extends Component {
       caClInfusionRate
     } = this.state;
 
+    let calcium = this.state.calcium * 4
+
     const order = {
       id: uuidv4(),
       timeStamp: this.createTimeStamp(),
       fluidDialysateValues: {
-        sodium,
-        potassium,
-        chloride,
-        bicarbonate,
-        calcium,
-        magnesium,
-        phosphorous,
+        sodium: parseFloat(sodium),
+        potassium: parseFloat(potassium),
+        chloride: parseFloat(chloride),
+        bicarbonate: parseFloat(bicarbonate),
+        calcium: parseFloat(calcium),
+        magnesium: parseFloat(magnesium),
+        phosphorous: parseFloat(phosphorous),
         bun: 0,
         creatinine: 0
       },
       modality,
       anticoagulation,
-      BFR: bloodFlowRate,
-      Qr: replacementFluidFlowRate,
-      Qd: replacementFluidFlowRate,
-      grossUF: grossUltraFiltration,
-      timeToNextLabs: timeBetweenOrders,
+      BFR: parseFloat(bloodFlowRate),
+      Qr: parseFloat(replacementFluidFlowRate),
+      Qd: parseFloat(replacementFluidFlowRate),
+      grossUF: parseFloat(grossUltraFiltration),
+      timeToNextLabs: parseFloat(timeBetweenOrders),
       otherFluidsSaline: saline3Percent,
       otherFluidsD5W: d5W,
       otherFluidsSodiumPhosphate: sodiumPhosphate15mmol100ml,
@@ -541,6 +543,7 @@ export class OrdersModal extends Component {
     event.preventDefault();
     const newOrder = this.compileOrder();
     this.props.submitOrder(newOrder);
+    this.props.setSelectedModal("")
     // this.props.closeOrdersModal()
   };
 
@@ -579,7 +582,69 @@ export class OrdersModal extends Component {
     });
   };
 
-  fillForm = event => {
+  fillFormWithUpdatedValues = e => {
+    e.preventDefault();
+    const { orders } = this.props;
+    if (!orders.length) {
+      this.fillFormWithDefaultValues(e);
+      return;
+    } else {
+      let currentOrder = orders[orders.length - 1];
+
+      const {
+        modality,
+        grossUF,
+        BFR,
+        Qr,
+        otherFluidsSaline,
+        otherFluidsD5W,
+        otherFluidsSodiumPhosphate,
+        anticoagulation,
+        otherFluidsBolusValue,
+        otherFluidsInfusionValue,
+        citrateFlowRate,
+        caClInfusionRate
+      } = currentOrder;
+
+      let {
+        sodium,
+        potassium,
+        chloride,
+        bicarbonate,
+        magnesium,
+        phosphorous
+      } = currentOrder.fluidDialysateValues;
+
+      let calcium = currentOrder.fluidDialysateValues.calcium/4
+
+      this.setState(
+        {
+          modality,
+          sodium,
+          potassium,
+          chloride,
+          bicarbonate,
+          calcium,
+          magnesium,
+          phosphorous,
+          grossUltraFiltration: grossUF,
+          bloodFlowRate: BFR,
+          replacementFluidFlowRate: Qr,
+          saline3Percent: otherFluidsSaline,
+          d5W: otherFluidsD5W,
+          sodiumPhosphate15mmol100ml: otherFluidsSodiumPhosphate,
+          anticoagulation: anticoagulation,
+          otherFluidsBolusValue,
+          otherFluidsInfusionValue,
+          citrateFlowRate,
+          caClInfusionRate
+        },
+        () => this.validateOrder()
+      );
+    }
+  };
+
+  fillFormWithDefaultValues = event => {
     event.preventDefault();
     this.setState(
       {
@@ -634,9 +699,9 @@ export class OrdersModal extends Component {
             <div className="orders-modal-header-button-container">
               <button
                 className="prov-values-btn"
-                onClick={event => this.fillForm(event)}
+                onClick={event => this.fillFormWithUpdatedValues(event)}
               >
-                Add sample values
+                Add previous values
               </button>
               <button
                 className="orders-modal-close-btn-top"
@@ -870,6 +935,7 @@ export const mapDispatchToProps = dispatch => ({
   addResultsMessagesToOrder: (resultsMessages, id) =>
     dispatch(addResultsMessagesToOrder(resultsMessages, id)),
   setCurrentPoints: newPoints => dispatch(setCurrentPoints(newPoints)),
+  setSelectedModal: modal => dispatch(setSelectedModal(modal)),
   recordHourlyTimestamp: timeStamps =>
     dispatch(recordHourlyTimestamp(timeStamps))
 });

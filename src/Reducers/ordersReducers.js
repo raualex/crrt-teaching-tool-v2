@@ -13,6 +13,13 @@ const defaultResultsMessagesState = [
   }
 ];
 
+const defaultNewOrdersActiveState = {
+  Vitals: false,
+  Medications: false,
+  "Input/Output": false,
+  "Laboratory Data": false
+};
+
 const defaultPointsState = {
   bloodFlowRateInRange: [],
   sodiumInRange: [],
@@ -41,10 +48,10 @@ const defaultPointsState = {
 export const ordersReducer = (state = [], action) => {
   switch (action.type) {
     case "SUBMIT_ORDER":
-      if (action.order !== 'reset') {
+      if (action.order !== "reset") {
         return [...state, action.order];
       } else {
-        return []
+        return [];
       }
     default:
       return state;
@@ -98,7 +105,8 @@ export const addResultsMessagesToOrderReducer = (
           messages
         }
       ];
-
+    case "RESET_RESULTS_MESSAGES_TO_ORDER":
+      return [state[0]]
     default:
       return state;
   }
@@ -113,21 +121,31 @@ export const recordHourlyTimestampReducer = (
       if (action.timeStamps.length) {
         return [...state, ...action.timeStamps];
       } else {
-        return ["Pre-CRRT 1", "Pre-CRRT 2"]
+        return ["Pre-CRRT 1", "Pre-CRRT 2"];
       }
     default:
       return state;
   }
 };
 
-export const setCurrentPointsReducer = (
-  state = defaultPointsState, 
-  action
-) => {
+export const setCurrentPointsReducer = (state = defaultPointsState, action) => {
   switch (action.type) {
     case "SET_CURRENT_POINTS":
-      return action.points
+      return action.points;
     default:
-      return state
+      return state;
+  }
+};
+
+export const setNewOrdersActiveStatusReducer = (
+  state = defaultNewOrdersActiveState,
+  action
+) => {
+  const { modal, bool } = action;
+  switch (action.type) {
+    case "SET_NEW_ORDERS_ACTIVE_STATUS":
+      return { ...state, [modal]: bool };
+    default:
+      return state;
   }
 };

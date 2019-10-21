@@ -13,11 +13,12 @@ import {
   setTime,
   setTimeBetweenOrders,
   validateTimeBetweenOrders,
-  addResultsMessagesToOrder
+  addResultsMessagesToOrder,
+  setNewOrdersActiveStatus
 } from "../../Actions/ordersActions";
 import { addMedications } from "../../Actions/medication-actions.js";
 import { addVitals } from "../../Actions/vitals-actions.js";
-import { getVitals, getMedications } from "../../utils/equationsMaster.js";
+import { getVitals, getMedications, returnHistoricalWeight } from "../../utils/equationsMaster.js";
 import DataOutputModal from "../DataOutputModal";
 import OrdersModal from "../OrdersModal";
 import OrderResultsContainer from "../../components/OrderResultsContainer";
@@ -41,20 +42,20 @@ export class Simulator extends Component {
   }
 
   componentDidMount() {
-    const { 
-      selectedCase, 
-      calculateLabData, 
+    const {
+      selectedCase,
+      calculateLabData,
       setInputOutputData,
-      addVitals, 
+      addVitals,
       addMedications,
-      setCaseOver 
+      setCaseOver
     } = this.props;
 
     if (selectedCase.id === 1 || selectedCase.id === 2) {
       let vitals = getVitals(selectedCase.id);
       let medications = getMedications(selectedCase.id);
 
-      setCaseOver(false)
+      setCaseOver(false);
       calculateLabData(labsInitial[selectedCase.id]);
       setInputOutputData(inputOutputInitial[selectedCase.id]);
       addVitals(vitals);
@@ -65,18 +66,42 @@ export class Simulator extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { hourlyTimestamps } = this.props;
+    const { hourlyTimestamps, orders, setNewOrdersActiveStatus } = this.props;
     // Typical usage (don't forget to compare props):
     if (hourlyTimestamps.length !== prevProps.hourlyTimestamps.length) {
       this.checkForCaseOver();
     }
+
+    if (orders.length !== prevProps.orders.length) {
+      setNewOrdersActiveStatus("Vitals", true);
+      setNewOrdersActiveStatus("Medications", true);
+      setNewOrdersActiveStatus("Input/Output", true);
+      setNewOrdersActiveStatus("Laboratory Data", true);
+    }
   }
 
   checkForCaseOver = () => {
-    let { hourlyTimestamps, setCaseOver } = this.props;
+    let { 
+      labData,
+      hourlyTimestamps, 
+      setCaseOver, 
+      location, 
+      history 
+    } = this.props;
+    let currentWeightArr = returnHistoricalWeight()
 
-    if (hourlyTimestamps.length >= 92) {
+    if (labData.ph[labData.ph.length - 1] < 7.0) {
       setCaseOver(true);
+      location.pathname = "/results";
+      history.push("/results");
+    } else if (hourlyTimestamps.length === 74 && currentWeightArr[currentWeightArr.length - 1] > 100) {
+      setCaseOver(true);
+      location.pathname = "/results";
+      history.push("/results");
+    } else if (hourlyTimestamps.length >= 92) {
+      setCaseOver(true);
+      location.pathname = "/results";
+      history.push("/results");
     } else {
       return;
     }
@@ -85,6 +110,8 @@ export class Simulator extends Component {
   handleClick = event => {
     let { name } = event.target;
     const { selectedModal, setSelectedModal } = this.props;
+
+    this.deselectNewOrdersUnviewedBtn(name);
 
     if (selectedModal === "") {
       setSelectedModal(name);
@@ -98,6 +125,15 @@ export class Simulator extends Component {
     }
   };
 
+  deselectNewOrdersUnviewedBtn = modal => {
+    const { newOrdersUnviewed, setNewOrdersActiveStatus } = this.props;
+    if (newOrdersUnviewed[modal]) {
+      setNewOrdersActiveStatus(modal, false);
+    } else {
+      return;
+    }
+  };
+
   handleCaseReset = () => {
     let {
       submitOrder,
@@ -106,7 +142,8 @@ export class Simulator extends Component {
       setInputOutputData,
       recordHourlyTimestamp,
       setTime,
-      setTimeBetweenOrders
+      setTimeBetweenOrders,
+      addResultsMessagesToOrder
     } = this.props;
     console.log("LABS: ", labsResetValues[selectedCase.id]);
     console.log("I/O: ", inputOutputResetValues[selectedCase.id]);
@@ -116,6 +153,7 @@ export class Simulator extends Component {
     setTime(timeResetValues);
     setTimeBetweenOrders(0);
     submitOrder("reset");
+    addResultsMessagesToOrder([], undefined)
   };
 
   toggleOrdersModal = event => {
@@ -136,6 +174,16 @@ export class Simulator extends Component {
     });
   };
 
+  checkForCaseId = () => {
+    let { selectedCase } = this.props
+
+    if (selectedCase.id === 1 || selectedCase.id === 2) {
+      return false
+    } else {
+      return true
+    }
+  }
+
   render() {
     const {
       selectedModal,
@@ -143,7 +191,8 @@ export class Simulator extends Component {
       location,
       history,
       hourlyTimestamps,
-      caseOver
+      caseOver,
+      newOrdersUnviewed
       // resultsMessages,
       // orders
     } = this.props;
@@ -184,6 +233,7 @@ export class Simulator extends Component {
               <button
                 className="orders-btn header-btn"
                 onClick={event => this.toggleOrdersModal(event)}
+                disabled={this.checkForCaseId()}
               >
                 Orders
               </button>
@@ -221,42 +271,62 @@ export class Simulator extends Component {
                 <button
                   name="Input/Output"
                   onClick={event => this.handleClick(event)}
-                  className={
-                    btnClicked === "Input/Output"
-                      ? "btn-active"
-                      : "data-output-btn"
-                  }
+                  className={`
+                    ${
+                      btnClicked === "Input/Output"
+                        ? "btn-active"
+                        : "data-output-btn"
+                    } ${
+                    newOrdersUnviewed["Input/Output"] === true
+                      ? "new-orders-btn-active"
+                      : ""
+                  }`}
                 >
                   Input/Output
                 </button>
                 <button
                   name="Vitals"
                   onClick={event => this.handleClick(event)}
-                  className={
-                    btnClicked === "Vitals" ? "btn-active" : "data-output-btn"
-                  }
+                  className={`
+                    ${
+                      btnClicked === "Vitals" ? "btn-active" : "data-output-btn"
+                    } ${
+                    newOrdersUnviewed.Vitals === true
+                      ? "new-orders-btn-active"
+                      : ""
+                  }`}
                 >
                   Vitals
                 </button>
                 <button
                   name="Laboratory Data"
                   onClick={event => this.handleClick(event)}
-                  className={
-                    btnClicked === "Laboratory Data"
-                      ? "btn-active"
-                      : "data-output-btn"
-                  }
+                  className={`
+                    ${
+                      btnClicked === "Laboratory Data"
+                        ? "btn-active"
+                        : "data-output-btn"
+                    } ${
+                    newOrdersUnviewed["Laboratory Data"] === true
+                      ? "new-orders-btn-active"
+                      : ""
+                  }`}
                 >
                   Laboratory Data
                 </button>
                 <button
                   name="Medications"
                   onClick={event => this.handleClick(event)}
-                  className={
-                    btnClicked === "Medications"
-                      ? "btn-active"
-                      : "data-output-btn"
-                  }
+                  className={`
+                    ${
+                      btnClicked === "Medications"
+                        ? "btn-active"
+                        : "data-output-btn"
+                    } ${
+                    newOrdersUnviewed.Medications === true
+                      ? "new-orders-btn-active"
+                      : ""
+                  }`}
                 >
                   Medications
                 </button>
@@ -306,6 +376,7 @@ export class Simulator extends Component {
               <button
                 className="orders-btn header-btn"
                 onClick={event => this.toggleOrdersModal(event)}
+                disabled={this.checkForCaseId()}
               >
                 Orders
               </button>
@@ -344,42 +415,62 @@ export class Simulator extends Component {
                 <button
                   name="Input/Output"
                   onClick={event => this.handleClick(event)}
-                  className={
-                    btnClicked === "Input/Output"
-                      ? "btn-active"
-                      : "data-output-btn"
-                  }
+                  className={`
+                    ${
+                      btnClicked === "Input/Output"
+                        ? "btn-active"
+                        : "data-output-btn"
+                    } ${
+                    newOrdersUnviewed["Input/Output"] === true
+                      ? "new-orders-btn-active"
+                      : ""
+                  }`}
                 >
                   Input/Output
                 </button>
                 <button
                   name="Vitals"
                   onClick={event => this.handleClick(event)}
-                  className={
-                    btnClicked === "Vitals" ? "btn-active" : "data-output-btn"
-                  }
+                  className={`
+                    ${
+                      btnClicked === "Vitals" ? "btn-active" : "data-output-btn"
+                    } ${
+                    newOrdersUnviewed.Vitals === true
+                      ? "new-orders-btn-active"
+                      : ""
+                  }`}
                 >
                   Vitals
                 </button>
                 <button
                   name="Laboratory Data"
                   onClick={event => this.handleClick(event)}
-                  className={
-                    btnClicked === "Laboratory Data"
-                      ? "btn-active"
-                      : "data-output-btn"
-                  }
+                  className={`
+                    ${
+                      btnClicked === "Laboratory Data"
+                        ? "btn-active"
+                        : "data-output-btn"
+                    } ${
+                    newOrdersUnviewed["Laboratory Data"] === true
+                      ? "new-orders-btn-active"
+                      : ""
+                  }`}
                 >
                   Laboratory Data
                 </button>
                 <button
                   name="Medications"
                   onClick={event => this.handleClick(event)}
-                  className={
+                  className={`
+                  ${
                     btnClicked === "Medications"
                       ? "btn-active"
                       : "data-output-btn"
-                  }
+                  } ${
+                    newOrdersUnviewed.Medications === true
+                      ? "new-orders-btn-active"
+                      : ""
+                  }`}
                 >
                   Medications
                 </button>
@@ -421,14 +512,18 @@ export const mapStateToProps = ({
   orders,
   resultsMessages,
   hourlyTimestamps,
-  caseOver
+  caseOver,
+  newOrdersUnviewed,
+  labData
 }) => ({
   selectedModal,
   selectedCase,
   orders,
   resultsMessages,
   hourlyTimestamps,
-  caseOver
+  caseOver,
+  newOrdersUnviewed,
+  labData
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -441,15 +536,16 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(validateTimeBetweenOrders(isValid)),
   addResultsMessagesToOrder: (resultsMessages, id) =>
     dispatch(addResultsMessagesToOrder(resultsMessages, id)),
-  addMedications: medications =>
-    dispatch(addMedications(medications)),
+  addMedications: medications => dispatch(addMedications(medications)),
   addVitals: vitals => dispatch(addVitals(vitals)),
   recordHourlyTimestamp: timeStamps =>
     dispatch(recordHourlyTimestamp(timeStamps)),
   setSelectedModal: modal => dispatch(setSelectedModal(modal)),
   calculateLabData: newLabData => dispatch(calculateLabData(newLabData)),
   setInputOutputData: newInputOutput =>
-    dispatch(setInputOutputData(newInputOutput))
+    dispatch(setInputOutputData(newInputOutput)),
+  setNewOrdersActiveStatus: (modal, bool) =>
+    dispatch(setNewOrdersActiveStatus(modal, bool))
 });
 
 export default connect(

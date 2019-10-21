@@ -3,11 +3,9 @@ import "./DataOutputModal.css";
 import DataOutputTable from "../DataOutputTable";
 import { connect } from "react-redux";
 import { setSelectedModal } from "../../Actions/selection-actions";
+import wrench from "../../utils/settings.png";
 
 export class DataOutputModal extends Component {
-  // constructor(props) {
-  //   super(props)
-  // }
 
   handleClick = () => {
     let { selectedModal, handleClick } = this.props;
@@ -17,29 +15,58 @@ export class DataOutputModal extends Component {
   };
 
   render() {
-    let { selectedModal } = this.props;
+    let { selectedModal, selectedCase } = this.props;
 
-    return (
-      <div className="data-output-modal">
-        <div className="dataom-title-container">
-          <h1 className="dataom-modal-title">{selectedModal}</h1>
-          <button
-            className="dataom-x-button"
-            onClick={() => this.handleClick()}
-          >
-            X
-          </button>
+    if (selectedCase.id === 1 || selectedCase.id === 2) {
+      return (
+        <div className="data-output-modal">
+          <div className="dataom-title-container">
+            <h1 className="dataom-modal-title">{selectedModal}</h1>
+            <button
+              className="dataom-x-button"
+              onClick={() => this.handleClick()}
+            >
+              X
+            </button>
+          </div>
+          <div className="dataom-table-container">
+            <DataOutputTable />
+          </div>
         </div>
-        <div className="dataom-table-container">
-          <DataOutputTable />
+      );
+    } else {
+      return (
+        <div className="data-output-modal">
+          <div className="dataom-title-container">
+            <h1 className="dataom-modal-title">{selectedModal}</h1>
+            <button
+              className="dataom-x-button"
+              onClick={() => this.handleClick()}
+            >
+              X
+            </button>
+          </div>
+          <div className="dataom-table-container">
+          <div className="dataom-under-construction-container">
+            <img 
+              src={wrench} 
+              alt="Under Construction Icon" 
+              className="dataom-under-construction-icon"
+            />
+            <h1 
+              className="dataom-under-construction-msg"
+            >This Case Simulation is under contsruction</h1>
+          </div>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 
 export const mapStateToProps = state => ({
-  selectedModal: state.selectedModal
+  selectedModal: state.selectedModal,
+  selectedCase: state.selectedCase
 });
 
 export const mapDispatchToProps = dispatch => ({

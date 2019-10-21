@@ -64,6 +64,12 @@
   /* width: 160px; */
 }
 
+.new-orders-btn-active {
+  background-color: #c8e9ff;
+  border: solid 1px #3b8ed6;
+  color: #3b8ed6;
+}
+
 .btn-active {
   border-bottom: solid 2px #000;
   border-left: solid 2px #000;
@@ -74,7 +80,6 @@
 }
 
 .data-output-btn {
-  background-color: #fff;
   border-left: solid 1px #000;
   border-right: solid 1px #000;
   color: #000;
@@ -143,6 +148,13 @@
   background-color: #fff;
   border: solid 2px #3b8ed6;
   color: #3b8ed6;
+}
+
+.orders-btn:disabled {
+  background-color: #e5e5e5;
+  border: solid 2px #e5e5e5;
+  color: #fff;
+  cursor: not-allowed;
 }
 
 .crrt-display-btn,

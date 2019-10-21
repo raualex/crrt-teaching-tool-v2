@@ -2,6 +2,26 @@ import React, { Component } from "react";
 import "./CaseSelectionModal.css";
 import { connect } from "react-redux";
 import { selectActiveCase } from "../../Actions/case-actions";
+import { setSelectedModal } from "../../Actions/selection-actions";
+import { setCaseOver } from "../../Actions/index.js";
+import {
+  calculateLabData,
+  setInputOutputData
+} from "../../Actions/calculationActions";
+import {
+  recordHourlyTimestamp,
+  submitOrder,
+  setTime,
+  setTimeBetweenOrders,
+  setCurrentPoints,
+  setNewOrdersActiveStatus,
+  addResultsMessagesToOrder
+} from "../../Actions/ordersActions";
+import {
+  timeResetValues
+} from "../../utils/resetValues.js";
+import { addMedications } from "../../Actions/medication-actions.js";
+import { addVitals } from "../../Actions/vitals-actions.js";
 
 export class CaseSelectionModal extends Component {
   constructor(props) {
@@ -11,6 +31,43 @@ export class CaseSelectionModal extends Component {
       caseNumber: undefined,
       error: ""
     };
+  }
+
+  componentDidMount = () => {
+    let {
+      submitOrder,
+      calculateLabData,
+      setInputOutputData,
+      recordHourlyTimestamp,
+      setTime,
+      setTimeBetweenOrders,
+      selectActiveCase,
+      setSelectedModal,
+      addMedications,
+      addVitals,
+      setCurrentPoints,
+      setNewOrdersActiveStatus,
+      addResultsMessagesToOrder,
+      setCaseOver
+    } = this.props;
+    
+    setCaseOver(false)
+    addResultsMessagesToOrder([], undefined)
+    setCurrentPoints({});
+    setSelectedModal("");
+    selectActiveCase({});
+    calculateLabData({});
+    setInputOutputData({});
+    addMedications({});
+    addVitals({});
+    recordHourlyTimestamp([]);
+    setTime(timeResetValues);
+    setTimeBetweenOrders(0);
+    setNewOrdersActiveStatus("Vitals", false)
+    setNewOrdersActiveStatus("Medications", false)
+    setNewOrdersActiveStatus("Input/Output", false)
+    setNewOrdersActiveStatus("Laboratory Data", false)
+    submitOrder("reset");
   }
 
   validateCaseNumEntry = () => {
@@ -118,7 +175,25 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  selectActiveCase: selectedCase => dispatch(selectActiveCase(selectedCase))
+  selectActiveCase: selectedCase => dispatch(selectActiveCase(selectedCase)),
+  setSelectedModal: modal => dispatch(setSelectedModal(modal)),
+  submitOrder: order => dispatch(submitOrder(order)),
+  calculateLabData: newLabData => dispatch(calculateLabData(newLabData)),
+  setInputOutputData: newInputOutput =>
+    dispatch(setInputOutputData(newInputOutput)),
+  addMedications: medications => dispatch(addMedications(medications)),
+  addVitals: vitals => dispatch(addVitals(vitals)),
+  setTime: newTime => dispatch(setTime(newTime)),
+  setTimeBetweenOrders: TimeBetweenOrders =>
+      dispatch(setTimeBetweenOrders(TimeBetweenOrders)),
+  recordHourlyTimestamp: timeStamps =>
+      dispatch(recordHourlyTimestamp(timeStamps)),
+  setCurrentPoints: newPoints => dispatch(setCurrentPoints(newPoints)),
+  setNewOrdersActiveStatus: (modal, bool) =>
+    dispatch(setNewOrdersActiveStatus(modal, bool)),
+  addResultsMessagesToOrder: (resultsMessages, id) =>
+    dispatch(addResultsMessagesToOrder(resultsMessages, id)),
+  setCaseOver: bool => dispatch(setCaseOver(bool))
 });
 
 export default connect(

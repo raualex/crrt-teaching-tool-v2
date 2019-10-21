@@ -12,10 +12,9 @@ describe("OrdersModal", () => {
   let mockTimeBetweenOrders;
   let mocktimeBetweenOrdersIsValid;
 
-
   beforeEach(() => {
-    mockTimeBetweenOrders = true
-    mocktimeBetweenOrdersIsValid = true
+    mockTimeBetweenOrders = true;
+    mocktimeBetweenOrdersIsValid = true;
 
     wrapper = shallow(
       <OrdersModal
@@ -24,6 +23,7 @@ describe("OrdersModal", () => {
         orders={mockOrders}
         submitOrder={jest.fn()}
         validateTimeBetweenOrders={jest.fn()}
+        setSelectedModal={jest.fn()}
         hasErrored={false}
         isLoading={false}
         time={{
@@ -67,9 +67,8 @@ describe("OrdersModal", () => {
     it("should set state for properties with number types", () => {
       expect(wrapper.state().sodium).toEqual("");
       wrapper.instance().handleNumberChange(mockEvent);
-      expect(wrapper.state().sodium).toEqual(4);
+      expect(wrapper.state().sodium).toEqual("4");
     });
-
   });
 
   describe("checkForInvalidInputs()", () => {
@@ -119,7 +118,7 @@ describe("OrdersModal", () => {
     it("should fire checkIfReadyForSubmission if there are invalid entries", () => {
       wrapper.instance().clearInputs(mockEvent);
       wrapper.setState({ readyForSubmission: true });
-      wrapper.instance().checkIfReadyForSubmission = jest.fn()
+      wrapper.instance().checkIfReadyForSubmission = jest.fn();
       // wrapper.instance().checkForInvalidInputs = jest.fn(() => ["sodium"]);
       wrapper.instance().validateOrder();
       // expect(wrapper.state().dosageErrors).toEqual(["sodium"]);
@@ -127,7 +126,6 @@ describe("OrdersModal", () => {
     });
 
     it("should set state if all entries are valid", () => {
-
       wrapper.instance().clearInputs(mockEvent);
       wrapper.instance().checkForInvalidInputs = jest.fn(() => []);
       wrapper.instance().validateOrder();
@@ -234,7 +232,7 @@ describe("OrdersModal", () => {
 
     it("should call validateOrder()", () => {
       wrapper.instance().validateOrder = jest.fn();
-      wrapper.instance().fillForm(mockEvent);
+      wrapper.instance().fillFormWithDefaultValues(mockEvent);
       expect(wrapper.instance().validateOrder).toHaveBeenCalled();
     });
   });
