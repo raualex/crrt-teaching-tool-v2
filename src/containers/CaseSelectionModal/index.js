@@ -118,6 +118,13 @@ export class CaseSelectionModal extends Component {
     history.push("/simulator");
   };
 
+  handleBackClick = () => {
+    let { location, history } = this.props;
+
+    location.pathname = "/crrt-teaching-tool-v2/";
+    history.push("/crrt-teaching-tool-v2/");
+  }
+
   printLoadingMessage = () => {
     let { isLoading, allCases } = this.props;
 
@@ -139,6 +146,10 @@ export class CaseSelectionModal extends Component {
   render() {
     return (
       <div className="csm-main-container">
+        <button 
+          className="csm-back-btn"
+          onClick={this.handleBackClick}
+        >Back to Main Page</button>
         <div className="csm-title-container">
           <h1 className="csm-title">Select a Case ID for the Simulator</h1>
         </div>
