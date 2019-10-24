@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./OrdersModal.css";
 import { connect } from "react-redux";
+import { HashLink as Link } from 'react-router-hash-link';
 import {
   submitOrder,
   setTime,
@@ -728,14 +729,14 @@ export class OrdersModal extends Component {
           <section className="orders-modality-container">
             <div className="header-info-container">
               <h3 className="orders-modal-section-header">Modality</h3>
-              <a
-                href="/textbook#modality"
+              <Link
+                to="/textbook#modality"
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <i className="far fa-question-circle"></i>
-              </a>
+              </Link>
             </div>
 
             <InputContainer
@@ -752,14 +753,14 @@ export class OrdersModal extends Component {
               <h3 className="orders-modal-section-header">
                 {modality === "CVVHD" ? "Dialysate Fluid" : "Replacement Fluid"}
               </h3>
-              <a
-                href="/textbook#replacement-fluid"
+              <Link
+                to="/textbook#replacement-fluid"
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <i className="far fa-question-circle"></i>
-              </a>
+              </Link>
             </div>
 
             <InputContainer
@@ -785,14 +786,14 @@ export class OrdersModal extends Component {
                   onChange={event => this.toggleCheckBoxes(event)}
                 />
                 Saline 3%
-                <a
-                  href="/textbook#hypertonic-saline"
+                <Link
+                  to="/textbook#hypertonic-saline"
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <i className="far fa-question-circle"></i>
-                </a>
+                </Link>
               </label>
             </div>
 
@@ -806,14 +807,14 @@ export class OrdersModal extends Component {
                   onChange={event => this.toggleCheckBoxes(event)}
                 />
                 D5W
-                <a
-                  href="/textbook#D5W"
+                <Link
+                  to="/textbook#D5W"
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <i className="far fa-question-circle"></i>
-                </a>
+                </Link>
               </label>
             </div>
 

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./ResultsModal.css";
 import { connect } from "react-redux";
+import { HashLink as Link } from 'react-router-hash-link';
 import {
   finalResultsMessages,
   vitalsInitial
@@ -204,14 +205,14 @@ export class ResultsModal extends Component {
           </p>
           <h3 className="rm-body-section-title">
             Dose
-            <a
-              href="/textbook#dosing"
+            <Link
+              to="/textbook#dosing"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
             >
               <i className="far fa-question-circle"></i>
-            </a>
+            </Link>
           </h3>
           <p className="rm-body-msg">
             {this.printTotalPoints("doseInRange")} earned out of a possible{" "}
@@ -228,14 +229,14 @@ export class ResultsModal extends Component {
           </p>
           <h3 className="rm-body-section-title">
             Filter Life
-            <a
-              href="/textbook#non-pharmacologic-approach-to-clotting"
+            <Link
+              to="/textbook#non-pharmacologic-approach-to-clotting"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
             >
               <i className="far fa-question-circle"></i>
-            </a>
+            </Link>
           </h3>
           <p className="rm-body-msg">
             {this.printTotalPoints("filtrationFractionInRange")} earned out of a
@@ -258,14 +259,14 @@ export class ResultsModal extends Component {
           </p>
           <h3 className="rm-body-section-title">
             Electrolytes
-            <a
-              href="/textbook#electrolytes"
+            <Link
+              to="/textbook#electrolytes"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
             >
               <i className="far fa-question-circle"></i>
-            </a>
+            </Link>
           </h3>
           <p className="rm-body-msg">
             {this.printTotalPoints("electrolytes")} earned out of a possible{" "}
@@ -296,14 +297,14 @@ export class ResultsModal extends Component {
           </p>
           <h3 className="rm-body-section-title">
             Acid/Base
-            <a
-              href="/textbook#acid-base"
+            <Link
+              to="/textbook#acid-base"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
             >
               <i className="far fa-question-circle"></i>
-            </a>
+            </Link>
           </h3>
           <p className="rm-body-msg">
             {this.printTotalPoints("pHInRange")} earned out of a possible{" "}

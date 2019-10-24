@@ -121,8 +121,8 @@ export class CaseSelectionModal extends Component {
   handleBackClick = () => {
     let { location, history } = this.props;
 
-    location.pathname = "/crrt-teaching-tool-v2/";
-    history.push("/crrt-teaching-tool-v2/");
+    location.pathname = "/";
+    history.push("/");
   }
 
   printLoadingMessage = () => {
