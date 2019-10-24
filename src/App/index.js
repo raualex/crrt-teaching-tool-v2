@@ -20,7 +20,8 @@ export class App extends Component {
     return (
       <div className="App">
         <Switch>
-          <Route exact path="/crrt-teaching-tool-v2/" component={LandingPage} />
+          <Route exact path="/" component={LandingPage} />
+          {/* <Route exact path="/crrt-teaching-tool-v2/" component={LandingPage} /> */}
           <Route exact path="/select_a_case" component={CaseSelectionModal} />
           <Route exact path="/simulator" component={Simulator} />
           <Route exact path="/textbook" component={Textbook} />
