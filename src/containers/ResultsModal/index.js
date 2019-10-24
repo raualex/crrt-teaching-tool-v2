@@ -208,8 +208,8 @@ export class ResultsModal extends Component {
             <Link
               to="/#/textbook#dosing"
               className="textbook-link"
-              target="_blank"
-              rel="noopener noreferrer"
+              // target="_blank"
+              // rel="noopener noreferrer"
             >
               <i className="far fa-question-circle"></i>
             </Link>
@@ -232,8 +232,8 @@ export class ResultsModal extends Component {
             <Link
               to="/#/textbook#non-pharmacologic-approach-to-clotting"
               className="textbook-link"
-              target="_blank"
-              rel="noopener noreferrer"
+              // target="_blank"
+              // rel="noopener noreferrer"
             >
               <i className="far fa-question-circle"></i>
             </Link>
@@ -262,8 +262,8 @@ export class ResultsModal extends Component {
             <Link
               to="/#/textbook#electrolytes"
               className="textbook-link"
-              target="_blank"
-              rel="noopener noreferrer"
+              // target="_blank"
+              // rel="noopener noreferrer"
             >
               <i className="far fa-question-circle"></i>
             </Link>
@@ -300,8 +300,8 @@ export class ResultsModal extends Component {
             <Link
               to="/#/textbook#acid-base"
               className="textbook-link"
-              target="_blank"
-              rel="noopener noreferrer"
+              // target="_blank"
+              // rel="noopener noreferrer"
             >
               <i className="far fa-question-circle"></i>
             </Link>

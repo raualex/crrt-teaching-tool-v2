@@ -732,8 +732,8 @@ export class OrdersModal extends Component {
               <Link
                 to="/#/textbook#modality"
                 className="textbook-link"
-                target="_blank"
-                rel="noopener noreferrer"
+                // target="_blank"
+                // rel="noopener noreferrer"
               >
                 <i className="far fa-question-circle"></i>
               </Link>
@@ -756,8 +756,8 @@ export class OrdersModal extends Component {
               <Link
                 to="/#/textbook#replacement-fluid"
                 className="textbook-link"
-                target="_blank"
-                rel="noopener noreferrer"
+                // target="_blank"
+                // rel="noopener noreferrer"
               >
                 <i className="far fa-question-circle"></i>
               </Link>
@@ -789,8 +789,8 @@ export class OrdersModal extends Component {
                 <Link
                   to="/#/textbook#hypertonic-saline"
                   className="textbook-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  // target="_blank"
+                  // rel="noopener noreferrer"
                 >
                   <i className="far fa-question-circle"></i>
                 </Link>
@@ -810,8 +810,8 @@ export class OrdersModal extends Component {
                 <Link
                   to="/#/textbook#D5W"
                   className="textbook-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  // target="_blank"
+                  // rel="noopener noreferrer"
                 >
                   <i className="far fa-question-circle"></i>
                 </Link>

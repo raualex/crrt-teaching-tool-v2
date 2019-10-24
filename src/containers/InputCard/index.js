@@ -40,8 +40,9 @@ class InputCard extends Component {
               <Link
                 to={`/#/textbook#${dosage}`}
                 className="textbook-link"
-                target="_blank"
-                rel="noopener noreferrer">
+                // target="_blank"
+                // rel="noopener noreferrer"
+                >
                 <i className="far fa-question-circle"></i>
               </Link>
             </div>
@@ -86,8 +87,8 @@ class InputCard extends Component {
                 <Link
                   to={`/#/textbook#${dosage}`}
                   className="textbook-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  // target="_blank"
+                  // rel="noopener noreferrer"
                 >
                   <i className="far fa-question-circle"></i>
                 </Link>
