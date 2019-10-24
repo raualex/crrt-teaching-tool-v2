@@ -37,7 +37,7 @@ class InputCard extends Component {
                 {this.getInputHeader()}
               </h4>
               <a
-                href={`https://gracious-babbage-75b035.netlify.com/textbook#${dosage}`}
+                href={`/textbook#${dosage}`}
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -84,7 +84,7 @@ class InputCard extends Component {
 
               {dosage === "Citrate" && (
                 <a
-                  href={`https://gracious-babbage-75b035.netlify.com/textbook#${dosage}`}
+                  href={`/textbook#${dosage}`}
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"
