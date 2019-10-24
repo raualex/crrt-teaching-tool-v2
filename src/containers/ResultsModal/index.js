@@ -205,7 +205,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Dose
             <a
-              href="https://raualex.github.io/textbook#dosing"
+              href="https://gracious-babbage-75b035.netlify.com/textbook#dosing"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -229,7 +229,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Filter Life
             <a
-              href="https://raualex.github.io/textbook#non-pharmacologic-approach-to-clotting"
+              href="https://gracious-babbage-75b035.netlify.com/textbook#non-pharmacologic-approach-to-clotting"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -259,7 +259,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Electrolytes
             <a
-              href="https://raualex.github.io/textbook#electrolytes"
+              href="https://gracious-babbage-75b035.netlify.com/textbook#electrolytes"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -297,7 +297,7 @@ export class ResultsModal extends Component {
           <h3 className="rm-body-section-title">
             Acid/Base
             <a
-              href="https://raualex.github.io/textbook#acid-base"
+              href="https://gracious-babbage-75b035.netlify.com/textbook#acid-base"
               className="textbook-link"
               target="_blank"
               rel="noopener noreferrer"

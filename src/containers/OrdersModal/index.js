@@ -729,7 +729,7 @@ export class OrdersModal extends Component {
             <div className="header-info-container">
               <h3 className="orders-modal-section-header">Modality</h3>
               <a
-                href="https://raualex.github.io/textbook#modality"
+                href="https://gracious-babbage-75b035.netlify.com/textbook#modality"
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -753,7 +753,7 @@ export class OrdersModal extends Component {
                 {modality === "CVVHD" ? "Dialysate Fluid" : "Replacement Fluid"}
               </h3>
               <a
-                href="https://raualex.github.io/textbook#replacement-fluid"
+                href="https://gracious-babbage-75b035.netlify.com/textbook#replacement-fluid"
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -786,7 +786,7 @@ export class OrdersModal extends Component {
                 />
                 Saline 3%
                 <a
-                  href="https://raualex.github.io/textbook#hypertonic-saline"
+                  href="https://gracious-babbage-75b035.netlify.com/textbook#hypertonic-saline"
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -807,7 +807,7 @@ export class OrdersModal extends Component {
                 />
                 D5W
                 <a
-                  href="https://raualex.github.io/textbook#D5W"
+                  href="https://gracious-babbage-75b035.netlify.com/textbook#D5W"
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"
