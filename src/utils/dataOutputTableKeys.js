@@ -44,6 +44,7 @@ export const modalKeys = {
     "Vancomycin",
     "Tube Feeds",
     "Total Input",
+    "Total Output",
     "Net Input/Output",
     "Cumulative Input/Output"
   ],
