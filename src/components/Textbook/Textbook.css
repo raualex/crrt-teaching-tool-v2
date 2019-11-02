@@ -43,10 +43,6 @@ hr {
   overflow-x: scroll;
 }
 
-table thead th {
-  border-bottom: none !important;
-}
-
 table td, th {
   border-top: none !important;
 }

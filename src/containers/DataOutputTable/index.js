@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import "./DataOutputTable.css";
 import { connect } from "react-redux";
-import modalKeys from "../../utils/dataOutputTableKeys.js";
+import { 
+  modalKeys,
+  historyOfPresentIllnessKeys,
+  physicalExamKeys
+} from "../../utils/dataOutputTableKeys.js";
 const uuidv4 = require("uuid/v4");
 
 export class DataOutputTable extends Component {
@@ -68,7 +72,7 @@ export class DataOutputTable extends Component {
 
   mapListsForMedications = valuesArr => {
     return valuesArr.map(valueStr => {
-      return <li key={uuidv4()}>{valueStr}</li>;
+      return <li key={uuidv4()} className="dataot-medication-item">{valueStr}</li>;
     });
   };
 
@@ -169,13 +173,20 @@ export class DataOutputTable extends Component {
     let { selectedModal } = this.props;
 
     if (
-      selectedModal === "History of Present Illness" ||
-      selectedModal === "Physical Exam"
+      selectedModal === "History of Present Illness"
     ) {
       return arr.map(textForBulletPoint => {
         return (
           <li key={uuidv4()} className="dataot-line-item">
-            <strong>{textForBulletPoint[0]}:</strong> {textForBulletPoint[1]}
+            <strong>{historyOfPresentIllnessKeys[textForBulletPoint[0]]}:</strong> {textForBulletPoint[1]}
+          </li>
+        );
+      });
+    } else if (selectedModal === "Physical Exam") {
+      return arr.map(textForBulletPoint => {
+        return (
+          <li key={uuidv4()} className="dataot-line-item">
+            <strong>{physicalExamKeys[textForBulletPoint[0]]}:</strong> {textForBulletPoint[1]}
           </li>
         );
       });

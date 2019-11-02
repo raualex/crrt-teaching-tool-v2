@@ -3,12 +3,25 @@
 .dataot-Physical-Exam {
   padding: 30px 60px 60px 60px;
   text-align: left;
+  width: 1000px;
 }
 
-.dataot-table, .dataot-Laboratory-Data {
+.dataot-Laboratory-Data,
+.dataot-Imaging,
+.dataot-Physical-Exam,
+.dataot-Medications,
+.dataot-Vitals,
+.dataot-InputOutput {
   display: inline-block;
   overflow-x: auto;
   white-space: nowrap;
+  max-width: 100%;
+  border: 0;
+}
+
+.dataot-History-of-Present-Illness {
+  display: inline-block;
+  overflow-x: auto;
   max-width: 100%;
   border: 0;
 }
@@ -18,6 +31,8 @@
   list-style-type: none;
   margin-bottom: 30px;
   margin-top: 30px;
+  overflow-wrap: break-word;
+  width: 1000px;
 }
 
 .blank-table-head {
@@ -37,4 +52,9 @@
   padding-bottom: 10px;
   padding-top: 10px;
   width: 200px;
+}
+
+.dataot-medication-item {
+  list-style-type: none;
+  padding-right: 20px;
 }

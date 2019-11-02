@@ -38,7 +38,7 @@ class InputCard extends Component {
                 {this.getInputHeader()}
               </h4>
               <Link
-                to={`/#/textbook#${dosage}`}
+                to={`/textbook#${dosage}`}
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer">
@@ -84,7 +84,7 @@ class InputCard extends Component {
 
               {dosage === "Citrate" && (
                 <Link
-                  to={`/#/textbook#${dosage}`}
+                  to={`/textbook#${dosage}`}
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"

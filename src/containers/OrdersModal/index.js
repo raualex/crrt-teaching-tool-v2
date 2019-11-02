@@ -730,7 +730,7 @@ export class OrdersModal extends Component {
             <div className="header-info-container">
               <h3 className="orders-modal-section-header">Modality</h3>
               <Link
-                to="/#/textbook#modality"
+                to="/textbook#modality"
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -754,7 +754,7 @@ export class OrdersModal extends Component {
                 {modality === "CVVHD" ? "Dialysate Fluid" : "Replacement Fluid"}
               </h3>
               <Link
-                to="/#/textbook#replacement-fluid"
+                to="/textbook#replacement-fluid"
                 className="textbook-link"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -787,7 +787,7 @@ export class OrdersModal extends Component {
                 />
                 Saline 3%
                 <Link
-                  to="/#/textbook#hypertonic-saline"
+                  to="/textbook#hypertonic-saline"
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -808,7 +808,7 @@ export class OrdersModal extends Component {
                 />
                 D5W
                 <Link
-                  to="/#/textbook#D5W"
+                  to="/textbook#D5W"
                   className="textbook-link"
                   target="_blank"
                   rel="noopener noreferrer"
