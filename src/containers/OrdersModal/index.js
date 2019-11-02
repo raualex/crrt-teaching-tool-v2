@@ -11,6 +11,7 @@ import {
   recordHourlyTimestamp,
   setCurrentPoints
 } from "../../Actions/ordersActions";
+import { addVitals } from "../../Actions/vitals-actions.js";
 import { setSelectedModal } from "../../Actions/selection-actions";
 import {
   calculateLabData,
@@ -69,7 +70,8 @@ export class OrdersModal extends Component {
       labData,
       addResultsMessagesToOrder,
       time,
-      recordHourlyTimestamp
+      recordHourlyTimestamp,
+      addVitals
     } = this.props;
 
     if (this.props.orders !== prevProps.orders) {
@@ -87,6 +89,8 @@ export class OrdersModal extends Component {
       console.log("THE THING WE HOPEFULLY NEED: ", returnHistoricalWeight());
       let combinedLabData = this.addNewLabDataToPreviousLabData(newLabData);
       calculateLabData(combinedLabData);
+      let combinedVitalsData = this.combineVitalsData()
+      addVitals(combinedVitalsData)
 
       let resultsMessages = this.checkCurrentOrderResults(
         currentOrder,
@@ -140,6 +144,19 @@ export class OrdersModal extends Component {
 
     setInputOutputData(finalInputOutputData);
   };
+
+  combineVitalsData = () => {
+    let { vitals } = this.props;
+    let finalVitalsData = Object.assign({}, vitals)
+    let newWeightArr = returnHistoricalWeight()
+
+    finalVitalsData.weight = [
+      ...finalVitalsData.weight,
+      ...newWeightArr
+    ]
+
+    return finalVitalsData
+  }
 
   compileHourlyTimestamps = (time, timeBetweenOrders) => {
     let { currentTime, currentDay } = time;
@@ -901,7 +918,8 @@ export const mapStateToProps = ({
   timeBetweenOrdersIsValid,
   selectedCase,
   labData,
-  inputOutputData
+  inputOutputData,
+  vitals
 }) => ({
   orders,
   time,
@@ -909,7 +927,8 @@ export const mapStateToProps = ({
   timeBetweenOrdersIsValid,
   selectedCase,
   labData,
-  inputOutputData
+  inputOutputData,
+  vitals
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -922,6 +941,7 @@ export const mapDispatchToProps = dispatch => ({
   calculateLabData: newLabData => dispatch(calculateLabData(newLabData)),
   setInputOutputData: newInputOutput =>
     dispatch(setInputOutputData(newInputOutput)),
+  addVitals: vitals => dispatch(addVitals(vitals)),
   addResultsMessagesToOrder: (resultsMessages, id) =>
     dispatch(addResultsMessagesToOrder(resultsMessages, id)),
   setCurrentPoints: newPoints => dispatch(setCurrentPoints(newPoints)),

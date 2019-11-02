@@ -145,8 +145,6 @@ export class Simulator extends Component {
       setTimeBetweenOrders,
       addResultsMessagesToOrder
     } = this.props;
-    console.log("LABS: ", labsResetValues[selectedCase.id]);
-    console.log("I/O: ", inputOutputResetValues[selectedCase.id]);
     calculateLabData(labsResetValues[selectedCase.id]);
     setInputOutputData(inputOutputResetValues[selectedCase.id]);
     recordHourlyTimestamp([]);
@@ -193,8 +191,6 @@ export class Simulator extends Component {
       hourlyTimestamps,
       caseOver,
       newOrdersUnviewed
-      // resultsMessages,
-      // orders
     } = this.props;
     const { showOrdersModal, btnClicked } = this.state;
     let timeForTitle;
