@@ -24,10 +24,6 @@
   visibility: hidden;
 }
 
-/* .input-container-anticoagulation {
-  grid-area: anticoagulationInputs;
-} */
-
 .orders-modal-main-content {
   padding: 0 1rem;
   display: grid;

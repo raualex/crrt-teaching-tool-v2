@@ -671,8 +671,7 @@ export class OrdersModal extends Component {
       saline3Percent,
       d5W,
       sodiumPhosphate15mmol100ml,
-      readyForSubmission,
-      anticoagulation
+      readyForSubmission
     } = this.state;
 
     const { orders, closeOrdersModal, timeBetweenOrders } = this.props;
