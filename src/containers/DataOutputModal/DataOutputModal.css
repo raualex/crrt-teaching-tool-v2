@@ -3,8 +3,8 @@
   height: 37rem;
   display: inline-block;
   overflow-x: auto;
-  white-space: nowrap;
-  max-width: 100%;
+  /* white-space: nowrap; */
+  /* max-width: 100%; */
   border: 0;
 }
 
