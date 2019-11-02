@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./OrdersModal.css";
 import { connect } from "react-redux";
-import { HashLink as Link } from 'react-router-hash-link';
+import { HashLink as Link } from "react-router-hash-link";
 import {
   submitOrder,
   setTime,
@@ -326,7 +326,7 @@ export class OrdersModal extends Component {
 
   handleNumberChange = event => {
     const { name, value } = event.target;
-    
+
     this.setState(
       {
         [name]: value.trim()
@@ -451,7 +451,7 @@ export class OrdersModal extends Component {
       caClInfusionRate
     } = this.state;
 
-    let calcium = this.state.calcium * 4
+    let calcium = this.state.calcium * 4;
 
     const order = {
       id: uuidv4(),
@@ -544,7 +544,7 @@ export class OrdersModal extends Component {
     event.preventDefault();
     const newOrder = this.compileOrder();
     this.props.submitOrder(newOrder);
-    this.props.setSelectedModal("")
+    this.props.setSelectedModal("");
     // this.props.closeOrdersModal()
   };
 
@@ -616,7 +616,7 @@ export class OrdersModal extends Component {
         phosphorous
       } = currentOrder.fluidDialysateValues;
 
-      let calcium = currentOrder.fluidDialysateValues.calcium/4
+      let calcium = currentOrder.fluidDialysateValues.calcium / 4;
 
       this.setState(
         {
@@ -671,8 +671,7 @@ export class OrdersModal extends Component {
       saline3Percent,
       d5W,
       sodiumPhosphate15mmol100ml,
-      readyForSubmission,
-      anticoagulation
+      readyForSubmission
     } = this.state;
 
     const { orders, closeOrdersModal, timeBetweenOrders } = this.props;
@@ -830,30 +829,21 @@ export class OrdersModal extends Component {
                 Sodium Phosphate (15mmol and 100mL)
               </label>
             </div>
-            {saline3Percent && (
-              <InputContainer
-                className="input-container-other-fluids"
-                type={"number"}
-                currentInputState={this.state}
-                handleInputChange={this.handleNumberChange}
-                dosagesToDisplay={otherFluidDosages}
-                radioButtonCategory={null}
-              />
-            )}
-            {d5W && (
-              <InputContainer
-                className="input-container-other-fluids"
-                type={"number"}
-                currentInputState={this.state}
-                handleInputChange={this.handleNumberChange}
-                dosagesToDisplay={otherFluidDosages}
-                radioButtonCategory={null}
-              />
-            )}
-          </section>
 
-          <section className="orders-modality-anticoagulation-container">
-            <h3 className="orders-modal-section-header">Anticoagulation</h3>
+            <InputContainer
+              className={
+                d5W === true || saline3Percent === true
+                  ? "input-container-other-fluids-visible"
+                  : "input-container-other-fluids-invisible"
+              }
+              type={"number"}
+              currentInputState={this.state}
+              handleInputChange={this.handleNumberChange}
+              dosagesToDisplay={otherFluidDosages}
+              radioButtonCategory={null}
+              d5W={d5W}
+              saline3Percent={saline3Percent}
+            />
 
             <InputContainer
               type={"radio"}
@@ -862,16 +852,15 @@ export class OrdersModal extends Component {
               dosagesToDisplay={anticoagulationDosages}
               radioButtonCategory={"anticoagulation"}
             />
-            {anticoagulation === "Citrate" && (
-              <InputContainer
-                className="input-container-anticoagulation"
-                type={"number"}
-                currentInputState={this.state}
-                handleInputChange={this.handleNumberChange}
-                dosagesToDisplay={citrateDosages}
-                radioButtonCategory={null}
-              />
-            )}
+
+            <InputContainer
+              className="input-container-anticoagulation"
+              type={"number"}
+              currentInputState={this.state}
+              handleInputChange={this.handleNumberChange}
+              dosagesToDisplay={citrateDosages}
+              radioButtonCategory={null}
+            />
           </section>
 
           <footer className="orders-modal-footer">

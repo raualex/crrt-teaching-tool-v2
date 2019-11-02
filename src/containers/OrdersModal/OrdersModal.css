@@ -14,12 +14,14 @@
   border-radius: 5px 0 0 5px;
 }
 
-.input-container-other-fluids {
+.input-container-other-fluids-visible {
   grid-area: otherInputs;
+  visibility: visible;
 }
 
-.input-container-anticoagulation {
-  grid-area: anticoagulationInputs;
+.input-container-other-fluids-invisible {
+  grid-area: otherInputs;
+  visibility: hidden;
 }
 
 .orders-modal-main-content {
@@ -242,11 +244,11 @@
   font-weight: 600;
 }
 
-.orders-modality-anticoagulation-container {
+/* .orders-modality-anticoagulation-container {
   height: 6rem;
   text-align: left;
   grid-area: anticoagulation;
-}
+} */
 
 .other-fluids-meds-checkbox {
   margin: 0.25rem;
@@ -258,7 +260,7 @@
 
 .orders-modal-footer {
   grid-area: footer;
-  margin: 3rem auto;
+  margin: 8rem auto 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
