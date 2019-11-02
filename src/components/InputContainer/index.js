@@ -7,7 +7,9 @@ const InputContainer = ({
   currentInputState,
   handleInputChange,
   dosagesToDisplay,
-  radioButtonCategory
+  radioButtonCategory,
+  d5W,
+  saline3Percent
 }) => {
   const inputCards = dosagesToDisplay.map(dosage => {
     return (
@@ -27,7 +29,25 @@ const InputContainer = ({
     );
   });
 
-  return <div className={`InputContainer-${type}`}>{inputCards}</div>;
+  const getOtherFluidsClass = () => {
+    if (d5W === true || saline3Percent === true) {
+      return "input-container-other-fluids-visible";
+    } else {
+      return "input-container-other-fluids-invisible";
+    }
+  };
+
+  return (
+    <div
+      className={
+        d5W === false && saline3Percent === false
+          ? `InputContainer-${type} ${getOtherFluidsClass()}`
+          : `InputContainer-${type}`
+      }
+    >
+      {inputCards}
+    </div>
+  );
 };
 
 export default InputContainer;
