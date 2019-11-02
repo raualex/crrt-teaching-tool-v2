@@ -38,3 +38,8 @@
   padding-top: 10px;
   width: 200px;
 }
+
+.dataot-medication-item {
+  list-style-type: none;
+  padding-right: 20px;
+}

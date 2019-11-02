@@ -1,4 +1,4 @@
-const modalKeys = {
+export const modalKeys = {
   LaboratoryData: [
     "Sodium",
     "Potassium",
@@ -57,4 +57,20 @@ const modalKeys = {
   Medications: ["Scheduled", "Infusions"]
 };
 
-export default modalKeys;
+export const historyOfPresentIllnessKeys = {
+  "overview": "Overview",
+  "pastMedicalHistory": "Past Medical History",
+  "pastSurgicalHistory": "Past Surgical History",
+  "socialHistory": "Social History",
+  "familyHistory": "Family History"
+}
+
+export const physicalExamKeys = {
+  "general": "General",
+  "ENT": "ENT",
+  "heart": "Heart",
+  "lungs": "Lungs",
+  "abdomen": "Abdomen",
+  "extremities": "Extremities",
+  "psych": "Psych"
+}
