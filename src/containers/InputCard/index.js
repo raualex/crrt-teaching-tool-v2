@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { HashLink as Link } from 'react-router-hash-link';
+import { HashLink as Link } from "react-router-hash-link";
 import "./InputCard.css";
 import orderDosages from "../../utils/orderDosages.js";
 
@@ -36,14 +36,15 @@ class InputCard extends Component {
             <div className={`header-info-container-${type}`}>
               <h4 className={`input-text-header input-text-header-${type}`}>
                 {this.getInputHeader()}
+                <Link
+                  to={`/textbook#${dosage}`}
+                  className="textbook-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i className="far fa-question-circle"></i>
+                </Link>
               </h4>
-              <Link
-                to={`/textbook#${dosage}`}
-                className="textbook-link"
-                target="_blank"
-                rel="noopener noreferrer">
-                <i className="far fa-question-circle"></i>
-              </Link>
             </div>
             <input
               type="text"

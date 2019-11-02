@@ -89,8 +89,8 @@ export class OrdersModal extends Component {
       console.log("THE THING WE HOPEFULLY NEED: ", returnHistoricalWeight());
       let combinedLabData = this.addNewLabDataToPreviousLabData(newLabData);
       calculateLabData(combinedLabData);
-      let combinedVitalsData = this.combineVitalsData()
-      addVitals(combinedVitalsData)
+      let combinedVitalsData = this.combineVitalsData();
+      addVitals(combinedVitalsData);
 
       let resultsMessages = this.checkCurrentOrderResults(
         currentOrder,
@@ -147,16 +147,13 @@ export class OrdersModal extends Component {
 
   combineVitalsData = () => {
     let { vitals } = this.props;
-    let finalVitalsData = Object.assign({}, vitals)
-    let newWeightArr = returnHistoricalWeight()
+    let finalVitalsData = Object.assign({}, vitals);
+    let newWeightArr = returnHistoricalWeight();
 
-    finalVitalsData.weight = [
-      ...finalVitalsData.weight,
-      ...newWeightArr
-    ]
+    finalVitalsData.weight = [...finalVitalsData.weight, ...newWeightArr];
 
-    return finalVitalsData
-  }
+    return finalVitalsData;
+  };
 
   compileHourlyTimestamps = (time, timeBetweenOrders) => {
     let { currentTime, currentDay } = time;
@@ -729,155 +726,167 @@ export class OrdersModal extends Component {
             </div>
           </header>
 
-          {!orders.length && (
-            <div className="timeBetweenOrders-container">
-              <h3 className="timeBetweenOrders-label">Time Between Orders</h3>
-              <input
-                type="text"
-                // pattern="[0-9]*"
-                className="timeBetweenOrders-input"
-                name={"timeBetweenOrders"}
-                value={timeBetweenOrders}
-                onChange={event => this.handletimeBetweenOrdersChange(event)}
+          <section className="OrdersModal-all-InputContainers">
+            <section className="orders-replacement-fluid-container">
+              <div className="header-info-container">
+                <h3 className="orders-modal-section-header">
+                  {modality === "CVVHD"
+                    ? "Dialysate Fluid"
+                    : "Replacement Fluid"}
+                </h3>
+                <Link
+                  to="/textbook#replacement-fluid"
+                  className="textbook-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i className="far fa-question-circle"></i>
+                </Link>
+              </div>
+
+              <InputContainer
+                className="input-container-main"
+                type={"number"}
+                currentInputState={this.state}
+                handleInputChange={this.handleNumberChange}
+                dosagesToDisplay={replacementFluidDosages}
+                radioButtonCategory={null}
               />
-            </div>
-          )}
-          <section className="orders-modality-container">
-            <div className="header-info-container">
-              <h3 className="orders-modal-section-header">Modality</h3>
-              <Link
-                to="/textbook#modality"
-                className="textbook-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i className="far fa-question-circle"></i>
-              </Link>
-            </div>
+            </section>
+            <section className="OrdersModal-right-half">
+              {!orders.length && (
+                <div className="timeBetweenOrders-container">
+                  <h3 className="timeBetweenOrders-label">
+                    Time Between Orders
+                  </h3>
+                  <input
+                    type="text"
+                    // pattern="[0-9]*"
+                    className="timeBetweenOrders-input"
+                    name={"timeBetweenOrders"}
+                    value={timeBetweenOrders}
+                    onChange={event =>
+                      this.handletimeBetweenOrdersChange(event)
+                    }
+                  />
+                </div>
+              )}
+              <section className="orders-modality-container">
+                <div className="header-info-container">
+                  <h3 className="orders-modal-section-header">Modality</h3>
+                  <Link
+                    to="/textbook#modality"
+                    className="textbook-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i className="far fa-question-circle"></i>
+                  </Link>
+                </div>
 
-            <InputContainer
-              type={"radio"}
-              currentInputState={this.state}
-              handleInputChange={this.handleStringChange}
-              dosagesToDisplay={modalityDosages}
-              radioButtonCategory={"modality"}
-            />
-          </section>
-
-          <section className="orders-replacement-fluid-container">
-            <div className="header-info-container">
-              <h3 className="orders-modal-section-header">
-                {modality === "CVVHD" ? "Dialysate Fluid" : "Replacement Fluid"}
-              </h3>
-              <Link
-                to="/textbook#replacement-fluid"
-                className="textbook-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i className="far fa-question-circle"></i>
-              </Link>
-            </div>
-
-            <InputContainer
-              className="input-container-main"
-              type={"number"}
-              currentInputState={this.state}
-              handleInputChange={this.handleNumberChange}
-              dosagesToDisplay={replacementFluidDosages}
-              radioButtonCategory={null}
-            />
-          </section>
-          <section className="orders-modality-other-container">
-            <h3 className="orders-modal-section-header">
-              Other Fluids/Medications
-            </h3>
-            <div className="other-fluids-meds-checkbox">
-              <label className="modality-checkbox-label">
-                <input
-                  type="checkbox"
-                  name="saline3Percent"
-                  value={saline3Percent}
-                  checked={saline3Percent === true}
-                  onChange={event => this.toggleCheckBoxes(event)}
+                <InputContainer
+                  type={"radio"}
+                  currentInputState={this.state}
+                  handleInputChange={this.handleStringChange}
+                  dosagesToDisplay={modalityDosages}
+                  radioButtonCategory={"modality"}
                 />
-                Saline 3%
-                <Link
-                  to="/textbook#hypertonic-saline"
-                  className="textbook-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i className="far fa-question-circle"></i>
-                </Link>
-              </label>
-            </div>
+              </section>
 
-            <div className="other-fluids-meds-checkbox">
-              <label className="modality-checkbox-label">
-                <input
-                  type="checkbox"
-                  name="d5W"
-                  value={d5W}
-                  checked={d5W === true}
-                  onChange={event => this.toggleCheckBoxes(event)}
+              <section className="orders-modality-other-container">
+                <h3 className="orders-modal-section-header">
+                  Other Fluids/Medications
+                </h3>
+                <div className="other-fluids-meds-checkbox">
+                  <label className="modality-checkbox-label">
+                    <input
+                      type="checkbox"
+                      name="saline3Percent"
+                      value={saline3Percent}
+                      checked={saline3Percent === true}
+                      onChange={event => this.toggleCheckBoxes(event)}
+                    />
+                    Saline 3%
+                    <Link
+                      to="/textbook#hypertonic-saline"
+                      className="textbook-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="far fa-question-circle"></i>
+                    </Link>
+                  </label>
+                </div>
+
+                <div className="other-fluids-meds-checkbox">
+                  <label className="modality-checkbox-label">
+                    <input
+                      type="checkbox"
+                      name="d5W"
+                      value={d5W}
+                      checked={d5W === true}
+                      onChange={event => this.toggleCheckBoxes(event)}
+                    />
+                    D5W
+                    <Link
+                      to="/textbook#D5W"
+                      className="textbook-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="far fa-question-circle"></i>
+                    </Link>
+                  </label>
+                </div>
+
+                <div className="other-fluids-meds-checkbox">
+                  <label className="modality-checkbox-label">
+                    <input
+                      type="checkbox"
+                      name="sodiumPhosphate15mmol100ml"
+                      value={sodiumPhosphate15mmol100ml}
+                      checked={sodiumPhosphate15mmol100ml === true}
+                      onChange={event => this.toggleCheckBoxes(event)}
+                    />
+                    Sodium Phosphate (15mmol and 100mL)
+                  </label>
+                </div>
+
+                {(saline3Percent === true || d5W === true) && (
+                  <InputContainer
+                    className="input-container-other-fluids-bolus-cont-infusion"
+                    type={"number"}
+                    currentInputState={this.state}
+                    handleInputChange={this.handleNumberChange}
+                    dosagesToDisplay={otherFluidDosages}
+                    radioButtonCategory={null}
+                    d5W={d5W}
+                    saline3Percent={saline3Percent}
+                  />
+                )}
+
+                <h3 className="orders-modal-section-header citrate-header">
+                  Citrate
+                </h3>
+                <InputContainer
+                  className="input-container-citrate"
+                  type={"radio"}
+                  currentInputState={this.state}
+                  handleInputChange={this.handleStringChange}
+                  dosagesToDisplay={anticoagulationDosages}
+                  radioButtonCategory={"anticoagulation"}
                 />
-                D5W
-                <Link
-                  to="/textbook#D5W"
-                  className="textbook-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i className="far fa-question-circle"></i>
-                </Link>
-              </label>
-            </div>
 
-            <div className="other-fluids-meds-checkbox">
-              <label className="modality-checkbox-label">
-                <input
-                  type="checkbox"
-                  name="sodiumPhosphate15mmol100ml"
-                  value={sodiumPhosphate15mmol100ml}
-                  checked={sodiumPhosphate15mmol100ml === true}
-                  onChange={event => this.toggleCheckBoxes(event)}
+                <InputContainer
+                  className="input-container-anticoagulation"
+                  type={"number"}
+                  currentInputState={this.state}
+                  handleInputChange={this.handleNumberChange}
+                  dosagesToDisplay={citrateDosages}
+                  radioButtonCategory={null}
                 />
-                Sodium Phosphate (15mmol and 100mL)
-              </label>
-            </div>
-
-            <InputContainer
-              className={
-                d5W === true || saline3Percent === true
-                  ? "input-container-other-fluids-visible"
-                  : "input-container-other-fluids-invisible"
-              }
-              type={"number"}
-              currentInputState={this.state}
-              handleInputChange={this.handleNumberChange}
-              dosagesToDisplay={otherFluidDosages}
-              radioButtonCategory={null}
-              d5W={d5W}
-              saline3Percent={saline3Percent}
-            />
-
-            <InputContainer
-              type={"radio"}
-              currentInputState={this.state}
-              handleInputChange={this.handleStringChange}
-              dosagesToDisplay={anticoagulationDosages}
-              radioButtonCategory={"anticoagulation"}
-            />
-
-            <InputContainer
-              className="input-container-anticoagulation"
-              type={"number"}
-              currentInputState={this.state}
-              handleInputChange={this.handleNumberChange}
-              dosagesToDisplay={citrateDosages}
-              radioButtonCategory={null}
-            />
+              </section>
+            </section>
           </section>
 
           <footer className="orders-modal-footer">
