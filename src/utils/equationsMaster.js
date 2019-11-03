@@ -829,7 +829,8 @@ export function runLabs(
     selectedCase,
     time.currentTime,
     timeBetweenOrders,
-    time.currentDay
+    time.currentDay,
+    newLabs
   );
   // setVolumeOverload();
   console.log(setVolumeOverload(selectedCase));
@@ -1237,7 +1238,8 @@ function setNewWeight(
   selectedCase,
   time,
   timeBetweenOrders,
-  currentDay
+  currentDay,
+  newLabs
 ) {
   // var newWeight = excelRound(
   //   calculateNewWeight(_currentOrders, totalHoursOfFiltration),
@@ -1250,7 +1252,8 @@ function setNewWeight(
       selectedCase,
       time,
       timeBetweenOrders,
-      currentDay
+      currentDay,
+      newLabs
     ),
     2
   );
@@ -1418,7 +1421,8 @@ function calculateNewWeight(
   selectedCase,
   time,
   timeBetweenOrders,
-  currentDay
+  currentDay,
+  newLabs
 ) {
   // NOTE:
   // new weight = old weight + difference between input and output
@@ -1509,7 +1513,7 @@ function calculateNewWeight(
     var input = 0;
     // input += parseFloat(_currentCaseStudySheet.inputOutput.elements[startingTime+i+2]["total"]);
     input += parseFloat(
-      inputOutputInitial[selectedCase.id].total[startingTime + i + 2]
+      inputOutputInitial[selectedCase.id].total[startingTime + i]
     );
 
     if (order.anticoagulation === "citrate") {
