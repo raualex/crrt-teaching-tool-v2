@@ -29,21 +29,11 @@ const InputContainer = ({
     );
   });
 
-  const getOtherFluidsClass = () => {
-    if (d5W === true || saline3Percent === true) {
-      return "input-container-other-fluids-visible";
-    } else {
-      return "input-container-other-fluids-invisible";
-    }
-  };
-
   return (
     <div
-      className={
-        d5W === false && saline3Percent === false
-          ? `InputContainer-${type} ${getOtherFluidsClass()}`
-          : `InputContainer-${type}`
-      }
+      className={`InputContainer-${type} ${(d5W === true ||
+        saline3Percent === true) &&
+        "hidden-input-container"}`}
     >
       {inputCards}
     </div>

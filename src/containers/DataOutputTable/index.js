@@ -169,6 +169,14 @@ export class DataOutputTable extends Component {
     return finalArray;
   };
 
+  checkIfPastMedicalHistory = (arrValues, arrKey) => {
+    if (arrKey === 'pastMedicalHistory') {
+      return arrValues.join(", ")
+    } else {
+      return arrValues.join("  ")
+    }
+  }
+
   printFinalArray = arr => {
     let { selectedModal } = this.props;
 
@@ -178,7 +186,7 @@ export class DataOutputTable extends Component {
       return arr.map(textForBulletPoint => {
         return (
           <li key={uuidv4()} className="dataot-line-item">
-            <strong>{historyOfPresentIllnessKeys[textForBulletPoint[0]]}:</strong> {textForBulletPoint[1]}
+            <strong>{historyOfPresentIllnessKeys[textForBulletPoint[0]]}:</strong> {this.checkIfPastMedicalHistory(textForBulletPoint[1], textForBulletPoint[0])}
           </li>
         );
       });

@@ -14,7 +14,9 @@
   border-radius: 5px 0 0 5px;
 }
 
-.input-container-other-fluids-visible {
+
+
+/* .input-container-other-fluids-visible {
   grid-area: otherInputs;
   visibility: visible;
 }
@@ -22,37 +24,25 @@
 .input-container-other-fluids-invisible {
   grid-area: otherInputs;
   visibility: hidden;
-}
+} */
 
 .orders-modal-main-content {
   padding: 0 1rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas:
-    "header header"
-    "main timeBetween"
-    "main modality"
-    "main other"
-    "main otherInputs"
-    "main otherInputs"
-    "main anticoagulation"
-    "main anticoagulationInputs"
-    "main anticoagulationInputs"
-    "main ."
-    "footer footer";
 }
 
 .orders-modal-main-content-no-interval-input {
   padding: 0 1rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas:
-    "header header"
-    "main modality"
-    "main other"
-    "main anticoagulation"
-    "main ."
-    "footer footer";
+}
+
+.OrdersModal-all-InputContainers {
+  display: flex;
+  margin: 0 2rem;
+  justify-content: space-between;
+}
+
+.OrdersModal-right-half {
+  display: flex;
+  flex-direction: column;
 }
 
 .orders-replacement-fluid-container {
@@ -199,35 +189,20 @@
 
 .input-text-header {
   color: #414141;
+  width: 17rem;
 }
 
-.input-container {
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  height: 2rem;
-  margin: 1rem;
+.input-container-otherFluidsBolusValue div input, .input-container-citrateFlowRate div input {
+  margin: 0.5rem 0;
+}
+.input-container-otherFluidsInfusionValue div input, .input-container-caClInfusionRate div input {
+  margin: 0.5rem 0 0;
 }
 
-.input-error-container {
-  width: 50%;
-  height: 3rem;
-  overflow: scroll;
-  width: 80%;
+.citrate-header {
+  margin: 1rem 0 0.25rem;
 }
 
-.error-add-border {
-  border-radius: 5px;
-  box-shadow: 1px 1px 1px #d0d6d3;
-}
-
-.input-error-text {
-  color: red;
-  font-size: 0.75rem;
-  text-align: left;
-  margin: 0.5rem 0 0 0;
-  overflow-wrap: normal;
-}
 
 .orders-modality-other-container {
   display: flex;
@@ -244,12 +219,6 @@
   font-weight: 600;
 }
 
-/* .orders-modality-anticoagulation-container {
-  height: 6rem;
-  text-align: left;
-  grid-area: anticoagulation;
-} */
-
 .other-fluids-meds-checkbox {
   margin: 0.25rem;
 }
@@ -260,7 +229,7 @@
 
 .orders-modal-footer {
   grid-area: footer;
-  margin: 8rem auto 1rem;
+  margin: 6rem auto 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
