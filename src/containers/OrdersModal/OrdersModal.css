@@ -28,33 +28,10 @@
 
 .orders-modal-main-content {
   padding: 0 1rem;
-  /* display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas:
-    "header header"
-    "main timeBetween"
-    "main modality"
-    "main other"
-    "main otherInputs"
-    "main otherInputs"
-    "main anticoagulation"
-    "main anticoagulationInputs"
-    "main anticoagulationInputs"
-    "main ."
-    "footer footer"; */
 }
 
 .orders-modal-main-content-no-interval-input {
   padding: 0 1rem;
-  /* display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas:
-    "header header"
-    "main modality"
-    "main other"
-    "main anticoagulation"
-    "main ."
-    "footer footer"; */
 }
 
 .OrdersModal-all-InputContainers {
@@ -241,12 +218,6 @@
   color: #232323;
   font-weight: 600;
 }
-
-/* .orders-modality-anticoagulation-container {
-  height: 6rem;
-  text-align: left;
-  grid-area: anticoagulation;
-} */
 
 .other-fluids-meds-checkbox {
   margin: 0.25rem;
