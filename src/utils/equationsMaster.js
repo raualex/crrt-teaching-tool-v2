@@ -1498,24 +1498,24 @@ function calculateNewWeight(
     console.log("infusionPastEightHours : ", infusionPastEightHours);
     console.log("totalInputInL :", totalInputInL);
   }
-  var currentTimeByDay = 24 * (currentDay - 1);
-  let startingTime;
-
-  if (timeBetweenOrders <= 8) {
-    startingTime = time + currentTimeByDay - timeBetweenOrders;
-  } else if (timeBetweenOrders > 8 && timeBetweenOrders <= 16) {
-    startingTime = time + currentTimeByDay - (timeBetweenOrders - 8);
-  } else {
-    startingTime = time + currentTimeByDay - (timeBetweenOrders - 16);
-  }
+  // var currentTimeByDay = 24 * (currentDay - 1);
+  let startingTime = newLabs["sodium"].length - 2;
+console.log("CURRRRRRREEEEENNNNNTTTT DAAAAAYYYYY: ", currentDay, time)
+  // if (timeBetweenOrders <= 8) {
+  //   startingTime = time + currentTimeByDay - timeBetweenOrders;
+  // } else if (timeBetweenOrders > 8 && timeBetweenOrders <= 16) {
+  //   startingTime = time + currentTimeByDay - (timeBetweenOrders - 8);
+  // } else {
+  //   startingTime = time + currentTimeByDay - (timeBetweenOrders - 16);
+  // }
 
   for (let i = 0; i < timeBetweenOrders; i++) {
     var input = 0;
     // input += parseFloat(_currentCaseStudySheet.inputOutput.elements[startingTime+i+2]["total"]);
     input += parseFloat(
-      inputOutputInitial[selectedCase.id].total[startingTime + i]
+      inputOutputInitial[selectedCase.id].total[startingTime + i + 1]
     );
-
+    
     if (order.anticoagulation === "citrate") {
       // var citFlowRate = parseFloat($('#citrateFlowRate').val());
       // var caclFlowRate = parseFloat($('#caclInfusionRate').val());
@@ -1547,6 +1547,7 @@ function calculateNewWeight(
     }
 
     _historicalInputOutput["totalInput"].push(input);
+    console.log("LOOOOOOOOOK AT MEEEEEEEEEEE!!!!!: ", _historicalInputOutput["totalInput"])
   }
 
   startingTime = time - timeBetweenOrders;
@@ -1559,13 +1560,38 @@ function calculateNewWeight(
   for (let i = 0; i < timeBetweenOrders; i++) {
     if (
       !_historicalInputOutput["ultrafiltration"].length ||
-      _historicalInputOutput["ultrafiltration"].length < 4 ||
-      _historicalInputOutput["ultrafiltration"][
-        _historicalInputOutput["ultrafiltration"].length - 4
-      ] !== 0
+      _historicalInputOutput["ultrafiltration"].length < 2
     ) {
       _historicalInputOutput["ultrafiltration"].push(0);
       // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in   the future
+      _historicalInputOutput["totalOutput"].push(0);
+    } else if (_historicalInputOutput["ultrafiltration"][
+      _historicalInputOutput["ultrafiltration"].length - 1
+    ] === 0 &&
+    _historicalInputOutput["ultrafiltration"][
+      _historicalInputOutput["ultrafiltration"].length - 2
+    ] !== 0) {
+      _historicalInputOutput["ultrafiltration"].push(0);
+      _historicalInputOutput["totalOutput"].push(0);
+    } else if (_historicalInputOutput["ultrafiltration"][
+      _historicalInputOutput["ultrafiltration"].length - 1
+    ] === order["grossUF"] &&
+    _historicalInputOutput["ultrafiltration"][
+      _historicalInputOutput["ultrafiltration"].length - 2
+    ] === order["grossUF"] &&
+    _historicalInputOutput["ultrafiltration"][
+      _historicalInputOutput["ultrafiltration"].length - 3
+    ] === order["grossUF"] &&
+    _historicalInputOutput["ultrafiltration"][
+      _historicalInputOutput["ultrafiltration"].length - 4
+    ] === order["grossUF"] &&
+    _historicalInputOutput["ultrafiltration"][
+      _historicalInputOutput["ultrafiltration"].length - 5
+    ] === order["grossUF"] &&
+    _historicalInputOutput["ultrafiltration"][
+      _historicalInputOutput["ultrafiltration"].length - 6
+    ] === order["grossUF"]) {
+      _historicalInputOutput["ultrafiltration"].push(0);
       _historicalInputOutput["totalOutput"].push(0);
     } else {
       _historicalInputOutput["ultrafiltration"].push(order["grossUF"]);

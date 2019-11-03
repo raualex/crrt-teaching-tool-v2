@@ -126,12 +126,12 @@ export class OrdersModal extends Component {
       ...newInputOutput.totalInput
     ];
     finalInputOutputData.ultrafiltration = [
-      ...finalInputOutputData.ultrafiltration,
-      ...newInputOutput.ultrafiltration
+      // ...finalInputOutputData.ultrafiltration,
+    null, null, ...newInputOutput.ultrafiltration
     ];
     finalInputOutputData.totalOutput = [
-      ...finalInputOutputData.totalOutput,
-      ...newInputOutput.totalOutput
+      // ...finalInputOutputData.totalOutput,
+    null, null, ...newInputOutput.totalOutput
     ];
     finalInputOutputData.netInputOutput = [
       ...finalInputOutputData.netInputOutput,
