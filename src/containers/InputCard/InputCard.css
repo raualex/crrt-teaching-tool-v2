@@ -19,3 +19,32 @@
   border-radius: 5px;
   border: 1px solid #a09e9e;
 }
+
+
+.input-container {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 2rem;
+  margin: 1rem;
+}
+
+.input-error-container {
+  width: 50%;
+  height: 3rem;
+  overflow: scroll;
+  width: 80%;
+}
+
+.error-add-border {
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px #d0d6d3;
+}
+
+.input-error-text {
+  color: red;
+  font-size: 0.75rem;
+  text-align: left;
+  margin: 0.5rem 0 0 0;
+  overflow-wrap: normal;
+}
