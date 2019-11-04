@@ -71,7 +71,8 @@ export class OrdersModal extends Component {
       addResultsMessagesToOrder,
       time,
       recordHourlyTimestamp,
-      addVitals
+      addVitals,
+      hourlyTimestamps
     } = this.props;
 
     if (this.props.orders !== prevProps.orders) {
@@ -81,7 +82,8 @@ export class OrdersModal extends Component {
         time,
         timeBetweenOrders,
         selectedCase,
-        labData
+        labData,
+        hourlyTimestamps.length
       );
 
       let inputOutput = returnInputOutput();
@@ -122,24 +124,21 @@ export class OrdersModal extends Component {
       ...newInputOutput.calciumChloride
     ];
     finalInputOutputData.totalInput = [
-      ...finalInputOutputData.totalInput,
-      ...newInputOutput.totalInput
+      null, null, ...newInputOutput.totalInput
     ];
     finalInputOutputData.ultrafiltration = [
-      // ...finalInputOutputData.ultrafiltration,
-    null, null, ...newInputOutput.ultrafiltration
+      null, null, ...newInputOutput.ultrafiltration
     ];
     finalInputOutputData.totalOutput = [
-      // ...finalInputOutputData.totalOutput,
-    null, null, ...newInputOutput.totalOutput
+      null, null, ...newInputOutput.totalOutput
     ];
     finalInputOutputData.netInputOutput = [
-      ...finalInputOutputData.netInputOutput,
-      ...newInputOutput.netInputOutput
+      // ...finalInputOutputData.netInputOutput,
+      null, null, ...newInputOutput.netInputOutput
     ];
     finalInputOutputData.cumulativeInputOutput = [
-      ...finalInputOutputData.cumulativeInputOutput,
-      ...newInputOutput.cumulativeInputOutput
+      // ...finalInputOutputData.cumulativeInputOutput,
+      null, null, ...newInputOutput.cumulativeInputOutput
     ];
 
     setInputOutputData(finalInputOutputData);
@@ -928,7 +927,8 @@ export const mapStateToProps = ({
   selectedCase,
   labData,
   inputOutputData,
-  vitals
+  vitals,
+  hourlyTimestamps
 }) => ({
   orders,
   time,
@@ -937,7 +937,8 @@ export const mapStateToProps = ({
   selectedCase,
   labData,
   inputOutputData,
-  vitals
+  vitals,
+  hourlyTimestamps
 });
 
 export const mapDispatchToProps = dispatch => ({
