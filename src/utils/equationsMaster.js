@@ -33,8 +33,8 @@ var _points = {
   }
 };
 
-var netInputOutputCounter = 0;
-var timesNetInputOutputCounterHitEight = 0;
+// var netInputOutputCounter = 0;
+// var timesNetInputOutputCounterHitEight = 0;
 // NOTE:
 // _runTestMode and _runTestLabsNum can be used for testing
 // to autofill data, automatically run labs, etc.
@@ -653,7 +653,8 @@ export function runLabs(
   time,
   timeBetweenOrders,
   selectedCase,
-  labData
+  labData,
+  numOfHoursPassed
 ) {
   // _ordersCounter++;
   let newLabs = {};
@@ -829,7 +830,8 @@ export function runLabs(
     selectedCase,
     time.currentTime,
     timeBetweenOrders,
-    time.currentDay
+    time.currentDay,
+    numOfHoursPassed
   );
   // setVolumeOverload();
   console.log(setVolumeOverload(selectedCase));
@@ -1237,7 +1239,8 @@ function setNewWeight(
   selectedCase,
   time,
   timeBetweenOrders,
-  currentDay
+  currentDay,
+  numOfHoursPassed
 ) {
   // var newWeight = excelRound(
   //   calculateNewWeight(_currentOrders, totalHoursOfFiltration),
@@ -1250,7 +1253,8 @@ function setNewWeight(
       selectedCase,
       time,
       timeBetweenOrders,
-      currentDay
+      currentDay,
+      numOfHoursPassed
     ),
     2
   );
@@ -1418,7 +1422,8 @@ function calculateNewWeight(
   selectedCase,
   time,
   timeBetweenOrders,
-  currentDay
+  currentDay,
+  numOfHoursPassed
 ) {
   // NOTE:
   // new weight = old weight + difference between input and output
@@ -1494,24 +1499,13 @@ function calculateNewWeight(
     console.log("infusionPastEightHours : ", infusionPastEightHours);
     console.log("totalInputInL :", totalInputInL);
   }
-  var currentTimeByDay = 24 * (currentDay - 1);
-  let startingTime;
-
-  if (timeBetweenOrders <= 8) {
-    startingTime = time + currentTimeByDay - timeBetweenOrders;
-  } else if (timeBetweenOrders > 8 && timeBetweenOrders <= 16) {
-    startingTime = time + currentTimeByDay - (timeBetweenOrders - 8);
-  } else {
-    startingTime = time + currentTimeByDay - (timeBetweenOrders - 16);
-  }
 
   for (let i = 0; i < timeBetweenOrders; i++) {
     var input = 0;
-    // input += parseFloat(_currentCaseStudySheet.inputOutput.elements[startingTime+i+2]["total"]);
     input += parseFloat(
-      inputOutputInitial[selectedCase.id].total[startingTime + i + 2]
+      inputOutputInitial[selectedCase.id].total[numOfHoursPassed + i]
     );
-
+    
     if (order.anticoagulation === "citrate") {
       // var citFlowRate = parseFloat($('#citrateFlowRate').val());
       // var caclFlowRate = parseFloat($('#caclInfusionRate').val());
@@ -1545,30 +1539,77 @@ function calculateNewWeight(
     _historicalInputOutput["totalInput"].push(input);
   }
 
-  startingTime = time - timeBetweenOrders;
+  // startingTime = time - timeBetweenOrders;
   // var ultrafiltrationStartingTime = time - totalHoursOfFiltration;
   // var differenceBetweenStartingTimeAndHoursOfFiltration =
   //   time - totalHoursOfFiltration;
 
   // NOTE: Make sure we set the ultrafiltration rate to 0 for the time that
   // the filter is clogged.
-  for (let i = 0; i < timeBetweenOrders; i++) {
-    if (
-      !_historicalInputOutput["ultrafiltration"].length ||
-      _historicalInputOutput["ultrafiltration"].length < 4 ||
+
+  if (selectedCase.id === 1) {
+    for (let i = 0; i < timeBetweenOrders; i++) {
+      if (
+        !_historicalInputOutput["ultrafiltration"].length ||
+        _historicalInputOutput["ultrafiltration"].length < 2
+      ) {
+        _historicalInputOutput["ultrafiltration"].push(0);
+        // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in   the future
+        _historicalInputOutput["totalOutput"].push(0);
+      } else if (_historicalInputOutput["ultrafiltration"][
+        _historicalInputOutput["ultrafiltration"].length - 1
+      ] === 0 &&
+      _historicalInputOutput["ultrafiltration"][
+        _historicalInputOutput["ultrafiltration"].length - 2
+      ] !== 0) {
+      _historicalInputOutput["ultrafiltration"].push(0);
+        _historicalInputOutput["totalOutput"].push(0);
+      } else if (_historicalInputOutput["ultrafiltration"][
+        _historicalInputOutput["ultrafiltration"].length - 1
+      ] === order["grossUF"] &&
+      _historicalInputOutput["ultrafiltration"][
+        _historicalInputOutput["ultrafiltration"].length - 2
+      ] === order["grossUF"] &&
+      _historicalInputOutput["ultrafiltration"][
+        _historicalInputOutput["ultrafiltration"].length - 3
+      ] === order["grossUF"] &&
       _historicalInputOutput["ultrafiltration"][
         _historicalInputOutput["ultrafiltration"].length - 4
-      ] !== 0
-    ) {
-      _historicalInputOutput["ultrafiltration"].push(0);
-      // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in   the future
-      _historicalInputOutput["totalOutput"].push(0);
-    } else {
-      _historicalInputOutput["ultrafiltration"].push(order["grossUF"]);
-      // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in   the future
-      _historicalInputOutput["totalOutput"].push(order["grossUF"]);
+      ] === order["grossUF"] &&
+      _historicalInputOutput["ultrafiltration"][
+        _historicalInputOutput["ultrafiltration"].length - 5
+      ] === order["grossUF"] &&
+      _historicalInputOutput["ultrafiltration"][
+        _historicalInputOutput["ultrafiltration"].length - 6
+      ] === order["grossUF"]) {
+        _historicalInputOutput["ultrafiltration"].push(0);
+        _historicalInputOutput["totalOutput"].push(0);
+      } else {
+        _historicalInputOutput["ultrafiltration"].push(order["grossUF"]);
+        // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in   the future
+        _historicalInputOutput["totalOutput"].push(order["grossUF"]);
+      }
+    }
+  } else if (selectedCase.id === 2) {
+    for (let i = 0; i < timeBetweenOrders; i++) {
+      if (
+        !_historicalInputOutput["ultrafiltration"].length ||
+        _historicalInputOutput["ultrafiltration"].length < 4 ||
+        _historicalInputOutput["ultrafiltration"][
+          _historicalInputOutput["ultrafiltration"].length - 4
+        ] !== 0
+      ) {
+        _historicalInputOutput["ultrafiltration"].push(0);
+        // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in   the future
+        _historicalInputOutput["totalOutput"].push(0);
+      } else {
+        _historicalInputOutput["ultrafiltration"].push(order["grossUF"]);
+        // NOTE: For now, totalOutput == ultrafiltration -- however this may not be the case in   the future
+        _historicalInputOutput["totalOutput"].push(order["grossUF"]);
+      }
     }
   }
+
   console.log(
     _historicalInputOutput["ultrafiltration"],
     "_historicalInputOutput[ultrafiltration]"
@@ -1578,63 +1619,69 @@ function calculateNewWeight(
     "_historicalInputOutput[totalOutput]"
   );
 
+  // for (let i = 0; i < timeBetweenOrders; i++) {
+  //   let input;
+  //   let output;
+  //   if (netInputOutputCounter < 8) {
+  //     netInputOutputCounter++;
+    // } else {
+    //   netInputOutputCounter = 1;
+    //   timesNetInputOutputCounterHitEight++;
+    // }
+
+    // if (_historicalInputOutput["netInputOutput"].length < 8) {
+    //   input = _historicalInputOutput["totalInput"][i];
+    //   output = _historicalInputOutput["totalOutput"][i];
+    //   _historicalInputOutput["netInputOutput"][i] = input - output;
+    // } else if (
+    //   (netInputOutputCounter === 1 &&
+    //     _historicalInputOutput["netInputOutput"].length >= 8) ||
+    //   (netInputOutputCounter === 2 &&
+    //     _historicalInputOutput["netInputOutput"].length >= 8) ||
+    //   (netInputOutputCounter === 3 &&
+    //     _historicalInputOutput["netInputOutput"].length >= 8) ||
+    //   (netInputOutputCounter === 4 &&
+    //     _historicalInputOutput["netInputOutput"].length >= 8)
+    // ) {
+    //   input =
+    //     _historicalInputOutput["totalInput"][
+    //       netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
+    //     ];
+    //   output =
+    //     _historicalInputOutput["totalOutput"][
+    //       netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
+    //     ];
+    //   _historicalInputOutput["netInputOutput"].push(input - output);
+    // } else if (
+    //   (netInputOutputCounter === 5 &&
+    //     _historicalInputOutput["netInputOutput"].length > 8) ||
+    //   (netInputOutputCounter === 6 &&
+    //     _historicalInputOutput["netInputOutput"].length > 8) ||
+    //   (netInputOutputCounter === 7 &&
+    //     _historicalInputOutput["netInputOutput"].length > 8) ||
+    //   (netInputOutputCounter === 8 &&
+    //     _historicalInputOutput["netInputOutput"].length > 8)
+    // ) {
+    //   input =
+    //     _historicalInputOutput["totalInput"][
+    //       netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
+    //     ];
+    //   output =
+    //     _historicalInputOutput["totalOutput"][
+    //       netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
+    //     ];
+    //   _historicalInputOutput["netInputOutput"].push(input - output);
+    // }
+
   for (let i = 0; i < timeBetweenOrders; i++) {
-    let input;
-    let output;
-    if (netInputOutputCounter < 8) {
-      netInputOutputCounter++;
-    } else {
-      netInputOutputCounter = 1;
-      timesNetInputOutputCounterHitEight++;
-    }
+    let input = _historicalInputOutput["totalInput"][numOfHoursPassed + i - 2];
+    let output = _historicalInputOutput["totalOutput"][numOfHoursPassed + i - 2];
 
-    if (_historicalInputOutput["netInputOutput"].length < 8) {
-      input = _historicalInputOutput["totalInput"][i];
-      output = _historicalInputOutput["totalOutput"][i];
-      _historicalInputOutput["netInputOutput"][i] = input - output;
-    } else if (
-      (netInputOutputCounter === 1 &&
-        _historicalInputOutput["netInputOutput"].length >= 8) ||
-      (netInputOutputCounter === 2 &&
-        _historicalInputOutput["netInputOutput"].length >= 8) ||
-      (netInputOutputCounter === 3 &&
-        _historicalInputOutput["netInputOutput"].length >= 8) ||
-      (netInputOutputCounter === 4 &&
-        _historicalInputOutput["netInputOutput"].length >= 8)
-    ) {
-      input =
-        _historicalInputOutput["totalInput"][
-          netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
-        ];
-      output =
-        _historicalInputOutput["totalOutput"][
-          netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
-        ];
-      _historicalInputOutput["netInputOutput"].push(input - output);
-    } else if (
-      (netInputOutputCounter === 5 &&
-        _historicalInputOutput["netInputOutput"].length > 8) ||
-      (netInputOutputCounter === 6 &&
-        _historicalInputOutput["netInputOutput"].length > 8) ||
-      (netInputOutputCounter === 7 &&
-        _historicalInputOutput["netInputOutput"].length > 8) ||
-      (netInputOutputCounter === 8 &&
-        _historicalInputOutput["netInputOutput"].length > 8)
-    ) {
-      input =
-        _historicalInputOutput["totalInput"][
-          netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
-        ];
-      output =
-        _historicalInputOutput["totalOutput"][
-          netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
-        ];
-      _historicalInputOutput["netInputOutput"].push(input - output);
-    }
+    _historicalInputOutput["netInputOutput"].push(input - output);
+  
 
-    if (i === 0) {
-      _historicalInputOutput["cumulativeInputOutput"][i] =
-        _historicalInputOutput["netInputOutput"][i];
+    if (_historicalInputOutput["cumulativeInputOutput"].length === 0) {
+      _historicalInputOutput["cumulativeInputOutput"].push(_historicalInputOutput["netInputOutput"][0])
     } else {
       _historicalInputOutput["cumulativeInputOutput"].push(
         _historicalInputOutput["netInputOutput"][
