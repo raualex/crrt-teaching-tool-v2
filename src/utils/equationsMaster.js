@@ -33,8 +33,8 @@ var _points = {
   }
 };
 
-var netInputOutputCounter = 0;
-var timesNetInputOutputCounterHitEight = 0;
+// var netInputOutputCounter = 0;
+// var timesNetInputOutputCounterHitEight = 0;
 // NOTE:
 // _runTestMode and _runTestLabsNum can be used for testing
 // to autofill data, automatically run labs, etc.
