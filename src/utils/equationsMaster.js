@@ -1260,6 +1260,7 @@ function setNewWeight(
   );
   console.log("newWeight : ", newWeight);
   _historicalVitals["weight"].push(newWeight);
+  console.log("WEIGHT ARRAY LOOK HERE!!!!!!!!!!!!!!!!! ", _historicalVitals["weight"])
 }
 
 function runCitrateCalculations(
@@ -1443,9 +1444,10 @@ function calculateNewWeight(
   // var otherFluidsD5W = order["otherFluidsD5W"];
   // var otherFluidsSodiumPhosphate = order["otherFluidsSodiumPhosphate"];
   // var labFluidsInPastEightHoursInLiters = (parseFloat(_currentCaseStudySheet.inputOutput.elements[_currentTime+1]["previousSixHourTotal"]))/1000;
+
   var labFluidsInPastEightHoursInLiters =
     parseFloat(
-      inputOutputInitial[selectedCase.id].previousSixHourTotal[time + 1]
+      inputOutputInitial[selectedCase.id].previousSixHourTotal[numOfHoursPassed + 7]
     ) / 1000;
 
   totalInputInL += labFluidsInPastEightHoursInLiters;
@@ -1619,60 +1621,6 @@ function calculateNewWeight(
     "_historicalInputOutput[totalOutput]"
   );
 
-  // for (let i = 0; i < timeBetweenOrders; i++) {
-  //   let input;
-  //   let output;
-  //   if (netInputOutputCounter < 8) {
-  //     netInputOutputCounter++;
-    // } else {
-    //   netInputOutputCounter = 1;
-    //   timesNetInputOutputCounterHitEight++;
-    // }
-
-    // if (_historicalInputOutput["netInputOutput"].length < 8) {
-    //   input = _historicalInputOutput["totalInput"][i];
-    //   output = _historicalInputOutput["totalOutput"][i];
-    //   _historicalInputOutput["netInputOutput"][i] = input - output;
-    // } else if (
-    //   (netInputOutputCounter === 1 &&
-    //     _historicalInputOutput["netInputOutput"].length >= 8) ||
-    //   (netInputOutputCounter === 2 &&
-    //     _historicalInputOutput["netInputOutput"].length >= 8) ||
-    //   (netInputOutputCounter === 3 &&
-    //     _historicalInputOutput["netInputOutput"].length >= 8) ||
-    //   (netInputOutputCounter === 4 &&
-    //     _historicalInputOutput["netInputOutput"].length >= 8)
-    // ) {
-    //   input =
-    //     _historicalInputOutput["totalInput"][
-    //       netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
-    //     ];
-    //   output =
-    //     _historicalInputOutput["totalOutput"][
-    //       netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
-    //     ];
-    //   _historicalInputOutput["netInputOutput"].push(input - output);
-    // } else if (
-    //   (netInputOutputCounter === 5 &&
-    //     _historicalInputOutput["netInputOutput"].length > 8) ||
-    //   (netInputOutputCounter === 6 &&
-    //     _historicalInputOutput["netInputOutput"].length > 8) ||
-    //   (netInputOutputCounter === 7 &&
-    //     _historicalInputOutput["netInputOutput"].length > 8) ||
-    //   (netInputOutputCounter === 8 &&
-    //     _historicalInputOutput["netInputOutput"].length > 8)
-    // ) {
-    //   input =
-    //     _historicalInputOutput["totalInput"][
-    //       netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
-    //     ];
-    //   output =
-    //     _historicalInputOutput["totalOutput"][
-    //       netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
-    //     ];
-    //   _historicalInputOutput["netInputOutput"].push(input - output);
-    // }
-
   for (let i = 0; i < timeBetweenOrders; i++) {
     let input = _historicalInputOutput["totalInput"][numOfHoursPassed + i - 2];
     let output = _historicalInputOutput["totalOutput"][numOfHoursPassed + i - 2];
@@ -1702,7 +1650,7 @@ function calculateNewWeight(
   //     vitalsInitial[selectedCase.id].weight.length - 1
   //   ]
   // );
-
+  // debugger
   var previousWeightInKilos = parseFloat(findPreviousWeight(selectedCase.id));
 
   var currentWeightInKilos =

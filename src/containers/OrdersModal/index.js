@@ -133,11 +133,9 @@ export class OrdersModal extends Component {
       null, null, ...newInputOutput.totalOutput
     ];
     finalInputOutputData.netInputOutput = [
-      // ...finalInputOutputData.netInputOutput,
       null, null, ...newInputOutput.netInputOutput
     ];
     finalInputOutputData.cumulativeInputOutput = [
-      // ...finalInputOutputData.cumulativeInputOutput,
       null, null, ...newInputOutput.cumulativeInputOutput
     ];
 
@@ -148,8 +146,19 @@ export class OrdersModal extends Component {
     let { vitals } = this.props;
     let finalVitalsData = Object.assign({}, vitals);
     let newWeightArr = returnHistoricalWeight();
+    
+    finalVitalsData.weight = [vitals.weight[0]];
 
-    finalVitalsData.weight = [...finalVitalsData.weight, ...newWeightArr];
+    for (var i = 0; i < newWeightArr.length; i++) {
+      let nullCounter = 0;
+
+      while (nullCounter < 23) {
+        finalVitalsData.weight = [...finalVitalsData.weight, null]
+        nullCounter++
+      }
+
+      finalVitalsData.weight = [...finalVitalsData.weight, newWeightArr[i]]
+    }    
 
     return finalVitalsData;
   };
@@ -159,16 +168,16 @@ export class OrdersModal extends Component {
     let finalTimeStampArray = [];
     let startTime = currentTime;
     let timeCounter = 0;
-    let dayNumer;
+    let dayNumber;
 
     while (timeCounter !== timeBetweenOrders) {
       if (startTime === 0) {
-        dayNumer = currentDay + 1;
+        dayNumber = currentDay + 1;
       } else {
-        dayNumer = currentDay;
+        dayNumber = currentDay;
       }
 
-      finalTimeStampArray.push(`${startTime}:00 - Day ${dayNumer}`);
+      finalTimeStampArray.push(`${startTime}:00 - Day ${dayNumber}`);
       if (startTime >= 24) {
         startTime -= 24;
       } else {
