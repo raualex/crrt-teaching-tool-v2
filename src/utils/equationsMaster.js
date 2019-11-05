@@ -795,7 +795,7 @@ export function runLabs(
     );
   }
 
-  if (currentOrder.anticoagulation === "citrate") {
+  if (currentOrder.anticoagulation === "Citrate") {
     var citrateResults = runCitrateCalculations(
       currentOrder,
       startingWeight,
@@ -1053,15 +1053,15 @@ function calculateTotalHoursOfFiltrationCase1(
     order["BFR"] <= 150 ||
     (currentFiltrationFraction > 25 &&
       currentFiltrationFraction <= 30 &&
-      order.anticoagulation === "none")
+      order.anticoagulation === "None")
   ) {
     hoursOfFiltration = 4;
   }
 
-  if (currentFiltrationFraction > 30 && order.anticoagulation === "none") {
+  if (currentFiltrationFraction > 30 && order.anticoagulation === "None") {
     hoursOfFiltration = 2;
   }
-  if (order.anticoagulation === "citrate") {
+  if (order.anticoagulation === "Citrate") {
     var initialCitrateResults = runCitrateCalculations(
       order,
       startingWeight,
@@ -1172,15 +1172,15 @@ function calculateAdjustedEffluentFlowRateCase1(
     order["BFR"] <= 150 ||
     (currentFiltrationFraction > 25 &&
       currentFiltrationFraction <= 30 &&
-      order.anticoagulation === "none")
+      order.anticoagulation === "None")
   ) {
     efrAdjustment = 1.5;
   }
 
-  if (currentFiltrationFraction > 30 && order.anticoagulation === "none") {
+  if (currentFiltrationFraction > 30 && order.anticoagulation === "None") {
     efrAdjustment = 3;
   }
-  if (order.anticoagulation === "citrate") {
+  if (order.anticoagulation === "Citrate") {
     var initialCitrateResults = runCitrateCalculations(
       order,
       startingWeight,
@@ -1457,8 +1457,8 @@ function calculateNewWeight(
   );
   console.log("totalInputInL :", totalInputInL);
 
-  if (order.anticoagulation === "citrate") {
-    var citrateFlowRateInLPerHr = order.citrateFlowRate / 1000;
+  if (order.anticoagulation === "Citrate") {
+    var citrateFlowRateInLPerHr = parseFloat(order.citrateFlowRate) / 1000;
     var citratePastEightHoursInLiters =
       citrateFlowRateInLPerHr * timeBetweenOrders;
     totalInputInL += citratePastEightHoursInLiters;
@@ -1469,7 +1469,7 @@ function calculateNewWeight(
     );
     console.log("totalInputInL :", totalInputInL);
 
-    var calciumClFlowRateInLPerHr = order.caClInfusionRate / 1000;
+    var calciumClFlowRateInLPerHr = parseFloat(order.caClInfusionRate) / 1000;
     var calciumClPastEightHoursInLiters =
       calciumClFlowRateInLPerHr * timeBetweenOrders;
     totalInputInL += calciumClPastEightHoursInLiters;
@@ -1508,11 +1508,11 @@ function calculateNewWeight(
       inputOutputInitial[selectedCase.id].total[numOfHoursPassed + i]
     );
     
-    if (order.anticoagulation === "citrate") {
+    if (order.anticoagulation === "Citrate") {
       // var citFlowRate = parseFloat($('#citrateFlowRate').val());
       // var caclFlowRate = parseFloat($('#caclInfusionRate').val());
-      var citFlowRate = order.citrateFlowRate;
-      var caclFlowRate = order.caClInfusionRate;
+      var citFlowRate = parseFloat(order.citrateFlowRate);
+      var caclFlowRate = parseFloat(order.caClInfusionRate);
 
       if (citFlowRate) {
         input += citFlowRate;
@@ -1856,7 +1856,7 @@ function calculatePH(
 // }
 
 function checkIfUsedCitrate(order, time) {
-  if (order.anticoagulation === "citrate") {
+  if (order.anticoagulation === "Citrate") {
     _usedCitrate = true;
     console.log(_usedCitrate);
 
@@ -2249,7 +2249,7 @@ function checkCalciumCase2(order, caseId, labData) {
   var currentCalcium = labData.calcium[labData.calcium.length - 1];
   var msg;
 
-  if (order.anticoagulation === "citrate") {
+  if (order.anticoagulation === "Citrate") {
     var currentCalciumIonized =
       _historicalLabs["ionizedCalcium"][
         _historicalLabs["ionizedCalcium"].length - 1
