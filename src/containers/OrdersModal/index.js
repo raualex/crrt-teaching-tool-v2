@@ -124,41 +124,51 @@ export class OrdersModal extends Component {
       ...newInputOutput.calciumChloride
     ];
     finalInputOutputData.totalInput = [
-      null, null, ...newInputOutput.totalInput
+      null,
+      null,
+      ...newInputOutput.totalInput
     ];
     finalInputOutputData.ultrafiltration = [
-      null, null, ...newInputOutput.ultrafiltration
+      null,
+      null,
+      ...newInputOutput.ultrafiltration
     ];
     finalInputOutputData.totalOutput = [
-      null, null, ...newInputOutput.totalOutput
+      null,
+      null,
+      ...newInputOutput.totalOutput
     ];
     finalInputOutputData.netInputOutput = [
-      null, null, ...newInputOutput.netInputOutput
+      null,
+      null,
+      ...newInputOutput.netInputOutput
     ];
     finalInputOutputData.cumulativeInputOutput = [
-      null, null, ...newInputOutput.cumulativeInputOutput
+      null,
+      null,
+      ...newInputOutput.cumulativeInputOutput
     ];
 
     setInputOutputData(finalInputOutputData);
   };
 
   combineVitalsData = () => {
-    let { vitals } = this.props;
+    let { vitals, timeBetweenOrders } = this.props;
     let finalVitalsData = Object.assign({}, vitals);
     let newWeightArr = returnHistoricalWeight();
-    
+
     finalVitalsData.weight = [vitals.weight[0]];
 
     for (var i = 0; i < newWeightArr.length; i++) {
       let nullCounter = 0;
 
-      while (nullCounter < 23) {
-        finalVitalsData.weight = [...finalVitalsData.weight, null]
-        nullCounter++
+      while (nullCounter < timeBetweenOrders - 1) {
+        finalVitalsData.weight = [...finalVitalsData.weight, null];
+        nullCounter++;
       }
 
-      finalVitalsData.weight = [...finalVitalsData.weight, newWeightArr[i]]
-    }    
+      finalVitalsData.weight = [...finalVitalsData.weight, newWeightArr[i]];
+    }
 
     return finalVitalsData;
   };
