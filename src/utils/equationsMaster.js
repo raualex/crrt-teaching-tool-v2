@@ -1438,8 +1438,8 @@ function calculateNewWeight(
   // var data = {};
 
   var totalInputInL = 0;
-  var bolusValue = order["otherFluidsBolusValue"];
-  var infusionValue = order["otherFluidsInfusionValue"];
+  var bolusValue = parseFloat(order["otherFluidsBolusValue"]);
+  var infusionValue = parseFloat(order["otherFluidsInfusionValue"]);
   // var otherFluidsSaline = order["otherFluidsSaline"];
   // var otherFluidsD5W = order["otherFluidsD5W"];
   // var otherFluidsSodiumPhosphate = order["otherFluidsSodiumPhosphate"];
