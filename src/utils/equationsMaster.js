@@ -795,7 +795,7 @@ export function runLabs(
     );
   }
 
-  if (currentOrder.anticoagulation === "citrate") {
+  if (currentOrder.anticoagulation === "Citrate") {
     var citrateResults = runCitrateCalculations(
       currentOrder,
       startingWeight,
@@ -1053,15 +1053,15 @@ function calculateTotalHoursOfFiltrationCase1(
     order["BFR"] <= 150 ||
     (currentFiltrationFraction > 25 &&
       currentFiltrationFraction <= 30 &&
-      order.anticoagulation === "none")
+      order.anticoagulation === "None")
   ) {
     hoursOfFiltration = 4;
   }
 
-  if (currentFiltrationFraction > 30 && order.anticoagulation === "none") {
+  if (currentFiltrationFraction > 30 && order.anticoagulation === "None") {
     hoursOfFiltration = 2;
   }
-  if (order.anticoagulation === "citrate") {
+  if (order.anticoagulation === "Citrate") {
     var initialCitrateResults = runCitrateCalculations(
       order,
       startingWeight,
@@ -1172,15 +1172,15 @@ function calculateAdjustedEffluentFlowRateCase1(
     order["BFR"] <= 150 ||
     (currentFiltrationFraction > 25 &&
       currentFiltrationFraction <= 30 &&
-      order.anticoagulation === "none")
+      order.anticoagulation === "None")
   ) {
     efrAdjustment = 1.5;
   }
 
-  if (currentFiltrationFraction > 30 && order.anticoagulation === "none") {
+  if (currentFiltrationFraction > 30 && order.anticoagulation === "None") {
     efrAdjustment = 3;
   }
-  if (order.anticoagulation === "citrate") {
+  if (order.anticoagulation === "Citrate") {
     var initialCitrateResults = runCitrateCalculations(
       order,
       startingWeight,
@@ -1260,6 +1260,7 @@ function setNewWeight(
   );
   console.log("newWeight : ", newWeight);
   _historicalVitals["weight"].push(newWeight);
+  console.log("WEIGHT ARRAY LOOK HERE!!!!!!!!!!!!!!!!! ", _historicalVitals["weight"])
 }
 
 function runCitrateCalculations(
@@ -1437,15 +1438,16 @@ function calculateNewWeight(
   // var data = {};
 
   var totalInputInL = 0;
-  var bolusValue = order["otherFluidsBolusValue"];
-  var infusionValue = order["otherFluidsInfusionValue"];
+  var bolusValue = parseFloat(order["otherFluidsBolusValue"]);
+  var infusionValue = parseFloat(order["otherFluidsInfusionValue"]);
   // var otherFluidsSaline = order["otherFluidsSaline"];
   // var otherFluidsD5W = order["otherFluidsD5W"];
   // var otherFluidsSodiumPhosphate = order["otherFluidsSodiumPhosphate"];
   // var labFluidsInPastEightHoursInLiters = (parseFloat(_currentCaseStudySheet.inputOutput.elements[_currentTime+1]["previousSixHourTotal"]))/1000;
+
   var labFluidsInPastEightHoursInLiters =
     parseFloat(
-      inputOutputInitial[selectedCase.id].previousSixHourTotal[time + 1]
+      inputOutputInitial[selectedCase.id].previousSixHourTotal[numOfHoursPassed + 7]
     ) / 1000;
 
   totalInputInL += labFluidsInPastEightHoursInLiters;
@@ -1455,8 +1457,8 @@ function calculateNewWeight(
   );
   console.log("totalInputInL :", totalInputInL);
 
-  if (order.anticoagulation === "citrate") {
-    var citrateFlowRateInLPerHr = order.citrateFlowRate / 1000;
+  if (order.anticoagulation === "Citrate") {
+    var citrateFlowRateInLPerHr = parseFloat(order.citrateFlowRate) / 1000;
     var citratePastEightHoursInLiters =
       citrateFlowRateInLPerHr * timeBetweenOrders;
     totalInputInL += citratePastEightHoursInLiters;
@@ -1467,7 +1469,7 @@ function calculateNewWeight(
     );
     console.log("totalInputInL :", totalInputInL);
 
-    var calciumClFlowRateInLPerHr = order.caClInfusionRate / 1000;
+    var calciumClFlowRateInLPerHr = parseFloat(order.caClInfusionRate) / 1000;
     var calciumClPastEightHoursInLiters =
       calciumClFlowRateInLPerHr * timeBetweenOrders;
     totalInputInL += calciumClPastEightHoursInLiters;
@@ -1506,11 +1508,11 @@ function calculateNewWeight(
       inputOutputInitial[selectedCase.id].total[numOfHoursPassed + i]
     );
     
-    if (order.anticoagulation === "citrate") {
+    if (order.anticoagulation === "Citrate") {
       // var citFlowRate = parseFloat($('#citrateFlowRate').val());
       // var caclFlowRate = parseFloat($('#caclInfusionRate').val());
-      var citFlowRate = order.citrateFlowRate;
-      var caclFlowRate = order.caClInfusionRate;
+      var citFlowRate = parseFloat(order.citrateFlowRate);
+      var caclFlowRate = parseFloat(order.caClInfusionRate);
 
       if (citFlowRate) {
         input += citFlowRate;
@@ -1619,60 +1621,6 @@ function calculateNewWeight(
     "_historicalInputOutput[totalOutput]"
   );
 
-  // for (let i = 0; i < timeBetweenOrders; i++) {
-  //   let input;
-  //   let output;
-  //   if (netInputOutputCounter < 8) {
-  //     netInputOutputCounter++;
-    // } else {
-    //   netInputOutputCounter = 1;
-    //   timesNetInputOutputCounterHitEight++;
-    // }
-
-    // if (_historicalInputOutput["netInputOutput"].length < 8) {
-    //   input = _historicalInputOutput["totalInput"][i];
-    //   output = _historicalInputOutput["totalOutput"][i];
-    //   _historicalInputOutput["netInputOutput"][i] = input - output;
-    // } else if (
-    //   (netInputOutputCounter === 1 &&
-    //     _historicalInputOutput["netInputOutput"].length >= 8) ||
-    //   (netInputOutputCounter === 2 &&
-    //     _historicalInputOutput["netInputOutput"].length >= 8) ||
-    //   (netInputOutputCounter === 3 &&
-    //     _historicalInputOutput["netInputOutput"].length >= 8) ||
-    //   (netInputOutputCounter === 4 &&
-    //     _historicalInputOutput["netInputOutput"].length >= 8)
-    // ) {
-    //   input =
-    //     _historicalInputOutput["totalInput"][
-    //       netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
-    //     ];
-    //   output =
-    //     _historicalInputOutput["totalOutput"][
-    //       netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
-    //     ];
-    //   _historicalInputOutput["netInputOutput"].push(input - output);
-    // } else if (
-    //   (netInputOutputCounter === 5 &&
-    //     _historicalInputOutput["netInputOutput"].length > 8) ||
-    //   (netInputOutputCounter === 6 &&
-    //     _historicalInputOutput["netInputOutput"].length > 8) ||
-    //   (netInputOutputCounter === 7 &&
-    //     _historicalInputOutput["netInputOutput"].length > 8) ||
-    //   (netInputOutputCounter === 8 &&
-    //     _historicalInputOutput["netInputOutput"].length > 8)
-    // ) {
-    //   input =
-    //     _historicalInputOutput["totalInput"][
-    //       netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
-    //     ];
-    //   output =
-    //     _historicalInputOutput["totalOutput"][
-    //       netInputOutputCounter + timesNetInputOutputCounterHitEight * 8 - 1
-    //     ];
-    //   _historicalInputOutput["netInputOutput"].push(input - output);
-    // }
-
   for (let i = 0; i < timeBetweenOrders; i++) {
     let input = _historicalInputOutput["totalInput"][numOfHoursPassed + i - 2];
     let output = _historicalInputOutput["totalOutput"][numOfHoursPassed + i - 2];
@@ -1702,7 +1650,7 @@ function calculateNewWeight(
   //     vitalsInitial[selectedCase.id].weight.length - 1
   //   ]
   // );
-
+  // debugger
   var previousWeightInKilos = parseFloat(findPreviousWeight(selectedCase.id));
 
   var currentWeightInKilos =
@@ -1908,7 +1856,7 @@ function calculatePH(
 // }
 
 function checkIfUsedCitrate(order, time) {
-  if (order.anticoagulation === "citrate") {
+  if (order.anticoagulation === "Citrate") {
     _usedCitrate = true;
     console.log(_usedCitrate);
 
@@ -2301,7 +2249,7 @@ function checkCalciumCase2(order, caseId, labData) {
   var currentCalcium = labData.calcium[labData.calcium.length - 1];
   var msg;
 
-  if (order.anticoagulation === "citrate") {
+  if (order.anticoagulation === "Citrate") {
     var currentCalciumIonized =
       _historicalLabs["ionizedCalcium"][
         _historicalLabs["ionizedCalcium"].length - 1

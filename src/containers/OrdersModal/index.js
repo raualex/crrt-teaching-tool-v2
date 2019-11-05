@@ -124,32 +124,51 @@ export class OrdersModal extends Component {
       ...newInputOutput.calciumChloride
     ];
     finalInputOutputData.totalInput = [
-      null, null, ...newInputOutput.totalInput
+      null,
+      null,
+      ...newInputOutput.totalInput
     ];
     finalInputOutputData.ultrafiltration = [
-      null, null, ...newInputOutput.ultrafiltration
+      null,
+      null,
+      ...newInputOutput.ultrafiltration
     ];
     finalInputOutputData.totalOutput = [
-      null, null, ...newInputOutput.totalOutput
+      null,
+      null,
+      ...newInputOutput.totalOutput
     ];
     finalInputOutputData.netInputOutput = [
-      // ...finalInputOutputData.netInputOutput,
-      null, null, ...newInputOutput.netInputOutput
+      null,
+      null,
+      ...newInputOutput.netInputOutput
     ];
     finalInputOutputData.cumulativeInputOutput = [
-      // ...finalInputOutputData.cumulativeInputOutput,
-      null, null, ...newInputOutput.cumulativeInputOutput
+      null,
+      null,
+      ...newInputOutput.cumulativeInputOutput
     ];
 
     setInputOutputData(finalInputOutputData);
   };
 
   combineVitalsData = () => {
-    let { vitals } = this.props;
+    let { vitals, timeBetweenOrders } = this.props;
     let finalVitalsData = Object.assign({}, vitals);
     let newWeightArr = returnHistoricalWeight();
 
-    finalVitalsData.weight = [...finalVitalsData.weight, ...newWeightArr];
+    finalVitalsData.weight = [vitals.weight[0]];
+
+    for (var i = 0; i < newWeightArr.length; i++) {
+      let nullCounter = 0;
+
+      while (nullCounter < timeBetweenOrders - 1) {
+        finalVitalsData.weight = [...finalVitalsData.weight, null];
+        nullCounter++;
+      }
+
+      finalVitalsData.weight = [...finalVitalsData.weight, newWeightArr[i]];
+    }
 
     return finalVitalsData;
   };
@@ -159,16 +178,16 @@ export class OrdersModal extends Component {
     let finalTimeStampArray = [];
     let startTime = currentTime;
     let timeCounter = 0;
-    let dayNumer;
+    let dayNumber;
 
     while (timeCounter !== timeBetweenOrders) {
       if (startTime === 0) {
-        dayNumer = currentDay + 1;
+        dayNumber = currentDay + 1;
       } else {
-        dayNumer = currentDay;
+        dayNumber = currentDay;
       }
 
-      finalTimeStampArray.push(`${startTime}:00 - Day ${dayNumer}`);
+      finalTimeStampArray.push(`${startTime}:00 - Day ${dayNumber}`);
       if (startTime >= 24) {
         startTime -= 24;
       } else {
