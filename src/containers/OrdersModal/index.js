@@ -9,7 +9,8 @@ import {
   validateTimeBetweenOrders,
   addResultsMessagesToOrder,
   recordHourlyTimestamp,
-  setCurrentPoints
+  setCurrentPoints,
+  recordSingleOrderTimestamp
 } from "../../Actions/ordersActions";
 import { addVitals } from "../../Actions/vitals-actions.js";
 import { setSelectedModal } from "../../Actions/selection-actions";
@@ -174,27 +175,28 @@ export class OrdersModal extends Component {
   };
 
   compileHourlyTimestamps = (time, timeBetweenOrders) => {
+    let { recordSingleOrderTimestamp } = this.props;
     let { currentTime, currentDay } = time;
     let finalTimeStampArray = [];
     let startTime = currentTime;
     let timeCounter = 0;
-    let dayNumber;
+    let dayNumber = currentDay;
 
     while (timeCounter !== timeBetweenOrders) {
-      if (startTime === 0) {
-        dayNumber = currentDay + 1;
-      } else {
-        dayNumber = currentDay;
-      }
 
       finalTimeStampArray.push(`${startTime}:00 - Day ${dayNumber}`);
-      if (startTime >= 24) {
-        startTime -= 24;
+
+      if (startTime === 23) {
+        startTime = 0
+        dayNumber++
       } else {
-        startTime++;
+        startTime++
       }
+
       timeCounter++;
     }
+
+    recordSingleOrderTimestamp(finalTimeStampArray[finalTimeStampArray.length - 1])
 
     return finalTimeStampArray;
   };
@@ -558,7 +560,7 @@ export class OrdersModal extends Component {
 
     currentTime += timeBetweenOrders;
 
-    if (currentTime >= 24) {
+    if (currentTime >= 23) {
       currentTime -= 24;
       currentDay++;
     }
@@ -976,7 +978,9 @@ export const mapDispatchToProps = dispatch => ({
   setCurrentPoints: newPoints => dispatch(setCurrentPoints(newPoints)),
   setSelectedModal: modal => dispatch(setSelectedModal(modal)),
   recordHourlyTimestamp: timeStamps =>
-    dispatch(recordHourlyTimestamp(timeStamps))
+    dispatch(recordHourlyTimestamp(timeStamps)),
+  recordSingleOrderTimestamp: timeStamp =>
+    dispatch(recordSingleOrderTimestamp(timeStamp))
 });
 
 export default connect(

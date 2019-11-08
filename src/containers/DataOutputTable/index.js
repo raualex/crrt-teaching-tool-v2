@@ -77,16 +77,24 @@ export class DataOutputTable extends Component {
   };
 
   createTableColumnHeaders = (arrNum, selectedModal) => {
-    let { labData, hourlyTimestamps } = this.props;
+    let { labData, hourlyTimestamps, singleOrderTimestamps } = this.props;
     let finalArr = [];
 
     if (selectedModal === "Laboratory Data") {
       for (let i = 0; i < arrNum; i++) {
-        finalArr.push(
-          <th key={uuidv4()} className="blank-table-head">
-            {labData.time[i]}
-          </th>
-        );
+        if (labData.time[i] === "Pre-CRRT 1" || labData.time[i] === "Pre-CRRT 2") {
+          finalArr.push(
+            <th key={uuidv4()} className="blank-table-head">
+              {labData.time[i]}
+            </th>
+          );
+        } else {
+          finalArr.push(
+            <th key={uuidv4()} className="blank-table-head">
+              {singleOrderTimestamps[i - 2]}
+            </th>
+          );
+        }
       }
       return finalArr;
     } else if (selectedModal === "Input/Output") {
@@ -115,11 +123,19 @@ export class DataOutputTable extends Component {
         timeStamp => timeStamp !== "Pre-CRRT 2"
       );
       for (let i = 0; i < newTimeStamps.length; i++) {
-        finalArr.push(
-          <th key={uuidv4()} className="blank-table-head">
-            {newTimeStamps[i]}
-          </th>
-        );
+        if (newTimeStamps[i] === "Pre-CRRT 1") {
+          finalArr.push(
+            <th key={uuidv4()} className="blank-table-head">
+              {newTimeStamps[i]}
+            </th>
+          );
+        } else {
+          finalArr.push(
+            <th key={uuidv4()} className="blank-table-head">
+              {singleOrderTimestamps[i - 1]}
+            </th>
+          );
+        }
       }
       return finalArr;
     } else {
@@ -410,6 +426,7 @@ export const mapStateToProps = state => ({
   labData: state.labData,
   inputOutputData: state.inputOutputData,
   hourlyTimestamps: state.hourlyTimestamps,
+  singleOrderTimestamps: state.singleOrderTimestamps,
   vitals: state.vitals,
   medications: state.medications
 });

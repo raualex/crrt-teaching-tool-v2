@@ -616,7 +616,6 @@ export function showInfo(data) {
 
 // function calculatePH(bicarbonate) {
 //   var PCO2 = getCurrentLab("PC02");
-//   console.log("Heeeeeeeeee PCO2: ", PCO2);
 //   var pH = 6.1 + Math.log(bicarbonate / (0.03 * PCO2)) / Math.log(10);
 //   console.log("calculatePH : pH", pH);
 //   return excelRound(pH, 2);
@@ -1842,7 +1841,6 @@ function calculatePH(
 
 // function getCurrentLab(lab) {
 //   var currentLabSetIndex;
-//   console.log("heeeeeee _currentTime: ", _currentTime);
 //   if (_currentTime === 0) {
 //     currentLabSetIndex = 1;
 //   } else {
