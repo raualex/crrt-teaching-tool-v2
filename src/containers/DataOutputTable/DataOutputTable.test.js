@@ -11,6 +11,7 @@ describe("DataOutputTable", () => {
     wrapper = shallow(<DataOutputTable 
       selectedModal={"Laboratory Data"} 
       labData={mockLabDataForTests}
+      singleOrderTimestamps={[1,2,3]}
     />);
   });
 
