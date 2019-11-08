@@ -77,7 +77,7 @@ export class DataOutputTable extends Component {
   };
 
   createTableColumnHeaders = (arrNum, selectedModal) => {
-    let { labData, hourlyTimestamps } = this.props;
+    let { labData, hourlyTimestamps, singleOrderTimestamps } = this.props;
     let finalArr = [];
 
     if (selectedModal === "Laboratory Data") {
@@ -91,7 +91,7 @@ export class DataOutputTable extends Component {
         } else {
           finalArr.push(
             <th key={uuidv4()} className="blank-table-head">
-              {hourlyTimestamps[hourlyTimestamps.length - 1]}
+              {singleOrderTimestamps[i - 2]}
             </th>
           );
         }
@@ -132,7 +132,7 @@ export class DataOutputTable extends Component {
         } else {
           finalArr.push(
             <th key={uuidv4()} className="blank-table-head">
-              {hourlyTimestamps[hourlyTimestamps.length - 1]}
+              {singleOrderTimestamps[i - 1]}
             </th>
           );
         }
@@ -426,6 +426,7 @@ export const mapStateToProps = state => ({
   labData: state.labData,
   inputOutputData: state.inputOutputData,
   hourlyTimestamps: state.hourlyTimestamps,
+  singleOrderTimestamps: state.singleOrderTimestamps,
   vitals: state.vitals,
   medications: state.medications
 });
