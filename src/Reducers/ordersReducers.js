@@ -128,6 +128,15 @@ export const recordHourlyTimestampReducer = (
   }
 };
 
+export const recordSingleOrderTimestampReducer = (state = [], action) => {
+  switch (action.type) {
+    case "RECORD_SINGLE_ORDER_TIMESTAMP":
+      return [...state, action.timeStamps];
+    default:
+    return state;
+  }
+};
+
 export const setCurrentPointsReducer = (state = defaultPointsState, action) => {
   switch (action.type) {
     case "SET_CURRENT_POINTS":

@@ -13,7 +13,8 @@ import {
   addResultsMessagesToOrderReducer,
   recordHourlyTimestampReducer,
   setCurrentPointsReducer,
-  setNewOrdersActiveStatusReducer
+  setNewOrdersActiveStatusReducer,
+  recordSingleOrderTimestampReducer
 } from "./ordersReducers";
 import { allCasesReducer, selectedCaseReducer } from "./case-reducers.js";
 import {
@@ -41,7 +42,8 @@ const rootReducer = combineReducers({
   vitals: vitalsReducer,
   resultsMessages: addResultsMessagesToOrderReducer,
   totalPoints: setCurrentPointsReducer,
-  hourlyTimestamps: recordHourlyTimestampReducer
+  hourlyTimestamps: recordHourlyTimestampReducer,
+  singleOrderTimestamps: recordSingleOrderTimestampReducer
 });
 
 export default rootReducer;

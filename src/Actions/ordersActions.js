@@ -41,6 +41,11 @@ export const recordHourlyTimestamp = timeStamps => ({
   timeStamps
 });
 
+export const recordSingleOrderTimestamp = timeStamps => ({
+  type: "RECORD_SINGLE_ORDER_TIMESTAMP",
+  timeStamps
+});
+
 export const setCurrentPoints = points => ({
   type: "SET_CURRENT_POINTS",
   points
